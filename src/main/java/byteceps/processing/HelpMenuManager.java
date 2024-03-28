@@ -1,18 +1,21 @@
 package byteceps.processing;
 
+import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.UserInterface;
 
+import java.util.Iterator;
+
 public class HelpMenuManager {
     UserInterface ui;
 
-    private final String helpManagerGreeting = "To access the help menu for command guidance, please type:\n"
-            + "help /COMMAND_TYPE_FLAG\n"
-            + "Available command types (type exactly as shown):\n"
-            + "exercise\n"
-            + "workout\n"
-            + "program";
+    private final String helpManagerGreeting =
+            String.format("%s%s %s%s %s%s %s%s %s%s %s", "To access the help menu for command guidance, please type:",
+                    System.lineSeparator(), "help /COMMAND_TYPE_FLAG", System.lineSeparator(),
+                    "Available command types (type exactly as shown):", System.lineSeparator(),
+                    "exercise", System.lineSeparator(), "workout", System.lineSeparator(), "program");
+
 
     private final String[] exerciseFlagFunctions = {
         "(1) add an exercise",
@@ -121,9 +124,16 @@ public class HelpMenuManager {
                     + " see";
             UserInterface.printMessage(exerciseMessage);
 
-            for (String flagFunction : exerciseFlagFunctions) {
-                ui.printListItem(flagFunction);
+            StringBuilder result = new StringBuilder();
+
+            result.append(String.format("%s%s", getExerciseFlagFunctions(0), System.lineSeparator()));
+
+            for (int i = 1; i < exerciseFlagFunctions.length; i++) {
+                result.append(String.format("\t\t\t %s%s", getExerciseFlagFunctions(i), System.lineSeparator()));
+
             }
+
+            UserInterface.printMessage(result.toString());
 
             incorrectSelection = getFlagFormat("exercise");
 
@@ -139,9 +149,16 @@ public class HelpMenuManager {
                     + " see";
             UserInterface.printMessage(workoutMessage);
 
-            for (String flagFunction : workoutFlagFunctions) {
-                ui.printListItem(flagFunction);
+            StringBuilder result = new StringBuilder();
+
+            result.append(String.format("%s%s", getWorkoutFlagFunctions(0), System.lineSeparator()));
+
+            for (int i = 1; i < workoutFlagFunctions.length; i++) {
+                result.append(String.format("\t\t\t %s%s", getWorkoutFlagFunctions(i), System.lineSeparator()));
+
             }
+
+            UserInterface.printMessage(result.toString());
 
             incorrectSelection = getFlagFormat("workout");
 
@@ -158,9 +175,16 @@ public class HelpMenuManager {
                     + " see";
             UserInterface.printMessage(programMessage);
 
-            for (String flagFunction : programFlagFunctions) {
-                ui.printListItem(flagFunction);
+            StringBuilder result = new StringBuilder();
+
+            result.append(String.format("%s%s", getProgramFlagFunctions(0), System.lineSeparator()));
+
+            for (int i = 1; i < programFlagFunctions.length; i++) {
+                result.append(String.format("\t\t\t %s%s", getProgramFlagFunctions(i), System.lineSeparator()));
+
             }
+
+            UserInterface.printMessage(result.toString());
 
             incorrectSelection = getFlagFormat("program");
 
@@ -195,6 +219,17 @@ public class HelpMenuManager {
 
     }
 
+    public String getExerciseFlagFunctions(int index) {
+        return exerciseFlagFunctions[index];
+    }
+
+    public String getWorkoutFlagFunctions(int index) {
+        return workoutFlagFunctions[index];
+    }
+
+    public String getProgramFlagFunctions(int index) {
+        return programFlagFunctions[index];
+    }
     public String getExerciseFlagFormats(int index) {
         return exerciseFlagFormats[index];
     }
