@@ -57,6 +57,7 @@ public class ByteCeps {
                     continue;
                 case "help":
                     helpMenuManager.execute(parser);
+                    continue;
                 case "bye":
                 case "exit":
                     return;
