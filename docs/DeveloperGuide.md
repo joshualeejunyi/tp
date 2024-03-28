@@ -29,6 +29,14 @@ The sequence diagram below shows how an exercise is deleted.
 
 ![deleteExercise](https://github.com/V4Vern/tp/assets/28131050/3fde6b4e-d292-497a-9468-2118125678a7)
 
+#### Edit an Exercise
+1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /edit pushups /to pressups` to change the exercise named `pushups` to `pressups`.
+2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /edit`) and any additional parameters (e.g., the name of the exercise to be changed and the new name).
+3. Upon receiving the parsed command, the Exercise Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
+4. If the input passes validation, the ExerciseManager retrieves the Exercise object associated with the name `pushups`. It then calls the object's instance method editExerciseName() to change the String stored in its instance field activityName. The ExerciseManager then informs the User of the successful edit.
+5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
+
+The sequence diagram below shows how an exercise is edited.
 
 #### List Exercises
 1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /list` to list all exercises.
