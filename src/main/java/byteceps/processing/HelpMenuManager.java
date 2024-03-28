@@ -63,7 +63,7 @@ public class HelpMenuManager {
   };
 
     public HelpMenuManager(UserInterface ui) {
-      this.ui=ui;
+      this.ui = ui;
     }
 
     public void printHelpGreeting () {
@@ -104,8 +104,7 @@ public class HelpMenuManager {
   }
 
 
-  public void showExerciseCommand() throws Exceptions.InvalidInput {
-
+  public void showExerciseCommand() {
       boolean incorrectSelection = true;
 
       while (incorrectSelection) {
@@ -122,8 +121,7 @@ public class HelpMenuManager {
 
   }
 
-  public void showWorkoutCommand() throws Exceptions.InvalidInput {
-
+  public void showWorkoutCommand() {
     boolean incorrectSelection = true;
 
     while (incorrectSelection) {
@@ -131,7 +129,7 @@ public class HelpMenuManager {
       UserInterface.printMessage(workoutMessage);
 
       for (String flagFunction: workoutFlagFunctions) {
-        System.out.printf("%s%s", flagFunction, System.lineSeparator());
+        ui.printListItem(flagFunction);
       }
 
       incorrectSelection = getFlagFormat("workout") ;
@@ -148,11 +146,9 @@ public class HelpMenuManager {
       String programMessage = "Please enter the number corresponding to the program command format you want to see";
       UserInterface.printMessage(programMessage);
 
-
       for (String flagFunction: programFlagFunctions) {
-        System.out.printf("%s%s", flagFunction, System.lineSeparator());
+        ui.printListItem(flagFunction);
       }
-
 
       incorrectSelection = getFlagFormat("program") ;
 
@@ -179,9 +175,7 @@ public class HelpMenuManager {
           break;
 
       }
-
       return false;
-
     } catch (NumberFormatException | IndexOutOfBoundsException e) {
       System.out.println("Invalid choice entered: please enter a number from the list");
       return true;
