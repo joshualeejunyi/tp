@@ -1,11 +1,8 @@
 package byteceps.processing;
 
-import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.UserInterface;
-
-import java.util.Iterator;
 
 public class HelpMenuManager {
     UserInterface ui;
