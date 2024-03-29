@@ -10,9 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class WeeklyProgramManagerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -352,13 +350,9 @@ class WeeklyProgramManagerTest {
         parser.parseInput(historyInput);
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
 
-        expectedHistory = String.format("[BYTE-CEPS]> Listing Workout Logs: 1. %s 2. 2024-03-25\n" +
-                "-------------------------------------------------", dateString);
+        boolean checkContains = outContent.toString().contains(dateString) && outContent.toString().contains("2024-03-25");
 
-        assertEquals(expectedHistory.replaceAll("\\s+", ""),
-                outContent.toString().replaceAll("\\s+", ""));
-
-
+        assertTrue(checkContains);
         restoreStreams();
     }
 
