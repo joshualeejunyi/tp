@@ -6,7 +6,6 @@ import byteceps.activities.ExerciseLog;
 import byteceps.activities.WorkoutLog;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,7 +46,8 @@ public class WorkoutLogsManager extends ActivityManager {
         }
     }
 
-    public void list(String date, HashSet<Exercise> workoutHashSet) throws Exceptions.ActivityDoesNotExists {
+    public String getWorkoutLogString(String date, HashSet<Exercise> workoutHashSet)
+            throws Exceptions.ActivityDoesNotExists {
         WorkoutLog retrievedWorkout = (WorkoutLog) retrieve(date);
         HashSet<ExerciseLog> exerciseLogs = retrievedWorkout.getExerciseLogs();
         HashSet<Exercise> tempSet = new HashSet<>(workoutHashSet);
@@ -77,7 +77,7 @@ public class WorkoutLogsManager extends ActivityManager {
             index++;
         }
 
-        UserInterface.printMessage(result.toString());
+        return result.toString();
     }
 
     @Override
