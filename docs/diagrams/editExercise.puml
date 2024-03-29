@@ -1,0 +1,28 @@
+@startuml SequenceDiagram
+
+participant User
+participant Parser
+participant ExerciseManager
+participant ActivityManager
+participant Exercise
+
+User -> Parser: Inputs command 'exercise /edit pushups /to pressups'
+Parser -> ExerciseManager: Parse command
+activate ExerciseManager
+ExerciseManager -> ExerciseManager: Validate input to ensure correct command format
+alt Input validation successful
+    ExerciseManager -> ActivityManager: Invoke retrieve method to retrieve exercise object associated with 'pushups'
+    activate ActivityManager
+    ActivityManager -> ActivityManager: Perform retrieve operation on activitySet
+    ActivityManager --> ExerciseManager: Return object associated with activityName 'pushups'
+    deactivate ActivityManager
+    activate Exercise
+    ExerciseManager -> Exercise: Invoke object's editExerciseName method with 'pressups' as argument for parameter newExerciseName
+    Exercise -> Exercise: Assigns newExerciseName parameter value 'pressups' to instance field activityName
+    deactivate Exercise
+    deactivate ExerciseManager
+else Input validation fails
+    ExerciseManager -> User: Print error message
+end
+
+@enduml
