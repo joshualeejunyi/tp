@@ -14,7 +14,7 @@ import java.util.HashSet;
 
 public class WorkoutLogsManager extends ActivityManager {
     @Override
-    public void execute(Parser parser) throws Exceptions.InvalidInput {
+    public String execute(Parser parser) throws Exceptions.InvalidInput {
         throw new Exceptions.InvalidInput("RepsSetsManager is not meant to be executed");
     }
 

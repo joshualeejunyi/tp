@@ -6,7 +6,6 @@ import byteceps.activities.Exercise;
 import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 import org.json.JSONObject;
 
 import java.time.DayOfWeek;
@@ -67,7 +66,16 @@ public class WeeklyProgramManager extends ActivityManager {
         }
     }
 
-    public void execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
+    /**
+     * Executes all commands that start with the keyword "program".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if no command action specified
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist
+     * @throws Exceptions.ActivityExistsException if user assigns a workout to an occupied day
+     */
+    public String execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
         assert parser != null : "Parser must not be null";
         String commandAction = parser.getAction();
@@ -101,10 +109,19 @@ public class WeeklyProgramManager extends ActivityManager {
         default:
             throw new IllegalStateException("Unexpected value: " + parser.getAction());
         }
-        
-        UserInterface.printMessage(messageToUser);
+
+        return messageToUser;
     }
 
+    /**
+     * Executes the command "program /assign {workout} /to {day}".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if user does not specify the day to assign the workout to
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
+     * @throws Exceptions.ActivityExistsException if user assigns a workout to an occupied day
+     */
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
         assert parser.getAction().equals("assign") : "Action must be assign";
@@ -114,10 +131,20 @@ public class WeeklyProgramManager extends ActivityManager {
         }
         String workoutName = parser.getActionParameter();
         Activity workout = workoutManager.retrieve(workoutName);
-        return assignWorkoutToDay(workout, day, false);
+        return assignWorkoutToDay(workout, day);
     }
 
-    public String assignWorkoutToDay(Activity workout, String day, boolean fromStorageLoad)
+    /**
+     * Assigns a workout to a given day.
+     *
+     * @param workout Workout to be assigned
+     * @param day The day the workout is to be assigned to
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if user inputs an invalid day string
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
+     * @throws Exceptions.ActivityExistsException if user assigns a workout to an occupied day
+     */
+    public String assignWorkoutToDay(Activity workout, String day)
             throws Exceptions.InvalidInput, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists {
         Day selectedDay = getDay(day);
@@ -132,11 +159,9 @@ public class WeeklyProgramManager extends ActivityManager {
         }
 
         selectedDay.setAssignedWorkout((Workout) workout);
-        if (!fromStorageLoad) {
-            return String.format("Workout %s assigned to %s", workout.getActivityName(), day);
-        } else {
-            return "";
-        }
+
+        return String.format("Workout %s assigned to %s", workout.getActivityName(), day);
+
     }
 
     private Day getDayFromDate(LocalDate date) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {

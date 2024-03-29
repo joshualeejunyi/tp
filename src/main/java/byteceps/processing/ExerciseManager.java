@@ -10,7 +10,7 @@ import byteceps.ui.UserInterface;
 public class ExerciseManager extends ActivityManager {
     //@@author V4vern
     @Override
-    public void execute(Parser parser) throws Exceptions.InvalidInput,
+    public String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists {
         assert parser != null : "Parser must not be null";
@@ -42,7 +42,8 @@ public class ExerciseManager extends ActivityManager {
         default:
             throw new IllegalStateException("Unexpected value: " + parser.getAction());
         }
-        UserInterface.printMessage(messageToUser);
+
+        return messageToUser;
     }
 
     private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {

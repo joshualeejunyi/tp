@@ -18,7 +18,7 @@ public abstract class ActivityManager {
         this.activitySet = new HashSet<>();
     }
 
-    public abstract void execute(Parser parser) throws Exceptions.InvalidInput,
+    public abstract String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists;
 

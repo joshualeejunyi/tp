@@ -4,7 +4,6 @@ import byteceps.activities.Exercise;
 import byteceps.activities.Workout;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 
 import java.util.ArrayList;
 
@@ -15,11 +14,18 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
+    /**
+     * Executes all commands that start with the keyword "workout".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if no command action specified
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist
+     * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout
+     */
     @Override
-    public void execute(Parser parser) throws Exceptions.ErrorAddingActivity,
-            Exceptions.ActivityExistsException,
-            Exceptions.InvalidInput,
-            Exceptions.ActivityDoesNotExists {
+    public String execute(Parser parser) throws Exceptions.ActivityExistsException,
+            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
@@ -55,7 +61,7 @@ public class WorkoutManager extends ActivityManager {
             throw new IllegalStateException("Unexpected value: " + parser.getAction());
         }
 
-        UserInterface.printMessage(messageToUser);
+        return messageToUser;
     }
 
     private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
@@ -68,7 +74,7 @@ public class WorkoutManager extends ActivityManager {
         return getFullWorkoutString(workoutName);
     }
 
-    public String validateListAction(Parser parser) throws Exceptions.InvalidInput {
+    private String validateListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
             throw new Exceptions.InvalidInput("Invalid command. Use 'workout /list' to list all exercises.");
@@ -107,7 +113,7 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    public Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
+    private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
         String workoutName = parser.getActionParameter();
         assert !workoutName.isEmpty() : "Workout name cannot be empty";
         if (workoutName.isEmpty()) {
@@ -118,8 +124,16 @@ public class WorkoutManager extends ActivityManager {
         return new Workout(parser.getActionParameter());
     }
 
+    /**
+     * Executes the command "program /assign {exercise} /to {workout}".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if user does not specify the day to assign the workout to
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
+     */
     //@@author V4vern
-    public String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
+    private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
 
         String exerciseName = parser.getActionParameter();
@@ -145,7 +159,7 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    public String getFullWorkoutString(String workoutPlanName) throws Exceptions.ActivityDoesNotExists {
+    private String getFullWorkoutString(String workoutPlanName) throws Exceptions.ActivityDoesNotExists {
         assert workoutPlanName != null : "Workout plan name cannot be null";
         Workout workout = (Workout) retrieve(workoutPlanName);
         assert workout != null : "Workout plan does not exist";
@@ -166,7 +180,7 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    public String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
+    private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
 
         String workoutPlanName = parser.getAdditionalArguments("from");
