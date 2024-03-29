@@ -113,6 +113,10 @@ public class WeeklyProgramManager extends ActivityManager {
         return messageToUser;
     }
 
+    private String executeListAction() {
+        return getListString();
+    }
+
     /**
      * Executes the command "program /assign {workout} /to {day}".
      *
@@ -274,7 +278,7 @@ public class WeeklyProgramManager extends ActivityManager {
     }
 
     private String getHistoryString() {
-        return workoutLogsManager.executeListAction();
+        return workoutLogsManager.getListString();
     }
 
     private String executeClearAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
@@ -323,7 +327,7 @@ public class WeeklyProgramManager extends ActivityManager {
     }
 
     @Override
-    public String executeListAction() {
+    public String getListString() {
         StringBuilder message = new StringBuilder();
         message.append("Your workouts for the week:").append(System.lineSeparator());
         for (String day : DAYS) {

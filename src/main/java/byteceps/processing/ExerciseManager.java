@@ -4,7 +4,6 @@ package byteceps.processing;
 import byteceps.activities.Exercise;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 
 
 public class ExerciseManager extends ActivityManager {
@@ -34,7 +33,7 @@ public class ExerciseManager extends ActivityManager {
             break;
         //@@author V4vern
         case "list":
-            messageToUser = validateListAction(parser);
+            messageToUser = executeListAction(parser);
             break;
         case "search":
             messageToUser = executeSearchAction(parser);
@@ -54,12 +53,12 @@ public class ExerciseManager extends ActivityManager {
     }
 
 
-    public String validateListAction(Parser parser) throws Exceptions.InvalidInput {
+    private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
             throw new Exceptions.InvalidInput("Invalid command. Use 'exercise /list' to list all exercises.");
         }
-        return executeListAction();
+        return getListString();
     }
 
     private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
@@ -79,7 +78,7 @@ public class ExerciseManager extends ActivityManager {
     }
 
     //@@author V4vern
-    public Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
+    private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
         String exerciseName = parser.getActionParameter();
         if (exerciseName.isEmpty()) {
             throw new Exceptions.InvalidInput("Exercise name cannot be empty");
@@ -91,13 +90,13 @@ public class ExerciseManager extends ActivityManager {
     }
 
     //@@author V4vern
-    public Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExists {
         String exerciseName = parser.getActionParameter();
         return (Exercise) retrieve(exerciseName);
     }
 
     //@@author LWachtel1
-    public String processEditExercise(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String processEditExercise(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = parser.getAdditionalArguments("to");
 
         if (newExerciseName == null || newExerciseName.isEmpty()) {

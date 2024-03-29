@@ -52,7 +52,7 @@ public class WorkoutManager extends ActivityManager {
             messageToUser = executeInfoAction(parser);
             break;
         case "list":
-            messageToUser = validateListAction(parser);
+            messageToUser = executeListAction(parser);
             break;
         case "search":
             messageToUser = executeSearchAction(parser);
@@ -74,12 +74,12 @@ public class WorkoutManager extends ActivityManager {
         return getFullWorkoutString(workoutName);
     }
 
-    private String validateListAction(Parser parser) throws Exceptions.InvalidInput {
+    private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
             throw new Exceptions.InvalidInput("Invalid command. Use 'workout /list' to list all exercises.");
         }
-        return executeListAction();
+        return getListString();
     }
 
     private String executeUnassignAction(Parser parser)

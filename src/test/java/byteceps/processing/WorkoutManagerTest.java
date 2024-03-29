@@ -148,7 +148,7 @@ class WorkoutManagerTest {
         parser.parseInput(validInput2);
         assertDoesNotThrow(() -> workoutManager.execute(parser));
 
-        workoutManager.executeListAction();
+        workoutManager.getListString();
         String expectedOutput = "[BYTE-CEPS]> Added Workout Plan: LegDay\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Added Workout Plan: ArmDay\n" +

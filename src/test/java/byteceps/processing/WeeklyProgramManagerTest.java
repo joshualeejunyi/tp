@@ -115,7 +115,7 @@ class WeeklyProgramManagerTest {
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
 
         outContent.reset();
-        weeklyProgramManager.executeListAction();
+        weeklyProgramManager.getListString();
 
         String expectedAssignedOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: Rest day\n" +
@@ -145,7 +145,7 @@ class WeeklyProgramManagerTest {
         outContent.reset();
 
 
-        weeklyProgramManager.executeListAction();
+        weeklyProgramManager.getListString();
         String expectedClearOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: Rest day\n" +
                 "\n" +
@@ -187,7 +187,7 @@ class WeeklyProgramManagerTest {
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
 
         outContent.reset();
-        weeklyProgramManager.executeListAction();
+        weeklyProgramManager.getListString();
 
         String expectedAssignedOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: full day\n" +
@@ -216,7 +216,7 @@ class WeeklyProgramManagerTest {
 
         outContent.reset();
 
-        weeklyProgramManager.executeListAction();
+        weeklyProgramManager.getListString();
         String expectedClearOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: Rest day\n" +
                 "\n" +

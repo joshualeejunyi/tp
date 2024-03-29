@@ -66,7 +66,7 @@ public abstract class ActivityManager {
         );
     }
 
-    public String executeListAction() {
+    public String getListString() {
         if (activitySet.isEmpty()) {
             return String.format("Your List of %s is Empty", getActivityType(true));
         }

@@ -4,7 +4,44 @@
 
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
-## Design
+## Classes: overview
+
+### `Activity` and child classes
+The `Activity` class serves as a parent class to `Exercise`, `ExerciseLog`, `Workout`, `WorkoutLog` and `Day` classes for the ease of usage of `ActivityManager` classes (see below).
+
+![ActivityClassDiagram](diagrams/ActivityClassDiagram.png)
+
+#### The `Exercise` class
+An `Exercise` object represents a single exercise entered by the user. The exercise name is stored in `Exercise.activityname`.
+
+#### The `Workout` class
+A `Workout` object represents a single workout created by the user. It contains an `ArrayList` of `Exercise` objects.
+
+#### The `ExerciseLog` class
+An `ExerciseLog` object is similar to an `Exercise` object, except that it also contains information on the weight, sets and repetitions of each exercise.
+
+#### The `WorkoutLog` class
+A `WorkoutLog` object is similar to that of a `Workout` object, except it contains an `ArrayList` of `ExerciseLog` objects.
+
+### <code>ActivityManager</code> and child classes
+The <code>ActivityManager</code> and inheritors are responsible for managing an <code>ArrayList</code> of activities. The basic functions of an <code>ActivityManager</code> include:
+1. <code>add()</code>: Adding an activity to the <code>ArrayList</code>
+2. <code>delete()</code>: Deleting an activity from the <code>ArrayList</code>
+3. <code>retrieve()</code>: Retrieving an activity from the <code>ArrayList</code> by name
+4. <code>getListString()</code>: Get the string containing all the activities contained in the <code>ActivityManager</code>.
+5. `execute()`: Execute all commands related to the `ActivityManager` and return the required user input.
+
+![ActivityManagerClassDiagram](diagrams/ActivityManagerClassDiagram.png)
+
+#### The `ExerciseManager` class
+`ExerciseManager` is responsible for tracking and manipulating all exercises added to `ByteCeps` by the user.
+
+#### The `WorkoutManager` class
+`WorkoutManager` is responsible for tracking and manipulating all workouts created by the user.
+
+#### The `WeeklyProgramManager` class
+`WeeklyProgram` is responsible for tracking and manipulating the weekly training program set by the user.
+
 ## Implementation
 #### Add an Exercise
 1. The process begins with the user inputting a command via the command-line interface. In this scenario, the user enters the command `exercise /add pushups`, indicating their intention to add a new exercise named `pushups` to the system.
