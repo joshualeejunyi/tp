@@ -6,7 +6,6 @@ import byteceps.activities.ExerciseLog;
 import byteceps.activities.WorkoutLog;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +14,7 @@ import java.util.HashSet;
 
 public class WorkoutLogsManager extends ActivityManager {
     @Override
-    public void execute(Parser parser) throws Exceptions.InvalidInput {
+    public String execute(Parser parser) throws Exceptions.InvalidInput {
         throw new Exceptions.InvalidInput("RepsSetsManager is not meant to be executed");
     }
 
@@ -47,7 +46,8 @@ public class WorkoutLogsManager extends ActivityManager {
         }
     }
 
-    public void list(String date, HashSet<Exercise> workoutHashSet) throws Exceptions.ActivityDoesNotExists {
+    public String getWorkoutLogString(String date, HashSet<Exercise> workoutHashSet)
+            throws Exceptions.ActivityDoesNotExists {
         WorkoutLog retrievedWorkout = (WorkoutLog) retrieve(date);
         HashSet<ExerciseLog> exerciseLogs = retrievedWorkout.getExerciseLogs();
         HashSet<Exercise> tempSet = new HashSet<>(workoutHashSet);
@@ -77,7 +77,7 @@ public class WorkoutLogsManager extends ActivityManager {
             index++;
         }
 
-        UserInterface.printMessage(result.toString());
+        return result.toString();
     }
 
     @Override

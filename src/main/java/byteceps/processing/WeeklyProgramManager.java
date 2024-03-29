@@ -6,7 +6,6 @@ import byteceps.activities.Exercise;
 import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 import org.json.JSONObject;
 
 import java.time.DayOfWeek;
@@ -67,40 +66,67 @@ public class WeeklyProgramManager extends ActivityManager {
         }
     }
 
-    public void execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
+    /**
+     * Executes all commands that start with the keyword "program".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if no command action specified
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist
+     * @throws Exceptions.ActivityExistsException if user assigns a workout to an occupied day
+     */
+    public String execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
         assert parser != null : "Parser must not be null";
-        assert parser.getAction() != null : "Command action must not be null";
+        String commandAction = parser.getAction();
+        assert commandAction != null : "Command action must not be null";
 
-        if (parser.getAction().isEmpty()) {
+        if (commandAction.isEmpty()) {
             throw new Exceptions.InvalidInput("No action specified");
         }
+        
+        String messageToUser;
 
-        switch (parser.getAction()) {
+        switch (commandAction) {
         case "assign":
-            executeAssignAction(parser);
+            messageToUser = executeAssignAction(parser);
             break;
         case "clear":
-            executeClearAction(parser);
+            messageToUser = executeClearAction(parser);
             break;
         case "today":
-            executeTodayAction();
+            messageToUser = executeTodayAction();
             break;
         case "log":
-            executeLogAction(parser);
+            messageToUser = executeLogAction(parser);
             break;
         case "list":
-            executeListAction();
+            messageToUser = executeListAction();
             break;
         case "history":
-            executeHistoryAction(parser);
+            messageToUser = executeHistoryAction(parser);
             break;
         default:
             throw new IllegalStateException("Unexpected value: " + parser.getAction());
         }
+
+        return messageToUser;
     }
 
-    private void executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
+    private String executeListAction() {
+        return getListString();
+    }
+
+    /**
+     * Executes the command "program /assign {workout} /to {day}".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if user does not specify the day to assign the workout to
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
+     * @throws Exceptions.ActivityExistsException if user assigns a workout to an occupied day
+     */
+    private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
         assert parser.getAction().equals("assign") : "Action must be assign";
         String day = parser.getAdditionalArguments("to");
@@ -109,10 +135,20 @@ public class WeeklyProgramManager extends ActivityManager {
         }
         String workoutName = parser.getActionParameter();
         Activity workout = workoutManager.retrieve(workoutName);
-        assignWorkoutToDay(workout, day, false);
+        return assignWorkoutToDay(workout, day);
     }
 
-    public void assignWorkoutToDay(Activity workout, String day, boolean fromStorageLoad)
+    /**
+     * Assigns a workout to a given day.
+     *
+     * @param workout Workout to be assigned
+     * @param day The day the workout is to be assigned to
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if user inputs an invalid day string
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
+     * @throws Exceptions.ActivityExistsException if user assigns a workout to an occupied day
+     */
+    public String assignWorkoutToDay(Activity workout, String day)
             throws Exceptions.InvalidInput, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists {
         Day selectedDay = getDay(day);
@@ -127,10 +163,8 @@ public class WeeklyProgramManager extends ActivityManager {
         }
 
         selectedDay.setAssignedWorkout((Workout) workout);
-        if (!fromStorageLoad) {
-            UserInterface.printMessage(String.format("Workout %s assigned to %s",
-                    workout.getActivityName(), day));
-        }
+
+        return String.format("Workout %s assigned to %s", workout.getActivityName(), day);
 
     }
 
@@ -148,7 +182,7 @@ public class WeeklyProgramManager extends ActivityManager {
         return getDay(dayFromDate.toString());
     }
 
-    private void executeLogAction(Parser parser)
+    private String executeLogAction(Parser parser)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         if (!parser.hasAdditionalArguments() || parser.getAdditionalArgumentsLength() < 3) {
             throw new Exceptions.InvalidInput("log command not complete");
@@ -185,10 +219,8 @@ public class WeeklyProgramManager extends ActivityManager {
         String workoutName = getWorkoutName(selectedDay, workoutDate);
         workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
         workoutLogsManager.addExerciseLog(workoutDate, exerciseName, weight, sets, repetition);
-        UserInterface.printMessage(
-                String.format("Successfully logged %skg %s with %s sets and %s reps on %s",
-                        weight, exerciseName, sets, repetition, workoutDate)
-        );
+        return String.format("Successfully logged %skg %s with %s sets and %s reps on %s",
+                        weight, exerciseName, sets, repetition, workoutDate);
     }
 
     private static String getWorkoutName(Day selectedDay, String workoutDate) throws Exceptions.ActivityDoesNotExists {
@@ -204,16 +236,16 @@ public class WeeklyProgramManager extends ActivityManager {
         return assignedWorkout.getActivityName();
     }
 
-    private void executeTodayAction() throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+    private String executeTodayAction() throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         LocalDate currentDate = LocalDate.now();
         Day today = getDayFromDate(currentDate);
         Workout todaysWorkout = today.getAssignedWorkout();
         String todayDate = currentDate.toString();
 
-        listGivenWorkout(todaysWorkout, todayDate, today);
+        return getTodaysWorkoutString(todaysWorkout, todayDate, today);
     }
 
-    private void listGivenWorkout(Workout givenWorkout, String workoutDate, Day workoutDay) {
+    private String getTodaysWorkoutString(Workout givenWorkout, String workoutDate, Day workoutDay) {
         try {
             if (givenWorkout == null) {
                 throw new Exceptions.ActivityDoesNotExists(
@@ -224,38 +256,37 @@ public class WeeklyProgramManager extends ActivityManager {
             String workoutName = workoutDay.getAssignedWorkout().getActivityName();
             HashSet<Exercise> workoutHashSet = givenWorkout.getExerciseSet();
             workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
-            workoutLogsManager.list(workoutDate, workoutHashSet);
+            return workoutLogsManager.getWorkoutLogString(workoutDate, workoutHashSet);
 
         } catch (Exceptions.ActivityDoesNotExists e) {
             // catch so that it does not show error
-            UserInterface.printMessage(e.getMessage());
+            return e.getMessage();
         }
     }
 
-    private void executeHistoryAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+    private String executeHistoryAction(Parser parser)
+            throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         String parameter = parser.getActionParameter();
         if (parameter.isBlank()) {
-            listHistory();
-            return;
+            return getHistoryString();
         }
 
         String workoutDate = parser.getActionParameter();
         Workout retrievedWorkout = (Workout) workoutLogsManager.retrieve(workoutDate);
         Day day = getDayFromDate(workoutDate);
-        listGivenWorkout(retrievedWorkout, workoutDate, day);
+        return getTodaysWorkoutString(retrievedWorkout, workoutDate, day);
     }
 
-    private void listHistory() {
-        workoutLogsManager.executeListAction();
+    private String getHistoryString() {
+        return workoutLogsManager.getListString();
     }
 
-    private void executeClearAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String executeClearAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String day = parser.getActionParameter();
         if (day == null || day.isEmpty()) {
             activitySet.clear();
             initializeDays();
-            UserInterface.printMessage("All your workouts have been cleared from the week");
-            return;
+            return "All your workouts have been cleared from the week";
         }
         Day currentDay = getDay(day);
         String currentDayString = currentDay.getActivityName();
@@ -265,7 +296,7 @@ public class WeeklyProgramManager extends ActivityManager {
         newDay.setAssignedWorkout(null);
         activitySet.add(newDay);
 
-        UserInterface.printMessage(String.format("Your workout on %s has been cleared", day));
+        return String.format("Your workout on %s has been cleared", day);
     }
 
 
@@ -296,7 +327,7 @@ public class WeeklyProgramManager extends ActivityManager {
     }
 
     @Override
-    public void executeListAction() {
+    public String getListString() {
         StringBuilder message = new StringBuilder();
         message.append("Your workouts for the week:").append(System.lineSeparator());
         for (String day : DAYS) {
@@ -317,7 +348,7 @@ public class WeeklyProgramManager extends ActivityManager {
             }
 
         }
-        UserInterface.printMessage(message.toString());
+        return message.toString();
     }
 
 }
