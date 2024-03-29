@@ -3,7 +3,6 @@ package byteceps.processing;
 import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +18,7 @@ public abstract class ActivityManager {
         this.activitySet = new HashSet<>();
     }
 
-    public abstract void execute(Parser parser) throws Exceptions.InvalidInput,
+    public abstract String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists;
 
@@ -67,10 +66,9 @@ public abstract class ActivityManager {
         );
     }
 
-    public void executeListAction() {
+    public String getListString() {
         if (activitySet.isEmpty()) {
-            UserInterface.printMessage(String.format("Your List of %s is Empty", getActivityType(true)));
-            return;
+            return String.format("Your List of %s is Empty", getActivityType(true));
         }
         StringBuilder result = new StringBuilder();
         result.append(String.format("Listing %s:%s", getActivityType(true), System.lineSeparator()));
@@ -81,7 +79,7 @@ public abstract class ActivityManager {
             result.append(String.format("\t\t\t%d. %s\n", index, currentActivity.getActivityName()));
         }
 
-        UserInterface.printMessage(result.toString());
+        return result.toString();
     }
 
     public boolean doesNotHaveActivity(String activityName) {
@@ -104,20 +102,19 @@ public abstract class ActivityManager {
 
     public abstract String getActivityType(boolean plural);
 
-    public void search(String searchTerm){
+    public String getSearchResultsString(String searchTerm){
         ArrayList <Activity> searchResults = new ArrayList<>();
         for(Activity activity : activitySet){
             if(activity.getActivityName().toLowerCase().contains(searchTerm.toLowerCase())){
                 searchResults.add(activity);
             }
         }
-        displaySearchResults(searchResults);
+        return stringify(searchResults);
     }
 
-    private void displaySearchResults(ArrayList<Activity> searchResults){
-        if(searchResults.isEmpty()){
-            UserInterface.printMessage("No results found");
-            return;
+    private String stringify(ArrayList<Activity> searchResults){
+        if (searchResults.isEmpty()) {
+            return "No results found";
         }
         StringBuilder result = new StringBuilder();
         result.append(String.format("Search Results:%s", System.lineSeparator()));
@@ -128,7 +125,7 @@ public abstract class ActivityManager {
             index++;
         }
 
-        UserInterface.printMessage(result.toString());
+        return result.toString();
     }
 
 }

@@ -40,23 +40,25 @@ public class ByteCeps {
             String userInput = ui.getUserInput();
             parser.parseInput(userInput);
 
+            String messageToUser;
             try {
                 switch (parser.getCommand()) {
                 case "exercise":
-                    exerciseManager.execute(parser);
-                    continue;
+                    messageToUser = exerciseManager.execute(parser);
+                    break;
                 case "workout":
-                    workoutManager.execute(parser);
-                    continue;
+                    messageToUser = workoutManager.execute(parser);
+                    break;
                 case "program":
-                    weeklyProgramManager.execute(parser);
-                    continue;
+                    messageToUser = weeklyProgramManager.execute(parser);
+                    break;
                 case "bye":
                 case "exit":
                     return;
                 default:
-                    UserInterface.printMessage("Unknown Command!");
+                    messageToUser = "Unknown Command!";
                 }
+                UserInterface.printMessage(messageToUser);
 
             } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
                      Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException e) {
