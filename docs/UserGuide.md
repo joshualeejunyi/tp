@@ -10,7 +10,7 @@ BYTE-CEPS can track & manage several types of tasks, such as:
 3. Program
    
 ## Usage
-Running Byte
+### Running ByteCeps
 - You are required to install Java 11 onto your computer.
 - Download the [latest release](https://github.com/AY2324S2-CS2113-F14-3/tp/releases) from the releases page.
 - Run the program in your preferred terminal using the command: java -jar byteceps.jar.
@@ -66,7 +66,7 @@ Expected outcome:
 ```
 
 ### List all exercises
-You may lists all existing exercises by using the `/list` flag.
+You may list all existing exercises by using the `/list` flag.
 ```
 exercise /list
 ```
@@ -81,7 +81,7 @@ Expected outcome:
 [BYTE-CEPS]> Listing Exercises:
           1. Decline pushups
 ```
-
+**Note**: The exercises may not be listed in the order you added them to ByteCeps.
 ## Workout Plan Management
 A workout plan is a curated list of exercises that you would like to do in a single session. You may use the `workout` command to manage your workout plans.
 
@@ -134,7 +134,7 @@ Expected outcome:
             1. test
             2. push day
 ```
-
+**Note**: The workouts may not be listed in the order you added them to ByteCeps.
 ### Assign an exercise to a workout plan
 You may assign an exercise to a specified workout plan using the `/assign` flag.
 ```
@@ -182,7 +182,7 @@ Expected outcome:
 [BYTE-CEPS]> Listing exercises in workout plan 'push day':
             1. pushups
 ```
-
+**Note**: The exercises may not be listed in the order you added them to the workout.
 ## Program Management
 The `program` command not only allows you to assign a workout to a given day, but it allows you to log your completed exercises.
 
@@ -193,13 +193,13 @@ program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>
 ```
 
 The `<DAY [string]>` parameter must be either variants of a day of the week, and is case insensitive:
-1. Monday/Mon
-2. Tuesday/Tues/Tue
-3. Wednesday/Wed
-4. Thursday/Thurs/Thu
-5. Friday/Fri
-6. Saturday/Sat
-7. Sunday/Sun
+1. Monday / Mon
+2. Tuesday /Tues/Tue
+3. Wednesday / Wed
+4. Thursday / Thurs / Thu
+5. Friday / Fri
+6. Saturday / Sat
+7. Sunday / Sun
 
 Example of usage: 
 ```
