@@ -3,6 +3,13 @@ WELCOME TO BYTECEPS
 -------------------------------------------------
 [BYTE-CEPS]> Looks like you're starting fresh!
 -------------------------------------------------
+[BYTE-CEPS]> To access the help menu for command guidance, please type:
+help /COMMAND_TYPE_FLAG
+Available command types (type exactly as shown):
+exercise
+workout
+program
+-------------------------------------------------
 [User]> [BYTE-CEPS]> All your workouts and exercises have been saved.
 -------------------------------------------------
 -------------------------------------------------

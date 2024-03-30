@@ -6,6 +6,7 @@ import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutManager;
 import byteceps.processing.WeeklyProgramManager;
+import byteceps.processing.HelpMenuManager;
 import byteceps.storage.Storage;
 import byteceps.ui.UserInterface;
 
@@ -16,6 +17,8 @@ public class ByteCeps {
     private static WorkoutManager workoutManager = null;
     private static WeeklyProgramManager weeklyProgramManager = null;
     private static WorkoutLogsManager workoutLogsManager = null;
+
+    private static HelpMenuManager helpMenuManager = null;
     private static Parser parser;
     private static UserInterface ui;
     private static Storage storage;
@@ -29,6 +32,7 @@ public class ByteCeps {
         ui = new UserInterface();
         parser = new Parser();
         storage = new Storage(FILE_PATH);
+        helpMenuManager = new HelpMenuManager();
     }
 
     public static void main(String[] args) {
@@ -52,6 +56,9 @@ public class ByteCeps {
                 case "program":
                     messageToUser = weeklyProgramManager.execute(parser);
                     break;
+                case "help":
+                    messageToUser = helpMenuManager.execute(parser);
+                    break;
                 case "bye":
                 case "exit":
                     return;
@@ -71,6 +78,7 @@ public class ByteCeps {
         ui.printWelcomeMessage();
         try {
             storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
+            UserInterface.printMessage(helpMenuManager.printHelpGreeting());
             commandLine();
             storage.save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
         } catch (IOException e) {
