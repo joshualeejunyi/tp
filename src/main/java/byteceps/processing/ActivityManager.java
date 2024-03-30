@@ -110,7 +110,9 @@ public abstract class ActivityManager {
     }
 
     private boolean activityMatchesSearchTerm(Activity activity, String searchTerm) {
-        return activity.getActivityName().toLowerCase().contains(searchTerm.toLowerCase());
+        String activityName = activity.getActivityName().toLowerCase();
+        String searchTermLowerCase = searchTerm.toLowerCase();
+        return activityName.contains(searchTermLowerCase);
     }
 
     private ArrayList<Activity> searchActivities(String searchTerm){
