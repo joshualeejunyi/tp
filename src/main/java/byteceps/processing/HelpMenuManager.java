@@ -115,14 +115,10 @@ public class HelpMenuManager {
         return menuSelection;
     }
 
-
     public String showExerciseCommand(Parser parser) {
-
-
         if (parser.getActionParameter().isEmpty()) {
             String exerciseMessage = "Please enter 'help /exercise LIST_NUMBER'. LIST_NUMBER corresponds to the "
                     + "exercise command format you want to see";
-
 
             StringBuilder result = new StringBuilder();
 
@@ -137,15 +133,15 @@ public class HelpMenuManager {
 
             return exerciseCommandChoices;
 
-        } else {
-            String commandFormat = getFlagFormat(parser.getActionParameter(), "exercise");
-
-            return commandFormat;
         }
+
+        String commandFormat = getFlagFormat(parser.getActionParameter(), "exercise");
+
+        return commandFormat;
+
     }
 
     public String showWorkoutCommand(Parser parser) {
-
         if (parser.getActionParameter().isEmpty()) {
             String workoutMessage = "Please enter 'help /workout LIST_NUMBER'. LIST_NUMBER corresponds to the "
                     + "workout command format you want to see";
@@ -163,16 +159,14 @@ public class HelpMenuManager {
 
             return workoutCommandChoices;
 
-        } else {
-            String commandFormat = getFlagFormat(parser.getActionParameter(), "workout");
-
-            return commandFormat;
         }
+        String commandFormat = getFlagFormat(parser.getActionParameter(), "workout");
+
+        return commandFormat;
 
     }
 
     public String showProgramCommand(Parser parser) {
-
         if (parser.getActionParameter().isEmpty()) {
             String programMessage = "Please enter 'help /program LIST_NUMBER'. LIST_NUMBER corresponds to the "
                     + "program command format you want to see";
@@ -190,11 +184,10 @@ public class HelpMenuManager {
 
             return programCommandChoices;
 
-        } else {
-            String commandFormat = getFlagFormat(parser.getActionParameter(), "program");
-
-            return commandFormat;
         }
+        String commandFormat = getFlagFormat(parser.getActionParameter(), "program");
+
+        return commandFormat;
 
     }
 
