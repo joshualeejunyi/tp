@@ -2,13 +2,11 @@ package byteceps.processing;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 
 public class HelpMenuManager {
-    UserInterface ui;
 
     private final String helpManagerGreeting =
-            String.format("%s%s %s%s %s%s %s%s %s%s %s", "To access the help menu for command guidance, please type:",
+            String.format("%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",
                     System.lineSeparator(), "help /COMMAND_TYPE_FLAG", System.lineSeparator(),
                     "Available command types (type exactly as shown):", System.lineSeparator(),
                     "exercise", System.lineSeparator(), "workout", System.lineSeparator(), "program");
@@ -59,11 +57,18 @@ public class HelpMenuManager {
         "(8) view the logs that you have added on a specific date"
     };
 
+    private String dayString = String.format ("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",System.lineSeparator(),
+            "The <DAY [string]> parameter must be a day of the week, and is case insensitive:", System.lineSeparator(),
+            "Monday/Mon", System.lineSeparator(), "Tuesday/Tues/Tue", System.lineSeparator(),
+            "Wednesday/Wed", System.lineSeparator(), "Thursday/Thurs/Thu", System.lineSeparator(),
+            "Friday/Fri", System.lineSeparator(), "Saturday/Sat", System.lineSeparator(),
+            "Sunday/Sun");
+
     private final String[] programFlagFormats = {
-        "program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>",
+        "program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>" + dayString,
         "program /today",
         "program /list",
-        "program /clear <DAY [string]>",
+        "program /clear <DAY [string]>" + dayString,
         "program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> "
                 + "/reps <NUMBER_OF_REPS [integer]>",
         "program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> "
@@ -71,25 +76,22 @@ public class HelpMenuManager {
         "program /history <DATE [yyyy-mm-dd]>"
     };
 
-    public HelpMenuManager(UserInterface ui) {
-        this.ui = ui;
+    public HelpMenuManager() {
     }
 
-    public void printHelpGreeting() {
-        UserInterface.printMessage(helpManagerGreeting);
+    public String printHelpGreeting() {
+        return helpManagerGreeting;
     }
 
-    public void execute(Parser parser) throws Exceptions.InvalidInput {
+    public String execute(Parser parser) throws Exceptions.InvalidInput {
+
+        String menuSelection;
+
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
         if (parser.getAction().isEmpty()) {
             throw new Exceptions.InvalidInput("No command type specified");
-        }
-
-        if (!parser.getActionParameter().isEmpty()) {
-            throw new Exceptions.InvalidInput("Help menu does not accept additional values after command"
-                    + " type flag");
         }
 
         if (parser.hasAdditionalArguments()) {
@@ -98,120 +100,123 @@ public class HelpMenuManager {
 
         switch (parser.getAction()) {
         case "exercise":
-            showExerciseCommand();
+            menuSelection = showExerciseCommand(parser);
             break;
         case "workout":
-            showWorkoutCommand();
+            menuSelection = showWorkoutCommand(parser);
             break;
         case "program":
-            showProgramCommand();
+            menuSelection = showProgramCommand(parser);
             break;
         default:
             throw new Exceptions.InvalidInput("Command type is not recognised");
         }
 
+        return menuSelection;
     }
 
 
-    public void showExerciseCommand() {
-        boolean incorrectSelection = true;
+    public String showExerciseCommand(Parser parser) {
 
-        while (incorrectSelection) {
-            String exerciseMessage = "Please enter the number corresponding to the exercise command format you want to"
-                    + " see";
-            UserInterface.printMessage(exerciseMessage);
+
+        if (parser.getActionParameter().isEmpty()) {
+            String exerciseMessage = "Please enter 'help /exercise LIST_NUMBER'. LIST_NUMBER corresponds to the "
+                    + "exercise command format you want to see";
+
 
             StringBuilder result = new StringBuilder();
 
-            result.append(String.format("%s%s", getExerciseFlagFunctions(0), System.lineSeparator()));
+            result.append(String.format("%s%s", exerciseMessage, System.lineSeparator()));
 
-            for (int i = 1; i < exerciseFlagFunctions.length; i++) {
+            for (int i = 0; i < exerciseFlagFunctions.length; i++) {
                 result.append(String.format("\t\t\t %s%s", getExerciseFlagFunctions(i), System.lineSeparator()));
 
             }
 
-            UserInterface.printMessage(result.toString());
+            String exerciseCommandChoices = result.toString();
 
-            incorrectSelection = getFlagFormat("exercise");
+            return exerciseCommandChoices;
 
+        } else {
+            String commandFormat = getFlagFormat(parser.getActionParameter(), "exercise");
+
+            return commandFormat;
         }
-
     }
 
-    public void showWorkoutCommand() {
-        boolean incorrectSelection = true;
+    public String showWorkoutCommand(Parser parser) {
 
-        while (incorrectSelection) {
-            String workoutMessage = "Please enter the number corresponding to the workout command format you want to "
-                    + " see";
-            UserInterface.printMessage(workoutMessage);
+        if (parser.getActionParameter().isEmpty()) {
+            String workoutMessage = "Please enter 'help /workout LIST_NUMBER'. LIST_NUMBER corresponds to the "
+                    + "workout command format you want to see";
 
             StringBuilder result = new StringBuilder();
 
-            result.append(String.format("%s%s", getWorkoutFlagFunctions(0), System.lineSeparator()));
+            result.append(String.format("%s%s", workoutMessage, System.lineSeparator()));
 
-            for (int i = 1; i < workoutFlagFunctions.length; i++) {
+            for (int i = 0; i < workoutFlagFunctions.length; i++) {
                 result.append(String.format("\t\t\t %s%s", getWorkoutFlagFunctions(i), System.lineSeparator()));
 
             }
 
-            UserInterface.printMessage(result.toString());
+            String workoutCommandChoices = result.toString();
 
-            incorrectSelection = getFlagFormat("workout");
+            return workoutCommandChoices;
 
+        } else {
+            String commandFormat = getFlagFormat(parser.getActionParameter(), "workout");
+
+            return commandFormat;
         }
 
     }
 
-    public void showProgramCommand() {
+    public String showProgramCommand(Parser parser) {
 
-        boolean incorrectSelection = true;
-
-        while (incorrectSelection) {
-            String programMessage = "Please enter the number corresponding to the program command format you want to"
-                    + " see";
-            UserInterface.printMessage(programMessage);
+        if (parser.getActionParameter().isEmpty()) {
+            String programMessage = "Please enter 'help /program LIST_NUMBER'. LIST_NUMBER corresponds to the "
+                    + "program command format you want to see";
 
             StringBuilder result = new StringBuilder();
 
-            result.append(String.format("%s%s", getProgramFlagFunctions(0), System.lineSeparator()));
+            result.append(String.format("%s%s", programMessage, System.lineSeparator()));
 
-            for (int i = 1; i < programFlagFunctions.length; i++) {
+            for (int i = 0; i < programFlagFunctions.length; i++) {
                 result.append(String.format("\t\t\t %s%s", getProgramFlagFunctions(i), System.lineSeparator()));
 
             }
 
-            UserInterface.printMessage(result.toString());
+            String programCommandChoices = result.toString();
 
-            incorrectSelection = getFlagFormat("program");
+            return programCommandChoices;
 
+        } else {
+            String commandFormat = getFlagFormat(parser.getActionParameter(), "program");
+
+            return commandFormat;
         }
 
     }
 
-    public boolean getFlagFormat(String commandType) {
+    public String getFlagFormat(String userFlag,String commandType) {
         try {
-            int flagChoice = Integer.parseInt(ui.getUserInput());
+            int flagChoice = Integer.parseInt(userFlag);
             int flagIndex = flagChoice - 1;
 
             switch (commandType) {
             case "exercise":
-                UserInterface.printMessage(getExerciseFlagFormats(flagIndex));
-                break;
+                return getExerciseFlagFormats(flagIndex);
             case "workout":
-                UserInterface.printMessage(getWorkoutFlagFormats(flagIndex));
-                break;
+                return getWorkoutFlagFormats(flagIndex);
             case "program":
-                UserInterface.printMessage(getProgramFlagFormats(flagIndex));
-                break;
+                return getProgramFlagFormats(flagIndex);
             default:
-                break;
+                return "";
 
             }
-            return false;
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            System.out.println("Invalid choice entered: please enter a number from the list");
-            return true;
+            String incorrectSelection = "Invalid choice entered: please enter a number from the list";
+            return incorrectSelection;
         }
 
     }

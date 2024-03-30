@@ -32,7 +32,7 @@ public class ByteCeps {
         ui = new UserInterface();
         parser = new Parser();
         storage = new Storage(FILE_PATH);
-        helpMenuManager = new HelpMenuManager(ui);
+        helpMenuManager = new HelpMenuManager();
     }
 
     public static void main(String[] args) {
@@ -57,8 +57,8 @@ public class ByteCeps {
                     messageToUser = weeklyProgramManager.execute(parser);
                     break;
                 case "help":
-                    helpMenuManager.execute(parser);
-                    continue;
+                    messageToUser = helpMenuManager.execute(parser);
+                    break;
                 case "bye":
                 case "exit":
                     return;
@@ -78,7 +78,7 @@ public class ByteCeps {
         ui.printWelcomeMessage();
         try {
             storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
-            helpMenuManager.printHelpGreeting();
+            UserInterface.printMessage(helpMenuManager.printHelpGreeting());
             commandLine();
             storage.save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
         } catch (IOException e) {

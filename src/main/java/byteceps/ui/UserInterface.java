@@ -51,7 +51,4 @@ public class UserInterface {
         return userInput;
     }
 
-    public void printListItem(String item) {
-        System.out.printf("%s%s", item, System.lineSeparator());
-    }
 }
