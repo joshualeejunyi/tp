@@ -2,6 +2,7 @@ package byteceps.processing;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.UserInterface;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,7 +117,7 @@ class WeeklyProgramManagerTest {
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
 
         outContent.reset();
-        weeklyProgramManager.executeListAction();
+        UserInterface.printMessage(weeklyProgramManager.getListString());
 
         String expectedAssignedOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: Rest day\n" +
@@ -141,12 +142,12 @@ class WeeklyProgramManagerTest {
 
         String clearWorkoutInput = "program /clear thurs";
         parser.parseInput(clearWorkoutInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         outContent.reset();
 
 
-        weeklyProgramManager.executeListAction();
+        UserInterface.printMessage(weeklyProgramManager.getListString());
         String expectedClearOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: Rest day\n" +
                 "\n" +
@@ -181,14 +182,14 @@ class WeeklyProgramManagerTest {
         setUpStreams();
         String assignWorkoutInput = "program /assign leg day /to thurs";
         parser.parseInput(assignWorkoutInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         String assignWorkoutInput2 = "program /assign full day /to mon";
         parser.parseInput(assignWorkoutInput2);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         outContent.reset();
-        weeklyProgramManager.executeListAction();
+        UserInterface.printMessage(weeklyProgramManager.getListString());
 
         String expectedAssignedOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: full day\n" +
@@ -213,11 +214,11 @@ class WeeklyProgramManagerTest {
 
         String clearWorkoutInput = "program /clear";
         parser.parseInput(clearWorkoutInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         outContent.reset();
 
-        weeklyProgramManager.executeListAction();
+        UserInterface.printMessage(weeklyProgramManager.getListString());
         String expectedClearOutput = "[BYTE-CEPS]> Your workouts for the week:\n" +
                 "\tMONDAY: Rest day\n" +
                 "\n" +
@@ -248,11 +249,11 @@ class WeeklyProgramManagerTest {
         String assignWorkoutInput = String.format("program /assign full day /to %s", todayString);
 
         parser.parseInput(assignWorkoutInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         String logInput = "program /log benchpress /weight 500 /sets 5 /reps 5";
         parser.parseInput(logInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         String expectedOutput = String.format("[BYTE-CEPS]> Workout full day assigned to %s\n" +
                 "-------------------------------------------------" +
@@ -266,7 +267,7 @@ class WeeklyProgramManagerTest {
 
         String todayInput = "program /today";
         parser.parseInput(todayInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         expectedOutput = String.format("[BYTE-CEPS]> Listing Exercises on %s:\n" +
                 "1. benchpress (weight: 500, sets: 5, reps:5)\n" +
@@ -322,17 +323,17 @@ class WeeklyProgramManagerTest {
         String todayString = LocalDate.now().getDayOfWeek().toString();
         String assignWorkoutInput = String.format("program /assign full day /to %s", todayString);
         parser.parseInput(assignWorkoutInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         String logInput = "program /log benchpress /weight 500 /sets 5 /reps 5";
         parser.parseInput(logInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         outContent.reset();
 
         String historyInput = "program /history";
         parser.parseInput(historyInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         String expectedHistory = String.format("[BYTE-CEPS]> Listing Workout Logs: 1. %s\n" +
                 "-------------------------------------------------", dateString);
@@ -342,20 +343,19 @@ class WeeklyProgramManagerTest {
 
         assignWorkoutInput = "program /assign full day /to monday";
         parser.parseInput(assignWorkoutInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
 
         String logHistoryInput = "program /log benchpress /weight 500 /sets 5 /reps 5 /date 2024-03-25";
         parser.parseInput(logHistoryInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         outContent.reset();
         parser.parseInput(historyInput);
-        assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
         boolean checkContains = outContent.toString().contains(dateString)
                 && outContent.toString().contains("2024-03-25");
-
         assertTrue(checkContains);
         restoreStreams();
     }

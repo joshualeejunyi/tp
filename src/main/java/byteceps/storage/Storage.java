@@ -47,11 +47,14 @@ public class Storage {
     public void load(ExerciseManager allExercises, WorkoutManager allWorkouts,
                      WeeklyProgramManager weeklyProgram, WorkoutLogsManager workoutLogsManager)
             throws IOException {
-        assert allExercises.getActivityList().isEmpty() && allWorkouts.getActivityList().isEmpty()
-            && weeklyProgram.getActivityList().stream().allMatch(Objects::isNull)
+        boolean exerciseManagerIsEmpty = allExercises.getActivityList().isEmpty();
+        boolean workoutManagerIsEmpty =  allWorkouts.getActivityList().isEmpty();
+        boolean weeklyProgramIsAllNull = weeklyProgram.getActivityList().stream().allMatch(Objects::isNull);
+        assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsAllNull
             : "Must load from a clean state";
 
         File jsonFile = filePath.toFile();
+        String messageToUser;
 
         if (jsonFile.createNewFile()) {
             UserInterface.printMessage("Looks like you're starting fresh!");
@@ -86,7 +89,7 @@ public class Storage {
             String workout = (String) jsonWeeklyProgram.get(day);
             if (!workout.isBlank()) {
                 Workout dayWorkout = (Workout) allWorkouts.retrieve(workout);
-                weeklyProgram.assignWorkoutToDay(dayWorkout, day, true);
+                weeklyProgram.assignWorkoutToDay(dayWorkout, day);
             }
         }
     }

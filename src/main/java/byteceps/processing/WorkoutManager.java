@@ -4,7 +4,6 @@ import byteceps.activities.Exercise;
 import byteceps.activities.Workout;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 
 import java.util.ArrayList;
 
@@ -15,11 +14,18 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
+    /**
+     * Executes all commands that start with the keyword "workout".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if no command action specified
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist
+     * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout
+     */
     @Override
-    public void execute(Parser parser) throws Exceptions.ErrorAddingActivity,
-            Exceptions.ActivityExistsException,
-            Exceptions.InvalidInput,
-            Exceptions.ActivityDoesNotExists {
+    public String execute(Parser parser) throws Exceptions.ActivityExistsException,
+            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
@@ -27,89 +33,87 @@ public class WorkoutManager extends ActivityManager {
             throw new Exceptions.InvalidInput("No action specified");
         }
 
+        String messageToUser;
+
         switch (parser.getAction()) {
         case "create":
-            executeCreateAction(parser);
+            messageToUser = executeCreateAction(parser);
             break;
         case "delete":
-            executeDeleteAction(parser);
+            messageToUser = executeDeleteAction(parser);
             break;
         case "assign":
-            executeAssignAction(parser);
+            messageToUser = executeAssignAction(parser);
             break;
         case "unassign":
-            executeUnassignAction(parser);
+            messageToUser = executeUnassignAction(parser);
             break;
         case "info":
-            executeInfoAction(parser);
+            messageToUser = executeInfoAction(parser);
             break;
         case "list":
-            validateListAction(parser);
+            messageToUser = executeListAction(parser);
             break;
         case "search":
-            executeSearchAction(parser);
+            messageToUser = executeSearchAction(parser);
             break;
         default:
             throw new IllegalStateException("Unexpected value: " + parser.getAction());
         }
+
+        return messageToUser;
     }
 
-    private void executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+    private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         assert parser.getAction().equals("info") : "Action must be info";
         String workoutName = parser.getActionParameter();
         if (workoutName == null || workoutName.isEmpty()) {
             throw new Exceptions.InvalidInput("info command not complete");
         }
 
-        list(workoutName);
-
+        return getFullWorkoutString(workoutName);
     }
 
-    public void validateListAction(Parser parser) throws Exceptions.InvalidInput {
+    private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
             throw new Exceptions.InvalidInput("Invalid command. Use 'workout /list' to list all exercises.");
         }
-        executeListAction();
+        return getListString();
     }
 
-    private void executeUnassignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String executeUnassignAction(Parser parser)
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals("unassign") : "Action must be unassign";
         String workoutName = unassignExerciseFromWorkout(parser);
-        UserInterface.printMessage(String.format(
+        return String.format(
                 "Unassigned Exercise '%s' from Workout Plan '%s'", parser.getActionParameter(), workoutName
-        ));
+        );
     }
 
-    private void executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals("assign") : "Action must be assign";
         String workoutPlan = assignExerciseToWorkout(parser);
-        UserInterface.printMessage(String.format(
-                "Assigned Exercise '%s' to Workout Plan '%s'", parser.getActionParameter(), workoutPlan
-        ));
+        return String.format("Assigned Exercise '%s' to Workout Plan '%s'", parser.getActionParameter(), workoutPlan);
     }
 
-    private void executeDeleteAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String executeDeleteAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals("delete") : "Action must be delete";
         Workout existingWorkout = processWorkout(parser);
         delete(existingWorkout);
-        UserInterface.printMessage(String.format(
-                "Deleted Workout: %s", existingWorkout.getActivityName()
-        ));
+        return String.format("Deleted Workout: %s", existingWorkout.getActivityName());
     }
 
-    private void executeCreateAction(Parser parser) throws Exceptions.InvalidInput,
+    private String executeCreateAction(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityExistsException {
         assert parser.getAction().equals("create") : "Action must be create";
         Workout newWorkout = processWorkout(parser);
         add(newWorkout);
-        UserInterface.printMessage(String.format(
-                "Added Workout Plan: %s", newWorkout.getActivityName()
-        ));
+        return String.format("Added Workout Plan: %s", newWorkout.getActivityName());
     }
 
     //@@author V4vern
-    public Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
+    private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
         String workoutName = parser.getActionParameter();
         assert !workoutName.isEmpty() : "Workout name cannot be empty";
         if (workoutName.isEmpty()) {
@@ -120,8 +124,16 @@ public class WorkoutManager extends ActivityManager {
         return new Workout(parser.getActionParameter());
     }
 
+    /**
+     * Executes the command "program /assign {exercise} /to {workout}".
+     *
+     * @param parser Parser containing user input
+     * @return Message to user after executing the command
+     * @throws Exceptions.InvalidInput if user does not specify the day to assign the workout to
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
+     */
     //@@author V4vern
-    public String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
+    private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
 
         String exerciseName = parser.getActionParameter();
@@ -147,7 +159,7 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    public void list(String workoutPlanName) throws Exceptions.ActivityDoesNotExists {
+    private String getFullWorkoutString(String workoutPlanName) throws Exceptions.ActivityDoesNotExists {
         assert workoutPlanName != null : "Workout plan name cannot be null";
         Workout workout = (Workout) retrieve(workoutPlanName);
         assert workout != null : "Workout plan does not exist";
@@ -155,8 +167,7 @@ public class WorkoutManager extends ActivityManager {
         ArrayList<Exercise> workoutList = workout.getExerciseList();
 
         if (workoutList.isEmpty()) {
-            UserInterface.printMessage(String.format("Your workout plan %s is empty", workoutPlanName));
-            return;
+            return String.format("Your workout plan %s is empty", workoutPlanName);
         }
 
         message.append(String.format("Listing exercises in workout plan '%s':%n", workoutPlanName));
@@ -165,11 +176,11 @@ public class WorkoutManager extends ActivityManager {
         for (Exercise exercise : workoutList) {
             message.append(String.format("\t\t\t%d. %s%n", index++, exercise.getActivityName()));
         }
-        UserInterface.printMessage(message.toString());
+        return message.toString();
     }
 
     //@@author V4vern
-    public String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
+    private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
 
         String workoutPlanName = parser.getAdditionalArguments("from");
@@ -199,12 +210,12 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    private void executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
+    private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
         if (searchTerm == null || searchTerm.isEmpty()) {
             throw new Exceptions.InvalidInput("Search term cannot be empty.");
         }
-        search(searchTerm);
+        return getSearchResultsString(searchTerm);
     }
 
 }

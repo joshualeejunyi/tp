@@ -2,6 +2,7 @@ package byteceps.processing;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.UserInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -84,11 +85,11 @@ class ExerciseManagerTest {
         String validInput2 = "exercise /add Deadlifts";
 
         parser.parseInput(validInput1);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
         parser.parseInput(validInput2);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
 
-        exerciseManager.executeListAction();
+        UserInterface.printMessage(exerciseManager.getListString());
         String expectedOutput = "[BYTE-CEPS]> Added Exercise: Pushups\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Added Exercise: Deadlifts\n" +
@@ -120,13 +121,13 @@ class ExerciseManagerTest {
 
         String validInput = "exercise /add Push ups";
         parser.parseInput(validInput);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
-        exerciseManager.executeListAction();
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        UserInterface.printMessage(exerciseManager.getListString());
 
         String editedInput = "exercise /edit Push ups /to Push Ups";
         parser.parseInput(editedInput);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
-        exerciseManager.executeListAction();
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        UserInterface.printMessage(exerciseManager.getListString());
 
         String expectedOutput = "[BYTE-CEPS]> Added Exercise: Push ups\n" +
                 "-------------------------------------------------\n" +
@@ -211,11 +212,11 @@ class ExerciseManagerTest {
 
         String addInput = "exercise /add Pushups";
         parser.parseInput(addInput);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
 
         String searchInput = "exercise /search Pushups";
         parser.parseInput(searchInput);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]> AddedExercise: \n" +
                 "\t\t\t Pushups\n" +
@@ -238,7 +239,7 @@ class ExerciseManagerTest {
 
         String searchInput = "exercise /search Nonexistent";
         parser.parseInput(searchInput);
-        assertDoesNotThrow(() -> exerciseManager.execute(parser));
+        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]>Noresultsfound\n" +
                 "-------------------------------------------------\n";
