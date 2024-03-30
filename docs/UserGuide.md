@@ -194,7 +194,7 @@ program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>
 
 The `<DAY [string]>` parameter must be either variants of a day of the week, and is case insensitive:
 1. Monday / Mon
-2. Tuesday /Tues/Tue
+2. Tuesday / Tues / Tue
 3. Wednesday / Wed
 4. Thursday / Thurs / Thu
 5. Friday / Fri
