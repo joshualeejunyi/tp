@@ -72,8 +72,13 @@ public class Storage {
             UserInterface.printMessage("Data loaded successfully!");
         } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
              Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
-            System.out.println(e.getMessage());
-            throw new IOException("Error processing JSON file");
+            UserInterface.printMessage("Error: Error processing JSON file. Starting with a fresh JSON file.");
+            try {
+                jsonFile.delete();
+                jsonFile.createNewFile();
+            } catch (IOException ex) {
+                UserInterface.printMessage("Error: Unable to create a new JSON file.");
+            }
         }
 
     }
