@@ -102,15 +102,29 @@ public abstract class ActivityManager {
 
     public abstract String getActivityType(boolean plural);
 
+
+
     public String getSearchResultsString(String searchTerm){
+        ArrayList <Activity> searchResults = searchActivities(searchTerm);
+        return stringify(searchResults);
+    }
+
+    private boolean activityMatchesSearchTerm(Activity activity, String searchTerm) {
+        String activityName = activity.getActivityName().toLowerCase();
+        String searchTermLowerCase = searchTerm.toLowerCase();
+        return activityName.contains(searchTermLowerCase);
+    }
+
+    private ArrayList<Activity> searchActivities(String searchTerm){
         ArrayList <Activity> searchResults = new ArrayList<>();
-        for(Activity activity : activitySet){
-            if(activity.getActivityName().toLowerCase().contains(searchTerm.toLowerCase())){
+        for (Activity activity : activitySet){
+            if (activityMatchesSearchTerm(activity, searchTerm)) {
                 searchResults.add(activity);
             }
         }
-        return stringify(searchResults);
+        return searchResults;
     }
+
 
     private String stringify(ArrayList<Activity> searchResults){
         if (searchResults.isEmpty()) {
