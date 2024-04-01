@@ -341,7 +341,7 @@ class WeeklyProgramManagerTest {
         assertEquals(expectedHistory.replaceAll("\\s+", ""),
                 outContent.toString().replaceAll("\\s+", ""));
 
-        assignWorkoutInput = "program /assign full day /to monday";
+        assignWorkoutInput = "program /assign full day /to tuesday";
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> UserInterface.printMessage(weeklyProgramManager.execute(parser)));
 
