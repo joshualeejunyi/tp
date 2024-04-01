@@ -7,6 +7,10 @@ import byteceps.errors.Exceptions;
 
 import java.util.ArrayList;
 
+/**
+ * Manages operations related to workout, such as adding, deleting,
+ * assigning, unassigning, listing, and searching workout.
+ */
 public class WorkoutManager extends ActivityManager {
     private final ExerciseManager exerciseManager;
     public WorkoutManager(ExerciseManager exerciseManager) {
@@ -17,11 +21,11 @@ public class WorkoutManager extends ActivityManager {
     /**
      * Executes all commands that start with the keyword "workout".
      *
-     * @param parser Parser containing user input
-     * @return Message to user after executing the command
-     * @throws Exceptions.InvalidInput if no command action specified
-     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist
-     * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout
+     * @param parser Parser containing user input.
+     * @return Message to user after executing the command.
+     * @throws Exceptions.InvalidInput if no command action specified.
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist.
+     * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout.
      */
     @Override
     public String execute(Parser parser) throws Exceptions.ActivityExistsException,
@@ -124,14 +128,6 @@ public class WorkoutManager extends ActivityManager {
         return new Workout(parser.getActionParameter());
     }
 
-    /**
-     * Executes the command "program /assign {exercise} /to {workout}".
-     *
-     * @param parser Parser containing user input
-     * @return Message to user after executing the command
-     * @throws Exceptions.InvalidInput if user does not specify the day to assign the workout to
-     * @throws Exceptions.ActivityDoesNotExists if user inputs name of a workout that does not exist
-     */
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
