@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -72,8 +74,15 @@ public class Storage {
             UserInterface.printMessage("Data loaded successfully!");
         } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
              Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
-            System.out.println(e.getMessage());
-            throw new IOException("Error processing JSON file");
+            UserInterface.printMessage("Error: Error processing JSON file. Starting with a fresh JSON file.");
+            try {
+                String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                File oldFile = new File(jsonFile.getParent(), jsonFile.getName() + ".old_" + timestamp);
+                jsonFile.renameTo(oldFile);
+                jsonFile.createNewFile();
+            } catch (IOException ex) {
+                UserInterface.printMessage("Error: Unable to create a new JSON file.");
+            }
         }
 
     }
