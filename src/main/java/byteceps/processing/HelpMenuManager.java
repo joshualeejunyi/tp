@@ -5,10 +5,8 @@ import byteceps.errors.Exceptions;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
 
+//@@author LWachtel1
 public class HelpMenuManager {
-
-
-
     public HelpMenuManager() {
     }
 
@@ -17,7 +15,6 @@ public class HelpMenuManager {
     }
 
     public String execute(Parser parser) throws Exceptions.InvalidInput {
-
         String menuSelection;
 
         assert parser != null : "Parser must not be null";

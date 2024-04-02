@@ -1,5 +1,6 @@
 package byteceps.ui.strings;
 
+//@@author LWachtel1
 public class HelpStrings {
     public static final String HELP_MANAGER_GREETING =
             String.format("%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",

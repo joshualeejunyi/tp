@@ -135,7 +135,6 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-
         String exerciseName = parser.getActionParameter();
         assert exerciseName != null : "Exercise name cannot be null";
         String workoutPlanName = parser.getAdditionalArguments("to");
@@ -182,7 +181,6 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-
         String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM);
         assert workoutPlanName != null : "Workout plan name cannot be null";
         String exerciseName = parser.getActionParameter();
@@ -208,7 +206,6 @@ public class WorkoutManager extends ActivityManager {
     public String getActivityType(boolean plural) {
         return plural ? ManagerStrings.WORKOUTS : ManagerStrings.WORKOUT;
     }
-
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
