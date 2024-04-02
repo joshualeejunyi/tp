@@ -3,6 +3,7 @@ package byteceps.processing;
 import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.strings.ManagerStrings;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,7 +47,7 @@ public abstract class ActivityManager {
         if (!setReturn) {
             String activityName = activity.getActivityName();
             throw new Exceptions.ActivityExistsException(
-                    String.format("The %s entry: %s already exists", this.activityType, activityName)
+                    String.format(ManagerStrings.ACTIVITY_EXISTS_EXCEPTION, this.activityType, activityName)
             );
         }
     }
@@ -63,7 +64,7 @@ public abstract class ActivityManager {
         if (!setReturn) {
             String activityName = activity.getActivityName();
             throw new Exceptions.ActivityDoesNotExists(
-                    String.format("The %s entry: %s does not exist and cannot be deleted",
+                    String.format(ManagerStrings.ACTIVITY_DELETE_EXCEPTION,
                             this.activityType, activityName)
             );
         }
@@ -79,7 +80,7 @@ public abstract class ActivityManager {
     public Activity retrieve(String activityName) throws Exceptions.ActivityDoesNotExists {
         if (activitySet.isEmpty()) {
             throw new Exceptions.ActivityDoesNotExists(
-                    String.format("The %s List is Empty!",
+                    String.format(ManagerStrings.ACTIVITY_EMPTY_LIST_EXCEPTION,
                             this.activityType)
             );
         }
@@ -92,7 +93,7 @@ public abstract class ActivityManager {
 
         // throw error as activity not found in the set
         throw new Exceptions.ActivityDoesNotExists(
-                String.format("The %s entry: %s does not exist",
+                String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
                         this.activityType, activityName)
         );
     }
@@ -104,15 +105,15 @@ public abstract class ActivityManager {
      */
     public String getListString() {
         if (activitySet.isEmpty()) {
-            return String.format("Your List of %s is Empty", getActivityType(true));
+            return String.format(ManagerStrings.ACTIVITY_EMPTY_LIST, getActivityType(true));
         }
         StringBuilder result = new StringBuilder();
-        result.append(String.format("Listing %s:%s", getActivityType(true), System.lineSeparator()));
+        result.append(String.format(ManagerStrings.ACTIVITY_LIST, getActivityType(true), System.lineSeparator()));
 
         int index = 1;
         for (Iterator<Activity> it = activitySet.iterator(); it.hasNext(); index++) {
             Activity currentActivity = it.next();
-            result.append(String.format("\t\t\t%d. %s\n", index, currentActivity.getActivityName()));
+            result.append(String.format(ManagerStrings.ACTIVITY_LIST_ITEM, index, currentActivity.getActivityName()));
         }
 
         return result.toString();
@@ -204,14 +205,14 @@ public abstract class ActivityManager {
      */
     private String stringify(ArrayList<Activity> searchResults){
         if (searchResults.isEmpty()) {
-            return "No results found";
+            return ManagerStrings.NO_RESULTS;
         }
         StringBuilder result = new StringBuilder();
-        result.append(String.format("Search Results:%s", System.lineSeparator()));
+        result.append(String.format(ManagerStrings.SEARCH_RESULTS, System.lineSeparator()));
 
         int index = 1;
         for (Activity currentActivity : searchResults) {
-            result.append(String.format("\t\t\t%d. %s\n", index, currentActivity.getActivityName()));
+            result.append(String.format(ManagerStrings.ACTIVITY_LIST_ITEM, index, currentActivity.getActivityName()));
             index++;
         }
 

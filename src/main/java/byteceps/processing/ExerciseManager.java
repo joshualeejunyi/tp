@@ -4,6 +4,8 @@ package byteceps.processing;
 import byteceps.activities.Exercise;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.strings.CommandStrings;
+import byteceps.ui.strings.ManagerStrings;
 
 /**
  * Manages operations related to exercises, such as adding, deleting, editing, listing, and searching exercises.
@@ -29,30 +31,30 @@ public class ExerciseManager extends ActivityManager {
         assert parser.getAction() != null : "Command action must not be null";
 
         if (parser.getAction().isEmpty()) {
-            throw new Exceptions.InvalidInput("No action specified");
+            throw new Exceptions.InvalidInput(ManagerStrings.NO_ACTION_EXCEPTION);
         }
 
         String messageToUser;
         switch (parser.getAction()) {
-        case "add":
+        case CommandStrings.ACTION_ADD:
             messageToUser = executeAddAction(parser);
             break;
-        case "delete":
+        case CommandStrings.ACTION_DELETE:
             messageToUser = executeDeleteAction(parser);
             break;
         //@@author LWachtel1
-        case "edit":
+        case CommandStrings.ACTION_EDIT:
             messageToUser = executeEditAction(parser);
             break;
         //@@author V4vern
-        case "list":
+        case CommandStrings.ACTION_LIST:
             messageToUser = executeListAction(parser);
             break;
-        case "search":
+        case CommandStrings.ACTION_SEARCH:
             messageToUser = executeSearchAction(parser);
             break;
         default:
-            throw new IllegalStateException("Unexpected value: " + parser.getAction());
+            throw new IllegalStateException(String.format(ManagerStrings.UNEXPECTED_ACTION, parser.getAction()));
         }
 
         return messageToUser;
@@ -61,7 +63,7 @@ public class ExerciseManager extends ActivityManager {
     private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = processEditExercise(parser);
         return String.format(
-                "Edited Exercise from %s to %s", parser.getActionParameter(), newExerciseName
+                ManagerStrings.EXERCISE_EDITED, parser.getActionParameter(), newExerciseName
         );
     }
 
@@ -69,35 +71,35 @@ public class ExerciseManager extends ActivityManager {
     private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
-            throw new Exceptions.InvalidInput("Invalid command. Use 'exercise /list' to list all exercises.");
+            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_EXERCISE_LIST);
         }
         return getListString();
     }
 
     private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
-        assert parser.getAction().equals("delete") : "Action must be delete";
+        assert parser.getAction().equals(CommandStrings.ACTION_DELETE) : "Action must be delete";
         Exercise retrievedExercise;
         retrievedExercise = retrieveExercise(parser);
         delete(retrievedExercise);
-        return String.format("Deleted Exercise: %s", retrievedExercise.getActivityName());
+        return String.format(ManagerStrings.EXERCISE_DELETED, retrievedExercise.getActivityName());
     }
 
     private String executeAddAction(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityExistsException {
-        assert parser.getAction().equals("add") : "Action must be add";
+        assert parser.getAction().equals(CommandStrings.ACTION_ADD) : "Action must be add";
         Exercise newExercise = processAddExercise(parser);
         add(newExercise);
-        return String.format("Added Exercise: %s", newExercise.getActivityName());
+        return String.format(ManagerStrings.EXERCISE_ADDED, newExercise.getActivityName());
     }
 
     //@@author V4vern
     private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
         String exerciseName = parser.getActionParameter();
         if (exerciseName.isEmpty()) {
-            throw new Exceptions.InvalidInput("Exercise name cannot be empty");
-        } else if (exerciseName.matches(".*[{}\\[\\]/\\\\:,#\\-].*")) {
-            throw new Exceptions.InvalidInput("Exercise name cannot contain special characters:" +
-                    " { } [ ] / \\\\ : , # -");
+            throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
+        } else if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, getActivityType(false)));
         }
         return new Exercise(exerciseName);
     }
@@ -110,10 +112,10 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author LWachtel1
     private String processEditExercise(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        String newExerciseName = parser.getAdditionalArguments("to");
+        String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
 
         if (newExerciseName == null || newExerciseName.isEmpty()) {
-            throw new Exceptions.InvalidInput("Edit command not complete");
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
 
         Exercise retrievedExercise = retrieveExercise(parser);
@@ -124,14 +126,14 @@ public class ExerciseManager extends ActivityManager {
     //@@author joshualeejunyi
     @Override
     public String getActivityType(boolean plural) {
-        return plural ? "Exercises" : "Exercise";
+        return plural ? ManagerStrings.EXERCISES : ManagerStrings.EXERCISE;
     }
 
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
         if (searchTerm == null || searchTerm.isEmpty()) {
-            throw new Exceptions.InvalidInput("Search term cannot be empty.");
+            throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
         }
         return getSearchResultsString(searchTerm);
     }
