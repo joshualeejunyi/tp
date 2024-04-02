@@ -1,6 +1,7 @@
 package byteceps.commands;
 
 import byteceps.errors.Exceptions;
+import byteceps.ui.strings.ManagerStrings;
 
 import java.util.HashMap;
 
@@ -65,7 +66,7 @@ public class Parser {
 
     public String getAction() throws Exceptions.InvalidInput {
         if (commandAction == null) {
-            throw new Exceptions.InvalidInput("No action specified");
+            throw new Exceptions.InvalidInput(ManagerStrings.NO_ACTION_EXCEPTION);
         }
         return commandAction.getFlag();
     }

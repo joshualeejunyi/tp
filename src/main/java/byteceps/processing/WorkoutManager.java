@@ -4,6 +4,8 @@ import byteceps.activities.Exercise;
 import byteceps.activities.Workout;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.strings.CommandStrings;
+import byteceps.ui.strings.ManagerStrings;
 
 import java.util.ArrayList;
 
@@ -34,45 +36,45 @@ public class WorkoutManager extends ActivityManager {
         assert parser.getAction() != null : "Command action must not be null";
 
         if (parser.getAction().isEmpty()) {
-            throw new Exceptions.InvalidInput("No action specified");
+            throw new Exceptions.InvalidInput(ManagerStrings.NO_ACTION_EXCEPTION);
         }
 
         String messageToUser;
 
         switch (parser.getAction()) {
-        case "create":
+        case CommandStrings.ACTION_CREATE:
             messageToUser = executeCreateAction(parser);
             break;
-        case "delete":
+        case CommandStrings.ACTION_DELETE:
             messageToUser = executeDeleteAction(parser);
             break;
-        case "assign":
+        case CommandStrings.ACTION_ASSIGN:
             messageToUser = executeAssignAction(parser);
             break;
-        case "unassign":
+        case CommandStrings.ACTION_UNASSIGN:
             messageToUser = executeUnassignAction(parser);
             break;
-        case "info":
+        case CommandStrings.ACTION_INFO:
             messageToUser = executeInfoAction(parser);
             break;
-        case "list":
+        case CommandStrings.ACTION_LIST:
             messageToUser = executeListAction(parser);
             break;
-        case "search":
+        case CommandStrings.ACTION_SEARCH:
             messageToUser = executeSearchAction(parser);
             break;
         default:
-            throw new IllegalStateException("Unexpected value: " + parser.getAction());
+            throw new IllegalStateException(String.format(ManagerStrings.UNEXPECTED_ACTION, parser.getAction()));
         }
 
         return messageToUser;
     }
 
     private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
-        assert parser.getAction().equals("info") : "Action must be info";
+        assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
         String workoutName = parser.getActionParameter();
         if (workoutName == null || workoutName.isEmpty()) {
-            throw new Exceptions.InvalidInput("info command not complete");
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_INFO);
         }
 
         return getFullWorkoutString(workoutName);
@@ -81,39 +83,39 @@ public class WorkoutManager extends ActivityManager {
     private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
-            throw new Exceptions.InvalidInput("Invalid command. Use 'workout /list' to list all exercises.");
+            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_WORKOUT_LIST);
         }
         return getListString();
     }
 
     private String executeUnassignAction(Parser parser)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        assert parser.getAction().equals("unassign") : "Action must be unassign";
+        assert parser.getAction().equals(CommandStrings.ACTION_UNASSIGN) : "Action must be unassign";
         String workoutName = unassignExerciseFromWorkout(parser);
         return String.format(
-                "Unassigned Exercise '%s' from Workout Plan '%s'", parser.getActionParameter(), workoutName
+                ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter(), workoutName
         );
     }
 
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        assert parser.getAction().equals("assign") : "Action must be assign";
+        assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
         String workoutPlan = assignExerciseToWorkout(parser);
-        return String.format("Assigned Exercise '%s' to Workout Plan '%s'", parser.getActionParameter(), workoutPlan);
+        return String.format(ManagerStrings.ASSIGNED_EXERCISE, parser.getActionParameter(), workoutPlan);
     }
 
     private String executeDeleteAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        assert parser.getAction().equals("delete") : "Action must be delete";
+        assert parser.getAction().equals(CommandStrings.ACTION_DELETE) : "Action must be delete";
         Workout existingWorkout = processWorkout(parser);
         delete(existingWorkout);
-        return String.format("Deleted Workout: %s", existingWorkout.getActivityName());
+        return String.format(ManagerStrings.WORKOUT_DELETED, existingWorkout.getActivityName());
     }
 
     private String executeCreateAction(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityExistsException {
-        assert parser.getAction().equals("create") : "Action must be create";
+        assert parser.getAction().equals(CommandStrings.ACTION_CREATE) : "Action must be create";
         Workout newWorkout = processWorkout(parser);
         add(newWorkout);
-        return String.format("Added Workout Plan: %s", newWorkout.getActivityName());
+        return String.format(ManagerStrings.WORKOUT_ADDED, newWorkout.getActivityName());
     }
 
     //@@author V4vern
@@ -122,8 +124,10 @@ public class WorkoutManager extends ActivityManager {
         assert !workoutName.isEmpty() : "Workout name cannot be empty";
         if (workoutName.isEmpty()) {
             throw new Exceptions.InvalidInput("Workout name cannot be empty");
-        } else if (workoutName.matches(".*[{}\\[\\]/\\\\:,#\\-].*")) {
-            throw new Exceptions.InvalidInput("Workout name cannot contain special characters: { } [ ] / \\ : , # -");
+        } else if (workoutName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, getActivityType(false))
+            );
         }
         return new Workout(parser.getActionParameter());
     }
@@ -131,13 +135,12 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-
         String exerciseName = parser.getActionParameter();
         assert exerciseName != null : "Exercise name cannot be null";
         String workoutPlanName = parser.getAdditionalArguments("to");
         assert workoutPlanName != null : "Workout plan name cannot be null";
         if (workoutPlanName == null) {
-            throw new Exceptions.InvalidInput("assign command not complete");
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_ASSIGN);
         }
 
         Exercise exercise = (Exercise) exerciseManager.retrieve(exerciseName);
@@ -146,7 +149,7 @@ public class WorkoutManager extends ActivityManager {
         assert workoutPlan != null : "Workout plan does not exist";
 
         if (workoutPlan.getExerciseList().contains(exercise)) {
-            throw new Exceptions.InvalidInput("Exercise already assigned to workout plan");
+            throw new Exceptions.InvalidInput(ManagerStrings.EXERCISE_ALREADY_ASSIGNED);
         }
 
         workoutPlan.addExercise(exercise);
@@ -163,14 +166,14 @@ public class WorkoutManager extends ActivityManager {
         ArrayList<Exercise> workoutList = workout.getExerciseList();
 
         if (workoutList.isEmpty()) {
-            return String.format("Your workout plan %s is empty", workoutPlanName);
+            return String.format(ManagerStrings.EMPTY_WORKOUT_PLAN, workoutPlanName);
         }
 
-        message.append(String.format("Listing exercises in workout plan '%s':%n", workoutPlanName));
+        message.append(String.format(ManagerStrings.LIST_WORKOUT_PLAN, workoutPlanName));
 
         int index = 1;
         for (Exercise exercise : workoutList) {
-            message.append(String.format("\t\t\t%d. %s%n", index++, exercise.getActivityName()));
+            message.append(String.format(ManagerStrings.ACTIVITY_LIST_ITEM, index++, exercise.getActivityName()));
         }
         return message.toString();
     }
@@ -178,13 +181,12 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-
-        String workoutPlanName = parser.getAdditionalArguments("from");
+        String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM);
         assert workoutPlanName != null : "Workout plan name cannot be null";
         String exerciseName = parser.getActionParameter();
         assert exerciseName != null : "Exercise name cannot be null";
         if (workoutPlanName == null) {
-            throw new Exceptions.InvalidInput("Unassign command not complete");
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_UNASSIGN);
         }
 
         Workout workoutPlan = (Workout) retrieve(workoutPlanName);
@@ -194,7 +196,7 @@ public class WorkoutManager extends ActivityManager {
         boolean exerciseIsInWorkout =
                 workoutList.removeIf(exercise -> exercise.getActivityName().equalsIgnoreCase(exerciseName));
         if (!exerciseIsInWorkout) {
-            throw new Exceptions.ActivityDoesNotExists("The exercise is not in the workout");
+            throw new Exceptions.ActivityDoesNotExists(ManagerStrings.EXERCISE_WORKOUT_DOES_NOT_EXIST);
         }
 
         return workoutPlanName;
@@ -202,14 +204,13 @@ public class WorkoutManager extends ActivityManager {
 
     @Override
     public String getActivityType(boolean plural) {
-        return plural ? "Workouts" : "Workout";
+        return plural ? ManagerStrings.WORKOUTS : ManagerStrings.WORKOUT;
     }
-
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
-        if (searchTerm == null || searchTerm.isEmpty()) {
-            throw new Exceptions.InvalidInput("Search term cannot be empty.");
+        if (searchTerm == null || searchTerm.isEmpty( )) {
+            throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
         }
         return getSearchResultsString(searchTerm);
     }

@@ -8,7 +8,9 @@ import byteceps.processing.WorkoutManager;
 import byteceps.processing.WeeklyProgramManager;
 import byteceps.processing.HelpMenuManager;
 import byteceps.storage.Storage;
+import byteceps.ui.strings.UiStrings;
 import byteceps.ui.UserInterface;
+import byteceps.ui.strings.CommandStrings;
 
 import java.io.IOException;
 
@@ -20,16 +22,15 @@ public class ByteCeps {
 
     private static HelpMenuManager helpMenuManager = null;
     private static Parser parser;
-    private static UserInterface ui;
     private static Storage storage;
     private static final String FILE_PATH = "data.json";
+    private final UserInterface ui = UserInterface.getInstance();
 
     public ByteCeps() {
         exerciseManager = new ExerciseManager();
         workoutManager = new WorkoutManager(exerciseManager);
         workoutLogsManager = new WorkoutLogsManager();
         weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
-        ui = new UserInterface();
         parser = new Parser();
         storage = new Storage(FILE_PATH);
         helpMenuManager = new HelpMenuManager();
@@ -47,29 +48,29 @@ public class ByteCeps {
             String messageToUser;
             try {
                 switch (parser.getCommand()) {
-                case "exercise":
+                case CommandStrings.COMMAND_EXERCISE:
                     messageToUser = exerciseManager.execute(parser);
                     break;
-                case "workout":
+                case CommandStrings.COMMAND_WORKOUT:
                     messageToUser = workoutManager.execute(parser);
                     break;
-                case "program":
+                case CommandStrings.COMMAND_PROGRAM:
                     messageToUser = weeklyProgramManager.execute(parser);
                     break;
-                case "help":
+                case CommandStrings.COMMAND_HELP:
                     messageToUser = helpMenuManager.execute(parser);
                     break;
-                case "bye":
-                case "exit":
+                case CommandStrings.COMMAND_BYE:
+                case CommandStrings.COMMAND_EXIT:
                     return;
                 default:
-                    messageToUser = "Unknown Command!";
+                    messageToUser = CommandStrings.UNKNOWN_COMMAND;
                 }
                 UserInterface.printMessage(messageToUser);
 
             } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
                      Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException e) {
-                UserInterface.printMessage(String.format("Error: %s", e.getMessage()));
+                UserInterface.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
             }
         }
     }
@@ -82,7 +83,7 @@ public class ByteCeps {
             commandLine();
             storage.save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
         } catch (IOException e) {
-            UserInterface.printMessage(String.format("Error: %s", e.getMessage()));
+            UserInterface.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
         }
         ui.printGoodbyeMessage();
     }

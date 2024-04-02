@@ -6,6 +6,8 @@ import byteceps.activities.ExerciseLog;
 import byteceps.activities.WorkoutLog;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.strings.ManagerStrings;
+import byteceps.ui.strings.StorageStrings;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +17,7 @@ import java.util.HashSet;
 public class WorkoutLogsManager extends ActivityManager {
     @Override
     public String execute(Parser parser) throws Exceptions.InvalidInput {
-        throw new Exceptions.InvalidInput("RepsSetsManager is not meant to be executed");
+        throw new Exceptions.InvalidInput(ManagerStrings.LOG_INVALID_STATE);
     }
 
     public void addWorkoutLog(String workoutLogDate, String workoutName) {
@@ -40,9 +42,9 @@ public class WorkoutLogsManager extends ActivityManager {
 
             workoutLog.addExerciseLog(newExerciseLog);
         } catch (NumberFormatException e) {
-            throw new Exceptions.InvalidInput("Invalid reps/sets entered!");
+            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_REPS_SETS);
         } catch (Exceptions.ActivityDoesNotExists e) {
-            throw new Exceptions.ActivityDoesNotExists("The exercise is not in your workout for today!");
+            throw new Exceptions.ActivityDoesNotExists(ManagerStrings.EXERCISE_NOT_IN_WORKOUT);
         }
     }
 
@@ -53,8 +55,7 @@ public class WorkoutLogsManager extends ActivityManager {
         HashSet<Exercise> tempSet = new HashSet<>(workoutHashSet);
         StringBuilder result = new StringBuilder();
         result.append(String.format(
-                "Listing Exercises on %s:%s",
-                date, System.lineSeparator()));
+                ManagerStrings.LOG_LIST, date));
 
         int index = 1;
         for (ExerciseLog currentExerciseLog : exerciseLogs) {
@@ -62,7 +63,7 @@ public class WorkoutLogsManager extends ActivityManager {
             int setCount = currentExerciseLog.getSets();
             int repCount = currentExerciseLog.getRepetitions();
             int weight = currentExerciseLog.getWeight();
-            result.append(String.format("\t\t\t%d. %s (weight: %d, sets: %d, reps: %d)\n",
+            result.append(String.format(ManagerStrings.LOG_LIST_ITEM,
                     index, exerciseName, weight,
                     setCount, repCount)
             );
@@ -73,7 +74,7 @@ public class WorkoutLogsManager extends ActivityManager {
 
         for (Exercise currentExercise : tempSet) {
             String exerciseName = currentExercise.getActivityName();
-            result.append(String.format("\t\t\t%d. %s\n", index, exerciseName));
+            result.append(String.format(ManagerStrings.ACTIVITY_LIST_ITEM, index, exerciseName));
             index++;
         }
 
@@ -82,7 +83,7 @@ public class WorkoutLogsManager extends ActivityManager {
 
     @Override
     public String getActivityType(boolean plural) {
-        return plural ? "Workout Logs" : "Workout Log";
+        return plural ? ManagerStrings.WORKOUT_LOGS : ManagerStrings.WORKOUT_LOG;
     }
 
     public JSONArray exportToJSON() {
@@ -108,18 +109,18 @@ public class WorkoutLogsManager extends ActivityManager {
             JSONObject exercise = new JSONObject();
             String exerciseName = currentExercise.getActivityName();
 
-            exercise.put("exerciseName", exerciseName);
-            exercise.put("weight", currentExercise.getWeight());
-            exercise.put("sets", currentExercise.getSets());
-            exercise.put("reps", currentExercise.getRepetitions());
+            exercise.put(StorageStrings.EXERCISE_NAME, exerciseName);
+            exercise.put(StorageStrings.WEIGHT, currentExercise.getWeight());
+            exercise.put(StorageStrings.SETS, currentExercise.getSets());
+            exercise.put(StorageStrings.REPS, currentExercise.getRepetitions());
 
             workoutExercises.put(exercise);
         }
 
         JSONObject workoutJson = new JSONObject();
-        workoutJson.put("workoutDate", workoutDate);
-        workoutJson.put("workoutName", workoutName);
-        workoutJson.put("exercises", workoutExercises);
+        workoutJson.put(StorageStrings.WORKOUT_DATE, workoutDate);
+        workoutJson.put(StorageStrings.WORKOUT_NAME, workoutName);
+        workoutJson.put(StorageStrings.EXERCISES, workoutExercises);
         return workoutJson;
     }
 

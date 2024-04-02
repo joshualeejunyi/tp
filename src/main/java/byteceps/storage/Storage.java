@@ -7,6 +7,7 @@ import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.WeeklyProgramManager;
 import byteceps.processing.WorkoutManager;
+import byteceps.ui.strings.StorageStrings;
 import byteceps.ui.UserInterface;
 
 import org.json.JSONArray;
@@ -34,16 +35,17 @@ public class Storage {
     public void save(ExerciseManager allExercises, WorkoutManager allWorkouts,
                      WeeklyProgramManager weeklyProgram, WorkoutLogsManager workoutLogsManager)
             throws IOException {
-        JSONObject jsonArchive = new JSONObject().put("exerciseManager", allExercises.getActivityList().toArray());
-        jsonArchive.put("workoutManager", allWorkouts.getActivityList().toArray());
-        jsonArchive.put("weeklyProgram", weeklyProgram.exportToJSON());
-        jsonArchive.put("WorkoutLogManager", workoutLogsManager.exportToJSON());
+        JSONObject jsonArchive = new JSONObject().put(
+                StorageStrings.EXERCISE_MANAGER, allExercises.getActivityList().toArray());
+        jsonArchive.put(StorageStrings.WORKOUT_MANAGER, allWorkouts.getActivityList().toArray());
+        jsonArchive.put(StorageStrings.WEEKLY_PROGRAM, weeklyProgram.exportToJSON());
+        jsonArchive.put(StorageStrings.WORKOUT_LOG_MANAGER, workoutLogsManager.exportToJSON());
 
         FileWriter fileWriter = new FileWriter(filePath.toFile());
         fileWriter.write(jsonArchive.toString());
         fileWriter.close();
 
-        UserInterface.printMessage("All your workouts and exercises have been saved.");
+        UserInterface.printMessage(StorageStrings.WORKOUTS_SAVED);
     }
 
     public void load(ExerciseManager allExercises, WorkoutManager allWorkouts,
@@ -56,14 +58,13 @@ public class Storage {
             : "Must load from a clean state";
 
         File jsonFile = filePath.toFile();
-        String messageToUser;
 
         if (jsonFile.createNewFile()) {
-            UserInterface.printMessage("Looks like you're starting fresh!");
+            UserInterface.printMessage(StorageStrings.NO_SAVE_DATA);
             return;
         }
 
-        UserInterface.printMessage("Loading your exercises...");
+        UserInterface.printMessage(StorageStrings.LOADING);
 
         try (Scanner jsonScanner = new Scanner(jsonFile)) {
             JSONObject jsonArchive = new JSONObject(jsonScanner.nextLine());
@@ -71,17 +72,19 @@ public class Storage {
             loadWorkouts(allExercises, allWorkouts, jsonArchive);
             loadWeeklyProgram(allWorkouts, weeklyProgram, jsonArchive);
             loadWorkoutLogs(allExercises, allWorkouts, jsonArchive, workoutLogsManager);
-            UserInterface.printMessage("Data loaded successfully!");
+            UserInterface.printMessage(StorageStrings.LOAD_SUCCESS);
         } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
              Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
-            UserInterface.printMessage("Error: Error processing JSON file. Starting with a fresh JSON file.");
+            UserInterface.printMessage(StorageStrings.LOAD_ERROR);
             try {
-                String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                File oldFile = new File(jsonFile.getParent(), jsonFile.getName() + ".old_" + timestamp);
+                String timestamp = new SimpleDateFormat(StorageStrings.BACKUP_DATE_FORMAT)
+                        .format(new Date());
+                File oldFile = new File(jsonFile.getParent(),
+                        jsonFile.getName() + StorageStrings.OLD_SUFFIX + timestamp);
                 jsonFile.renameTo(oldFile);
                 jsonFile.createNewFile();
             } catch (IOException ex) {
-                UserInterface.printMessage("Error: Unable to create a new JSON file.");
+                UserInterface.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
         }
 
@@ -90,7 +93,7 @@ public class Storage {
     private static void loadWeeklyProgram(WorkoutManager allWorkouts, WeeklyProgramManager weeklyProgram,
         JSONObject jsonArchive)
             throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput, Exceptions.ActivityExistsException {
-        JSONObject jsonWeeklyProgram = jsonArchive.getJSONObject("weeklyProgram");
+        JSONObject jsonWeeklyProgram = jsonArchive.getJSONObject(StorageStrings.WEEKLY_PROGRAM);
 
         assert jsonWeeklyProgram.length() == 7 : "Weekly program array must be length 7";
         for (Iterator<String> it = jsonWeeklyProgram.keys(); it.hasNext(); ) {
@@ -106,15 +109,17 @@ public class Storage {
     private static void loadWorkouts(ExerciseManager allExercises, WorkoutManager allWorkouts, JSONObject jsonArchive)
             throws Exceptions.ActivityExistsException, Exceptions.ErrorAddingActivity,
             Exceptions.ActivityDoesNotExists {
-        JSONArray jsonWorkoutArray = jsonArchive.getJSONArray("workoutManager");
+        JSONArray jsonWorkoutArray = jsonArchive.getJSONArray(StorageStrings.WORKOUT_MANAGER);
         for (int i = 0; i < jsonWorkoutArray.length(); i++) {
             JSONObject jsonWorkout = jsonWorkoutArray.getJSONObject(i);
-            String workoutName = jsonWorkout.getString("activityName");
+            String workoutName = jsonWorkout.getString(StorageStrings.ACTIVITY_NAME);
             Workout workout = new Workout(workoutName);
             allWorkouts.add(workout);
-            JSONArray jsonExercisesInWorkout = jsonWorkout.getJSONArray("exerciseList");
+            JSONArray jsonExercisesInWorkout = jsonWorkout.getJSONArray(
+                    StorageStrings.EXERCISE_LIST);
             for (int j = 0; j < jsonExercisesInWorkout.length(); j++) {
-                String exerciseInWorkout = jsonExercisesInWorkout.getJSONObject(j).getString("activityName");
+                String exerciseInWorkout = jsonExercisesInWorkout.getJSONObject(j)
+                        .getString(StorageStrings.ACTIVITY_NAME);
                 workout.addExercise((Exercise) allExercises.retrieve(exerciseInWorkout));
             }
         }
@@ -122,9 +127,9 @@ public class Storage {
 
     private static void loadExercises(ExerciseManager allExercises, JSONObject jsonArchive)
             throws Exceptions.ActivityExistsException, Exceptions.ErrorAddingActivity {
-        JSONArray jsonExerciseArray = jsonArchive.getJSONArray("exerciseManager");
+        JSONArray jsonExerciseArray = jsonArchive.getJSONArray(StorageStrings.EXERCISE_MANAGER);
         for (int i = 0; i < jsonExerciseArray.length(); i++) {
-            String exerciseName = jsonExerciseArray.getJSONObject(i).getString("activityName");
+            String exerciseName = jsonExerciseArray.getJSONObject(i).getString(StorageStrings.ACTIVITY_NAME);
             allExercises.add(new Exercise(exerciseName));
         }
     }
@@ -132,16 +137,16 @@ public class Storage {
     private void loadWorkoutLogs(ExerciseManager allExercises, WorkoutManager allWorkouts,
                                  JSONObject jsonArchive, WorkoutLogsManager workoutLogsManager)
             throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
-        JSONArray jsonWorkoutLogs = jsonArchive.getJSONArray("WorkoutLogManager");
+        JSONArray jsonWorkoutLogs = jsonArchive.getJSONArray(StorageStrings.WORKOUT_LOG_MANAGER);
         for (int i = 0; i < jsonWorkoutLogs.length(); i++) {
             JSONObject currentWorkout = jsonWorkoutLogs.getJSONObject(i);
-            JSONArray exercisesArray = currentWorkout.getJSONArray("exercises");
-            String workoutDate = currentWorkout.getString("workoutDate");
-            String workoutName = currentWorkout.getString("workoutName");
+            JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
+            String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
+            String workoutName = currentWorkout.getString(StorageStrings.WORKOUT_NAME);
 
             if (allWorkouts.doesNotHaveActivity(workoutName)) {
                 throw new Exceptions.ActivityDoesNotExists(
-                        String.format("The workout %s does not seem to exist", workoutName)
+                        String.format(StorageStrings.WORKOUT_DOES_NOT_EXIST, workoutName)
                 );
             }
 
@@ -149,14 +154,14 @@ public class Storage {
 
             for (int j = 0; j < exercisesArray.length(); j++) {
                 JSONObject currentExercise = exercisesArray.getJSONObject(j);
-                String exerciseName = currentExercise.getString("exerciseName");
-                String weight = String.valueOf(currentExercise.getInt("weight"));
-                String sets = String.valueOf(currentExercise.getInt(("sets")));
-                String reps = String.valueOf(currentExercise.getInt(("reps")));
+                String exerciseName = currentExercise.getString(StorageStrings.EXERCISE_NAME);
+                String weight = String.valueOf(currentExercise.getInt(StorageStrings.WEIGHT));
+                String sets = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
+                String reps = String.valueOf(currentExercise.getInt((StorageStrings.REPS)));
 
                 if (allExercises.doesNotHaveActivity(exerciseName)) {
                     throw new Exceptions.ActivityDoesNotExists(
-                            String.format("The exercise %s does not seem to exist", exerciseName)
+                            String.format(StorageStrings.EXERCISE_DOES_NOT_EXIST, exerciseName)
                     );
                 }
 
