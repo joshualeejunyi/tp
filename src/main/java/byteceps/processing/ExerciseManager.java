@@ -5,9 +5,22 @@ import byteceps.activities.Exercise;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 
-
+/**
+ * Manages operations related to exercises, such as adding, deleting, editing, listing, and searching exercises.
+ */
 public class ExerciseManager extends ActivityManager {
     //@@author V4vern
+
+    /**
+     * Executes all commands that start with the keyword "exercise".
+     *
+     * @param parser Parser containing user input.
+     * @return Message to user after executing the command.
+     * @throws Exceptions.InvalidInput if no command action specified
+     * @throws Exceptions.ErrorAddingActivity If there is an error adding an activity.
+     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist.
+     * @throws Exceptions.ActivityExistsException if user attempts to create an existing exercise.
+     */
     @Override
     public String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
