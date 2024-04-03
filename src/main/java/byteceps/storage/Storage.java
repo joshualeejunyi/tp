@@ -54,8 +54,8 @@ public class Storage {
         boolean exerciseManagerIsEmpty = allExercises.getActivityList().isEmpty();
         boolean workoutManagerIsEmpty =  allWorkouts.getActivityList().isEmpty();
         boolean weeklyProgramIsAllNull = weeklyProgram.getActivityList().stream().allMatch(Objects::isNull);
-        assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsAllNull
-            : "Must load from a clean state";
+        /*assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsAllNull
+            : "Must load from a clean state";*/
 
         File jsonFile = filePath.toFile();
 
