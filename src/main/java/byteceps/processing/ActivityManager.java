@@ -6,7 +6,7 @@ import byteceps.errors.Exceptions;
 import byteceps.ui.strings.ManagerStrings;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 
 /**
@@ -14,11 +14,11 @@ import java.util.Iterator;
  */
 public abstract class ActivityManager {
     protected final String activityType;
-    protected final HashSet<Activity> activitySet;
+    protected final LinkedHashSet<Activity> activitySet;
 
     public ActivityManager() {
         this.activityType = getActivityType(false);
-        this.activitySet = new HashSet<>();
+        this.activitySet = new LinkedHashSet<>();
     }
 
     /**
