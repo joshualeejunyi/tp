@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class WorkoutLogsManager extends ActivityManager {
     @Override
@@ -48,11 +48,11 @@ public class WorkoutLogsManager extends ActivityManager {
         }
     }
 
-    public String getWorkoutLogString(String date, HashSet<Exercise> workoutHashSet)
+    public String getWorkoutLogString(String date, LinkedHashSet<Exercise> workoutLinkedHashSet)
             throws Exceptions.ActivityDoesNotExists {
         WorkoutLog retrievedWorkout = (WorkoutLog) retrieve(date);
-        HashSet<ExerciseLog> exerciseLogs = retrievedWorkout.getExerciseLogs();
-        HashSet<Exercise> tempSet = new HashSet<>(workoutHashSet);
+        LinkedHashSet<ExerciseLog> exerciseLogs = retrievedWorkout.getExerciseLogs();
+        LinkedHashSet<Exercise> tempSet = new LinkedHashSet<>(workoutLinkedHashSet);
         StringBuilder result = new StringBuilder();
         result.append(String.format(
                 ManagerStrings.LOG_LIST, date));
@@ -94,7 +94,7 @@ public class WorkoutLogsManager extends ActivityManager {
             String workoutDate = currentWorkout.getWorkoutDate();
             String workoutName = currentWorkout.getWorkoutName();
 
-            HashSet<ExerciseLog> exercises = currentWorkout.getExerciseLogs();
+            LinkedHashSet<ExerciseLog> exercises = currentWorkout.getExerciseLogs();
             JSONObject workoutJson = getWorkoutJson(exercises, workoutName, workoutDate);
 
             workouts.put(workoutJson);
@@ -102,7 +102,7 @@ public class WorkoutLogsManager extends ActivityManager {
         return workouts;
     }
 
-    private static JSONObject getWorkoutJson(HashSet<ExerciseLog> exercises,
+    private static JSONObject getWorkoutJson(LinkedHashSet<ExerciseLog> exercises,
                                              String workoutName, String workoutDate) {
         JSONArray workoutExercises = new JSONArray();
         for (ExerciseLog currentExercise : exercises) {
