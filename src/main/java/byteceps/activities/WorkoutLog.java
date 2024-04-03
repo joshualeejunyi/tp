@@ -1,15 +1,15 @@
 package byteceps.activities;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 
 public class WorkoutLog extends Activity {
     protected final String workoutName;
-    HashSet<ExerciseLog> exerciseLogs;
+    LinkedHashSet<ExerciseLog> exerciseLogs;
     public WorkoutLog(String workoutDate, String workoutName) {
         super(workoutDate);
         this.workoutName = workoutName;
-        this.exerciseLogs = new HashSet<>();
+        this.exerciseLogs = new LinkedHashSet<>();
     }
 
     public void addExerciseLog(ExerciseLog exerciseLog) {
@@ -25,7 +25,7 @@ public class WorkoutLog extends Activity {
         return activityName;
     }
 
-    public HashSet<ExerciseLog> getExerciseLogs() {
+    public LinkedHashSet<ExerciseLog> getExerciseLogs() {
         return exerciseLogs;
     }
 }

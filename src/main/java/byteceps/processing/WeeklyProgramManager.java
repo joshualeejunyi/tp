@@ -15,7 +15,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class WeeklyProgramManager extends ActivityManager {
     private final ExerciseManager exerciseManager;
@@ -255,9 +255,9 @@ public class WeeklyProgramManager extends ActivityManager {
                 );
             }
             String workoutName = workoutDay.getAssignedWorkout().getActivityName();
-            HashSet<Exercise> workoutHashSet = givenWorkout.getExerciseSet();
+            LinkedHashSet<Exercise> workoutLinkedHashSet = givenWorkout.getExerciseSet();
             workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
-            return workoutLogsManager.getWorkoutLogString(workoutDate, workoutHashSet);
+            return workoutLogsManager.getWorkoutLogString(workoutDate, workoutLinkedHashSet);
 
         } catch (Exceptions.ActivityDoesNotExists e) {
             // catch so that it does not show error

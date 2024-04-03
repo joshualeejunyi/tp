@@ -2,7 +2,7 @@
 package byteceps.activities;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.ListIterator;
 
 /**
@@ -39,8 +39,8 @@ public class Workout extends Activity {
      *
      * @return A set of exercises.
      */
-    public HashSet<Exercise> getExerciseSet() {
-        return new HashSet<>(exerciseList);
+    public LinkedHashSet<Exercise> getExerciseSet() {
+        return new LinkedHashSet<>(exerciseList);
     }
 
     /**
