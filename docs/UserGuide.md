@@ -3,6 +3,35 @@
 ## Introduction
 Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fitness goals. Whether you're a tech-savvy fitness enthusiast or just starting your fitness journey, BYTE-CEPS offers the simplicity and efficiency of a CLI interface to help you maintain or improve your fitness through self-managed routines.
 
+- [BYTE-CEPS User Guide](#byte-ceps-user-guide)
+	- [Introduction](#introduction)
+	- [Features](#features)
+	- [Usage](#usage)
+		- [Running ByteCeps](#running-byteceps)
+	- [Exercise Management](#exercise-management)
+		- [Add an exercise](#add-an-exercise)
+		- [Delete an exercise](#delete-an-exercise)
+		- [Edit an exercise](#edit-an-exercise)
+		- [List all exercises](#list-all-exercises)
+	- [Workout Plan Management](#workout-plan-management)
+		- [Add a workout plan](#add-a-workout-plan)
+		- [Delete a workout plan](#delete-a-workout-plan)
+		- [List workout plan](#list-workout-plan)
+		- [Assign an exercise to a workout plan](#assign-an-exercise-to-a-workout-plan)
+		- [Remove an exercise from a workout plan](#remove-an-exercise-from-a-workout-plan)
+		- [List all exercises in a workout plan](#list-all-exercises-in-a-workout-plan)
+	- [Program Management](#program-management)
+		- [Choose a workout plan for a day](#choose-a-workout-plan-for-a-day)
+		- [View Today's workout plan:](#view-todays-workout-plan)
+		- [View Weekly workout plan](#view-weekly-workout-plan)
+		- [Remove a workout plan for a day](#remove-a-workout-plan-for-a-day)
+	- [Logging Workouts](#logging-workouts)
+		- [Adding an exercise log](#adding-an-exercise-log)
+		- [Adding an exercise log for a separate date](#adding-an-exercise-log-for-a-separate-date)
+		- [Viewing logs](#viewing-logs)
+		- [Viewing historic logs](#viewing-historic-logs)
+
+
 ## Features
 BYTE-CEPS can track & manage several types of tasks, such as:
 1. Exercise
