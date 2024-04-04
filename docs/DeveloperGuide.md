@@ -76,6 +76,7 @@ The <code>ActivityManager</code> and inheritors are responsible for managing an 
 `WeeklyProgram` is responsible for tracking and manipulating the weekly training program set by the user.
 
 ## Implementation
+### Exercise Management
 #### Add an Exercise
 1. The process begins with the user inputting a command via the command-line interface. In this scenario, the user enters the command `exercise /add pushups`, indicating their intention to add a new exercise named `pushups` to the system.
 2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /add`) and any additional parameters (e.g., the name of the exercise to be added).
@@ -133,9 +134,47 @@ The sequence diagram below shows how an exercise can be searched.
 ![searchExercises](https://github.com/V4Vern/tp/assets/28131050/fd32eba4-a7f1-460d-81cc-d9e57ca100c2)
 
 
+### Workout Management
+#### Add a workout plan
+1. The process begins with the user inputting a command via the command-line interface. In this scenario, the user enters the command `workout /create push_day`, indicating their intention to create a new workout plan named `push_day` in the system.
+2. The command parser receives the user input and parses it to extract relevant information, such as the action (`workout /create`) and any additional parameters (e.g., the name of the workout plan to be created).
+3. Upon receiving the parsed command, the Workout Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
+4. If the input passes validation, the Workout Manager proceeds to create a new Workout object with the specified name, `push_day`. It then invokes the add method within the Activity Manager component to add the newly created Workout to the activity set. Finally, a success message confirming the creation of the workout plan is printed to the user interface, indicating that the operation was completed successfully.
+6. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly.
+
+The sequence diagram below shows how a workout can be added.
+
+![addWorkout](https://github.com/V4Vern/tp/assets/28131050/0a3fecda-7f3b-414c-bb61-477e9f80d3ad)
 
 
-#### Logging of workouts 
+#### Delete a workout plan
+1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `workout /delete push_day` to delete the workout named `push_day`.
+2. The command parser receives the user input and parses it to extract relevant information, such as the action (`workout /delete`) and any additional parameters (e.g., the name of the workout to be deleted).
+3. Upon receiving the parsed command, the Workout Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
+4. If the input passes validation, the Workout Manager retrieves the Workout object associated with the name `push_day`. It then instructs the Activity Manager to delete the Workout from the activitySet. The Workout Manager then informs the User of the successful deletion.
+5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly.
+6. 
+The sequence diagram below shows how a workout can be deleted.
+
+![deleteWorkout](https://github.com/V4Vern/tp/assets/28131050/1676f8a4-f779-4a6c-ab96-08b90013b42c)
+
+
+#### List workout plan
+1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `workout /list` to list all workouts.
+2. The command parser receives the user input and parses it to extract relevant information, such as the action (`workout /list`).
+3. Upon receiving the parsed command, the Workout Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
+4. If the input passes validation, the Workout Manager instructs the Activity Manager to retrieve the list of workouts from the activitySet. The Activity Manager retrieves the list of workouts from the activitySet. The Activity Manager formats the list of workouts using the `getListString` method. The Activity Manager returns the formatted list of workouts to the Workout Manager. The Workout Manager then presents the formatted list of workouts to the User.
+5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly.
+
+The sequence diagram below shows how workout plans can be listed.
+
+![listWorkout](https://github.com/V4Vern/tp/assets/28131050/aaede000-5512-48a4-bd92-e5a59922ac20)
+
+
+
+
+
+### Logging of workouts 
 In order to log workouts, we have several layers to implement:
 1. Logging of exercises
 2. Storing logged exercises in a logged workout
