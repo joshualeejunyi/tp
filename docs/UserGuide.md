@@ -49,6 +49,7 @@ Expected outcome:
 [BYTE-CEPS]> Deleted Exercise: pushups
 ```
 
+**Note:** Deleting an exercise also removes it from all workouts containing that exercise.
 ### Edit an exercise
 If you ever need to edit an exercise name, you may do so using the `/edit` flag.
 ```
@@ -116,6 +117,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Deleted Workout: push day
 ```
+**Note:** Deleting a workout assigned to a day in your training program will also cause it to be removed from the training program.
 
 ### List workout plan
 You may list all your workout plans by using the `/list` flag.

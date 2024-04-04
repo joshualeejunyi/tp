@@ -2,11 +2,12 @@ package byteceps;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.ExerciseManager;
-import byteceps.processing.WorkoutManager;
 import byteceps.processing.WeeklyProgramManager;
+import byteceps.processing.WorkoutLogsManager;
+import byteceps.processing.WorkoutManager;
 import byteceps.processing.HelpMenuManager;
+import byteceps.processing.CascadingDeletionProcessor;
 import byteceps.storage.Storage;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.UserInterface;
@@ -67,7 +68,7 @@ public class ByteCeps {
                     messageToUser = CommandStrings.UNKNOWN_COMMAND;
                 }
                 UserInterface.printMessage(messageToUser);
-
+                CascadingDeletionProcessor.checkForCascadingDeletions(parser, workoutManager, weeklyProgramManager);
             } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
                      Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException e) {
                 UserInterface.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));

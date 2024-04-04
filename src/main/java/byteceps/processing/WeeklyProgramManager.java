@@ -3,6 +3,7 @@ package byteceps.processing;
 import byteceps.activities.Day;
 import byteceps.activities.Workout;
 import byteceps.activities.Exercise;
+import byteceps.activities.WorkoutLog;
 import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
@@ -38,7 +39,7 @@ public class WeeklyProgramManager extends ActivityManager {
         }
     }
 
-    private Day getDay(String day) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    public Day getDay(String day) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         switch (day.toLowerCase()) {
         case DayStrings.DAY_MON:
         case DayStrings.DAY_MONDAY:
@@ -273,13 +274,17 @@ public class WeeklyProgramManager extends ActivityManager {
         }
 
         String workoutDate = parser.getActionParameter();
-        Workout retrievedWorkout = (Workout) workoutLogsManager.retrieve(workoutDate);
+        WorkoutLog retrievedWorkout = (WorkoutLog) workoutLogsManager.retrieve(workoutDate);
         Day day = getDayFromDate(workoutDate);
         return getTodaysWorkoutString(retrievedWorkout, workoutDate, day);
     }
 
     private String getHistoryString() {
         return workoutLogsManager.getListString();
+    }
+
+    public LinkedHashSet<Activity> getDaySet() {
+        return activitySet;
     }
 
     private String executeClearAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
