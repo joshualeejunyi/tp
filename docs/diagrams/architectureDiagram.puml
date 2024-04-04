@@ -1,0 +1,46 @@
+@startuml
+hide footbox
+
+actor User
+'box  #white
+'frame     ""f"
+'participant user2
+'participant AthletiCLI
+'participant Ui
+'participant Parser
+'participant Data
+'participant Storage
+'participant Commands
+frame "ByteCeps App"{
+rectangle ByteCeps
+rectangle UserInterface
+rectangle Parser
+rectangle ExerciseManager
+rectangle WorkoutManager
+rectangle WeeklyProgramManager
+rectangle WorkoutLogsManager
+rectangle HelpMenuManager
+rectangle Storage
+'end rectangle
+
+}
+'end frame
+'end box
+
+User -d-> UserInterface
+UserInterface -r-> ByteCeps
+ByteCeps -d-> Parser
+Parser -d-> ExerciseManager
+Parser -d-> WorkoutManager
+Parser -d-> WeeklyProgramManager
+Parser -d-> HelpMenuManager
+ExerciseManager -d-> WeeklyProgramManager
+WorkoutManager -d-> WeeklyProgramManager
+WeeklyProgramManager -r-> WorkoutLogsManager
+WorkoutLogsManager -d-> Storage
+WeeklyProgramManager -d-> Storage
+ExerciseManager -d-> Storage
+WorkoutManager -d-> Storage
+
+
+@enduml
