@@ -365,3 +365,111 @@ Expected outcome:
 			1. barbell squat (weight: 70, sets: 3, reps: 5)
 			2. leg extensions (weight: 55, sets: 3, reps: 15)
 ```
+## Help Menu
+You are able to access an in-program help menu that provides you with command formats for all of ByteCeps's functionality.
+
+### Accessing Help Menu
+ByteCeps provides the command format to access the help menu upon initial program execution:
+```
+[BYTE-CEPS]> To access the help menu for command guidance, please type:
+help /COMMAND_TYPE_FLAG
+Available command types (type exactly as shown):
+exercise
+workout
+program
+```
+
+Command formats are shown according to 3 separate categories: `exercise`, `workout` & `program`
+
+### Displaying Help Menu Category: Exercise 
+You may access this portion of the help menu using the `/exercise` flag with the `help command`:
+```
+help /exercise
+```
+
+Outcome:
+```
+Please enter 'help /exercise LIST_NUMBER'. LIST_NUMBER corresponds to the exercise command format you want to see
+			 (1) add an exercise
+			 (2) delete an existing exercise
+			 (3) edit an existing exercise's name
+			 (4) list all existing exercises
+```
+
+To see a specific `exercise`-related command's format, enter `help /exercise <INDEX [integer]>`.
+
+The `<INDEX [integer]>` parameter refers to the desired command's corresponding list number as displayed by the help menu.
+
+Example of usage:
+```
+[User]> help /exercise 3
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>
+```
+
+### Displaying Help Menu Category: Workout
+You may access this portion of the help menu using the `/workout` flag with the `help command`:
+```
+help /workout
+```
+
+Outcome:
+```
+[BYTE-CEPS]> Please enter 'help /workout LIST_NUMBER'. LIST_NUMBER corresponds to the workout command format you want to see
+			 (1) create a workout plan
+			 (2) delete an existing workout plan
+			 (3) list all existing workout plans
+			 (4) assign an exercise to a specified workout plan
+			 (5) remove an exercise from a specified workout plan
+			 (6) list all exercises in a given workout plan
+```
+
+To see a specific `workout`-related command's format, enter `help /workout <INDEX [integer]>`.
+
+The `<INDEX [integer]>` parameter refers to the desired command's corresponding list number as displayed by the help menu.
+
+Example of usage:
+```
+[User]> help /workout 4
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> workout /assign <EXERCISE_NAME [string]> /to <WORKOUT_PLAN_NAME [string]>
+```
+
+### Displaying Help Menu Category: Program
+You may access this portion of the help menu using the `/program` flag with the `help command`:
+```
+help /program
+```
+
+Outcome:
+```
+[BYTE-CEPS]> Please enter 'help /program LIST_NUMBER'. LIST_NUMBER corresponds to the program command format you want to see
+			 (1) assign a workout plan to a specific day of the week
+			 (2) view today's workout plan
+			 (3) see all workout plans assigned to each day of the week
+			 (4) remove a workout plan from a given day of the week
+			 (5) create a log for the amount of weight, sets & reps completed for an exercise on a given day which already has an assigned workout plan
+			 (6) create a log for a specified date
+			 (7) see all the dates that you have entered at least 1 log entry
+			 (8) view the logs that you have added on a specific date
+```
+
+To see a specific `progarm`-related command's format, enter `help /program <INDEX [integer]>`.
+
+The `<INDEX [integer]>` parameter refers to the desired command's corresponding list number as displayed by the help menu.
+
+Example of usage:
+```
+[User]> help /program 7
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> program /history
+```
