@@ -386,6 +386,7 @@ Example of usage:
 program /history 2024-03-27
 ```
 
+
 Expected outcome:
 ```
 [BYTE-CEPS]> Listing Exercises on 2024-03-27:
