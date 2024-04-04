@@ -38,7 +38,7 @@ public class WeeklyProgramManager extends ActivityManager {
         }
     }
 
-    private Day getDay(String day) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    public Day getDay(String day) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         switch (day.toLowerCase()) {
         case DayStrings.DAY_MON:
         case DayStrings.DAY_MONDAY:
@@ -280,6 +280,10 @@ public class WeeklyProgramManager extends ActivityManager {
 
     private String getHistoryString() {
         return workoutLogsManager.getListString();
+    }
+
+    public LinkedHashSet<Activity> getDaySet() {
+        return activitySet;
     }
 
     private String executeClearAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
