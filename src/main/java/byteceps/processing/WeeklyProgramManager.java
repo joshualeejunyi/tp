@@ -3,6 +3,7 @@ package byteceps.processing;
 import byteceps.activities.Day;
 import byteceps.activities.Workout;
 import byteceps.activities.Exercise;
+import byteceps.activities.WorkoutLog;
 import byteceps.activities.Activity;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
