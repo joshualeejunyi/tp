@@ -2,7 +2,40 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+[//]: # ({list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well})
+
+1. [AB-3 Developer Guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
+2. [PlantUML for sequence diagrams](https://plantuml.com/)
+
+## Setting Up and Getting Started
+
+First, fork [this repo](https://github.com/AY2324S2-CS2113-F14-3/tp), and clone the fork into your computer.
+
+If you plan to use IntelliJ IDEA (highly recommended):
+
+1. **Configure the JDK**: Follow the guide [se-edu/guides IDEA: Configuring the JDK](https://se-education.org/guides/tutorials/intellijJdk.html) to ensure IntelliJ is configured to use JDK 11.
+2. **Import the project as a Gradle project**: Follow the guide
+[se-edu/guides IDEA: Importing a Gradle project](https://se-education.org/guides/tutorials/intellijImportGradleProject.html)
+to import the project into IDEA.
+
+   :exclamation: **Note:** Importing a Gradle project is slightly different from importing a normal Java project.
+3. **Verify the setup**:
+   * Run `ByteCeps.java` and try a few commands.
+   * Run the tests using `./gradlew check` and ensure they all pass.
+
+---
+## Design
+
+This section provides a high-level explanation of the design and implementation of ByteCeps, 
+supported by UML diagrams and short code snippets to illustrate the flow of data and interactions between the 
+components.
+
+---
+
+### Architecture
+
+Given below is a quick overview of main components and how they interact with each other.
+
 
 ## Classes: overview
 
@@ -74,6 +107,8 @@ The sequence diagram below shows how an exercise is deleted.
 5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
 
 The sequence diagram below shows how an exercise is edited.
+<img width="1295" alt="editExercise" src="https://github.com/V4Vern/tp/assets/28131050/0f504206-d594-4d5a-8034-2aa4c55cf3d9">
+
 
 #### List Exercises
 1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /list` to list all exercises.
@@ -121,22 +156,52 @@ The sequence diagram below shows how a log is created.
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+BYTE-CEPS, a CLI-based all-in-one tool for setting and tracking fitness goals. Whether you're a tech-savvy fitness enthusiast or just starting your fitness journey, BYTE-CEPS offers the simplicity and efficiency of a CLI interface to help you maintain or improve your fitness through self-managed routines.
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+ByteCeps offers a streamlined and comprehensive platform to manage exercise routines, track workout progress, and design personalized fitness programs with ease and efficiency for fitness enthusiasts and professionals. 
+
+1. Streamlined Exercise Management: ByteCeps simplifies the organization of exercise routines by providing a user-friendly interface to add, edit, delete, list and search exercises effortlessly.
+2. Effortless Workout Planning: Create personalized workout plans by assigning exercises to specific days with intuitive CLI commands, ensuring organized and effective training sessions tailored to your needs.
+3. Flexible Program Adaptation: Seamlessly adjust workout plans and schedules as needed with the ability to add, remove, or modify exercises on the fly, providing flexibility and adaptability to your evolving fitness journey.
+4. Comprehensive Progress Tracking: Log and monitor workout performance, including weights, sets, and reps, with detailed exercise logs and historical data, enabling you to track progress, identify trends, and stay motivated.
+
+With ByteCeps, achieve your fitness objectives efficiently, effectively, and enjoyably, unlocking your full potential for a healthier, fitter lifestyle.
+
 
 ## User Stories
 
 | Version | As a ... | I want to ...             | So that I can ...                                           |
 |---------|----------|---------------------------|-------------------------------------------------------------|
-| v1.0    | new user | see usage instructions    | refer to them when I forget how to use the application      |
-| v2.0    | user     | find a to-do item by name | locate a to-do without having to go through the entire list |
+| v1.0    | user     | create an exercise entry             | begin tracking my exercises                      |
+| v1.0    | user     | create edit an exercise entry        | modify an exercise to suit my needs              |
+| v1.0    | user     | delete an exercise entry             | remove unwanted exercises that I will not do     |
+| v1.0    | user     | add an exercise to a workout plan    | customise my workout plan                        |
+| v1.0    | user     | edit an exercise in a workout plan   | modify the workout plan to suit my needs         |
+| v1.0    | user     | delete an exercise from workout plan | remove unwanted exercises from a workout plan    |
+| v1.0    | user     | list all exercises in a workout plan | see the details of my planned exercises          |
+| v1.0    | user     | choose the workout plan for a day    | organise and structure my daily workout routine  |
+| v1.0    | user     | display my workout for the day       | know what exercises I should be doing today      |
+| v1.0    | user     | display my workout for the week      | have a weekly overview of what I should do       |
+| v2.0    | user     | export my workout plan to Json       | share with other fitness enthusiasts             |
+| v2.0    | user     | import my workout plan to Json       | bring my progress across devices                 |
+| v2.0    | user     | search for exercises                 | build my workout plan faster                     |
+| v2.0    | user     | search for workout plans             | identify which is the suitable workout for me    |
+| v2.0    | fitness enthusiast   | record the amount of weight lifted                             | track my progress over time                                       |
+| v2.0    | fitness enthusiast   | track the number of sets performed for each exercise session   | follow my workout plan effectively                                |
+| v2.0    | fitness professional | monitor the repetitions completed for each exercise            | evaluate my clients' performance and provide tailored feedback    |
+| v2.0    | fitness professional | log my exercise data for a specific date                       | accurately track my progress over time                            |
+| v2.0    | fitness professional | view a list of dates on which I have logged exercise entries   | track my consistency and adherence to my workout routine          |
+| v2.0    | fitness professional | review specific exercise logs for a particular date            | analyze my workout details and progress on that specific day      |
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. BYTE-CEPS should work on Windows, macOS and Linux that has Java 11 installed.
+2. BYTE-CEPS should be able to store data locally.
+3. BYTE-CEPS should be able to work offline.
+4. BYTE-CEPS should be easy to use.
+
 
 ## Glossary
 
