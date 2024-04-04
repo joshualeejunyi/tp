@@ -1,0 +1,27 @@
+@startuml SequenceDiagram
+
+participant User
+participant Parser
+participant ExerciseManager
+participant Exercise
+participant ActivityManager
+
+User -> Parser: Inputs command 'exercise /delete pushups'
+Parser -> ExerciseManager: Parse command
+activate ExerciseManager
+ExerciseManager -> ExerciseManager: Validate input to ensure correct command format
+alt Input validation successful
+    ExerciseManager -> Exercise: Retrieve Exercise object 'pushups'
+    activate Exercise
+    ExerciseManager -> ActivityManager: Invoke delete method to delete exercise to activitySet
+    activate ActivityManager
+    ActivityManager -> Exercise: Remove exercise 'pushups' from activitySet
+    deactivate ActivityManager
+    deactivate Exercise
+    ExerciseManager -> User: Print success message
+    deactivate ExerciseManager
+else Input validation fails
+    ExerciseManager -> User: Print error message 
+end
+
+@enduml
