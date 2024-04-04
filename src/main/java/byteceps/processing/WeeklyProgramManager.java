@@ -273,7 +273,7 @@ public class WeeklyProgramManager extends ActivityManager {
         }
 
         String workoutDate = parser.getActionParameter();
-        Workout retrievedWorkout = (Workout) workoutLogsManager.retrieve(workoutDate);
+        WorkoutLog retrievedWorkout = (WorkoutLog) workoutLogsManager.retrieve(workoutDate);
         Day day = getDayFromDate(workoutDate);
         return getTodaysWorkoutString(retrievedWorkout, workoutDate, day);
     }

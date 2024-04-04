@@ -11,15 +11,23 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 public class CascadingDeletionProcessor {
+    /**
+     * Checks if any deletion of an exercise/workout causes cascading effects on the container classes.
+     * If yes, removes the exercise/workout from the workout/program respectively, silently.
+     *
+     * @param parser User input in the form of a Parser object.
+     * @param workoutManager The activity manager containing all workouts
+     * @param weeklyProgramManager The activity manager containing the training program
+     */
     public static void checkForCascadingDeletions (Parser parser, WorkoutManager workoutManager,
                                                    WeeklyProgramManager weeklyProgramManager) {
         try {
             String parserAction = parser.getAction();
-            String parserCommand = parser.getCommand();
             if (!parserAction.equals("delete")) {
                 return;
             }
 
+            String parserCommand = parser.getCommand();
             if(parserCommand.equals("exercise")) {
                 removeDeletedExerciseFromWorkouts(parser.getActionParameter(), workoutManager);
             } else if(parserCommand.equals("workout")) {
@@ -45,7 +53,8 @@ public class CascadingDeletionProcessor {
                                                           WeeklyProgramManager weeklyProgramManager)
             throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         LinkedHashSet<Activity> newWorkoutsInProgram = weeklyProgramManager.getDaySet();
-        LinkedHashSet<Activity> oldWorkoutsInProgram = (LinkedHashSet<Activity>) newWorkoutsInProgram.clone();
+        LinkedHashSet<Activity> oldWorkoutsInProgram = null;
+        oldWorkoutsInProgram = (LinkedHashSet<Activity>) newWorkoutsInProgram.clone();
         for (Activity item : oldWorkoutsInProgram) {
             Day currentDay = (Day) item;
             Workout workout = currentDay.getAssignedWorkout();

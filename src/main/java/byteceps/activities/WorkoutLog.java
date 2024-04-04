@@ -3,7 +3,7 @@ package byteceps.activities;
 import java.util.LinkedHashSet;
 
 
-public class WorkoutLog extends Activity {
+public class WorkoutLog extends Workout {
     protected final String workoutName;
     LinkedHashSet<ExerciseLog> exerciseLogs;
     public WorkoutLog(String workoutDate, String workoutName) {
