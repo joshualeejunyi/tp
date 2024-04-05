@@ -1,6 +1,8 @@
 @startuml
 hide footbox
 
+skinparam classAttributeIconSize 0
+skinparam style strictuml
 actor User
 'box  #white
 'frame     ""f"

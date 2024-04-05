@@ -1,4 +1,6 @@
 @startuml
+skinparam classAttributeIconSize 0
+skinparam style strictuml
 object exerciseManager
 
 object exercise1 {
