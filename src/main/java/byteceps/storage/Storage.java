@@ -143,13 +143,6 @@ public class Storage {
             JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
             String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
             String workoutName = currentWorkout.getString(StorageStrings.WORKOUT_NAME);
-
-            if (allWorkouts.doesNotHaveActivity(workoutName)) {
-                throw new Exceptions.ActivityDoesNotExists(
-                        String.format(StorageStrings.WORKOUT_DOES_NOT_EXIST, workoutName)
-                );
-            }
-
             workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
 
             for (int j = 0; j < exercisesArray.length(); j++) {
@@ -158,13 +151,6 @@ public class Storage {
                 String weight = String.valueOf(currentExercise.getInt(StorageStrings.WEIGHT));
                 String sets = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
                 String reps = String.valueOf(currentExercise.getInt((StorageStrings.REPS)));
-
-                if (allExercises.doesNotHaveActivity(exerciseName)) {
-                    throw new Exceptions.ActivityDoesNotExists(
-                            String.format(StorageStrings.EXERCISE_DOES_NOT_EXIST, exerciseName)
-                    );
-                }
-
                 workoutLogsManager.addExerciseLog(workoutDate, exerciseName,
                         weight, sets, reps);
             }

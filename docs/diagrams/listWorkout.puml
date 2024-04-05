@@ -1,7 +1,8 @@
 @startuml SequenceDiagram
 
 title List Workouts Sequence Diagram
-
+skinparam classAttributeIconSize 0
+skinparam style strictuml
 participant User
 participant Parser
 participant WorkoutManager
