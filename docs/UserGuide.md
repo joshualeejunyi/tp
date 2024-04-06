@@ -369,7 +369,7 @@ Expected outcome:
 ## Logging Workouts
 You are also able to log the amount of weight, sets and repetitions you have completed for an exercise on a given day, through the logging functionality. 
 
-In order to log your exercises, must first have a workout plan assigned to the day that you are logging. However, you may log an exercise that was not originally in the workout plan to allow for flexibility of programs. 
+In order to log your exercises, must first have a workout plan assigned to the day that you are logging. However, you may log an exercise that was not originally in the workout plan to allow for flexibility of programs but you must create the exercise first.
 
 ### Adding an exercise log
 You may create a workout log using the `/log` flag in the program command.
