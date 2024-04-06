@@ -13,10 +13,12 @@ Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fi
 		- [Delete an exercise](#delete-an-exercise)
 		- [Edit an exercise](#edit-an-exercise)
 		- [List all exercises](#list-all-exercises)
+  		- [Search exercises](#search-exercises)	 	
 	- [Workout Plan Management](#workout-plan-management)
 		- [Add a workout plan](#add-a-workout-plan)
 		- [Delete a workout plan](#delete-a-workout-plan)
 		- [List workout plan](#list-workout-plan)
+  		- [Search workout plans](#search-workout-plans)	
 		- [Assign an exercise to a workout plan](#assign-an-exercise-to-a-workout-plan)
 		- [Remove an exercise from a workout plan](#remove-an-exercise-from-a-workout-plan)
 		- [List all exercises in a workout plan](#list-all-exercises-in-a-workout-plan)
@@ -30,7 +32,10 @@ Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fi
 		- [Adding an exercise log for a separate date](#adding-an-exercise-log-for-a-separate-date)
 		- [Viewing logs](#viewing-logs)
 		- [Viewing historic logs](#viewing-historic-logs)
-
+  	- [Exiting Program](#exiting-program)
+  	- [Saving Program](#saving-the-data)
+  	- [Editing Program](#editing-the-data)
+  	- [Command Summary](#command-summary)
 
 ## Features
 BYTE-CEPS can track & manage several types of tasks, such as:
@@ -112,6 +117,24 @@ Expected outcome:
           1. Decline pushups
 ```
 **Note**: The exercises may not be listed in the order you added them to ByteCeps.
+
+### Search exercises
+You may search exercises by using the `/search` flag.
+```
+exercise /search <EXERCISE_NAME [string]>
+```
+
+Example of usage: 
+```
+exercise /search pushup
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> Search Results:
+          1. pushup
+```
+
 ## Workout Plan Management
 A workout plan is a curated list of exercises that you would like to do in a single session. You may use the `workout` command to manage your workout plans.
 
@@ -166,6 +189,25 @@ Expected outcome:
             2. push day
 ```
 **Note**: The workouts may not be listed in the order you added them to ByteCeps.
+
+### Search workout plans
+To search existing workout plans, use the `/search` flag.
+```
+workout /search <WORKOUT_PLAN_NAME [string]>
+```
+
+Example of usage: 
+```
+workout /search day
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> Search Results:
+	     1. leg day
+             2. push day
+```
+
 ### Assign an exercise to a workout plan
 You may assign an exercise to a specified workout plan using the `/assign` flag.
 ```
@@ -214,6 +256,7 @@ Expected outcome:
             1. pushups
 ```
 **Note**: The exercises may not be listed in the order you added them to the workout.
+
 ## Program Management
 The `program` command not only allows you to assign a workout to a given day, but it allows you to log your completed exercises.
 
@@ -502,3 +545,61 @@ Expected outcome:
 ```
 [BYTE-CEPS]> program /history
 ```
+
+## Exiting program
+You may exit the program using the `exit` command.
+```
+exit
+```
+
+Example of usage: 
+```
+exit
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> All your workouts and exercises have been saved.
+-------------------------------------------------
+-------------------------------------------------
+GOODBYE FOR NOW. STAY HARD!
+-------------------------------------------------
+```
+
+## Saving the data
+BYTE-CEPS data are saved in the hard disk automatically after the `exit` command . There is no need to save manually.
+
+## Editing the data
+BYTE-CEPS data are saved automatically as a JSON file `data.json` in the same directory as the Jar File. Advanced users are welcome to update data directly by editing that data file.
+
+> Caution: If your changes to the data file makes its format invalid, BYTE-CEPS will save the current data file as `data.json.old_YYYY_MMDD_HHSS_MM` and start with an empty data file at the next run.
+Furthermore, certain edits can cause the BYTE-CEPS to behave in unexpected ways (e.g., if a date entered is of a different format). Therefore, edit the data file only if you are confident that you can update it correctly.
+
+## Command summary
+| Action 		 			| Format 	 								     | Example 	 				       |
+| ---      		 			| ---       	 								     | ---  	 				       |	
+| Add an exercise        			| exercise /add <EXERCISE_NAME [string]>     					     | exercise /add pushups			       |
+| Delete an exercise   	 			| exercise /delete <EXERCISE_NAME [string]>    					     | exercise /delete pushups    		       |
+| Edit an exercise     	 			| exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>       | exercise /edit pushups /to Decline pushups      |
+| List all exercises     			| exercise /list       								     | exercise /list     			       |
+| Search exercise    	 			| exercise /search <EXERCISE_NAME [string]>     				     | exercise /search pushups      		       |
+| Add a workout plan     			| workout /create <WORKOUT_PLAN_NAME [string]>       				     | workout /create push day      		       |
+| Delete a workout plan  			| workout /delete <WORKOUT_PLAN_NAME [string]>       				     | workout /delete push day      		       |
+| List workout plan     	 		| workout /list        								     | workout /list       			       |
+| Search workout plans     	 		| workout /search <WORKOUT_PLAN_NAME [string]>       				     | workout /search push day      		       |
+| Assign an exercise to a workout plan  	| workout /assign <EXERCISE_NAME [string]> /to <WORKOUT_PLAN_NAME [string]>          | workout /assign pushups /to push day            |
+| Remove an exercise from a workout plan     	| workout /unassign <EXERCISE_NAME [string]> /from <WORKOUT_PLAN_NAME [string]>      | workout /unassign pushups /from push day        |
+| List all exercises in a workout plan     	| workout /info <WORKOUT_PLAN_NAME [string]>       				     | workout /info push day      		       |
+| Choose a workout plan for a day     	 	| program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>       	     | program /assign push day /to monday             |
+| View Today's workout plan    	 		| program /today       								     | program /today      			       |
+| View Weekly workout plan     	 		| program /list       								     | program /list      			       |
+| Remove a workout plan for a day     	 	| program /clear <DAY [string]>      						     | program /clear Tuesday      		       |
+| Adding an exercise log    			| program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]>   | program /log benchpress /weight 125 /sets 3 /reps 5    |
+| Adding an exercise log for a separate date    			| program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]>   | program /log benchpress /weight 125 /sets 3 /reps 5 /date 2024-03-25    |
+| Viewing historic logs     	 		| program /history      							     | program /history      			       |
+| Viewing historic logs     	 		| program /history <DATE [yyyy-mm-dd]>      					     | program /history <DATE [yyyy-mm-dd]>   	       |
+| Displaying Help Menu Category: Exercise    	| help /exercise <INDEX [integer]>       					     | help /exercise 3     			       |
+| Displaying Help Menu Category: Workout    	| help /workout  <INDEX [integer]>     						     | help /workout 4     			       |
+| Displaying Help Menu Category: Program    	| help /program  <INDEX [integer]>        					     | help /program 7      			       |
+
+
