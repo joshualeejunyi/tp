@@ -208,6 +208,10 @@ public class WeeklyProgramManager extends ActivityManager {
             );
         }
 
+        if (!isValidDate(workoutDate)) {
+            throw new Exceptions.InvalidInput(DayStrings.INVALID_DATE);
+        }
+
         Day selectedDay;
         if (workoutDate.isBlank()) {
             workoutDate = LocalDate.now().toString();
@@ -225,6 +229,15 @@ public class WeeklyProgramManager extends ActivityManager {
         workoutLogsManager.addExerciseLog(workoutDate, exerciseName, weight, sets, repetition);
         return String.format(ManagerStrings.LOG_SUCCESS,
                         weight, exerciseName, sets, repetition, workoutDate);
+    }
+
+    private boolean isValidDate(String date) {
+        try {
+            LocalDate.parse(date);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     private static String getWorkoutName(Day selectedDay, String workoutDate) throws Exceptions.ActivityDoesNotExists {

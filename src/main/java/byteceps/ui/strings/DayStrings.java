@@ -18,6 +18,7 @@ public class DayStrings {
     public static final String DAY_SAT = "sat";
     public static final String DAY_SUNDAY = "sunday";
     public static final String DAY_SUN = "sun";
+    public static final String INVALID_DATE = "Not a valid date";
     public static final String INVALID_DAY = "Not a valid day";
     public static final String REST_DAY = "Rest day";
     public static final String YEAR_FORMAT = "yyyy-M-dd";
