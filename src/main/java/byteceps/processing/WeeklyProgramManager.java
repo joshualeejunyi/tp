@@ -208,21 +208,23 @@ public class WeeklyProgramManager extends ActivityManager {
             );
         }
 
-        if (!isValidDate(workoutDate)) {
-            throw new Exceptions.InvalidInput(DayStrings.INVALID_DATE);
-        }
-
-        Day selectedDay;
-        if (workoutDate.isBlank()) {
+        if (workoutDate == null || workoutDate.isEmpty()) {
             workoutDate = LocalDate.now().toString();
-            selectedDay = getDayFromDate(workoutDate);
         } else {
-            try {
-                selectedDay = getDayFromDate(workoutDate);
-            } catch (DateTimeParseException e) {
-                throw new Exceptions.InvalidInput(DayStrings.INVALID_DATE_FORMAT);
+            if (!isValidDate(workoutDate)) {
+                throw new Exceptions.InvalidInput(DayStrings.INVALID_DATE);
             }
         }
+
+
+        Day selectedDay;
+
+        try {
+            selectedDay = getDayFromDate(workoutDate);
+        } catch (DateTimeParseException e) {
+            throw new Exceptions.InvalidInput(DayStrings.INVALID_DATE_FORMAT);
+        }
+
 
         String workoutName = getWorkoutName(selectedDay, workoutDate);
         workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
