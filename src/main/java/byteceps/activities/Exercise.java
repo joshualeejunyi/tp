@@ -26,8 +26,11 @@ public class Exercise extends Activity {
     }
 
     /**
-     * Modifies the name of the exercise.
+     * Modifies the name of the exercise. If the new name is not null, it updates the activity name
+     * and updates the activity set in the provided activity manager with the new exercise name.
+     * If the new name is null, it sets the activity name to null.
      *
+     * @param activityManager The activity manager responsible for managing activities and updating activity sets.
      * @param newExerciseName The new name for the exercise.
      */
     public void editExerciseName(String newExerciseName, ActivityManager activityManager) {
