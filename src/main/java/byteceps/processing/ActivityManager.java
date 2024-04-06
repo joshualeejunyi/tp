@@ -219,4 +219,9 @@ public abstract class ActivityManager {
         return result.toString();
     }
 
+    public void updateActivitySet(Activity activityToRemove, Activity activityToAdd) {
+        activitySet.remove(activityToRemove);
+        activitySet.add(activityToAdd);
+    }
+
 }

@@ -1,5 +1,7 @@
 package byteceps.activities;
 
+import byteceps.processing.ActivityManager;
+
 /**
  * Represents an exercise activity in the byteceps application.
  * Each Exercise object corresponds to a specific exercise with a name.
@@ -28,7 +30,12 @@ public class Exercise extends Activity {
      *
      * @param newExerciseName The new name for the exercise.
      */
-    public void editExerciseName(String newExerciseName) {
-        activityName = newExerciseName;
+    public void editExerciseName(String newExerciseName, ActivityManager activityManager) {
+        if (newExerciseName != null) {
+            activityManager.updateActivitySet(this, new Exercise(newExerciseName));
+            this.activityName = newExerciseName;
+        } else {
+            activityName = null;
+        }
     }
 }

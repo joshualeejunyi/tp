@@ -61,7 +61,7 @@ public class ExerciseManager extends ActivityManager {
     }
 
     private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        String newExerciseName = processEditExercise(parser);
+        String newExerciseName = processEditExercise(parser,this);
         return String.format(
                 ManagerStrings.EXERCISE_EDITED, parser.getActionParameter(), newExerciseName
         );
@@ -111,7 +111,7 @@ public class ExerciseManager extends ActivityManager {
     }
 
     //@@author LWachtel1
-    private String processEditExercise(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String processEditExercise(Parser parser, ActivityManager activityManager) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
 
         if (newExerciseName == null || newExerciseName.isEmpty()) {
@@ -119,7 +119,7 @@ public class ExerciseManager extends ActivityManager {
         }
 
         Exercise retrievedExercise = retrieveExercise(parser);
-        retrievedExercise.editExerciseName(newExerciseName);
+        retrievedExercise.editExerciseName(newExerciseName, activityManager);
         return newExerciseName;
     }
 
