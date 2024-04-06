@@ -580,6 +580,7 @@ BYTE-CEPS data are saved automatically as a JSON file `data.json` in the same di
 Furthermore, certain edits can cause the BYTE-CEPS to behave in unexpected ways (e.g., if a date entered is of a different format). Therefore, edit the data file only if you are confident that you can update it correctly.
 
 ## Command summary
+
 | Action 		 			| Format 	 								     | Example 	 				       |
 | ---      		 			| ---       	 								     | ---  	 				       |	
 | Add an exercise        			| exercise /add <EXERCISE_NAME [string]>     					     | exercise /add pushups			       |
