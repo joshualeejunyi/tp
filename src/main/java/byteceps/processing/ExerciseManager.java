@@ -111,7 +111,8 @@ public class ExerciseManager extends ActivityManager {
     }
 
     //@@author LWachtel1
-    private String processEditExercise(Parser parser, ActivityManager activityManager) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+    private String processEditExercise(Parser parser, ActivityManager activityManager) throws
+            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
 
         if (newExerciseName == null || newExerciseName.isEmpty()) {

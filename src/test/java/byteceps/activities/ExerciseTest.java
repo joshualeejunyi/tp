@@ -1,6 +1,5 @@
 package byteceps.activities;
 import byteceps.commands.Parser;
-import byteceps.errors.Exceptions;
 import byteceps.processing.ActivityManager;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ class ExerciseTest {
 
     private static class TestActivityManager extends ActivityManager {
         @Override
-        public String execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExists {
+        public String execute(Parser parser) {
             return null;
         }
 
