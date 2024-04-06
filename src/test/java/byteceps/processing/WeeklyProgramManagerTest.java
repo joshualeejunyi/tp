@@ -25,13 +25,15 @@ class WeeklyProgramManagerTest {
     private ExerciseManager exerciseManager;
     private WorkoutManager workoutManager;
     private WeeklyProgramManager weeklyProgramManager;
+    private InputValidator inputValidator;
 
     @BeforeEach
     void setUp() {
+        inputValidator = new InputValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager();
-        workoutManager = new WorkoutManager(exerciseManager);
-        WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager();
+        exerciseManager = new ExerciseManager(inputValidator);
+        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
+        WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager(inputValidator);
         weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
 
         // create dummy exercises and workouts

@@ -1,9 +1,6 @@
 package byteceps.storage;
 
-import byteceps.processing.ExerciseManager;
-import byteceps.processing.WorkoutManager;
-import byteceps.processing.WorkoutLogsManager;
-import byteceps.processing.WeeklyProgramManager;
+import byteceps.processing.*;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.strings.StorageStrings;
 
@@ -28,6 +25,7 @@ class StorageTest {
     private static WorkoutManager workoutManager = null;
     private static WorkoutLogsManager workoutLogsManager = null;
     private static WeeklyProgramManager weeklyProgramManager = null;
+    private static InputValidator inputValidator;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -35,10 +33,11 @@ class StorageTest {
 
     @BeforeEach
     public void setup() {
+        inputValidator = new InputValidator();
         storage = new Storage(FILE_PATH);
-        exerciseManager = new ExerciseManager();
-        workoutManager = new WorkoutManager(exerciseManager);
-        workoutLogsManager = new WorkoutLogsManager();
+        exerciseManager = new ExerciseManager(inputValidator);
+        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
+        workoutLogsManager = new WorkoutLogsManager(inputValidator);
         weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
     }
 

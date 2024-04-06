@@ -7,7 +7,11 @@ import byteceps.ui.strings.CommandStrings;
 
 //@@author LWachtel1
 public class HelpMenuManager {
-    public HelpMenuManager() {
+
+    InputValidator inputValidator;
+
+    public HelpMenuManager(InputValidator inputValidator) {
+        this.inputValidator = inputValidator;
     }
 
     public String printHelpGreeting() {
@@ -20,13 +24,7 @@ public class HelpMenuManager {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
-        if (parser.getAction().isEmpty()) {
-            throw new Exceptions.InvalidInput(HelpStrings.NO_COMMAND_EXCEPTION);
-        }
-
-        if (parser.hasAdditionalArguments()) {
-            throw new Exceptions.InvalidInput(HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION);
-        }
+        inputValidator.validateHelpExecute(parser);
 
         switch (parser.getAction()) {
         case CommandStrings.COMMAND_EXERCISE:
@@ -46,7 +44,8 @@ public class HelpMenuManager {
     }
 
     public String showExerciseCommand(Parser parser) {
-        if (parser.getActionParameter().isEmpty()) {
+        boolean isValidated = inputValidator.validateHelpShow(parser);
+        if (isValidated) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.EXERCISE_MESSAGE, System.lineSeparator()));
 
@@ -61,7 +60,8 @@ public class HelpMenuManager {
     }
 
     public String showWorkoutCommand(Parser parser) {
-        if (parser.getActionParameter().isEmpty()) {
+        boolean isValidated = inputValidator.validateHelpShow(parser);
+        if (isValidated) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.WORKOUT_MESSAGE, System.lineSeparator()));
 
@@ -76,7 +76,8 @@ public class HelpMenuManager {
     }
 
     public String showProgramCommand(Parser parser) {
-        if (parser.getActionParameter().isEmpty()) {
+        boolean isValidated = inputValidator.validateHelpShow(parser);
+        if (isValidated) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.PROGRAM_MESSAGE, System.lineSeparator()));
 

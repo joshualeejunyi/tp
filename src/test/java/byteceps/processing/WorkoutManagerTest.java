@@ -24,12 +24,14 @@ class WorkoutManagerTest {
     private Parser parser;
     private WorkoutManager workoutManager;
     private ExerciseManager exerciseManager;
+    private InputValidator inputValidator;
 
     @BeforeEach
     void setUp() {
+        inputValidator = new InputValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager();
-        workoutManager = new WorkoutManager(exerciseManager);
+        exerciseManager = new ExerciseManager(inputValidator);
+        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
     }
 
     public void setUpStreams() {

@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 public class WorkoutLogsManager extends ActivityManager {
+
+    public WorkoutLogsManager(InputValidator inputValidator) {
+        super(inputValidator);
+    }
+
     @Override
     public String execute(Parser parser) throws Exceptions.InvalidInput {
         throw new Exceptions.InvalidInput(ManagerStrings.LOG_INVALID_STATE);

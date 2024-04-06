@@ -2,12 +2,7 @@ package byteceps;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.processing.ExerciseManager;
-import byteceps.processing.WeeklyProgramManager;
-import byteceps.processing.WorkoutLogsManager;
-import byteceps.processing.WorkoutManager;
-import byteceps.processing.HelpMenuManager;
-import byteceps.processing.CascadingDeletionProcessor;
+import byteceps.processing.*;
 import byteceps.storage.Storage;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.UserInterface;
@@ -26,15 +21,17 @@ public class ByteCeps {
     private static Storage storage;
     private static final String FILE_PATH = "data.json";
     private final UserInterface ui = UserInterface.getInstance();
+    private static InputValidator inputValidator = null;
 
     public ByteCeps() {
-        exerciseManager = new ExerciseManager();
-        workoutManager = new WorkoutManager(exerciseManager);
-        workoutLogsManager = new WorkoutLogsManager();
+        inputValidator = new InputValidator();
+        exerciseManager = new ExerciseManager(inputValidator);
+        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
+        workoutLogsManager = new WorkoutLogsManager(inputValidator);
         weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
         parser = new Parser();
         storage = new Storage(FILE_PATH);
-        helpMenuManager = new HelpMenuManager();
+        helpMenuManager = new HelpMenuManager(inputValidator);
     }
 
     public static void main(String[] args) {

@@ -15,7 +15,8 @@ import java.util.ArrayList;
  */
 public class WorkoutManager extends ActivityManager {
     private final ExerciseManager exerciseManager;
-    public WorkoutManager(ExerciseManager exerciseManager) {
+    public WorkoutManager(ExerciseManager exerciseManager, InputValidator inputValidator) {
+        super(inputValidator);
         this.exerciseManager = exerciseManager;
     }
 
@@ -32,12 +33,8 @@ public class WorkoutManager extends ActivityManager {
     @Override
     public String execute(Parser parser) throws Exceptions.ActivityExistsException,
             Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        assert parser != null : "Parser must not be null";
-        assert parser.getAction() != null : "Command action must not be null";
 
-        if (parser.getAction().isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.NO_ACTION_EXCEPTION);
-        }
+        inputValidator.validateWorkoutExecute(parser);
 
         String messageToUser;
 
@@ -71,20 +68,12 @@ public class WorkoutManager extends ActivityManager {
     }
 
     private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
-        assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
-        String workoutName = parser.getActionParameter();
-        if (workoutName == null || workoutName.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_INFO);
-        }
-
+        String workoutName = inputValidator.validateWorkoutExecuteInfo(parser);
         return getFullWorkoutString(workoutName);
     }
 
     private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
-        String userInput = parser.getActionParameter();
-        if (!userInput.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_WORKOUT_LIST);
-        }
+        inputValidator.validateWorkoutExecuteList(parser);
         return getListString();
     }
 
@@ -120,18 +109,11 @@ public class WorkoutManager extends ActivityManager {
 
     //@@author V4vern
     private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
-        String workoutName = parser.getActionParameter();
-        assert !workoutName.isEmpty() : "Workout name cannot be empty";
-        if (workoutName.isEmpty()) {
-            throw new Exceptions.InvalidInput("Workout name cannot be empty");
-        } else if (workoutName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
-            throw new Exceptions.InvalidInput(
-                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, getActivityType(false))
-            );
-        }
-        return new Workout(parser.getActionParameter());
+        String activityType = getActivityType(false);
+        String workoutName = inputValidator.validateWorkoutProcessWorkout(parser, activityType);
+        return new Workout(workoutName);
     }
-
+    //HERE
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {

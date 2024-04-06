@@ -15,10 +15,12 @@ import java.util.Iterator;
 public abstract class ActivityManager {
     protected final String activityType;
     protected final LinkedHashSet<Activity> activitySet;
+    InputValidator inputValidator;
 
-    public ActivityManager() {
+    public ActivityManager(InputValidator inputValidator) {
         this.activityType = getActivityType(false);
         this.activitySet = new LinkedHashSet<>();
+        this.inputValidator = inputValidator;
     }
 
     /**

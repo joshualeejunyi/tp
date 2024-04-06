@@ -11,8 +11,12 @@ import byteceps.ui.strings.ManagerStrings;
  * Manages operations related to exercises, such as adding, deleting, editing, listing, and searching exercises.
  */
 public class ExerciseManager extends ActivityManager {
-    //@@author V4vern
 
+    public ExerciseManager(InputValidator inputValidator) {
+        super(inputValidator);
+    }
+
+    //@@author V4vern
     /**
      * Executes all commands that start with the keyword "exercise".
      *
