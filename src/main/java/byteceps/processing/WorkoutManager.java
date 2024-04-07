@@ -138,7 +138,7 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         assert exerciseName != null : "Exercise name cannot be null";
         String workoutPlanName = parser.getAdditionalArguments("to");
         assert workoutPlanName != null : "Workout plan name cannot be null";

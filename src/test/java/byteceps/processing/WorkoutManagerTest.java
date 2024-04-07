@@ -192,7 +192,7 @@ class WorkoutManagerTest {
         setUpStreams();
         assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
         String expectedOutput = "[BYTE-CEPS]> Listing exercises in workout plan 'legday':\n" +
-                "\t\t\t1. Squat\n" +
+                "\t\t\t1. squat\n" +
                 "\t\t\t2. lunges\n" +
                 "-------------------------------------------------\n";
 

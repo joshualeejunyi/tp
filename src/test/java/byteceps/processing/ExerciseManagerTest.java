@@ -90,13 +90,13 @@ class ExerciseManagerTest {
         assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
 
         UserInterface.printMessage(exerciseManager.getListString());
-        String expectedOutput = "[BYTE-CEPS]> Added Exercise: Pushups\n" +
+        String expectedOutput = "[BYTE-CEPS]> Added Exercise: pushups\n" +
                 "-------------------------------------------------\n" +
-                "[BYTE-CEPS]> Added Exercise: Deadlifts\n" +
+                "[BYTE-CEPS]> Added Exercise: deadlifts\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Listing Exercises:\n" +
-                "\t\t\t1. Pushups\n" +
-                "\t\t\t2. Deadlifts\n" +
+                "\t\t\t1. pushups\n" +
+                "\t\t\t2. deadlifts\n" +
                 "\n" +
                 "-------------------------------------------------\n";
 
