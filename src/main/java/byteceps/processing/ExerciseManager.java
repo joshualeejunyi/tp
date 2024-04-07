@@ -120,7 +120,7 @@ public class ExerciseManager extends ActivityManager {
         }
 
         Exercise retrievedExercise = retrieveExercise(parser);
-        retrievedExercise.editExerciseName(newExerciseName.toLowerCase());
+        retrievedExercise.editExerciseName(newExerciseName.toLowerCase(), activityManager);
         return newExerciseName.toLowerCase();
     }
 
