@@ -106,7 +106,7 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExists {
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         return (Exercise) retrieve(exerciseName);
     }
 
