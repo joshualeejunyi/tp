@@ -31,9 +31,10 @@ import java.util.Scanner;
 
 public class Storage {
     private final Path filePath;
-
-    public Storage(String filePath) {
+    private final UserInterface ui;
+    public Storage(String filePath, UserInterface ui) {
         this.filePath = Path.of(filePath);
+        this.ui = ui;
     }
 
     public void save(ExerciseManager allExercises, WorkoutManager allWorkouts,
@@ -49,7 +50,7 @@ public class Storage {
         fileWriter.write(jsonArchive.toString());
         fileWriter.close();
 
-        UserInterface.printMessage(StorageStrings.WORKOUTS_SAVED);
+        ui.printMessage(StorageStrings.WORKOUTS_SAVED);
     }
 
     public void load(ExerciseManager allExercises, WorkoutManager allWorkouts,
@@ -64,11 +65,11 @@ public class Storage {
         File jsonFile = filePath.toFile();
 
         if (jsonFile.createNewFile()) {
-            UserInterface.printMessage(StorageStrings.NO_SAVE_DATA);
+            ui.printMessage(StorageStrings.NO_SAVE_DATA);
             return;
         }
 
-        UserInterface.printMessage(StorageStrings.LOADING);
+        ui.printMessage(StorageStrings.LOADING);
 
         try (Scanner jsonScanner = new Scanner(jsonFile)) {
             JSONObject jsonArchive = new JSONObject(jsonScanner.nextLine());
@@ -76,10 +77,10 @@ public class Storage {
             loadWorkouts(allExercises, allWorkouts, jsonArchive);
             loadWeeklyProgram(allWorkouts, weeklyProgram, jsonArchive);
             loadWorkoutLogs(allExercises, allWorkouts, jsonArchive, workoutLogsManager);
-            UserInterface.printMessage(StorageStrings.LOAD_SUCCESS);
+            ui.printMessage(StorageStrings.LOAD_SUCCESS);
         } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
              Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
-            UserInterface.printMessage(StorageStrings.LOAD_ERROR);
+            ui.printMessage(StorageStrings.LOAD_ERROR);
             try {
                 String timestamp = new SimpleDateFormat(StorageStrings.BACKUP_DATE_FORMAT)
                         .format(new Date());
@@ -88,7 +89,7 @@ public class Storage {
                 jsonFile.renameTo(oldFile);
                 jsonFile.createNewFile();
             } catch (IOException ex) {
-                UserInterface.printMessage(StorageStrings.NEW_JSON_ERROR);
+                ui.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
 
             allExercises = new ExerciseManager();

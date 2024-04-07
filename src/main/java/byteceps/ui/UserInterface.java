@@ -26,7 +26,7 @@ public class UserInterface {
         return uiInstance;
     }
 
-    public static void printMessage(String message) {
+    public void printMessage(String message) {
         System.out.printf(UiStrings.BYTECEP_PROMPT_FORMAT, UiStrings.BYTECEP_PROMPT, message, System.lineSeparator());
         System.out.println(UiStrings.SEPARATOR);
     }
