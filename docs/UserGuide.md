@@ -70,6 +70,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Added Exercise: pushups
 ```
+**Note:** Exercise name cannot contain special characters: { } [ ] / \\ : , # -
 
 ### Delete an exercise
 You may also delete an existing exercise using the `/delete` flag.
@@ -157,6 +158,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Added Workout Plan: push day
 ```
+**Note:** Workout Plan name cannot contain special characters: { } [ ] / \\ : , # -
 
 ### Delete a workout plan
 To delete an existing workout plan, use the `/delete` flag.
@@ -289,6 +291,8 @@ Expected outcome:
 [BYTE-CEPS]> Workout push day assigned to monday
 ```
 
+**Note**: You can only assign ONE workout plan to any given day
+
 ### View Today's workout plan:
 You may see the workout plan for today using the `/today` flag.
 ```
@@ -369,7 +373,7 @@ Expected outcome:
 ## Logging Workouts
 You are also able to log the amount of weight, sets and repetitions you have completed for an exercise on a given day, through the logging functionality. 
 
-In order to log your exercises, must first have a workout plan assigned to the day that you are logging. However, you may log an exercise that was not originally in the workout plan to allow for flexibility of programs. 
+In order to log your exercises, must first have a workout plan assigned to the day that you are logging. However, you may log an exercise that was not originally in the workout plan to allow for flexibility of programs but you must create the exercise first.
 
 ### Adding an exercise log
 You may create a workout log using the `/log` flag in the program command.
