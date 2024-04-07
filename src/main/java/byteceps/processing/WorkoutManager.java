@@ -50,6 +50,9 @@ public class WorkoutManager extends ActivityManager {
         case CommandStrings.ACTION_DELETE:
             messageToUser = executeDeleteAction(parser);
             break;
+        case CommandStrings.ACTION_EDIT:
+            messageToUser = executeEditAction(parser);
+            break;
         case CommandStrings.ACTION_ASSIGN:
             messageToUser = executeAssignAction(parser);
             break;
@@ -98,6 +101,28 @@ public class WorkoutManager extends ActivityManager {
                 ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter(), workoutName
         );
     }
+
+    private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+        String newExerciseName = processEditWorkout(parser, this);
+        return String.format(
+                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter(), newExerciseName
+        );
+    }
+
+    private String processEditWorkout(Parser parser, ActivityManager activityManager) throws
+            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+
+        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
+        String workoutName = parser.getActionParameter();
+
+        if (newWorkoutName == null || newWorkoutName.isEmpty()) {
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
+        }
+        Workout workoutToEdit = (Workout) retrieve(workoutName);
+        workoutToEdit.editWorkoutName(newWorkoutName, activityManager);
+        return newWorkoutName;
+    }
+
 
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
