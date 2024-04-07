@@ -124,7 +124,6 @@ public class WorkoutManager extends ActivityManager {
     private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
         String workoutName = parser.getActionParameter();
         workoutName = workoutName.toLowerCase();
-        assert !workoutName.isEmpty() : "Workout name cannot be empty";
         if (workoutName.isEmpty()) {
             throw new Exceptions.InvalidInput("Workout name cannot be empty");
         } else if (workoutName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
