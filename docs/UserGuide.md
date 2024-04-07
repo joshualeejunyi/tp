@@ -70,6 +70,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Added Exercise: pushups
 ```
+**Note:** Exercise name cannot contain special characters: { } [ ] / \\ : , # -
 
 ### Delete an exercise
 You may also delete an existing exercise using the `/delete` flag.
@@ -157,6 +158,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Added Workout Plan: push day
 ```
+**Note:** Workout Plan name cannot contain special characters: { } [ ] / \\ : , # -
 
 ### Delete a workout plan
 To delete an existing workout plan, use the `/delete` flag.
