@@ -119,26 +119,26 @@ class ExerciseManagerTest {
     public void execute_validExerciseEdit_success() {
         setUpStreams();
 
-        String validInput = "exercise /add Push ups";
+        String validInput = "exercise /add Pushups";
         parser.parseInput(validInput);
         assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
         UserInterface.printMessage(exerciseManager.getListString());
 
-        String editedInput = "exercise /edit Push ups /to Push Ups";
+        String editedInput = "exercise /edit Pushups /to Push Ups";
         parser.parseInput(editedInput);
         assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
         UserInterface.printMessage(exerciseManager.getListString());
 
-        String expectedOutput = "[BYTE-CEPS]> Added Exercise: Push ups\n" +
+        String expectedOutput = "[BYTE-CEPS]> Added Exercise: pushups\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Listing Exercises:\n" +
-                "\t\t\t1. Push ups\n" +
+                "\t\t\t1. pushups\n" +
                 "\n" +
                 "-------------------------------------------------\n" +
-                "[BYTE-CEPS]> Edited Exercise from Push ups to Push Ups\n" +
+                "[BYTE-CEPS]> Edited Exercise from pushups to push ups\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Listing Exercises:\n" +
-                "\t\t\t1. Push Ups\n" +
+                "\t\t\t1. push ups\n" +
                 "\n" +
                 "-------------------------------------------------\n";
 
@@ -219,11 +219,11 @@ class ExerciseManagerTest {
         assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]> AddedExercise: \n" +
-                "\t\t\t Pushups\n" +
+                "\t\t\t pushups\n" +
                 "\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> SearchResults:\n" +
-                "\t\t\t1. Pushups\n" +
+                "\t\t\t1. pushups\n" +
                 "\n" +
                 "-------------------------------------------------\n";
 
