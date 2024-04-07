@@ -15,18 +15,20 @@ import java.util.ArrayList;
  */
 public class WorkoutManager extends ActivityManager {
     private final ExerciseManager exerciseManager;
+
     public WorkoutManager(ExerciseManager exerciseManager) {
         this.exerciseManager = exerciseManager;
     }
 
     //@@author V4vern
+
     /**
      * Executes all commands that start with the keyword "workout".
      *
      * @param parser Parser containing user input.
      * @return Message to user after executing the command.
-     * @throws Exceptions.InvalidInput if no command action specified.
-     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist.
+     * @throws Exceptions.InvalidInput            if no command action specified.
+     * @throws Exceptions.ActivityDoesNotExists   if user inputs name of an activity that does not exist.
      * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout.
      */
     @Override
@@ -121,6 +123,7 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
         String workoutName = parser.getActionParameter();
+        workoutName = workoutName.toLowerCase();
         assert !workoutName.isEmpty() : "Workout name cannot be empty";
         if (workoutName.isEmpty()) {
             throw new Exceptions.InvalidInput("Workout name cannot be empty");
@@ -129,7 +132,7 @@ public class WorkoutManager extends ActivityManager {
                     String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, getActivityType(false))
             );
         }
-        return new Workout(parser.getActionParameter());
+        return new Workout(workoutName);
     }
 
     //@@author V4vern
@@ -206,10 +209,11 @@ public class WorkoutManager extends ActivityManager {
     public String getActivityType(boolean plural) {
         return plural ? ManagerStrings.WORKOUTS : ManagerStrings.WORKOUT;
     }
+
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
-        if (searchTerm == null || searchTerm.isEmpty( )) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
         }
         return getSearchResultsString(searchTerm);
