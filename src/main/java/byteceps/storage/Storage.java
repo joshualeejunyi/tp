@@ -1,5 +1,6 @@
 package byteceps.storage;
 
+import byteceps.activities.Day;
 import byteceps.activities.Exercise;
 import byteceps.activities.Workout;
 import byteceps.errors.Exceptions;
@@ -58,10 +59,10 @@ public class Storage {
             throws IOException {
         boolean exerciseManagerIsEmpty = allExercises.getActivityList().isEmpty();
         boolean workoutManagerIsEmpty =  allWorkouts.getActivityList().isEmpty();
-        boolean weeklyProgramIsAllNull = weeklyProgram.getActivityList().stream().allMatch(Objects::isNull);
-        /*assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsAllNull
-            : "Must load from a clean state";*/
-
+        boolean weeklyProgramIsEmpty = weeklyProgram.getActivityList().stream().
+                allMatch(day-> ((Day) day).getAssignedWorkout() == null);
+        assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsEmpty
+            : "Must load from a clean state";
         File jsonFile = filePath.toFile();
 
         if (jsonFile.createNewFile()) {
