@@ -94,7 +94,7 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         if (exerciseName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
         } else if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {

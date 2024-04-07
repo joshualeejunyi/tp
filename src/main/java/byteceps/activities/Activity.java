@@ -57,6 +57,6 @@ public class Activity {
         }
 
         Activity other = (Activity) obj;
-        return (activityName.equals(other.getActivityName()));
+        return (activityName.equalsIgnoreCase(other.getActivityName()));
     }
 }

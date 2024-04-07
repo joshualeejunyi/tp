@@ -14,6 +14,7 @@ import byteceps.ui.UserInterface;
 import byteceps.ui.strings.CommandStrings;
 
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 
 public class ByteCeps {
     private static ExerciseManager exerciseManager = null;
@@ -70,7 +71,8 @@ public class ByteCeps {
                 UserInterface.printMessage(messageToUser);
                 CascadingDeletionProcessor.checkForCascadingDeletions(parser, workoutManager, weeklyProgramManager);
             } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
-                     Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException e) {
+                     Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException |
+                     DateTimeParseException e) {
                 UserInterface.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
             }
         }

@@ -7,6 +7,7 @@ import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.WeeklyProgramManager;
 import byteceps.processing.WorkoutManager;
+import byteceps.ui.strings.DayStrings;
 import byteceps.ui.strings.StorageStrings;
 import byteceps.ui.UserInterface;
 
@@ -19,6 +20,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -86,6 +90,11 @@ public class Storage {
             } catch (IOException ex) {
                 UserInterface.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
+
+            allExercises = new ExerciseManager();
+            allWorkouts = new WorkoutManager(allExercises);
+            weeklyProgram = new WeeklyProgramManager(allExercises, allWorkouts, workoutLogsManager);
+            workoutLogsManager = new WorkoutLogsManager();
         }
 
     }
@@ -143,6 +152,14 @@ public class Storage {
             JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
             String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
             String workoutName = currentWorkout.getString(StorageStrings.WORKOUT_NAME);
+            //validate that workoutDate is a valid date string
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DayStrings.YEAR_FORMAT);
+                formatter = formatter.withLocale(formatter.getLocale());
+                LocalDate.parse(workoutDate, formatter); //ignore result, just catch exception
+            } catch (DateTimeParseException e) {
+                throw new Exceptions.InvalidInput(""); //no need for error message, LOAD_ERROR will be printed
+            }
             workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
 
             for (int j = 0; j < exercisesArray.length(); j++) {

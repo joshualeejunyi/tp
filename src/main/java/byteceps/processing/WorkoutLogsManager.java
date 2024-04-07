@@ -37,6 +37,10 @@ public class WorkoutLogsManager extends ActivityManager {
             int setsInt = Integer.parseInt(sets);
             int repsInt = Integer.parseInt(repetitions);
 
+            if (weightInt < 0 || setsInt < 0 || repsInt < 0) {
+                throw new NumberFormatException();
+            }
+
             ExerciseLog newExerciseLog = new ExerciseLog(exerciseName, weightInt, setsInt, repsInt);
             WorkoutLog workoutLog = (WorkoutLog) retrieve(workoutLogDate);
 
