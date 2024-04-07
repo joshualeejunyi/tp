@@ -289,6 +289,8 @@ Expected outcome:
 [BYTE-CEPS]> Workout push day assigned to monday
 ```
 
+**Note**: You can only assign ONE workout plan to any given day
+
 ### View Today's workout plan:
 You may see the workout plan for today using the `/today` flag.
 ```
