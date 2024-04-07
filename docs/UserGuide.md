@@ -17,6 +17,7 @@ Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fi
 	- [Workout Plan Management](#workout-plan-management)
 		- [Add a workout plan](#add-a-workout-plan)
 		- [Delete a workout plan](#delete-a-workout-plan)
+  		- [Edit a workout plan](#edit-workout-plan)	
 		- [List workout plan](#list-workout-plan)
   		- [Search workout plans](#search-workout-plans)	
 		- [Assign an exercise to a workout plan](#assign-an-exercise-to-a-workout-plan)
@@ -176,6 +177,22 @@ Expected outcome:
 [BYTE-CEPS]> Deleted Workout: push day
 ```
 **Note:** Deleting a workout assigned to a day in your training program will also cause it to be removed from the training program.
+
+### Edit Workout Plan
+If you ever need to edit a workout plan, you may do so using the `/edit` flag.
+```
+workout /edit <OLD_WORKOUT_PLAN_NAME [string]> /to <NEW_WORKOUT_PLAN_NAME [string]>
+```
+
+Example of usage: 
+```
+workout /edit push day /to pull day
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> Edited Workout Plan from push day to pull day
+```
 
 ### List workout plan
 You may list all your workout plans by using the `/list` flag.
