@@ -32,7 +32,7 @@ public class ExerciseValidator {
     }
 
     public String validateProcessAddExercise(Parser parser, String activityType)throws Exceptions.InvalidInput{
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         if (exerciseName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
         } else if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {

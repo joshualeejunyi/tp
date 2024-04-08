@@ -29,14 +29,11 @@ class WeeklyProgramManagerTest {
     private ExerciseManager exerciseManager;
     private WorkoutManager workoutManager;
     private WeeklyProgramManager weeklyProgramManager;
-<<<<<<< HEAD
     private ExerciseValidator exerciseValidator;
     private WorkoutValidator workoutValidator;
     private WeeklyProgramValidator weeklyProgramValidator;
     private WorkoutLogsValidator workoutLogsValidator;
-=======
     private final UserInterface ui = new UserInterface();
->>>>>>> master
 
     @BeforeEach
     void setUp() {

@@ -136,7 +136,7 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
         String activityType = getActivityType(false);
-        String workoutName = workoutValidator.validateProcessWorkout(parser, activityType);
+        String workoutName = workoutValidator.validateProcessWorkout(parser, activityType).toLowerCase();
 
         return new Workout(workoutName);
     }
@@ -146,7 +146,7 @@ public class WorkoutManager extends ActivityManager {
             Exceptions.ActivityDoesNotExists {
 
         String[] exerciseWorkout = workoutValidator.validateNamesAssignExerciseToWorkout(parser);
-        String exerciseName = exerciseWorkout[0];
+        String exerciseName = exerciseWorkout[0].toLowerCase();
         String workoutPlanName = exerciseWorkout[1];
 
 
