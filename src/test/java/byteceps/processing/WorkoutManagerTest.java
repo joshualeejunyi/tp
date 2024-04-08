@@ -5,6 +5,8 @@ import byteceps.errors.Exceptions;
 
 
 import byteceps.ui.UserInterface;
+import byteceps.validators.ExerciseValidator;
+import byteceps.validators.WorkoutValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,14 +26,16 @@ class WorkoutManagerTest {
     private Parser parser;
     private WorkoutManager workoutManager;
     private ExerciseManager exerciseManager;
-    private InputValidator inputValidator;
+    private ExerciseValidator exerciseValidator;
+    private WorkoutValidator workoutValidator;
 
     @BeforeEach
     void setUp() {
-        inputValidator = new InputValidator();
+        exerciseValidator = new ExerciseValidator();
+        workoutValidator = new WorkoutValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager(inputValidator);
-        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
+        exerciseManager = new ExerciseManager(exerciseValidator);
+        workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
     }
 
     public void setUpStreams() {

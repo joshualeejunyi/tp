@@ -6,14 +6,17 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.CommandStrings;
 import byteceps.ui.strings.ManagerStrings;
+import byteceps.validators.ExerciseValidator;
 
 /**
  * Manages operations related to exercises, such as adding, deleting, editing, listing, and searching exercises.
  */
 public class ExerciseManager extends ActivityManager {
 
-    public ExerciseManager(InputValidator inputValidator) {
-        super(inputValidator);
+    private final ExerciseValidator exerciseValidator;
+
+    public ExerciseManager(ExerciseValidator exerciseValidator) {
+        this.exerciseValidator = exerciseValidator;
     }
 
     //@@author V4vern
@@ -31,15 +34,11 @@ public class ExerciseManager extends ActivityManager {
     public String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists {
-        assert parser != null : "Parser must not be null";
-        assert parser.getAction() != null : "Command action must not be null";
 
-        if (parser.getAction().isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.NO_ACTION_EXCEPTION);
-        }
+        String command = exerciseValidator.validateExecute(parser);
 
         String messageToUser;
-        switch (parser.getAction()) {
+        switch (command) {
         case CommandStrings.ACTION_ADD:
             messageToUser = executeAddAction(parser);
             break;
@@ -73,10 +72,7 @@ public class ExerciseManager extends ActivityManager {
 
 
     private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
-        String userInput = parser.getActionParameter();
-        if (!userInput.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_EXERCISE_LIST);
-        }
+        exerciseValidator.validateExecuteListAction(parser);
         return getListString();
     }
 
@@ -98,13 +94,8 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
-        String exerciseName = parser.getActionParameter();
-        if (exerciseName.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
-        } else if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
-            throw new Exceptions.InvalidInput(
-                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, getActivityType(false)));
-        }
+        String activityType = getActivityType(false);
+        String exerciseName =  exerciseValidator.validateProcessAddExercise(parser, activityType);
         return new Exercise(exerciseName);
     }
 
@@ -117,11 +108,7 @@ public class ExerciseManager extends ActivityManager {
     //@@author LWachtel1
     private String processEditExercise(Parser parser, ActivityManager activityManager) throws
             Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
-
-        if (newExerciseName == null || newExerciseName.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
-        }
+        String newExerciseName = exerciseValidator.validateProcessEditExercise(parser);
 
         Exercise retrievedExercise = retrieveExercise(parser);
         retrievedExercise.editExerciseName(newExerciseName, activityManager);
@@ -136,10 +123,7 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
-        String searchTerm = parser.getActionParameter();
-        if (searchTerm == null || searchTerm.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
-        }
+        String searchTerm = exerciseValidator.validateExecuteSearchAction(parser);
         return getSearchResultsString(searchTerm);
     }
 

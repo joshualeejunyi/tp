@@ -1,9 +1,16 @@
 package byteceps.storage;
 
-import byteceps.processing.*;
+import byteceps.processing.ExerciseManager;
+import byteceps.processing.WorkoutManager;
+import byteceps.processing.WeeklyProgramManager;
+import byteceps.processing.WorkoutLogsManager;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.strings.StorageStrings;
 
+import byteceps.validators.ExerciseValidator;
+import byteceps.validators.WorkoutValidator;
+import byteceps.validators.WeeklyProgramValidator;
+import byteceps.validators.WorkoutLogsValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,24 +28,35 @@ class StorageTest {
     private static final String FILE_PATH = "data.json";
     private static final String RENAMED_PATH = "hidden.json";
     private static Storage storage;
+
     private static ExerciseManager exerciseManager = null;
     private static WorkoutManager workoutManager = null;
     private static WorkoutLogsManager workoutLogsManager = null;
     private static WeeklyProgramManager weeklyProgramManager = null;
-    private static InputValidator inputValidator;
+
+    private static ExerciseValidator exerciseValidator = null;
+    private static WorkoutValidator workoutValidator = null;
+    private static WeeklyProgramValidator weeklyProgramValidator = null;
+    private static WorkoutLogsValidator workoutLogsValidator = null;
+
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
 
+
     @BeforeEach
     public void setup() {
-        inputValidator = new InputValidator();
+        exerciseValidator = new ExerciseValidator();
+        workoutValidator = new WorkoutValidator();
+        weeklyProgramValidator = new WeeklyProgramValidator();
+        workoutLogsValidator = new WorkoutLogsValidator();
         storage = new Storage(FILE_PATH);
-        exerciseManager = new ExerciseManager(inputValidator);
-        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
-        workoutLogsManager = new WorkoutLogsManager(inputValidator);
-        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
+        exerciseManager = new ExerciseManager(exerciseValidator);
+        workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
+        workoutLogsManager = new WorkoutLogsManager(workoutLogsValidator);
+        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager,
+                weeklyProgramValidator);
     }
 
     public void setUpStreams() {

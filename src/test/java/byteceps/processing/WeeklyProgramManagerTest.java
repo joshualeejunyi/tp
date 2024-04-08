@@ -3,6 +3,10 @@ package byteceps.processing;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.UserInterface;
+import byteceps.validators.ExerciseValidator;
+import byteceps.validators.WorkoutValidator;
+import byteceps.validators.WeeklyProgramValidator;
+import byteceps.validators.WorkoutLogsValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,16 +29,23 @@ class WeeklyProgramManagerTest {
     private ExerciseManager exerciseManager;
     private WorkoutManager workoutManager;
     private WeeklyProgramManager weeklyProgramManager;
-    private InputValidator inputValidator;
+    private ExerciseValidator exerciseValidator;
+    private WorkoutValidator workoutValidator;
+    private WeeklyProgramValidator weeklyProgramValidator;
+    private WorkoutLogsValidator workoutLogsValidator;
 
     @BeforeEach
     void setUp() {
-        inputValidator = new InputValidator();
+        exerciseValidator = new ExerciseValidator();
+        workoutValidator = new WorkoutValidator();
+        weeklyProgramValidator = new WeeklyProgramValidator();
+        workoutLogsValidator = new WorkoutLogsValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager(inputValidator);
-        workoutManager = new WorkoutManager(exerciseManager, inputValidator);
-        WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager(inputValidator);
-        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
+        exerciseManager = new ExerciseManager(exerciseValidator);
+        workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
+        WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager(workoutLogsValidator);
+        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager,
+                weeklyProgramValidator);
 
         // create dummy exercises and workouts
         String[] exerciseInput = {"exercise /add benchpress", "exercise /add deadlift", "exercise /add barbell squat"};

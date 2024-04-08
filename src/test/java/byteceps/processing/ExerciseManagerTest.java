@@ -3,6 +3,7 @@ package byteceps.processing;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.UserInterface;
+import byteceps.validators.ExerciseValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ExerciseManagerTest {
     private Parser parser;
     private ExerciseManager exerciseManager;
-    private InputValidator inputValidator;
+    private ExerciseValidator exerciseValidator;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -24,9 +25,9 @@ class ExerciseManagerTest {
 
     @BeforeEach
     public void setup() {
-        inputValidator = new InputValidator();
+        exerciseValidator = new ExerciseValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager(inputValidator);
+        exerciseManager = new ExerciseManager(exerciseValidator);
     }
 
     public void setUpStreams() {

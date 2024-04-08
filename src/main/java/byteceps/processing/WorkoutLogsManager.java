@@ -8,6 +8,7 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.ManagerStrings;
 import byteceps.ui.strings.StorageStrings;
+import byteceps.validators.WorkoutLogsValidator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,8 +17,10 @@ import java.util.LinkedHashSet;
 
 public class WorkoutLogsManager extends ActivityManager {
 
-    public WorkoutLogsManager(InputValidator inputValidator) {
-        super(inputValidator);
+    private final WorkoutLogsValidator workoutLogsValidator;
+
+    public WorkoutLogsManager(WorkoutLogsValidator workoutLogsValidator) {
+        this.workoutLogsValidator = workoutLogsValidator;
     }
 
     @Override

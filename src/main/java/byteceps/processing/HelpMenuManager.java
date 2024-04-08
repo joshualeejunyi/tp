@@ -4,14 +4,15 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
+import byteceps.validators.HelpValidator;
 
 //@@author LWachtel1
 public class HelpMenuManager {
 
-    InputValidator inputValidator;
+    private final HelpValidator helpValidator;
 
-    public HelpMenuManager(InputValidator inputValidator) {
-        this.inputValidator = inputValidator;
+    public HelpMenuManager(HelpValidator helpValidator) {
+        this.helpValidator = helpValidator;
     }
 
     public String printHelpGreeting() {
@@ -21,12 +22,9 @@ public class HelpMenuManager {
     public String execute(Parser parser) throws Exceptions.InvalidInput {
         String menuSelection;
 
-        assert parser != null : "Parser must not be null";
-        assert parser.getAction() != null : "Command action must not be null";
+        String command = helpValidator.validateExecute(parser);
 
-        inputValidator.validateHelpExecute(parser);
-
-        switch (parser.getAction()) {
+        switch (command) {
         case CommandStrings.COMMAND_EXERCISE:
             menuSelection = showExerciseCommand(parser);
             break;
@@ -39,13 +37,12 @@ public class HelpMenuManager {
         default:
             throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
         }
-
         return menuSelection;
     }
 
     public String showExerciseCommand(Parser parser) {
-        boolean isValidated = inputValidator.validateHelpShow(parser);
-        if (isValidated) {
+        boolean isEmptyFlag = helpValidator.validateShow(parser);
+        if (isEmptyFlag) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.EXERCISE_MESSAGE, System.lineSeparator()));
 
@@ -53,44 +50,42 @@ public class HelpMenuManager {
                 result.append(String.format(HelpStrings.HELP_LIST_ITEM,
                         getExerciseFlagFunctions(i), System.lineSeparator()));
             }
-
             return result.toString();
         }
-        return getFlagFormat(parser.getActionParameter(), CommandStrings.COMMAND_EXERCISE);
+        String flag = parser.getActionParameter();
+        return getFlagFormat(flag, CommandStrings.COMMAND_EXERCISE);
     }
 
     public String showWorkoutCommand(Parser parser) {
-        boolean isValidated = inputValidator.validateHelpShow(parser);
-        if (isValidated) {
+        boolean isEmptyFlag = helpValidator.validateShow(parser);
+        if (isEmptyFlag) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.WORKOUT_MESSAGE, System.lineSeparator()));
 
             for (int i = 0; i < HelpStrings.WORKOUT_FLAG_FUNCTIONS.length; i++) {
                 result.append(String.format(HelpStrings.HELP_LIST_ITEM,
                         getWorkoutFlagFunctions(i), System.lineSeparator()));
-
             }
             return result.toString();
         }
-        return getFlagFormat(parser.getActionParameter(), CommandStrings.COMMAND_WORKOUT);
+        String flag = parser.getActionParameter();
+        return getFlagFormat(flag, CommandStrings.COMMAND_WORKOUT);
     }
 
     public String showProgramCommand(Parser parser) {
-        boolean isValidated = inputValidator.validateHelpShow(parser);
-        if (isValidated) {
+        boolean isEmptyFlag = helpValidator.validateShow(parser);
+        if (isEmptyFlag) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.PROGRAM_MESSAGE, System.lineSeparator()));
 
             for (int i = 0; i < HelpStrings.PROGRAM_FLAG_FUNCTIONS.length; i++) {
                 result.append(String.format(HelpStrings.HELP_LIST_ITEM,
                         getProgramFlagFunctions(i), System.lineSeparator()));
-
             }
-
             return result.toString();
-
         }
-        return getFlagFormat(parser.getActionParameter(), CommandStrings.COMMAND_PROGRAM);
+        String flag = parser.getActionParameter();
+        return getFlagFormat(flag, CommandStrings.COMMAND_PROGRAM);
     }
 
     public String getFlagFormat(String userFlag,String commandType) {
