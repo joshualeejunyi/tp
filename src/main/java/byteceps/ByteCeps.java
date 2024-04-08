@@ -53,7 +53,7 @@ public class ByteCeps {
         weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager,
                 weeklyProgramValidator);
         parser = new Parser();
-        storage = new Storage(FILE_PATH);
+        storage = new Storage(FILE_PATH, ui);
         helpMenuManager = new HelpMenuManager(helpValidator);
     }
 
@@ -61,7 +61,7 @@ public class ByteCeps {
         new ByteCeps().run();
     }
 
-    public void commandLine() {
+    public void runCommandLine() {
         while (true) {
             String userInput = ui.getUserInput();
             parser.parseInput(userInput);
@@ -87,11 +87,11 @@ public class ByteCeps {
                 default:
                     messageToUser = CommandStrings.UNKNOWN_COMMAND;
                 }
-                UserInterface.printMessage(messageToUser);
+                ui.printMessage(messageToUser);
                 CascadingDeletionProcessor.checkForCascadingDeletions(parser, workoutManager, weeklyProgramManager);
             } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
                      Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException e) {
-                UserInterface.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
+                ui.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
             }
         }
     }
@@ -99,12 +99,13 @@ public class ByteCeps {
     public void run() {
         ui.printWelcomeMessage();
         try {
-            storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
-            UserInterface.printMessage(helpMenuManager.printHelpGreeting());
-            commandLine();
+            storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager,
+                    exerciseValidator, workoutValidator, weeklyProgramValidator, workoutLogsValidator);
+            ui.printMessage(helpMenuManager.printHelpGreeting());
+            runCommandLine();
             storage.save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
         } catch (IOException e) {
-            UserInterface.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
+            ui.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
         }
         ui.printGoodbyeMessage();
     }

@@ -28,6 +28,8 @@ class WorkoutManagerTest {
     private ExerciseManager exerciseManager;
     private ExerciseValidator exerciseValidator;
     private WorkoutValidator workoutValidator;
+    private final UserInterface ui = new UserInterface();
+
 
     @BeforeEach
     void setUp() {
@@ -151,11 +153,11 @@ class WorkoutManagerTest {
         String validInput2 = "workout /create ArmDay";
 
         parser.parseInput(validInput1);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
         parser.parseInput(validInput2);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
 
-        UserInterface.printMessage(workoutManager.getListString());
+        ui.printMessage(workoutManager.getListString());
         String expectedOutput = "[BYTE-CEPS]> Added Workout Plan: legday\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Added Workout Plan: armday\n" +
@@ -177,28 +179,28 @@ class WorkoutManagerTest {
         String exerciseInput1 = "exercise /add Squat";
         String exerciseInput2 = "exercise /add lunges";
         parser.parseInput(exerciseInput1);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
         parser.parseInput(exerciseInput2);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String workoutInput = "workout /create legday";
         parser.parseInput(workoutInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
 
         String assignInput1 = "workout /assign Squat /to legday";
         String assignInput2 = "workout /assign lunges /to legday";
         parser.parseInput(assignInput1);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
         parser.parseInput(assignInput2);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
 
         String infoInput = "workout /info legday";
         parser.parseInput(infoInput);
 
         setUpStreams();
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
         String expectedOutput = "[BYTE-CEPS]> Listing exercises in workout plan 'legday':\n" +
-                "\t\t\t1. Squat\n" +
+                "\t\t\t1. squat\n" +
                 "\t\t\t2. lunges\n" +
                 "-------------------------------------------------\n";
 
@@ -221,11 +223,11 @@ class WorkoutManagerTest {
 
         String addInput = "workout /create LegDay";
         parser.parseInput(addInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
 
         String searchInput = "workout /search LegDay";
         parser.parseInput(searchInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]> Added Workout Plan: legday\n" +
                 "-------------------------------------------------\n" +
@@ -246,7 +248,7 @@ class WorkoutManagerTest {
 
         String searchInput = "workout /search NonExistentWorkout";
         parser.parseInput(searchInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(workoutManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(workoutManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]>Noresultsfound\n" +
                 "\n" +
@@ -264,8 +266,6 @@ class WorkoutManagerTest {
         parser.parseInput(searchInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
     }
-
-
 
 
 }

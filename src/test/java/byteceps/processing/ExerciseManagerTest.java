@@ -22,6 +22,7 @@ class ExerciseManagerTest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
+    private final UserInterface ui = new UserInterface();
 
     @BeforeEach
     public void setup() {
@@ -88,18 +89,18 @@ class ExerciseManagerTest {
         String validInput2 = "exercise /add Deadlifts";
 
         parser.parseInput(validInput1);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
         parser.parseInput(validInput2);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
-        UserInterface.printMessage(exerciseManager.getListString());
-        String expectedOutput = "[BYTE-CEPS]> Added Exercise: Pushups\n" +
+        ui.printMessage(exerciseManager.getListString());
+        String expectedOutput = "[BYTE-CEPS]> Added Exercise: pushups\n" +
                 "-------------------------------------------------\n" +
-                "[BYTE-CEPS]> Added Exercise: Deadlifts\n" +
+                "[BYTE-CEPS]> Added Exercise: deadlifts\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Listing Exercises:\n" +
-                "\t\t\t1. Pushups\n" +
-                "\t\t\t2. Deadlifts\n" +
+                "\t\t\t1. pushups\n" +
+                "\t\t\t2. deadlifts\n" +
                 "\n" +
                 "-------------------------------------------------\n";
 
@@ -122,26 +123,26 @@ class ExerciseManagerTest {
     public void execute_validExerciseEdit_success() {
         setUpStreams();
 
-        String validInput = "exercise /add Push ups";
+        String validInput = "exercise /add Pushups";
         parser.parseInput(validInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
-        UserInterface.printMessage(exerciseManager.getListString());
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
+        ui.printMessage(exerciseManager.getListString());
 
-        String editedInput = "exercise /edit Push ups /to Push Ups";
+        String editedInput = "exercise /edit Pushups /to Push Ups";
         parser.parseInput(editedInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
-        UserInterface.printMessage(exerciseManager.getListString());
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
+        ui.printMessage(exerciseManager.getListString());
 
-        String expectedOutput = "[BYTE-CEPS]> Added Exercise: Push ups\n" +
+        String expectedOutput = "[BYTE-CEPS]> Added Exercise: pushups\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Listing Exercises:\n" +
-                "\t\t\t1. Push ups\n" +
+                "\t\t\t1. pushups\n" +
                 "\n" +
                 "-------------------------------------------------\n" +
-                "[BYTE-CEPS]> Edited Exercise from Push ups to Push Ups\n" +
+                "[BYTE-CEPS]> Edited Exercise from pushups to push ups\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> Listing Exercises:\n" +
-                "\t\t\t1. Push Ups\n" +
+                "\t\t\t1. push ups\n" +
                 "\n" +
                 "-------------------------------------------------\n";
 
@@ -215,18 +216,18 @@ class ExerciseManagerTest {
 
         String addInput = "exercise /add Pushups";
         parser.parseInput(addInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String searchInput = "exercise /search Pushups";
         parser.parseInput(searchInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]> AddedExercise: \n" +
-                "\t\t\t Pushups\n" +
+                "\t\t\t pushups\n" +
                 "\n" +
                 "-------------------------------------------------\n" +
                 "[BYTE-CEPS]> SearchResults:\n" +
-                "\t\t\t1. Pushups\n" +
+                "\t\t\t1. pushups\n" +
                 "\n" +
                 "-------------------------------------------------\n";
 
@@ -242,7 +243,7 @@ class ExerciseManagerTest {
 
         String searchInput = "exercise /search Nonexistent";
         parser.parseInput(searchInput);
-        assertDoesNotThrow(() -> UserInterface.printMessage(exerciseManager.execute(parser)));
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]>Noresultsfound\n" +
                 "-------------------------------------------------\n";

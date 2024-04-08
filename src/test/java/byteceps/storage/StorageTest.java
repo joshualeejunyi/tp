@@ -4,6 +4,7 @@ import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutManager;
 import byteceps.processing.WeeklyProgramManager;
 import byteceps.processing.WorkoutLogsManager;
+import byteceps.ui.UserInterface;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.strings.StorageStrings;
 
@@ -44,6 +45,7 @@ class StorageTest {
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
 
+    private final UserInterface ui = new UserInterface();
 
     @BeforeEach
     public void setup() {
@@ -51,7 +53,7 @@ class StorageTest {
         workoutValidator = new WorkoutValidator();
         weeklyProgramValidator = new WeeklyProgramValidator();
         workoutLogsValidator = new WorkoutLogsValidator();
-        storage = new Storage(FILE_PATH);
+        storage = new Storage(FILE_PATH, ui);
         exerciseManager = new ExerciseManager(exerciseValidator);
         workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
         workoutLogsManager = new WorkoutLogsManager(workoutLogsValidator);
@@ -176,7 +178,7 @@ class StorageTest {
 
         setUpStreams();
         assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator, workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.NO_SAVE_DATA,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
@@ -201,7 +203,7 @@ class StorageTest {
 
         setUpStreams();
         assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator, workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -221,12 +223,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(corruptFile));
 
-        Storage failureStorage = new Storage(corruptFile);
+        Storage failureStorage = new Storage(corruptFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -252,12 +255,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(duplicateExerciseFile));
 
-        Storage failureStorage = new Storage(duplicateExerciseFile);
+        Storage failureStorage = new Storage(duplicateExerciseFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -282,12 +286,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(duplicateWorkoutFile));
 
-        Storage failureStorage = new Storage(duplicateWorkoutFile);
+        Storage failureStorage = new Storage(duplicateWorkoutFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -312,12 +317,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(workoutMissingFile));
 
-        Storage failureStorage = new Storage(workoutMissingFile);
+        Storage failureStorage = new Storage(workoutMissingFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -343,12 +349,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFile));
 
-        Storage failureStorage = new Storage(workoutExercisesMissingFile);
+        Storage failureStorage = new Storage(workoutExercisesMissingFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -374,12 +381,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(logsExerciseFailFile));
 
-        Storage failureStorage = new Storage(logsExerciseFailFile);
+        Storage failureStorage = new Storage(logsExerciseFailFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
@@ -404,12 +412,13 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(logsWorkoutFailFile));
 
-        Storage failureStorage = new Storage(logsWorkoutFailFile);
+        Storage failureStorage = new Storage(logsWorkoutFailFile, new UserInterface());
 
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
-                workoutLogsManager));
+                workoutLogsManager, exerciseValidator, workoutValidator, weeklyProgramValidator,
+                workoutLogsValidator));
 
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,

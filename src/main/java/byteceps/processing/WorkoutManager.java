@@ -144,9 +144,11 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
+
         String[] exerciseWorkout = workoutValidator.validateNamesAssignExerciseToWorkout(parser);
         String exerciseName = exerciseWorkout[0];
         String workoutPlanName = exerciseWorkout[1];
+
 
         Exercise exercise = (Exercise) exerciseManager.retrieve(exerciseName);
         assert exercise != null : "Exercise does not exist";

@@ -53,12 +53,8 @@ public class CascadingDeletionProcessor {
                                                           WeeklyProgramManager weeklyProgramManager)
             throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         LinkedHashSet<Activity> newWorkoutsInProgram = weeklyProgramManager.getDaySet();
-        LinkedHashSet<Activity> oldWorkoutsInProgram = null;
-        try {
-            oldWorkoutsInProgram = (LinkedHashSet<Activity>) newWorkoutsInProgram.clone();
-        } catch (ClassCastException e) {
-            return;
-        }
+        LinkedHashSet<Activity> oldWorkoutsInProgram = new LinkedHashSet<>(newWorkoutsInProgram);
+
         for (Activity item : oldWorkoutsInProgram) {
             Day currentDay = (Day) item;
             Workout workout = currentDay.getAssignedWorkout();

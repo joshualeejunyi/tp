@@ -70,7 +70,7 @@ public class WorkoutValidator {
     }
 
     public String[] validateNamesAssignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput {
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         assert exerciseName != null : "Exercise name cannot be null";
         String workoutPlanName = parser.getAdditionalArguments("to");
         assert workoutPlanName != null : "Workout plan name cannot be null";
