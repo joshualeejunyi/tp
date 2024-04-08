@@ -77,7 +77,7 @@ public class WorkoutManager extends ActivityManager {
 
     private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
-        String workoutName = parser.getActionParameter();
+        String workoutName = parser.getActionParameter().toLowerCase();
         if (workoutName == null || workoutName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_INFO);
         }
@@ -98,22 +98,22 @@ public class WorkoutManager extends ActivityManager {
         assert parser.getAction().equals(CommandStrings.ACTION_UNASSIGN) : "Action must be unassign";
         String workoutName = unassignExerciseFromWorkout(parser);
         return String.format(
-                ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter(), workoutName
+                ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter().toLowerCase(), workoutName
         );
     }
 
     private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = processEditWorkout(parser, this);
         return String.format(
-                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter(), newExerciseName
+                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
 
     private String processEditWorkout(Parser parser, ActivityManager activityManager) throws
             Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
 
-        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
-        String workoutName = parser.getActionParameter();
+        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
+        String workoutName = parser.getActionParameter().toLowerCase();
 
         if (newWorkoutName == null || newWorkoutName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
@@ -127,7 +127,7 @@ public class WorkoutManager extends ActivityManager {
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
         String workoutPlan = assignExerciseToWorkout(parser);
-        return String.format(ManagerStrings.ASSIGNED_EXERCISE, parser.getActionParameter(), workoutPlan);
+        return String.format(ManagerStrings.ASSIGNED_EXERCISE, parser.getActionParameter().toLowerCase(), workoutPlan);
     }
 
     private String executeDeleteAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
@@ -165,7 +165,7 @@ public class WorkoutManager extends ActivityManager {
             Exceptions.ActivityDoesNotExists {
         String exerciseName = parser.getActionParameter().toLowerCase();
         assert exerciseName != null : "Exercise name cannot be null";
-        String workoutPlanName = parser.getAdditionalArguments("to");
+        String workoutPlanName = parser.getAdditionalArguments("to").toLowerCase();
         assert workoutPlanName != null : "Workout plan name cannot be null";
         if (workoutPlanName == null) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_ASSIGN);
@@ -209,7 +209,7 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-        String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM);
+        String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM).toLowerCase();
         assert workoutPlanName != null : "Workout plan name cannot be null";
         String exerciseName = parser.getActionParameter();
         assert exerciseName != null : "Exercise name cannot be null";
