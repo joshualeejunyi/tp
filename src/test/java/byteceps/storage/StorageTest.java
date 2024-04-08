@@ -4,6 +4,7 @@ import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutManager;
 import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.WeeklyProgramManager;
+import byteceps.ui.UserInterface;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.strings.StorageStrings;
 
@@ -32,10 +33,10 @@ class StorageTest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
-
+    private final UserInterface ui = new UserInterface();
     @BeforeEach
     public void setup() {
-        storage = new Storage(FILE_PATH);
+        storage = new Storage(FILE_PATH, ui);
         exerciseManager = new ExerciseManager();
         workoutManager = new WorkoutManager(exerciseManager);
         workoutLogsManager = new WorkoutLogsManager();
@@ -204,7 +205,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(corruptFile));
 
-        Storage failureStorage = new Storage(corruptFile);
+        Storage failureStorage = new Storage(corruptFile, new UserInterface());
 
         setUpStreams();
 
@@ -235,7 +236,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(duplicateExerciseFile));
 
-        Storage failureStorage = new Storage(duplicateExerciseFile);
+        Storage failureStorage = new Storage(duplicateExerciseFile, new UserInterface());
 
         setUpStreams();
 
@@ -265,7 +266,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(duplicateWorkoutFile));
 
-        Storage failureStorage = new Storage(duplicateWorkoutFile);
+        Storage failureStorage = new Storage(duplicateWorkoutFile, new UserInterface());
 
         setUpStreams();
 
@@ -295,7 +296,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(workoutMissingFile));
 
-        Storage failureStorage = new Storage(workoutMissingFile);
+        Storage failureStorage = new Storage(workoutMissingFile, new UserInterface());
 
         setUpStreams();
 
@@ -326,7 +327,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFile));
 
-        Storage failureStorage = new Storage(workoutExercisesMissingFile);
+        Storage failureStorage = new Storage(workoutExercisesMissingFile, new UserInterface());
 
         setUpStreams();
 
@@ -357,7 +358,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(logsExerciseFailFile));
 
-        Storage failureStorage = new Storage(logsExerciseFailFile);
+        Storage failureStorage = new Storage(logsExerciseFailFile, new UserInterface());
 
         setUpStreams();
 
@@ -387,7 +388,7 @@ class StorageTest {
 
         assertDoesNotThrow( () -> checkFile(logsWorkoutFailFile));
 
-        Storage failureStorage = new Storage(logsWorkoutFailFile);
+        Storage failureStorage = new Storage(logsWorkoutFailFile, new UserInterface());
 
         setUpStreams();
 

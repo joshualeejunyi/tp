@@ -63,7 +63,7 @@ public class ExerciseManager extends ActivityManager {
     private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = processEditExercise(parser,this);
         return String.format(
-                ManagerStrings.EXERCISE_EDITED, parser.getActionParameter(), newExerciseName
+                ManagerStrings.EXERCISE_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
 
@@ -78,8 +78,7 @@ public class ExerciseManager extends ActivityManager {
 
     private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         assert parser.getAction().equals(CommandStrings.ACTION_DELETE) : "Action must be delete";
-        Exercise retrievedExercise;
-        retrievedExercise = retrieveExercise(parser);
+        Exercise retrievedExercise =  retrieveExercise(parser);
         delete(retrievedExercise);
         return String.format(ManagerStrings.EXERCISE_DELETED, retrievedExercise.getActivityName());
     }
@@ -94,7 +93,7 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         if (exerciseName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
         } else if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
@@ -106,7 +105,7 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExists {
-        String exerciseName = parser.getActionParameter();
+        String exerciseName = parser.getActionParameter().toLowerCase();
         return (Exercise) retrieve(exerciseName);
     }
 
@@ -120,8 +119,8 @@ public class ExerciseManager extends ActivityManager {
         }
 
         Exercise retrievedExercise = retrieveExercise(parser);
-        retrievedExercise.editExerciseName(newExerciseName, activityManager);
-        return newExerciseName;
+        retrievedExercise.editExerciseName(newExerciseName.toLowerCase(), activityManager);
+        return newExerciseName.toLowerCase();
     }
 
     //@@author joshualeejunyi

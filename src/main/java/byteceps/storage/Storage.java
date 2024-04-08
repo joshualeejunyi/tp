@@ -1,5 +1,6 @@
 package byteceps.storage;
 
+import byteceps.activities.Day;
 import byteceps.activities.Exercise;
 import byteceps.activities.Workout;
 import byteceps.errors.Exceptions;
@@ -7,6 +8,7 @@ import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.WeeklyProgramManager;
 import byteceps.processing.WorkoutManager;
+import byteceps.ui.strings.DayStrings;
 import byteceps.ui.strings.StorageStrings;
 import byteceps.ui.UserInterface;
 
@@ -19,17 +21,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Storage {
     private final Path filePath;
-
-    public Storage(String filePath) {
+    private final UserInterface ui;
+    public Storage(String filePath, UserInterface ui) {
         this.filePath = Path.of(filePath);
+        this.ui = ui;
     }
 
     public void save(ExerciseManager allExercises, WorkoutManager allWorkouts,
@@ -45,7 +50,7 @@ public class Storage {
         fileWriter.write(jsonArchive.toString());
         fileWriter.close();
 
-        UserInterface.printMessage(StorageStrings.WORKOUTS_SAVED);
+        ui.printMessage(StorageStrings.WORKOUTS_SAVED);
     }
 
     public void load(ExerciseManager allExercises, WorkoutManager allWorkouts,
@@ -53,18 +58,18 @@ public class Storage {
             throws IOException {
         boolean exerciseManagerIsEmpty = allExercises.getActivityList().isEmpty();
         boolean workoutManagerIsEmpty =  allWorkouts.getActivityList().isEmpty();
-        boolean weeklyProgramIsAllNull = weeklyProgram.getActivityList().stream().allMatch(Objects::isNull);
-        /*assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsAllNull
-            : "Must load from a clean state";*/
-
+        boolean weeklyProgramIsEmpty = weeklyProgram.getActivityList().stream().
+                allMatch(day-> ((Day) day).getAssignedWorkout() == null);
+        assert exerciseManagerIsEmpty && workoutManagerIsEmpty && weeklyProgramIsEmpty
+            : "Must load from a clean state";
         File jsonFile = filePath.toFile();
 
         if (jsonFile.createNewFile()) {
-            UserInterface.printMessage(StorageStrings.NO_SAVE_DATA);
+            ui.printMessage(StorageStrings.NO_SAVE_DATA);
             return;
         }
 
-        UserInterface.printMessage(StorageStrings.LOADING);
+        ui.printMessage(StorageStrings.LOADING);
 
         try (Scanner jsonScanner = new Scanner(jsonFile)) {
             JSONObject jsonArchive = new JSONObject(jsonScanner.nextLine());
@@ -72,10 +77,10 @@ public class Storage {
             loadWorkouts(allExercises, allWorkouts, jsonArchive);
             loadWeeklyProgram(allWorkouts, weeklyProgram, jsonArchive);
             loadWorkoutLogs(allExercises, allWorkouts, jsonArchive, workoutLogsManager);
-            UserInterface.printMessage(StorageStrings.LOAD_SUCCESS);
+            ui.printMessage(StorageStrings.LOAD_SUCCESS);
         } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
              Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
-            UserInterface.printMessage(StorageStrings.LOAD_ERROR);
+            ui.printMessage(StorageStrings.LOAD_ERROR);
             try {
                 String timestamp = new SimpleDateFormat(StorageStrings.BACKUP_DATE_FORMAT)
                         .format(new Date());
@@ -84,8 +89,13 @@ public class Storage {
                 jsonFile.renameTo(oldFile);
                 jsonFile.createNewFile();
             } catch (IOException ex) {
-                UserInterface.printMessage(StorageStrings.NEW_JSON_ERROR);
+                ui.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
+
+            allExercises = new ExerciseManager();
+            allWorkouts = new WorkoutManager(allExercises);
+            weeklyProgram = new WeeklyProgramManager(allExercises, allWorkouts, workoutLogsManager);
+            workoutLogsManager = new WorkoutLogsManager();
         }
 
     }
@@ -143,6 +153,14 @@ public class Storage {
             JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
             String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
             String workoutName = currentWorkout.getString(StorageStrings.WORKOUT_NAME);
+            //validate that workoutDate is a valid date string
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DayStrings.YEAR_FORMAT);
+                formatter = formatter.withLocale(formatter.getLocale());
+                LocalDate.parse(workoutDate, formatter); //ignore result, just catch exception
+            } catch (DateTimeParseException e) {
+                throw new Exceptions.InvalidInput(""); //no need for error message, LOAD_ERROR will be printed
+            }
             workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
 
             for (int j = 0; j < exercisesArray.length(); j++) {

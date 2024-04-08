@@ -296,8 +296,13 @@ public class WeeklyProgramManager extends ActivityManager {
 
         String workoutDate = parser.getActionParameter();
         WorkoutLog retrievedWorkout = (WorkoutLog) workoutLogsManager.retrieve(workoutDate);
-        Day day = getDayFromDate(workoutDate);
-        return getTodaysWorkoutString(retrievedWorkout, workoutDate, day);
+
+        try {
+            Day day = getDayFromDate(workoutDate);
+            return getTodaysWorkoutString(retrievedWorkout, workoutDate, day);
+        } catch (DateTimeParseException e) {
+            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_DATE_ENTERED);
+        }
     }
 
     private String getHistoryString() {
