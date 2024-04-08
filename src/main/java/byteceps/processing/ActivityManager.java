@@ -221,4 +221,16 @@ public abstract class ActivityManager {
         return result.toString();
     }
 
+    /**
+     * Updates the activity set by removing the specified activity to remove and adding the specified
+     * activity to add.
+     *
+     * @param activityToRemove The activity to remove from the activity set.
+     * @param activityToAdd    The activity to add to the activity set.
+     */
+    public void updateActivitySet(Activity activityToRemove, Activity activityToAdd) {
+        activitySet.remove(activityToRemove);
+        activitySet.add(activityToAdd);
+    }
+
 }

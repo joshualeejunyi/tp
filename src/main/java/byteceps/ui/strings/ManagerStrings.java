@@ -1,5 +1,6 @@
 package byteceps.ui.strings;
 
+
 public class ManagerStrings {
     public static final String ACTIVITY_EXISTS_EXCEPTION = "The %s entry: %s already exists";
     public static final String ACTIVITY_DELETE_EXCEPTION = "The %s entry: %s does not exist and cannot be deleted";
@@ -35,6 +36,7 @@ public class ManagerStrings {
     public static final String INVALID_WORKOUT_LIST = "Invalid command. Use 'workout /list' to list all exercises.";
     public static final String UNASSIGNED_EXERCISE = "Unassigned Exercise '%s' from Workout Plan '%s'";
     public static final String ASSIGNED_EXERCISE = "Assigned Exercise '%s' to Workout Plan '%s'";
+    public static final String WORKOUT_EDITED = "Edited Workout Plan from %s to %s";
     public static final String WORKOUT_DELETED = "Deleted Workout: %s";
     public static final String WORKOUT_ADDED = "Added Workout Plan: %s";
     public static final String INCOMPLETE_ASSIGN = "assign command not complete";

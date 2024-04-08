@@ -2,6 +2,8 @@ package byteceps.ui.strings;
 
 //@@author LWachtel1
 public class HelpStrings {
+    public static final String HELP_LIST_INDENT = "\t\t\t ";
+
     public static final String HELP_MANAGER_GREETING =
             String.format("%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",
                     System.lineSeparator(), "help /COMMAND_TYPE_FLAG", System.lineSeparator(),
@@ -46,8 +48,8 @@ public class HelpStrings {
         "(2) view today's workout plan",
         "(3) see all workout plans assigned to each day of the week",
         "(4) remove a workout plan from a given day of the week",
-        "(5) create a log for the amount of weight, sets & reps completed for an exercise on a given day which"
-                + " already has an assigned workout plan",
+        String.format ("%s%n%s%s", "(5) create a log for the amount of weight, sets & reps completed for an exercise on"
+                + " a given day", HELP_LIST_INDENT, "which already has an assigned workout plan"),
         "(6) create a log for a specified date",
         "(7) see all the dates that you have entered at least 1 log entry",
         "(8) view the logs that you have added on a specific date"

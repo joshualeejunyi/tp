@@ -25,6 +25,11 @@ public class Activity {
         return activityName;
     }
 
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+
     /**
      * Computes a hash code for the Activity object based on its name.
      *

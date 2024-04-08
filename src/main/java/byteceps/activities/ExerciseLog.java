@@ -24,4 +24,21 @@ public class ExerciseLog extends Activity {
     public int getWeight() {
         return weight;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return false;
+    }
 }

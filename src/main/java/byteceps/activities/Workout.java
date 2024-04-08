@@ -1,6 +1,8 @@
 //@@author V4vern
 package byteceps.activities;
 
+import byteceps.processing.ActivityManager;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.ListIterator;
@@ -71,5 +73,21 @@ public class Workout extends Activity {
                     it.nextIndex(), currentExercise.toString(), System.lineSeparator()));
         }
         return result.toString();
+    }
+
+    /**
+     * Edits the name of the workout.
+     *
+     * @param newWorkoutName  The new name for the workout. If null, the workout name will be set to null.
+     * @param activityManager The ActivityManager responsible for managing activities.
+     * @throws NullPointerException If the activityManager is null.
+     */
+    public void editWorkoutName(String newWorkoutName, ActivityManager activityManager) {
+        if (newWorkoutName != null) {
+            activityManager.updateActivitySet(this, new Workout(newWorkoutName));
+            this.activityName = newWorkoutName;
+        } else {
+            activityName = null;
+        }
     }
 }

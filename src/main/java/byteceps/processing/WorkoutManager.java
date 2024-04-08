@@ -21,13 +21,14 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
+
     /**
      * Executes all commands that start with the keyword "workout".
      *
      * @param parser Parser containing user input.
      * @return Message to user after executing the command.
-     * @throws Exceptions.InvalidInput if no command action specified.
-     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist.
+     * @throws Exceptions.InvalidInput            if no command action specified.
+     * @throws Exceptions.ActivityDoesNotExists   if user inputs name of an activity that does not exist.
      * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout.
      */
     @Override
@@ -44,6 +45,9 @@ public class WorkoutManager extends ActivityManager {
             break;
         case CommandStrings.ACTION_DELETE:
             messageToUser = executeDeleteAction(parser);
+            break;
+        case CommandStrings.ACTION_EDIT:
+            messageToUser = executeEditAction(parser);
             break;
         case CommandStrings.ACTION_ASSIGN:
             messageToUser = executeAssignAction(parser);
@@ -86,6 +90,28 @@ public class WorkoutManager extends ActivityManager {
         );
     }
 
+    private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+        String newExerciseName = processEditWorkout(parser, this);
+        return String.format(
+                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter(), newExerciseName
+        );
+    }
+
+    private String processEditWorkout(Parser parser, ActivityManager activityManager) throws
+            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+
+        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
+        String workoutName = parser.getActionParameter();
+
+        if (newWorkoutName == null || newWorkoutName.isEmpty()) {
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
+        }
+        Workout workoutToEdit = (Workout) retrieve(workoutName);
+        workoutToEdit.editWorkoutName(newWorkoutName, activityManager);
+        return newWorkoutName;
+    }
+
+
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
         String workoutPlan = assignExerciseToWorkout(parser);
@@ -109,8 +135,10 @@ public class WorkoutManager extends ActivityManager {
 
     //@@author V4vern
     private Workout processWorkout(Parser parser) throws Exceptions.InvalidInput {
+
         String activityType = getActivityType(false);
         String workoutName = inputValidator.validateWorkoutProcessWorkout(parser, activityType);
+
         return new Workout(workoutName);
     }
     //HERE
@@ -188,10 +216,11 @@ public class WorkoutManager extends ActivityManager {
     public String getActivityType(boolean plural) {
         return plural ? ManagerStrings.WORKOUTS : ManagerStrings.WORKOUT;
     }
+
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
-        if (searchTerm == null || searchTerm.isEmpty( )) {
+        if (searchTerm == null || searchTerm.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
         }
         return getSearchResultsString(searchTerm);
