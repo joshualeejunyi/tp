@@ -12,8 +12,9 @@ public class ExerciseValidator {
     public ExerciseValidator() {
 
     }
-
-    public String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    //@@author joshualeejunyi
+    //@@author pqienso
+    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
@@ -23,15 +24,16 @@ public class ExerciseValidator {
         String command = parser.getAction();
         return command;
     }
-
-    public void validateExecuteListAction(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    //@@author pqienso
+    public static void validateExecuteListAction(Parser parser) throws Exceptions.InvalidInput {
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INVALID_EXERCISE_LIST);
         }
     }
-
-    public String validateProcessAddExercise(Parser parser, String activityType)throws Exceptions.InvalidInput{
+    //@@author joshualeejunyi
+    public static String validateProcessAddExercise(Parser parser, String activityType)throws Exceptions.InvalidInput{
         String exerciseName = parser.getActionParameter().toLowerCase();
         if (exerciseName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
@@ -41,8 +43,8 @@ public class ExerciseValidator {
         }
         return exerciseName;
     }
-
-    public String validateProcessEditExercise(Parser parser)throws Exceptions.InvalidInput{
+    //@@author LWachtel1
+    public static String validateProcessEditExercise(Parser parser)throws Exceptions.InvalidInput{
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
 
         if (newExerciseName == null || newExerciseName.isEmpty()) {
@@ -51,8 +53,8 @@ public class ExerciseValidator {
         return newExerciseName;
 
     }
-
-    public String validateExecuteSearchAction(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    public static String validateExecuteSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
         if (searchTerm == null || searchTerm.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);

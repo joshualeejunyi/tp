@@ -6,14 +6,15 @@ import byteceps.ui.strings.HelpStrings;
 import byteceps.commands.Parser;
 
 
-
+//@@author LWachtel1
 public class HelpValidator {
 
     public HelpValidator() {
 
     }
-
-    public String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    //@@author LWachtel1
+    //@@author joshualeejunyi
+    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
@@ -27,8 +28,9 @@ public class HelpValidator {
         String command = parser.getAction();
         return command;
     }
-
-    public boolean validateShow(Parser parser){
+    //@@author LWachtel1
+    //@@author joshualeejunyi
+    public static boolean validateShow(Parser parser){
         boolean isEmptyFlag = parser.getActionParameter().isEmpty();
         return isEmptyFlag;
     }

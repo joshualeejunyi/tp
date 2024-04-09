@@ -15,7 +15,9 @@ public class WorkoutValidator {
 
     }
 
-    public String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    //@@author pqienso
+    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
         String command = parser.getAction();
@@ -26,7 +28,9 @@ public class WorkoutValidator {
         return command;
     }
 
-    public String validateExecuteInfoAction(Parser parser) throws Exceptions.InvalidInput{
+
+    //@@author pqienso
+    public static String validateExecuteInfoAction(Parser parser) throws Exceptions.InvalidInput{
         assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
         String workoutName = parser.getActionParameter().toLowerCase();
         if (workoutName == null || workoutName.isEmpty()) {
@@ -35,14 +39,17 @@ public class WorkoutValidator {
         return workoutName;
     }
 
-    public void validateExecuteListAction(Parser parser) throws Exceptions.InvalidInput{
+    //@@author V4vern
+    //@@author pqienso
+    public static void validateExecuteListAction(Parser parser) throws Exceptions.InvalidInput{
         String userInput = parser.getActionParameter();
         if (!userInput.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INVALID_WORKOUT_LIST);
         }
     }
 
-    public String[] validateProcessEditWorkout(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    public static String[] validateProcessEditWorkout(Parser parser) throws Exceptions.InvalidInput {
         String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
         String workoutName = parser.getActionParameter().toLowerCase();
 
@@ -55,7 +62,8 @@ public class WorkoutValidator {
         return workoutNames;
     }
 
-    public String validateProcessWorkout(Parser parser, String activityType) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    public static String validateProcessWorkout(Parser parser, String activityType) throws Exceptions.InvalidInput {
         String workoutName = parser.getActionParameter();
         assert !workoutName.isEmpty() : "Workout name cannot be empty";
         if (workoutName.isEmpty()) {
@@ -68,8 +76,8 @@ public class WorkoutValidator {
 
         return workoutName;
     }
-
-    public String[] validateNamesAssignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    public static String[] validateNamesAssignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput {
         String exerciseName = parser.getActionParameter().toLowerCase();
         assert exerciseName != null : "Exercise name cannot be null";
         String workoutPlanName = parser.getAdditionalArguments("to").toLowerCase();
@@ -83,8 +91,8 @@ public class WorkoutValidator {
         return exerciseWorkout;
 
     }
-
-    public void validateExerciseAssignExerciseToWorkout(Parser parser, Exercise exercise, Workout workoutPlan)
+    //@@author V4vern
+    public static void validateExerciseAssignExerciseToWorkout(Parser parser, Exercise exercise, Workout workoutPlan)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
 
         if (workoutPlan.getExerciseList().contains(exercise)) {
@@ -92,8 +100,8 @@ public class WorkoutValidator {
         }
 
     }
-
-    public String[] validateNamesUnassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    public static String[] validateNamesUnassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput {
         String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM).toLowerCase();
         assert workoutPlanName != null : "Workout plan name cannot be null";
         String exerciseName = parser.getActionParameter();
@@ -107,16 +115,16 @@ public class WorkoutValidator {
         return exerciseWorkout;
 
     }
-
-    public void validateExerciseUnassignExerciseFromWorkout(boolean exerciseIsInWorkout)
+    //@@author V4vern
+    public static void validateExerciseUnassignExerciseFromWorkout(boolean exerciseIsInWorkout)
             throws Exceptions.ActivityDoesNotExists{
         if (!exerciseIsInWorkout) {
             throw new Exceptions.ActivityDoesNotExists(ManagerStrings.EXERCISE_WORKOUT_DOES_NOT_EXIST);
         }
     }
 
-
-    public String validateExecuteSearchAction(Parser parser) throws Exceptions.InvalidInput {
+    //@@author V4vern
+    public static String validateExecuteSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
         if (searchTerm == null || searchTerm.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);

@@ -14,8 +14,9 @@ public class WeeklyProgramValidator {
     public WeeklyProgramValidator() {
 
     }
-
-    public String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    //@@author pqienso
+    //@@author joshualeejunyi
+    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         String commandAction = parser.getAction();
         assert commandAction != null : "Command action must not be null";
@@ -25,8 +26,8 @@ public class WeeklyProgramValidator {
         }
         return commandAction;
     }
-
-    public String validateExecuteAssignAction(Parser parser) throws Exceptions.InvalidInput{
+    //@@author joshualeejunyi
+    public static String validateExecuteAssignAction(Parser parser) throws Exceptions.InvalidInput{
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
         String day = parser.getAdditionalArguments(CommandStrings.ARG_TO);
         if (day == null || day.isEmpty()) {
@@ -35,8 +36,8 @@ public class WeeklyProgramValidator {
 
         return day;
     }
-
-    public void validateAssignWorkoutToDay(Workout chosenDayWorkout, Day selectedDay)
+    //@@author joshualeejunyi
+    public static void validateAssignWorkoutToDay(Workout chosenDayWorkout, Day selectedDay)
             throws Exceptions.ActivityExistsException{
         if (chosenDayWorkout != null) {
             throw new Exceptions.ActivityExistsException(
@@ -46,8 +47,9 @@ public class WeeklyProgramValidator {
             );
         }
     }
-
-    public String[] validateLogDetailsExecuteLogAction(Parser parser, ExerciseManager exerciseManager)
+    //@@author joshualeejunyi
+    //@@author V4vern
+    public static String[] validateLogDetailsExecuteLogAction(Parser parser, ExerciseManager exerciseManager)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         if (!parser.hasAdditionalArguments() || parser.getAdditionalArgumentsLength() < 3) {
             throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
@@ -76,7 +78,9 @@ public class WeeklyProgramValidator {
 
     //MISSING validateDateExecuteLogAction() - WORRIED ABOUT CREATING NEW BUGS
 
-    public void validGetTodaysWorkoutString(Workout givenWorkout,Day workoutDay)
+    //@@author joshualeejunyi
+    //@@author pqienso
+    public static void validGetTodaysWorkoutString(Workout givenWorkout,Day workoutDay)
             throws Exceptions.ActivityDoesNotExists{
         if (givenWorkout == null) {
             throw new Exceptions.ActivityDoesNotExists(
