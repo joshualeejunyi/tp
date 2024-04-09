@@ -30,9 +30,9 @@ public class ExerciseManager extends ActivityManager {
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists {
 
-        String command = ExerciseValidator.validateExecute(parser);
+        String command = ExerciseValidator.validateCommand(parser);
 
-        String messageToUser;
+        String messageToUser = "";
         switch (command) {
         case CommandStrings.ACTION_ADD:
             messageToUser = executeAddAction(parser);
@@ -52,60 +52,46 @@ public class ExerciseManager extends ActivityManager {
             messageToUser = executeSearchAction(parser);
             break;
         default:
-            throw new IllegalStateException(String.format(ManagerStrings.UNEXPECTED_ACTION, parser.getAction()));
+            assert false : "user input should have been validated beforehand";
         }
 
         return messageToUser;
     }
 
-    private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        String newExerciseName = processEditExercise(parser,this);
+    private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+        String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
+        Exercise retrievedExercise = retrieveExercise(parser);
+        retrievedExercise.editExerciseName(newExerciseName.toLowerCase(), this);
+        newExerciseName =  newExerciseName.toLowerCase();
+
         return String.format(
                 ManagerStrings.EXERCISE_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
 
-    private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
-        ExerciseValidator.validateExecuteListAction(parser);
+    private String executeListAction(Parser parser) {
         return getListString();
     }
 
-    private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
-        assert parser.getAction().equals(CommandStrings.ACTION_DELETE) : "Action must be delete";
+    private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
         Exercise retrievedExercise =  retrieveExercise(parser);
         delete(retrievedExercise);
         return String.format(ManagerStrings.EXERCISE_DELETED, retrievedExercise.getActivityName());
     }
 
-    private String executeAddAction(Parser parser) throws Exceptions.InvalidInput,
-            Exceptions.ActivityExistsException {
-        assert parser.getAction().equals(CommandStrings.ACTION_ADD) : "Action must be add";
-        Exercise newExercise = processAddExercise(parser);
+    //@@author V4vern
+    private String executeAddAction(Parser parser) throws Exceptions.ActivityExistsException {
+        String exerciseName =  parser.getActionParameter().toLowerCase();
+        Exercise newExercise = new Exercise(exerciseName);
         add(newExercise);
         return String.format(ManagerStrings.EXERCISE_ADDED, newExercise.getActivityName());
     }
 
-    //@@author V4vern
-    private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
-        String activityType = getActivityType(false);
-        String exerciseName =  ExerciseValidator.validateProcessAddExercise(parser, activityType);
-        return new Exercise(exerciseName);
-    }
 
     //@@author V4vern
     private Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExists {
         String exerciseName = parser.getActionParameter().toLowerCase();
         return (Exercise) retrieve(exerciseName);
-    }
-
-    //@@author LWachtel1
-    private String processEditExercise(Parser parser, ActivityManager activityManager) throws
-            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        String newExerciseName = ExerciseValidator.validateProcessEditExercise(parser);
-
-        Exercise retrievedExercise = retrieveExercise(parser);
-        retrievedExercise.editExerciseName(newExerciseName.toLowerCase(), activityManager);
-        return newExerciseName.toLowerCase();
     }
 
     //@@author joshualeejunyi
@@ -115,8 +101,8 @@ public class ExerciseManager extends ActivityManager {
     }
 
     //@@author V4vern
-    private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
-        String searchTerm = ExerciseValidator.validateExecuteSearchAction(parser);
+    private String executeSearchAction(Parser parser) {
+        String searchTerm = parser.getActionParameter();
         return getSearchResultsString(searchTerm);
     }
 

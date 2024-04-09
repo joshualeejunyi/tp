@@ -81,7 +81,7 @@ public class ByteCeps {
         ui.printWelcomeMessage();
         try {
             storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
-            ui.printMessage(helpMenuManager.printHelpGreeting());
+            ui.printMessage(helpMenuManager.getHelpGreetingString());
             runCommandLine();
             storage.save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
         } catch (IOException e) {

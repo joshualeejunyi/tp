@@ -89,7 +89,7 @@ class WeeklyProgramManagerTest {
     void execute_assignBlankWorkout_throwsActivityDoesNotExist() {
         String assignWorkoutInput = "program /assign/to thurs";
         parser.parseInput(assignWorkoutInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> weeklyProgramManager.execute(parser));
+        assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
     }
 
     @Test

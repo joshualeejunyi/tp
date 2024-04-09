@@ -112,7 +112,7 @@ class ExerciseManagerTest {
         String invalidInput = "exercise /unknown";
         parser.parseInput(invalidInput);
 
-        assertThrows(IllegalStateException.class, () -> exerciseManager.execute(parser));
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     //@@author LWachtel1
@@ -195,7 +195,7 @@ class ExerciseManagerTest {
 
         String editedInput = "exercise /edit /to Decline Push ups";
         parser.parseInput(editedInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> exerciseManager.execute(parser));
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     //@@author LWachtel1
@@ -203,7 +203,7 @@ class ExerciseManagerTest {
     public void execute_invalidFlag_throwsIllegalStateException() {
         String invalidInput = "exercise /change Push ups";
         parser.parseInput(invalidInput);
-        assertThrows(IllegalStateException.class, () -> exerciseManager.execute(parser));
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
 
