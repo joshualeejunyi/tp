@@ -13,12 +13,10 @@ public class WeeklyProgramValidator {
 
 
     //@@author pqienso
-    //@@author joshualeejunyi
     public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         String commandAction = parser.getAction();
         assert commandAction != null : "Command action must not be null";
-
         if (commandAction.isEmpty()) {
             throw new Exceptions.InvalidInput("No action specified");
         }
@@ -31,7 +29,6 @@ public class WeeklyProgramValidator {
         if (day == null || day.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_WEEK);
         }
-
         return day;
     }
     //@@author joshualeejunyi
@@ -45,38 +42,33 @@ public class WeeklyProgramValidator {
             );
         }
     }
-    //@@author joshualeejunyi
     //@@author V4vern
     public static String[] validateLogDetailsExecuteLogAction(Parser parser, ExerciseManager exerciseManager)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         if (!parser.hasAdditionalArguments() || parser.getAdditionalArgumentsLength() < 3) {
             throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
         }
+
         String exerciseName = parser.getActionParameter();
         String sets = parser.getAdditionalArguments(CommandStrings.ARG_SETS);
         String repetition = parser.getAdditionalArguments(CommandStrings.ARG_REPS);
         String weight = parser.getAdditionalArguments(CommandStrings.ARG_WEIGHT);
 
-
         if (exerciseName.isBlank() || sets.isBlank() || repetition.isBlank() || weight.isBlank()) {
             throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
         }
-
         if (exerciseManager.doesNotHaveActivity(exerciseName)) {
             throw new Exceptions.ActivityDoesNotExists(
                     String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
                             CommandStrings.COMMAND_EXERCISE, exerciseName)
             );
         }
-
         String[] logDetails = {exerciseName, sets, repetition, weight};
-
         return logDetails;
     }
 
     //MISSING validateDateExecuteLogAction() - WORRIED ABOUT CREATING NEW BUGS
 
-    //@@author joshualeejunyi
     //@@author pqienso
     public static void validGetTodaysWorkoutString(Workout givenWorkout,Day workoutDay)
             throws Exceptions.ActivityDoesNotExists{
@@ -87,5 +79,4 @@ public class WeeklyProgramValidator {
             );
         }
     }
-
 }

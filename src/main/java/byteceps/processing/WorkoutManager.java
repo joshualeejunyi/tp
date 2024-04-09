@@ -22,7 +22,6 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-
     /**
      * Executes all commands that start with the keyword "workout".
      *
@@ -108,7 +107,6 @@ public class WorkoutManager extends ActivityManager {
         workoutToEdit.editWorkoutName(newWorkoutName, activityManager);
         return newWorkoutName;
     }
-
 
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";

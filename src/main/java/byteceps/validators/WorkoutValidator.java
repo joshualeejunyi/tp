@@ -10,10 +10,7 @@ import byteceps.ui.strings.ManagerStrings;
 
 
 public class WorkoutValidator {
-
-
     //@@author V4vern
-    //@@author pqienso
     public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
@@ -24,8 +21,6 @@ public class WorkoutValidator {
 
         return command;
     }
-
-
     //@@author pqienso
     public static String validateExecuteInfoAction(Parser parser) throws Exceptions.InvalidInput{
         assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
@@ -36,7 +31,6 @@ public class WorkoutValidator {
         return workoutName;
     }
 
-    //@@author V4vern
     //@@author pqienso
     public static void validateExecuteListAction(Parser parser) throws Exceptions.InvalidInput{
         String userInput = parser.getActionParameter();
@@ -49,13 +43,10 @@ public class WorkoutValidator {
     public static String[] validateProcessEditWorkout(Parser parser) throws Exceptions.InvalidInput {
         String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
         String workoutName = parser.getActionParameter().toLowerCase();
-
         if (newWorkoutName == null || newWorkoutName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
-
         String[] workoutNames = {newWorkoutName, workoutName};
-
         return workoutNames;
     }
 
@@ -70,7 +61,6 @@ public class WorkoutValidator {
                     String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, activityType)
             );
         }
-
         return workoutName;
     }
     //@@author V4vern
@@ -82,20 +72,16 @@ public class WorkoutValidator {
         if (workoutPlanName == null) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_ASSIGN);
         }
-
         String[] exerciseWorkout = {exerciseName, workoutPlanName};
-
         return exerciseWorkout;
 
     }
     //@@author V4vern
     public static void validateExerciseAssignExerciseToWorkout(Parser parser, Exercise exercise, Workout workoutPlan)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-
         if (workoutPlan.getExerciseList().contains(exercise)) {
             throw new Exceptions.InvalidInput(ManagerStrings.EXERCISE_ALREADY_ASSIGNED);
         }
-
     }
     //@@author V4vern
     public static String[] validateNamesUnassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput {
@@ -110,7 +96,6 @@ public class WorkoutValidator {
         String[] exerciseWorkout = {exerciseName, workoutPlanName};
 
         return exerciseWorkout;
-
     }
     //@@author V4vern
     public static void validateExerciseUnassignExerciseFromWorkout(boolean exerciseIsInWorkout)
@@ -128,6 +113,5 @@ public class WorkoutValidator {
         }
         return searchTerm;
     }
-
-
+    
 }

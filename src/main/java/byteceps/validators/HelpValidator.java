@@ -11,7 +11,6 @@ public class HelpValidator {
 
 
     //@@author LWachtel1
-    //@@author joshualeejunyi
     public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
@@ -27,7 +26,6 @@ public class HelpValidator {
         return command;
     }
     //@@author LWachtel1
-    //@@author joshualeejunyi
     public static boolean validateShow(Parser parser){
         boolean isEmptyFlag = parser.getActionParameter().isEmpty();
         return isEmptyFlag;

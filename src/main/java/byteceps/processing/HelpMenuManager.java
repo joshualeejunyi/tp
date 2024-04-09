@@ -9,8 +9,6 @@ import byteceps.validators.HelpValidator;
 //@@author LWachtel1
 public class HelpMenuManager {
 
-
-
     public HelpMenuManager() {
 
     }
@@ -21,7 +19,6 @@ public class HelpMenuManager {
 
     public String execute(Parser parser) throws Exceptions.InvalidInput {
         String menuSelection;
-
         String command = HelpValidator.validateExecute(parser);
 
         switch (command) {
@@ -106,28 +103,22 @@ public class HelpMenuManager {
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             return HelpStrings.INVALID_COMMAND;
         }
-
     }
-
     public String getExerciseFlagFunctions(int index) {
         return HelpStrings.EXERCISE_FLAG_FUNCTIONS[index];
     }
-
     public String getWorkoutFlagFunctions(int index) {
         return HelpStrings.WORKOUT_FLAG_FUNCTIONS[index];
     }
-
     public String getProgramFlagFunctions(int index) {
         return HelpStrings.PROGRAM_FLAG_FUNCTIONS[index];
     }
     public String getExerciseFlagFormats(int index) {
         return HelpStrings.EXERCISE_FLAG_FORMAT[index];
     }
-
     public String getWorkoutFlagFormats(int index) {
         return HelpStrings.WORKOUT_FLAG_FORMAT[index];
     }
-
     public String getProgramFlagFormats(int index) {
         return HelpStrings.PROGRAM_FLAG_FORMAT[index];
     }

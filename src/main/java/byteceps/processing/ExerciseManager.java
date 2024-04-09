@@ -14,11 +14,6 @@ import byteceps.validators.ExerciseValidator;
 public class ExerciseManager extends ActivityManager {
 
 
-
-    public ExerciseManager() {
-
-    }
-
     //@@author V4vern
     /**
      * Executes all commands that start with the keyword "exercise".
@@ -69,7 +64,6 @@ public class ExerciseManager extends ActivityManager {
                 ManagerStrings.EXERCISE_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
-
 
     private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
         ExerciseValidator.validateExecuteListAction(parser);
