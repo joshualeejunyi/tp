@@ -23,14 +23,12 @@ public class WeeklyProgramManager extends ActivityManager {
     private final ExerciseManager exerciseManager;
     private final WorkoutManager workoutManager;
     private final WorkoutLogsManager workoutLogsManager;
-    private final WeeklyProgramValidator weeklyProgramValidator;
 
     public WeeklyProgramManager(ExerciseManager exerciseManager, WorkoutManager workoutManager,
-                                WorkoutLogsManager workoutLogsManager, WeeklyProgramValidator weeklyProgramValidator) {
+                                WorkoutLogsManager workoutLogsManager) {
         this.exerciseManager = exerciseManager;
         this.workoutManager = workoutManager;
         this.workoutLogsManager = workoutLogsManager;
-        this.weeklyProgramValidator = weeklyProgramValidator;
         initializeDays();
     }
 
@@ -94,7 +92,7 @@ public class WeeklyProgramManager extends ActivityManager {
     public String execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
 
-        String commandAction = weeklyProgramValidator.validateExecute(parser);
+        String commandAction = WeeklyProgramValidator.validateExecute(parser);
         String messageToUser;
 
         switch (commandAction) {
@@ -138,7 +136,7 @@ public class WeeklyProgramManager extends ActivityManager {
      */
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
-        String day = weeklyProgramValidator.validateExecuteAssignAction(parser);
+        String day = WeeklyProgramValidator.validateExecuteAssignAction(parser);
         String workoutName = parser.getActionParameter();
         Activity workout = workoutManager.retrieve(workoutName);
         return assignWorkoutToDay(workout, day);
@@ -160,7 +158,7 @@ public class WeeklyProgramManager extends ActivityManager {
         Day selectedDay = getDay(day);
         Workout chosenDayWorkout = selectedDay.getAssignedWorkout();
 
-        weeklyProgramValidator.validateAssignWorkoutToDay(chosenDayWorkout, selectedDay);
+        WeeklyProgramValidator.validateAssignWorkoutToDay(chosenDayWorkout, selectedDay);
 
         selectedDay.setAssignedWorkout((Workout) workout);
 
@@ -185,7 +183,7 @@ public class WeeklyProgramManager extends ActivityManager {
     private String executeLogAction(Parser parser)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
 
-        String[] logDetails = weeklyProgramValidator.validateLogDetailsExecuteLogAction(parser, exerciseManager);
+        String[] logDetails = WeeklyProgramValidator.validateLogDetailsExecuteLogAction(parser, exerciseManager);
         String exerciseName = logDetails[0];
         String sets = logDetails[1];
         String repetition = logDetails[2];
@@ -244,7 +242,7 @@ public class WeeklyProgramManager extends ActivityManager {
 
     private String getTodaysWorkoutString(Workout givenWorkout, String workoutDate, Day workoutDay) {
         try {
-            weeklyProgramValidator.validGetTodaysWorkoutString(givenWorkout, workoutDay);
+            WeeklyProgramValidator.validGetTodaysWorkoutString(givenWorkout, workoutDay);
 
             String workoutName = workoutDay.getAssignedWorkout().getActivityName();
             LinkedHashSet<Exercise> workoutLinkedHashSet = givenWorkout.getExerciseSet();

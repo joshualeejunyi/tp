@@ -26,18 +26,14 @@ class WorkoutManagerTest {
     private Parser parser;
     private WorkoutManager workoutManager;
     private ExerciseManager exerciseManager;
-    private ExerciseValidator exerciseValidator;
-    private WorkoutValidator workoutValidator;
     private final UserInterface ui = new UserInterface();
 
 
     @BeforeEach
     void setUp() {
-        exerciseValidator = new ExerciseValidator();
-        workoutValidator = new WorkoutValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager(exerciseValidator);
-        workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
+        exerciseManager = new ExerciseManager();
+        workoutManager = new WorkoutManager(exerciseManager);
     }
 
     public void setUpStreams() {

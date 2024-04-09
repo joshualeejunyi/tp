@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ExerciseManagerTest {
     private Parser parser;
     private ExerciseManager exerciseManager;
-    private ExerciseValidator exerciseValidator;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -26,9 +25,8 @@ class ExerciseManagerTest {
 
     @BeforeEach
     public void setup() {
-        exerciseValidator = new ExerciseValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager(exerciseValidator);
+        exerciseManager = new ExerciseManager();
     }
 
     public void setUpStreams() {

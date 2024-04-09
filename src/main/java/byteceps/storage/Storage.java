@@ -12,10 +12,6 @@ import byteceps.ui.strings.DayStrings;
 import byteceps.ui.strings.StorageStrings;
 import byteceps.ui.UserInterface;
 
-import byteceps.validators.ExerciseValidator;
-import byteceps.validators.WeeklyProgramValidator;
-import byteceps.validators.WorkoutLogsValidator;
-import byteceps.validators.WorkoutValidator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,9 +54,7 @@ public class Storage {
     }
 
     public void load(ExerciseManager allExercises, WorkoutManager allWorkouts,
-                     WeeklyProgramManager weeklyProgram, WorkoutLogsManager workoutLogsManager,
-                     ExerciseValidator exerciseValidator, WorkoutValidator workoutValidator,
-                     WeeklyProgramValidator weeklyProgramValidator, WorkoutLogsValidator workoutLogsValidator)
+                     WeeklyProgramManager weeklyProgram, WorkoutLogsManager workoutLogsManager)
             throws IOException {
         boolean exerciseManagerIsEmpty = allExercises.getActivityList().isEmpty();
         boolean workoutManagerIsEmpty =  allWorkouts.getActivityList().isEmpty();
@@ -98,11 +92,10 @@ public class Storage {
                 ui.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
 
-            allExercises = new ExerciseManager(exerciseValidator);
-            allWorkouts = new WorkoutManager(allExercises, workoutValidator);
-            weeklyProgram = new WeeklyProgramManager(allExercises, allWorkouts, workoutLogsManager,
-                    weeklyProgramValidator);
-            workoutLogsManager = new WorkoutLogsManager(workoutLogsValidator);
+            allExercises = new ExerciseManager();
+            allWorkouts = new WorkoutManager(allExercises);
+            weeklyProgram = new WeeklyProgramManager(allExercises, allWorkouts, workoutLogsManager);
+            workoutLogsManager = new WorkoutLogsManager();
         }
 
     }

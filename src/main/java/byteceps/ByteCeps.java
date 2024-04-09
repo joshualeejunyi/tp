@@ -13,13 +13,6 @@ import byteceps.ui.strings.UiStrings;
 import byteceps.ui.UserInterface;
 import byteceps.ui.strings.CommandStrings;
 
-import byteceps.validators.ExerciseValidator;
-import byteceps.validators.WorkoutValidator;
-import byteceps.validators.WeeklyProgramValidator;
-import byteceps.validators.WorkoutLogsValidator;
-import byteceps.validators.HelpValidator;
-
-
 import java.io.IOException;
 
 public class ByteCeps {
@@ -31,30 +24,18 @@ public class ByteCeps {
     private static Parser parser;
     private static Storage storage;
 
-    private static HelpValidator helpValidator = null;
-    private static ExerciseValidator exerciseValidator = null;
-    private static WorkoutValidator workoutValidator = null;
-    private static WeeklyProgramValidator weeklyProgramValidator = null;
-    private static WorkoutLogsValidator workoutLogsValidator = null;
-
     private static final String FILE_PATH = "data.json";
     private final UserInterface ui = UserInterface.getInstance();
 
 
     public ByteCeps() {
-        helpValidator = new HelpValidator();
-        exerciseValidator = new ExerciseValidator();
-        workoutValidator = new WorkoutValidator();
-        weeklyProgramValidator = new WeeklyProgramValidator();
-        workoutLogsValidator = new WorkoutLogsValidator();
-        exerciseManager = new ExerciseManager(exerciseValidator);
-        workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
-        workoutLogsManager = new WorkoutLogsManager(workoutLogsValidator);
-        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager,
-                weeklyProgramValidator);
+        exerciseManager = new ExerciseManager();
+        workoutManager = new WorkoutManager(exerciseManager);
+        workoutLogsManager = new WorkoutLogsManager();
+        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
         parser = new Parser();
         storage = new Storage(FILE_PATH, ui);
-        helpMenuManager = new HelpMenuManager(helpValidator);
+        helpMenuManager = new HelpMenuManager();
     }
 
     public static void main(String[] args) {
@@ -99,8 +80,7 @@ public class ByteCeps {
     public void run() {
         ui.printWelcomeMessage();
         try {
-            storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager,
-                    exerciseValidator, workoutValidator, weeklyProgramValidator, workoutLogsValidator);
+            storage.load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);
             ui.printMessage(helpMenuManager.printHelpGreeting());
             runCommandLine();
             storage.save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager);

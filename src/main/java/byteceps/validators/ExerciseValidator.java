@@ -9,9 +9,6 @@ import byteceps.ui.strings.ManagerStrings;
 
 public class ExerciseValidator {
 
-    public ExerciseValidator() {
-
-    }
     //@@author joshualeejunyi
     //@@author pqienso
     public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {

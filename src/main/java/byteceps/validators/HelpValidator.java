@@ -9,9 +9,7 @@ import byteceps.commands.Parser;
 //@@author LWachtel1
 public class HelpValidator {
 
-    public HelpValidator() {
 
-    }
     //@@author LWachtel1
     //@@author joshualeejunyi
     public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {

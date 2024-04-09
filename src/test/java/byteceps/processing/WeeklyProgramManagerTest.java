@@ -29,24 +29,15 @@ class WeeklyProgramManagerTest {
     private ExerciseManager exerciseManager;
     private WorkoutManager workoutManager;
     private WeeklyProgramManager weeklyProgramManager;
-    private ExerciseValidator exerciseValidator;
-    private WorkoutValidator workoutValidator;
-    private WeeklyProgramValidator weeklyProgramValidator;
-    private WorkoutLogsValidator workoutLogsValidator;
     private final UserInterface ui = new UserInterface();
 
     @BeforeEach
     void setUp() {
-        exerciseValidator = new ExerciseValidator();
-        workoutValidator = new WorkoutValidator();
-        weeklyProgramValidator = new WeeklyProgramValidator();
-        workoutLogsValidator = new WorkoutLogsValidator();
         parser = new Parser();
-        exerciseManager = new ExerciseManager(exerciseValidator);
-        workoutManager = new WorkoutManager(exerciseManager, workoutValidator);
-        WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager(workoutLogsValidator);
-        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager,
-                weeklyProgramValidator);
+        exerciseManager = new ExerciseManager();
+        workoutManager = new WorkoutManager(exerciseManager);
+        WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager();
+        weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
 
         // create dummy exercises and workouts
         String[] exerciseInput = {"exercise /add benchpress", "exercise /add deadlift", "exercise /add barbell squat"};

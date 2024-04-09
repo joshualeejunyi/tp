@@ -13,10 +13,10 @@ import byteceps.validators.ExerciseValidator;
  */
 public class ExerciseManager extends ActivityManager {
 
-    private final ExerciseValidator exerciseValidator;
 
-    public ExerciseManager(ExerciseValidator exerciseValidator) {
-        this.exerciseValidator = exerciseValidator;
+
+    public ExerciseManager() {
+
     }
 
     //@@author V4vern
@@ -35,7 +35,7 @@ public class ExerciseManager extends ActivityManager {
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
             Exceptions.ActivityDoesNotExists {
 
-        String command = exerciseValidator.validateExecute(parser);
+        String command = ExerciseValidator.validateExecute(parser);
 
         String messageToUser;
         switch (command) {
@@ -72,7 +72,7 @@ public class ExerciseManager extends ActivityManager {
 
 
     private String executeListAction(Parser parser) throws Exceptions.InvalidInput {
-        exerciseValidator.validateExecuteListAction(parser);
+        ExerciseValidator.validateExecuteListAction(parser);
         return getListString();
     }
 
@@ -94,7 +94,7 @@ public class ExerciseManager extends ActivityManager {
     //@@author V4vern
     private Exercise processAddExercise(Parser parser) throws Exceptions.InvalidInput {
         String activityType = getActivityType(false);
-        String exerciseName =  exerciseValidator.validateProcessAddExercise(parser, activityType);
+        String exerciseName =  ExerciseValidator.validateProcessAddExercise(parser, activityType);
         return new Exercise(exerciseName);
     }
 
@@ -107,7 +107,7 @@ public class ExerciseManager extends ActivityManager {
     //@@author LWachtel1
     private String processEditExercise(Parser parser, ActivityManager activityManager) throws
             Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        String newExerciseName = exerciseValidator.validateProcessEditExercise(parser);
+        String newExerciseName = ExerciseValidator.validateProcessEditExercise(parser);
 
         Exercise retrievedExercise = retrieveExercise(parser);
         retrievedExercise.editExerciseName(newExerciseName.toLowerCase(), activityManager);
@@ -122,7 +122,7 @@ public class ExerciseManager extends ActivityManager {
 
     //@@author V4vern
     private String executeSearchAction(Parser parser) throws Exceptions.InvalidInput {
-        String searchTerm = exerciseValidator.validateExecuteSearchAction(parser);
+        String searchTerm = ExerciseValidator.validateExecuteSearchAction(parser);
         return getSearchResultsString(searchTerm);
     }
 

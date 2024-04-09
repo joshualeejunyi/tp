@@ -11,9 +11,6 @@ import byteceps.ui.strings.ManagerStrings;
 
 public class WorkoutValidator {
 
-    public WorkoutValidator() {
-
-    }
 
     //@@author V4vern
     //@@author pqienso

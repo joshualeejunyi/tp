@@ -11,9 +11,7 @@ import byteceps.ui.strings.ManagerStrings;
 
 public class WeeklyProgramValidator {
 
-    public WeeklyProgramValidator() {
 
-    }
     //@@author pqienso
     //@@author joshualeejunyi
     public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {

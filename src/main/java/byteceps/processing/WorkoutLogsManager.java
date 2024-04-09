@@ -17,10 +17,8 @@ import java.util.LinkedHashSet;
 
 public class WorkoutLogsManager extends ActivityManager {
 
-    private final WorkoutLogsValidator workoutLogsValidator;
 
-    public WorkoutLogsManager(WorkoutLogsValidator workoutLogsValidator) {
-        this.workoutLogsValidator = workoutLogsValidator;
+    public WorkoutLogsManager() {
     }
 
     @Override

@@ -9,10 +9,10 @@ import byteceps.validators.HelpValidator;
 //@@author LWachtel1
 public class HelpMenuManager {
 
-    private final HelpValidator helpValidator;
 
-    public HelpMenuManager(HelpValidator helpValidator) {
-        this.helpValidator = helpValidator;
+
+    public HelpMenuManager() {
+
     }
 
     public String printHelpGreeting() {
@@ -22,7 +22,7 @@ public class HelpMenuManager {
     public String execute(Parser parser) throws Exceptions.InvalidInput {
         String menuSelection;
 
-        String command = helpValidator.validateExecute(parser);
+        String command = HelpValidator.validateExecute(parser);
 
         switch (command) {
         case CommandStrings.COMMAND_EXERCISE:
@@ -41,7 +41,7 @@ public class HelpMenuManager {
     }
 
     public String showExerciseCommand(Parser parser) {
-        boolean isEmptyFlag = helpValidator.validateShow(parser);
+        boolean isEmptyFlag = HelpValidator.validateShow(parser);
         if (isEmptyFlag) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.EXERCISE_MESSAGE, System.lineSeparator()));
@@ -57,7 +57,7 @@ public class HelpMenuManager {
     }
 
     public String showWorkoutCommand(Parser parser) {
-        boolean isEmptyFlag = helpValidator.validateShow(parser);
+        boolean isEmptyFlag = HelpValidator.validateShow(parser);
         if (isEmptyFlag) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.WORKOUT_MESSAGE, System.lineSeparator()));
@@ -73,7 +73,7 @@ public class HelpMenuManager {
     }
 
     public String showProgramCommand(Parser parser) {
-        boolean isEmptyFlag = helpValidator.validateShow(parser);
+        boolean isEmptyFlag = HelpValidator.validateShow(parser);
         if (isEmptyFlag) {
             StringBuilder result = new StringBuilder();
             result.append(String.format("%s%s", HelpStrings.PROGRAM_MESSAGE, System.lineSeparator()));
