@@ -4,7 +4,7 @@ package byteceps.ui.strings;
 public class ManagerStrings {
     public static final String ACTIVITY_EXISTS_EXCEPTION = "The %s entry: %s already exists";
     public static final String ACTIVITY_DELETE_EXCEPTION = "The %s entry: %s does not exist and cannot be deleted";
-    public static final String ACTIVITY_EMPTY_LIST_EXCEPTION = "The %s List is Empty!";
+    public static final String ACTIVITY_EMPTY_LIST_EXCEPTION = "Unable to retrieve any %s. It is empty!";
     public static final String ACTIVITY_DOES_NOT_EXIST_EXCEPTION = "The %s entry: %s does not exist";
     public static final String ACTIVITY_EMPTY_LIST = "Your List of %s is Empty";
     public static final String ACTIVITY_LIST = "Listing %s:%s";
@@ -27,32 +27,39 @@ public class ManagerStrings {
     public static final String EXERCISE_ADDED = "Added Exercise: %s";
     public static final String INVALID_EXERCISE_LIST = "Invalid command. Use 'exercise /list' to list all exercises.";
     public static final String EMPTY_EXCERCISE_NAME = "Exercise name cannot be empty";
-    public static final String INCOMPLETE_EDIT = "Edit command not complete";
+    public static final String INCOMPLETE_EDIT = "Edit command not complete. " +
+            "Please use: exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>";
 
     // Workout strings
     public static final String WORKOUT = "Workout";
     public static final String WORKOUTS = "Workouts";
-    public static final String INCOMPLETE_INFO = "info command not complete";
+    public static final String INCOMPLETE_INFO = "info command not complete. " +
+            "Please use: workout /info <WORKOUT_PLAN_NAME [string]> ";
     public static final String INVALID_WORKOUT_LIST = "Invalid command. Use 'workout /list' to list all exercises.";
     public static final String UNASSIGNED_EXERCISE = "Unassigned Exercise '%s' from Workout Plan '%s'";
     public static final String ASSIGNED_EXERCISE = "Assigned Exercise '%s' to Workout Plan '%s'";
     public static final String WORKOUT_EDITED = "Edited Workout Plan from %s to %s";
     public static final String WORKOUT_DELETED = "Deleted Workout: %s";
     public static final String WORKOUT_ADDED = "Added Workout Plan: %s";
-    public static final String INCOMPLETE_ASSIGN = "assign command not complete";
+    public static final String INCOMPLETE_ASSIGN = "assign command not complete. " +
+            "Please use: workout /assign <EXERCISE_NAME [string]> /to <WORKOUT_PLAN_NAME [string]>";
     public static final String EXERCISE_ALREADY_ASSIGNED = "Exercise already assigned to workout plan";
     public static final String EMPTY_WORKOUT_PLAN = "Your workout plan %s is empty";
     public static final String LIST_WORKOUT_PLAN = "Listing exercises in workout plan '%s':%n";
-    public static final String INCOMPLETE_UNASSIGN = "Unassign command not complete";
+    public static final String INCOMPLETE_UNASSIGN = "Unassign command not complete. " +
+            "Please use: workout /unassign <EXERCISE_NAME [string]> /from <WORKOUT_PLAN_NAME [string]>";
     public static final String EXERCISE_WORKOUT_DOES_NOT_EXIST = "The exercise is not in the workout";
 
     // Weekly Program strings
     public static final String WEEKLY_PROGRAM = "Weekly Program";
-    public static final String INCOMPLETE_WEEK = "Week command not complete";
+    public static final String INCOMPLETE_PROGRAM_ASSIGN = "Program /assign command not complete. " +
+            "Please use: program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>";
     public static final String WORKOUT_ALREADY_ASSIGNED = "Workout %s is already assigned to %s. " +
             "Please clear it first.";
     public static final String WORKOUT_ASSIGNED = "Workout %s assigned to %s";
-    public static final String LOG_INCOMPLETE = "log command not complete";
+    public static final String LOG_INCOMPLETE = "Log command not complete. " +
+            "Please use: program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> " +
+            "/sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]>.";
     public static final String LOG_SUCCESS = "Successfully logged %skg %s with %s sets and %s reps on %s";
     public static final String NO_WORKOUT_ASSIGNED = "There does not seem to be a workout assigned to the date " +
             "%s (day: %s). Please assign one first!";

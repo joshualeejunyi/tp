@@ -27,7 +27,7 @@ public class WeeklyProgramValidator {
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
         String day = parser.getAdditionalArguments(CommandStrings.ARG_TO);
         if (day == null || day.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_WEEK);
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_PROGRAM_ASSIGN);
         }
         return day;
     }
