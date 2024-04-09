@@ -24,7 +24,7 @@ public class HelpValidator extends Validator{
         } catch (Exceptions.InvalidInput e) {
             throw new Exceptions.InvalidInput(HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION);
         }
-        
+
     }
 
 }

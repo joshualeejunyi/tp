@@ -32,7 +32,7 @@ public class HelpMenuManager {
 
     }
 
-    private String generateAllActions(String command) {
+    private String generateAllActions(String command) throws Exceptions.InvalidInput {
         String[] flagFunctions;
         switch (command) {
         case CommandStrings.COMMAND_EXERCISE:
