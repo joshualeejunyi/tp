@@ -89,14 +89,14 @@ public class WorkoutManager extends ActivityManager {
         assert parser.getAction().equals(CommandStrings.ACTION_UNASSIGN) : "Action must be unassign";
         String workoutName = unassignExerciseFromWorkout(parser);
         return String.format(
-                ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter(), workoutName
+                ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter().toLowerCase(), workoutName
         );
     }
 
     private String executeEditAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         String newExerciseName = processEditWorkout(parser, this);
         return String.format(
-                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter(), newExerciseName
+                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
 
@@ -115,7 +115,7 @@ public class WorkoutManager extends ActivityManager {
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
         String workoutPlan = assignExerciseToWorkout(parser);
-        return String.format(ManagerStrings.ASSIGNED_EXERCISE, parser.getActionParameter(), workoutPlan);
+        return String.format(ManagerStrings.ASSIGNED_EXERCISE, parser.getActionParameter().toLowerCase(), workoutPlan);
     }
 
     private String executeDeleteAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
@@ -144,11 +144,9 @@ public class WorkoutManager extends ActivityManager {
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ActivityDoesNotExists {
-
         String[] exerciseWorkout = workoutValidator.validateNamesAssignExerciseToWorkout(parser);
         String exerciseName = exerciseWorkout[0].toLowerCase();
         String workoutPlanName = exerciseWorkout[1];
-
 
         Exercise exercise = (Exercise) exerciseManager.retrieve(exerciseName);
         assert exercise != null : "Exercise does not exist";

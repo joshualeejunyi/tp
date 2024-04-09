@@ -55,7 +55,8 @@ BYTE-CEPS can track & manage several types of tasks, such as:
 - Run the program in your preferred terminal using the command: java -jar byteceps.jar.
 
 ## Exercise Management
-Using the `exercise` command, you may manage your exercises that have been stored in BYTE-CEPS.
+Using the `exercise` command, you may manage your exercises that have been stored in BYTE-CEPS. 
+- Do take note that exercise name are `case insensitive` 
 ### Add an exercise
 You may add a new exercise using the `/add` flag.
 ```
@@ -143,7 +144,7 @@ Expected outcome:
 
 ## Workout Plan Management
 A workout plan is a curated list of exercises that you would like to do in a single session. You may use the `workout` command to manage your workout plans.
-
+- Do take note that workout plan name are `case insensitive` 
 ### Add a workout plan
 In order to assign a exercise to a workout plan, you must first create a workout using the `/create` flag.
 ```

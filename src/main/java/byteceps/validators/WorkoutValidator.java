@@ -28,7 +28,7 @@ public class WorkoutValidator {
 
     public String validateExecuteInfoAction(Parser parser) throws Exceptions.InvalidInput{
         assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
-        String workoutName = parser.getActionParameter();
+        String workoutName = parser.getActionParameter().toLowerCase();
         if (workoutName == null || workoutName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_INFO);
         }
@@ -43,8 +43,8 @@ public class WorkoutValidator {
     }
 
     public String[] validateProcessEditWorkout(Parser parser) throws Exceptions.InvalidInput {
-        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
-        String workoutName = parser.getActionParameter();
+        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
+        String workoutName = parser.getActionParameter().toLowerCase();
 
         if (newWorkoutName == null || newWorkoutName.isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
@@ -72,7 +72,7 @@ public class WorkoutValidator {
     public String[] validateNamesAssignExerciseToWorkout(Parser parser) throws Exceptions.InvalidInput {
         String exerciseName = parser.getActionParameter().toLowerCase();
         assert exerciseName != null : "Exercise name cannot be null";
-        String workoutPlanName = parser.getAdditionalArguments("to");
+        String workoutPlanName = parser.getAdditionalArguments("to").toLowerCase();
         assert workoutPlanName != null : "Workout plan name cannot be null";
         if (workoutPlanName == null) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_ASSIGN);
@@ -94,7 +94,7 @@ public class WorkoutValidator {
     }
 
     public String[] validateNamesUnassignExerciseFromWorkout(Parser parser) throws Exceptions.InvalidInput {
-        String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM);
+        String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM).toLowerCase();
         assert workoutPlanName != null : "Workout plan name cannot be null";
         String exerciseName = parser.getActionParameter();
         assert exerciseName != null : "Exercise name cannot be null";
@@ -105,6 +105,7 @@ public class WorkoutValidator {
         String[] exerciseWorkout = {exerciseName, workoutPlanName};
 
         return exerciseWorkout;
+
     }
 
     public void validateExerciseUnassignExerciseFromWorkout(boolean exerciseIsInWorkout)
