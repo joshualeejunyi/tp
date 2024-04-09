@@ -5,8 +5,6 @@ import byteceps.errors.Exceptions;
 
 
 import byteceps.ui.UserInterface;
-import byteceps.validators.ExerciseValidator;
-import byteceps.validators.WorkoutValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

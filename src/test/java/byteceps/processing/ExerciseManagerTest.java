@@ -3,7 +3,6 @@ package byteceps.processing;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.UserInterface;
-import byteceps.validators.ExerciseValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

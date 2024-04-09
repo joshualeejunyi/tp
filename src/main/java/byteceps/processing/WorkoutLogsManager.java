@@ -8,7 +8,6 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.ManagerStrings;
 import byteceps.ui.strings.StorageStrings;
-import byteceps.validators.WorkoutLogsValidator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
