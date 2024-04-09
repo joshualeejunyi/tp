@@ -4,7 +4,6 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
-import byteceps.ui.strings.ManagerStrings;
 import byteceps.validators.HelpValidator;
 
 //@@author LWachtel1
