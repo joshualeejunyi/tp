@@ -92,6 +92,10 @@ public class Parser {
         return value;
     }
 
+    public int getNumAdditionalArguments() {
+        return additionalArguments.size();
+    }
+
     //@@author pqienso
     @Override
     public String toString() {

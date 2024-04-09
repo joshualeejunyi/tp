@@ -8,9 +8,7 @@ import byteceps.commands.Parser;
 
 
 //@@author LWachtel1
-public class HelpValidator {
-
-
+public class HelpValidator extends Validator{
     //@@author LWachtel1
     public static void validateCommand(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
@@ -31,6 +29,8 @@ public class HelpValidator {
         if (commandToShowIsInvalid) {
             throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
         }
+
+        validateNumAdditionalArgs(0, 1, parser);
     }
 
 }

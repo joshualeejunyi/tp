@@ -45,6 +45,7 @@ public class ExerciseValidator extends Validator {
         if (hasNoInput(exerciseToBeDeleted)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_DELETE_EXERCISE);
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
 
     //@@author joshualeejunyi
@@ -58,6 +59,7 @@ public class ExerciseValidator extends Validator {
             throw new Exceptions.InvalidInput(
                     String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, CommandStrings.COMMAND_EXERCISE));
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
     //@@author LWachtel1
     private static void validateEditAction(Parser parser)throws Exceptions.InvalidInput{
@@ -66,6 +68,7 @@ public class ExerciseValidator extends Validator {
         if (hasNoInput(oldExerciseName) || hasNoInput(newExerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
+        validateNumAdditionalArgs(1, 1, parser);
     }
     //@@author V4vern
     private static void validateSearchAction(Parser parser) throws Exceptions.InvalidInput {
@@ -73,5 +76,6 @@ public class ExerciseValidator extends Validator {
         if (hasNoInput(searchTerm)) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
 }

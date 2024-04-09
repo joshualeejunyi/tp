@@ -53,12 +53,11 @@ public class WeeklyProgramValidator extends Validator {
         if (hasNoInput(workoutName) || hasNoInput(day)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_PROGRAM_ASSIGN);
         }
-
+        validateNumAdditionalArgs(1, 1, parser);
     }
 
     private static void validateClearAction(Parser parser) throws Exceptions.InvalidInput {
-        //todo
-
+        validateNumAdditionalArgs(0, 0, parser);
     }
 
     private static void validateLogAction(Parser parser) throws Exceptions.InvalidInput {
@@ -79,13 +78,15 @@ public class WeeklyProgramValidator extends Validator {
                 throw new Exceptions.InvalidInput(ManagerStrings.INVALID_DATE_ENTERED);
             }
         }
+
+        validateNumAdditionalArgs(3, 4, parser);
     }
 
     private static void validateTodayAction(Parser parser) throws Exceptions.InvalidInput {
-        //todo
+        validateNumAdditionalArgs(0, 0, parser);
     }
 
     private static void validateHistoryAction(Parser parser) throws Exceptions.InvalidInput {
-        //todo
+        validateNumAdditionalArgs(0, 0, parser);
     }
 }

@@ -55,6 +55,7 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(workoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_INFO);
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
 
     private static void validateCreateAction(Parser parser) throws Exceptions.InvalidInput {
@@ -62,6 +63,7 @@ public class WorkoutValidator extends Validator {
         if(hasNoInput(createdWorkoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_CREATE);
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
 
     private static void validateDeleteAction(Parser parser) throws Exceptions.InvalidInput {
@@ -69,6 +71,7 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(toDeleteWorkoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_DELETE_WORKOUT);
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
 
     //@@author V4vern
@@ -78,6 +81,7 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(newWorkoutName) || hasNoInput(oldWorkoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
+        validateNumAdditionalArgs(1, 1, parser);
     }
 
     //@@author V4vern
@@ -87,6 +91,7 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(exerciseName) || hasNoInput(workoutPlanName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_ASSIGN);
         }
+        validateNumAdditionalArgs(1, 1, parser);
     }
 
     //@@author V4vern
@@ -96,6 +101,7 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(workoutPlanName) || hasNoInput(exerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_UNASSIGN);
         }
+        validateNumAdditionalArgs(1, 1, parser);
     }
 
     //@@author V4vern
@@ -104,6 +110,7 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(searchTerm)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_SEARCH);
         }
+        validateNumAdditionalArgs(0, 0, parser);
     }
     
 }

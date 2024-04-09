@@ -86,5 +86,9 @@ public class ManagerStrings {
     public static final String INVALID_REPS_SETS = "Invalid weight/reps/sets entered!";
     public static final String EXERCISE_NOT_IN_WORKOUT = "The exercise is not in your workout for today!";
     public static final String LOG_LIST = "Listing Exercises on %s:%n";
-    public static final String LOG_LIST_ITEM = "\t\t\t%d. %s (weight: %d, sets: %d, reps: %d)\n";
+    public static final String LOG_LIST_ITEM = "\t\t\t%d. %s (weight: %d, sets: %d, reps: %d)"
+            + System.lineSeparator();
+    public static final String TOO_MANY_ARGS = "Extra arguments detected. Make sure you are not using" +
+            System.lineSeparator() + "the special character '/' in any of your exercise and workout names,"
+            + System.lineSeparator() + "or in any part of your input outside command arguments.";
 }
