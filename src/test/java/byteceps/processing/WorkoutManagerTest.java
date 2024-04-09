@@ -26,6 +26,7 @@ class WorkoutManagerTest {
     private ExerciseManager exerciseManager;
     private final UserInterface ui = new UserInterface();
 
+
     @BeforeEach
     void setUp() {
         parser = new Parser();
@@ -259,8 +260,6 @@ class WorkoutManagerTest {
         parser.parseInput(searchInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
     }
-
-
 
 
 }

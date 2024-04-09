@@ -2,8 +2,8 @@ package byteceps.storage;
 
 import byteceps.processing.ExerciseManager;
 import byteceps.processing.WorkoutManager;
-import byteceps.processing.WorkoutLogsManager;
 import byteceps.processing.WeeklyProgramManager;
+import byteceps.processing.WorkoutLogsManager;
 import byteceps.ui.UserInterface;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.strings.StorageStrings;
@@ -25,15 +25,19 @@ class StorageTest {
     private static final String FILE_PATH = "data.json";
     private static final String RENAMED_PATH = "hidden.json";
     private static Storage storage;
+
     private static ExerciseManager exerciseManager = null;
     private static WorkoutManager workoutManager = null;
     private static WorkoutLogsManager workoutLogsManager = null;
     private static WeeklyProgramManager weeklyProgramManager = null;
+
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
+
     private final UserInterface ui = new UserInterface();
+
     @BeforeEach
     public void setup() {
         storage = new Storage(FILE_PATH, ui);

@@ -10,6 +10,7 @@ import byteceps.errors.Exceptions;
 import byteceps.ui.strings.CommandStrings;
 import byteceps.ui.strings.DayStrings;
 import byteceps.ui.strings.ManagerStrings;
+import byteceps.validators.WeeklyProgramValidator;
 import org.json.JSONObject;
 
 import java.time.DayOfWeek;
@@ -38,7 +39,6 @@ public class WeeklyProgramManager extends ActivityManager {
                     String.format(ManagerStrings.NO_WORKOUT_ASSIGNED, workoutDate, selectedDay.getActivityName())
             );
         }
-
         return assignedWorkout.getActivityName();
     }
 
@@ -91,14 +91,8 @@ public class WeeklyProgramManager extends ActivityManager {
      */
     public String execute(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
-        assert parser != null : "Parser must not be null";
-        String commandAction = parser.getAction();
-        assert commandAction != null : "Command action must not be null";
 
-        if (commandAction.isEmpty()) {
-            throw new Exceptions.InvalidInput("No action specified");
-        }
-
+        String commandAction = WeeklyProgramValidator.validateExecute(parser);
         String messageToUser;
 
         switch (commandAction) {
@@ -142,11 +136,7 @@ public class WeeklyProgramManager extends ActivityManager {
      */
     private String executeAssignAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists,
             Exceptions.ActivityExistsException {
-        assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
-        String day = parser.getAdditionalArguments(CommandStrings.ARG_TO);
-        if (day == null || day.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_WEEK);
-        }
+        String day = WeeklyProgramValidator.validateExecuteAssignAction(parser);
         String workoutName = parser.getActionParameter();
         Activity workout = workoutManager.retrieve(workoutName);
         return assignWorkoutToDay(workout, day);
@@ -168,13 +158,7 @@ public class WeeklyProgramManager extends ActivityManager {
         Day selectedDay = getDay(day);
         Workout chosenDayWorkout = selectedDay.getAssignedWorkout();
 
-        if (chosenDayWorkout != null) {
-            throw new Exceptions.ActivityExistsException(
-                    String.format(ManagerStrings.WORKOUT_ALREADY_ASSIGNED,
-                            chosenDayWorkout.getActivityName(), selectedDay.getActivityName()
-                    )
-            );
-        }
+        WeeklyProgramValidator.validateAssignWorkoutToDay(chosenDayWorkout, selectedDay);
 
         selectedDay.setAssignedWorkout((Workout) workout);
 
@@ -198,26 +182,14 @@ public class WeeklyProgramManager extends ActivityManager {
 
     private String executeLogAction(Parser parser)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        if (!parser.hasAdditionalArguments() || parser.getAdditionalArgumentsLength() < 3) {
-            throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
-        }
 
-        String exerciseName = parser.getActionParameter();
-        String sets = parser.getAdditionalArguments(CommandStrings.ARG_SETS);
-        String repetition = parser.getAdditionalArguments(CommandStrings.ARG_REPS);
-        String weight = parser.getAdditionalArguments(CommandStrings.ARG_WEIGHT);
+        String[] logDetails = WeeklyProgramValidator.validateLogDetailsExecuteLogAction(parser, exerciseManager);
+        String exerciseName = logDetails[0];
+        String sets = logDetails[1];
+        String repetition = logDetails[2];
+        String weight = logDetails[3];
+
         String workoutDate = parser.getAdditionalArguments(CommandStrings.ARG_DATE);
-
-        if (exerciseName.isBlank() || sets.isBlank() || repetition.isBlank() || weight.isBlank()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
-        }
-
-        if (exerciseManager.doesNotHaveActivity(exerciseName)) {
-            throw new Exceptions.ActivityDoesNotExists(
-                    String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
-                            CommandStrings.COMMAND_EXERCISE, exerciseName)
-            );
-        }
 
         if (workoutDate == null || workoutDate.isEmpty()) {
             workoutDate = LocalDate.now().toString();
@@ -270,12 +242,8 @@ public class WeeklyProgramManager extends ActivityManager {
 
     private String getTodaysWorkoutString(Workout givenWorkout, String workoutDate, Day workoutDay) {
         try {
-            if (givenWorkout == null) {
-                throw new Exceptions.ActivityDoesNotExists(
-                        String.format(ManagerStrings.NO_WORKOUT_ASSIGNED_TODAY,
-                                workoutDay.getActivityName())
-                );
-            }
+            WeeklyProgramValidator.validGetTodaysWorkoutString(givenWorkout, workoutDay);
+
             String workoutName = workoutDay.getAssignedWorkout().getActivityName();
             LinkedHashSet<Exercise> workoutLinkedHashSet = givenWorkout.getExerciseSet();
             workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
