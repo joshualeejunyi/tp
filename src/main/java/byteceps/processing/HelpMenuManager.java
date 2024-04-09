@@ -4,6 +4,7 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
+import byteceps.ui.strings.ManagerStrings;
 import byteceps.validators.HelpValidator;
 
 //@@author LWachtel1
@@ -44,8 +45,7 @@ public class HelpMenuManager {
             flagFunctions = HelpStrings.PROGRAM_FLAG_FUNCTIONS;
             break;
         default:
-            flagFunctions = new String[0];
-            assert false : "input must be validated before calling this method";
+            throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
         }
 
         StringBuilder result = new StringBuilder();

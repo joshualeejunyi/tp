@@ -19,18 +19,12 @@ public class HelpValidator extends Validator{
             throw new Exceptions.InvalidInput(HelpStrings.NO_COMMAND_EXCEPTION);
         }
 
-        if (parser.hasAdditionalArguments()) {
+        try {
+            validateNumAdditionalArgs(0, 0, parser);
+        } catch (Exceptions.InvalidInput e) {
             throw new Exceptions.InvalidInput(HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION);
         }
-
-        boolean commandToShowIsInvalid = !commandAction.equals(CommandStrings.COMMAND_EXERCISE) &&
-                !commandAction.equals(CommandStrings.COMMAND_WORKOUT) &&
-                !commandAction.equals(CommandStrings.COMMAND_PROGRAM);
-        if (commandToShowIsInvalid) {
-            throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
-        }
-
-        validateNumAdditionalArgs(0, 1, parser);
+        
     }
 
 }
