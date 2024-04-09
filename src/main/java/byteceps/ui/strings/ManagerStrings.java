@@ -31,7 +31,7 @@ public class ManagerStrings {
             "Please use: exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>";
 
     public static final String INCOMPLETE_DELETE_EXERCISE = "Delete command not complete. " +
-            "Please use : exercise /delete <EXERCISE_NAME [string]>";
+            "Please use: exercise /delete <EXERCISE_NAME [string]>";
 
     // Workout strings
     public static final String WORKOUT = "Workout";
@@ -43,7 +43,7 @@ public class ManagerStrings {
     public static final String INCOMPLETE_DELETE_WORKOUT = "Delete command not complete." +
             "Please use: workout /delete <WORKOUT_PLAN_NAME [string]>";
     public static final String INCOMPLETE_SEARCH = "Search term cannot be left blank." +
-            "Please use : workout /search <WORKOUT_PLAN_NAME [string]>";
+            "Please use: workout /search <WORKOUT_PLAN_NAME [string]>";
     public static final String INVALID_WORKOUT_LIST = "Invalid command. Use 'workout /list' to list all exercises.";
     public static final String UNASSIGNED_EXERCISE = "Unassigned Exercise '%s' from Workout Plan '%s'";
     public static final String ASSIGNED_EXERCISE = "Assigned Exercise '%s' to Workout Plan '%s'";

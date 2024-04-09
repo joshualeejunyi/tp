@@ -10,7 +10,6 @@ public class Day extends Activity {
         this.assignedWorkout = assignedWorkout;
     }
 
-
     public Workout getAssignedWorkout() {
         return this.assignedWorkout;
     }
