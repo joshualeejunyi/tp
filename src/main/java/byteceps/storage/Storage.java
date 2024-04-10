@@ -166,11 +166,15 @@ public class Storage {
             for (int j = 0; j < exercisesArray.length(); j++) {
                 JSONObject currentExercise = exercisesArray.getJSONObject(j);
                 String exerciseName = currentExercise.getString(StorageStrings.EXERCISE_NAME);
-                String weight = String.valueOf(currentExercise.getInt(StorageStrings.WEIGHT));
+                JSONArray weightArray = currentExercise.getJSONArray(StorageStrings.WEIGHT);
                 String sets = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
-                String reps = String.valueOf(currentExercise.getInt((StorageStrings.REPS)));
+                JSONArray repsArray = currentExercise.getJSONArray(StorageStrings.REPS);
+
+                String weights = weightArray.join(" ").replaceAll("\"", "");
+                String reps = repsArray.join(" ").replaceAll("\"", "");
+
                 workoutLogsManager.addExerciseLog(workoutDate, exerciseName,
-                        weight, sets, reps);
+                        weights, sets, reps);
             }
         }
 

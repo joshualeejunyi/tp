@@ -18,7 +18,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class WeeklyProgramManager extends ActivityManager {
     private final ExerciseManager exerciseManager;
@@ -204,8 +207,28 @@ public class WeeklyProgramManager extends ActivityManager {
         String workoutName = getWorkoutName(selectedDay, workoutDate);
         workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
         workoutLogsManager.addExerciseLog(workoutDate, exerciseName, weight, sets, repetition);
+
+        int setsInt = Integer.parseInt(sets);
+        List<String> weightList = Arrays.asList(weight.split(" "));
+        List<Integer> repetitionList = Arrays.stream(repetition.split(" "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+
+        String formattedWeights = weightList.stream()
+                .map(w -> w + "kg")
+                .collect(Collectors.joining(", "));
+
+        String formattedReps = repetitionList.size() == 1 ? repetitionList.get(0).toString() :
+                repetitionList.stream().map(String::valueOf).collect(Collectors.joining(", "));
+
+        String setWord = setsInt == 1 ? "set" : "sets";
+        String weightWord = weightList.size() == 1 ? "weight of" : "weights of";
+        String repWord = (repetitionList.size() == 1 && repetitionList.get(0) == 1) ? "rep" : "reps";
+
+
+
         return String.format(ManagerStrings.LOG_SUCCESS,
-                weight, exerciseName, sets, repetition, workoutDate);
+                exerciseName, weightWord, formattedWeights, formattedReps, repWord, setsInt, setWord, workoutDate);
     }
 
     private static String formatDateString(String workoutDate) throws Exceptions.ActivityDoesNotExists {
