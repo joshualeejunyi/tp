@@ -93,7 +93,8 @@ public class ManagerStrings {
             System.lineSeparator() + "the special character '/' in any of your exercise and workout names,"
             + System.lineSeparator() + "or in any part of your input outside command arguments.";
     public static final String INVALID_WEIGHTS_SETS_MISMATCH = "The number of weights provided (%d) does not match " +
-            "the declared number of sets (%d). Each set should have a corresponding weight.";
+            System.lineSeparator() + "the declared number of sets (%d). Each set should have a corresponding weight.";
     public static final String INVALID_REPS_SETS_MISMATCH = "The number of repetitions provided (%d) does not match " +
+            System.lineSeparator() +
             "the declared number of sets (%d). Each set should have a corresponding number of repetitions.";
 }

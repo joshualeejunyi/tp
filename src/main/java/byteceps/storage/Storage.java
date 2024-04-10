@@ -82,12 +82,7 @@ public class Storage {
              Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
             ui.printMessage(StorageStrings.LOAD_ERROR);
             try {
-                String timestamp = new SimpleDateFormat(StorageStrings.BACKUP_DATE_FORMAT)
-                        .format(new Date());
-                File oldFile = new File(jsonFile.getParent(),
-                        jsonFile.getName() + StorageStrings.OLD_SUFFIX + timestamp);
-                jsonFile.renameTo(oldFile);
-                jsonFile.createNewFile();
+                renameCorruptedFile(jsonFile);
             } catch (IOException ex) {
                 ui.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
@@ -98,6 +93,15 @@ public class Storage {
             workoutLogsManager = new WorkoutLogsManager();
         }
 
+    }
+
+    private static void renameCorruptedFile(File jsonFile) throws IOException {
+        String timestamp = new SimpleDateFormat(StorageStrings.BACKUP_DATE_FORMAT)
+                .format(new Date());
+        File oldFile = new File(jsonFile.getParent(),
+                jsonFile.getName() + StorageStrings.OLD_SUFFIX + timestamp);
+        jsonFile.renameTo(oldFile);
+        jsonFile.createNewFile();
     }
 
     private static void loadWeeklyProgram(WorkoutManager allWorkouts, WeeklyProgramManager weeklyProgram,
@@ -149,35 +153,49 @@ public class Storage {
             throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         JSONArray jsonWorkoutLogs = jsonArchive.getJSONArray(StorageStrings.WORKOUT_LOG_MANAGER);
         for (int i = 0; i < jsonWorkoutLogs.length(); i++) {
-            JSONObject currentWorkout = jsonWorkoutLogs.getJSONObject(i);
-            JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
-            String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
-            String workoutName = currentWorkout.getString(StorageStrings.WORKOUT_NAME);
-            //validate that workoutDate is a valid date string
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DayStrings.YEAR_FORMAT);
-                formatter = formatter.withLocale(formatter.getLocale());
-                LocalDate.parse(workoutDate, formatter); //ignore result, just catch exception
-            } catch (DateTimeParseException e) {
-                throw new Exceptions.InvalidInput(""); //no need for error message, LOAD_ERROR will be printed
-            }
-            workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
-
-            for (int j = 0; j < exercisesArray.length(); j++) {
-                JSONObject currentExercise = exercisesArray.getJSONObject(j);
-                String exerciseName = currentExercise.getString(StorageStrings.EXERCISE_NAME);
-                JSONArray weightArray = currentExercise.getJSONArray(StorageStrings.WEIGHT);
-                String sets = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
-                JSONArray repsArray = currentExercise.getJSONArray(StorageStrings.REPS);
-
-                String weights = weightArray.join(" ").replaceAll("\"", "");
-                String reps = repsArray.join(" ").replaceAll("\"", "");
-
-                workoutLogsManager.addExerciseLog(workoutDate, exerciseName,
-                        weights, sets, reps);
-            }
+            loadWorkoutLog(workoutLogsManager, jsonWorkoutLogs, i);
         }
+    }
 
+    private static void loadWorkoutLog(WorkoutLogsManager workoutLogsManager, JSONArray jsonWorkoutLogs, int index)
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+        JSONObject currentWorkout = jsonWorkoutLogs.getJSONObject(index);
+        JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
+        String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
+        String workoutName = currentWorkout.getString(StorageStrings.WORKOUT_NAME);
+
+        validateDateString(workoutDate);
+        workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
+
+        for (int j = 0; j < exercisesArray.length(); j++) {
+            loadExerciseLog(workoutLogsManager, exercisesArray, j, workoutDate);
+        }
+    }
+
+    private static void loadExerciseLog(WorkoutLogsManager workoutLogsManager,
+                                        JSONArray exercisesArray, int index, String workoutDate)
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+        JSONObject currentExercise = exercisesArray.getJSONObject(index);
+        String exerciseName = currentExercise.getString(StorageStrings.EXERCISE_NAME);
+        JSONArray weightArray = currentExercise.getJSONArray(StorageStrings.WEIGHT);
+        String sets = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
+        JSONArray repsArray = currentExercise.getJSONArray(StorageStrings.REPS);
+
+        String weights = weightArray.join(" ").replaceAll("\"", "");
+        String reps = repsArray.join(" ").replaceAll("\"", "");
+
+        workoutLogsManager.addExerciseLog(workoutDate, exerciseName,
+                weights, sets, reps);
+    }
+
+    private static void validateDateString(String workoutDate) throws Exceptions.InvalidInput {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DayStrings.YEAR_FORMAT);
+            formatter = formatter.withLocale(formatter.getLocale());
+            LocalDate.parse(workoutDate, formatter); //ignore result, just catch exception
+        } catch (DateTimeParseException e) {
+            throw new Exceptions.InvalidInput(""); //no need for error message, LOAD_ERROR will be printed
+        }
     }
 
 
