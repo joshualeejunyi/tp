@@ -258,7 +258,7 @@ class WeeklyProgramManagerTest {
 
         String expectedOutput = String.format("[BYTE-CEPS]> Workout full day assigned to %s\n" +
                 "-------------------------------------------------" +
-                "[BYTE-CEPS]> Successfully logged 60 70 80kg benchpress with 3 sets and 5 8 10 reps on %s\n" +
+                "[BYTE-CEPS]> Successfully logged benchpress with weights of 60kg,70kg,80kg and 5,8,10 reps across 3 sets on %s\n" +
                 "-------------------------------------------------\n", todayString, dateString);
 
         assertEquals(expectedOutput.replaceAll("\\s+", ""),
