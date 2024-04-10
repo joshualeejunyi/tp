@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StorageTest {
 
-    private static final String FILE_PATH = "test.json";
-    private static final String RENAMED_PATH = "hidden.json";
+    private static final String FILE_PATH = "./jsons/test.json";
+    private static final String RENAMED_PATH = "./jsons/hidden.json";
     private static Storage storage;
 
     private static ExerciseManager exerciseManager = null;
@@ -124,7 +124,8 @@ class StorageTest {
     public String findFileName (String partialPath) {
         //Solution below adapted by https://www.baeldung.com/java-current-directory
         String directoryPath = new File("").getAbsolutePath();
-        File currentDir = new File(directoryPath);
+        String jsonsFolder = "/jsons/";
+        File currentDir = new File(directoryPath + jsonsFolder);
 
         //Solution below inspired by https://www.geeksforgeeks.org/file-listfiles-method-in-java-with-examples/
         File[] files = currentDir.listFiles();
@@ -204,12 +205,14 @@ class StorageTest {
 
     @Test
     public void execute_load_corruptedJSONFailure() {
-        String corruptFile = "corrupted.json";
-        String corruptFailureFile = "corrupted.json.old";
+        String corruptFileName = "corrupted.json";
+        String corruptFailureFileName = "corrupted.json.old";
+        String corruptFilePath = "./jsons/corrupted.json";
+        String corruptFailureFilePath = "./jsons/corrupted.json.old";
 
-        assertDoesNotThrow( () -> checkFile(corruptFile));
+        assertDoesNotThrow( () -> checkFile(corruptFilePath));
 
-        Storage failureStorage = new Storage(corruptFile, new UserInterface());
+        Storage failureStorage = new Storage(corruptFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -222,11 +225,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(corruptFile));
+        assertDoesNotThrow( () -> checkFile(corruptFilePath));
 
-        assertNotEquals("",corruptFailureFile = findFileName(corruptFailureFile));
+        assertNotEquals("", corruptFailureFileName = findFileName(corruptFailureFileName));
 
-        restoreOriginalFile(corruptFile, corruptFailureFile);
+        corruptFailureFilePath = "./jsons/" + corruptFailureFileName;
+
+        restoreOriginalFile(corruptFilePath, corruptFailureFilePath);
 
         restoreStreams();
 
@@ -235,12 +240,14 @@ class StorageTest {
 
     @Test
     public void execute_load_duplicateExerciseFailure() {
-        String duplicateExerciseFile = "duplicateExercise.json";
-        String duplicateExerciseFailureFile = "duplicateExercise.json.old";
+        String duplicateExerciseFileName = "duplicateExercise.json";
+        String duplicateExerciseFailureFileName = "duplicateExercise.json.old";
+        String duplicateExerciseFilePath = "./jsons/duplicateExercise.json";
+        String duplicateExerciseFailureFilePath = "./jsons/duplicateExercise.json.old";
 
-        assertDoesNotThrow( () -> checkFile(duplicateExerciseFile));
+        assertDoesNotThrow( () -> checkFile(duplicateExerciseFilePath));
 
-        Storage failureStorage = new Storage(duplicateExerciseFile, new UserInterface());
+        Storage failureStorage = new Storage(duplicateExerciseFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -253,11 +260,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(duplicateExerciseFile));
+        assertDoesNotThrow( () -> checkFile(duplicateExerciseFilePath));
 
-        assertNotEquals("",duplicateExerciseFailureFile = findFileName(duplicateExerciseFailureFile));
+        assertNotEquals("",duplicateExerciseFailureFileName = findFileName(duplicateExerciseFailureFileName));
 
-        restoreOriginalFile(duplicateExerciseFile, duplicateExerciseFailureFile);
+        duplicateExerciseFailureFilePath = "./jsons/"+ duplicateExerciseFailureFileName;
+
+        restoreOriginalFile(duplicateExerciseFilePath, duplicateExerciseFailureFilePath);
 
         restoreStreams();
 
@@ -265,12 +274,14 @@ class StorageTest {
 
     @Test
     public void execute_load_duplicateWorkoutFailure() {
-        String duplicateWorkoutFile = "duplicateWorkout.json";
-        String duplicateWorkoutFailureFile = "duplicateWorkout.json.old";
+        String duplicateWorkoutFileName = "duplicateWorkout.json";
+        String duplicateWorkoutFailureFileName = "duplicateWorkout.json.old";
+        String duplicateWorkoutFilePath = "./jsons/duplicateWorkout.json";
+        String duplicateWorkoutFailureFilePath = "./jsons/duplicateWorkout.json.old";
 
-        assertDoesNotThrow( () -> checkFile(duplicateWorkoutFile));
+        assertDoesNotThrow( () -> checkFile(duplicateWorkoutFilePath));
 
-        Storage failureStorage = new Storage(duplicateWorkoutFile, new UserInterface());
+        Storage failureStorage = new Storage(duplicateWorkoutFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -283,11 +294,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(duplicateWorkoutFile));
+        assertDoesNotThrow( () -> checkFile(duplicateWorkoutFilePath));
 
-        assertNotEquals("",duplicateWorkoutFailureFile = findFileName(duplicateWorkoutFailureFile));
+        assertNotEquals("",duplicateWorkoutFailureFileName = findFileName(duplicateWorkoutFailureFileName));
 
-        restoreOriginalFile(duplicateWorkoutFile, duplicateWorkoutFailureFile);
+        duplicateWorkoutFailureFilePath = "./jsons/"+ duplicateWorkoutFailureFileName;
+
+        restoreOriginalFile(duplicateWorkoutFilePath, duplicateWorkoutFailureFilePath);
 
         restoreStreams();
 
@@ -295,12 +308,14 @@ class StorageTest {
 
     @Test
     public void execute_load_workoutMissingFailure() {
-        String workoutMissingFile = "workoutMissing.json";
-        String workoutMissingFailureFile = "workoutMissing.json.old";
+        String workoutMissingFileName = "workoutMissing.json";
+        String workoutMissingFailureFileName = "workoutMissing.json.old";
+        String workoutMissingFilePath = "./jsons/workoutMissing.json";
+        String workoutMissingFailureFilePath = "./jsons/workoutMissing.json.old";
 
-        assertDoesNotThrow( () -> checkFile(workoutMissingFile));
+        assertDoesNotThrow( () -> checkFile(workoutMissingFilePath));
 
-        Storage failureStorage = new Storage(workoutMissingFile, new UserInterface());
+        Storage failureStorage = new Storage(workoutMissingFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -313,11 +328,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(workoutMissingFile));
+        assertDoesNotThrow( () -> checkFile(workoutMissingFilePath));
 
-        assertNotEquals("",workoutMissingFailureFile = findFileName(workoutMissingFailureFile));
+        assertNotEquals("",workoutMissingFailureFileName = findFileName(workoutMissingFailureFileName));
 
-        restoreOriginalFile(workoutMissingFile, workoutMissingFailureFile);
+        workoutMissingFailureFilePath = "./jsons/" + workoutMissingFailureFileName;
+
+        restoreOriginalFile(workoutMissingFilePath, workoutMissingFailureFilePath);
 
         restoreStreams();
 
@@ -326,12 +343,14 @@ class StorageTest {
 
     @Test
     public void execute_load_workoutExercisesMissingFailure() {
-        String workoutExercisesMissingFile = "workoutExercisesMissing.json";
-        String workoutExercisesMissingFailureFile = "workoutExercisesMissing.json.old";
+        String workoutExercisesMissingFileName = "workoutExercisesMissing.json";
+        String workoutExercisesMissingFailureFileName = "workoutExercisesMissing.json.old";
+        String workoutExercisesMissingFilePath = "./jsons/workoutExercisesMissing.json";
+        String workoutExercisesMissingFailureFilePath = "./jsons/workoutExercisesMissing.json.old";
 
-        assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFile));
+        assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFilePath));
 
-        Storage failureStorage = new Storage(workoutExercisesMissingFile, new UserInterface());
+        Storage failureStorage = new Storage(workoutExercisesMissingFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -344,11 +363,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFile));
+        assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFilePath));
 
-        assertNotEquals("",workoutExercisesMissingFailureFile = findFileName(workoutExercisesMissingFailureFile));
+        assertNotEquals("",workoutExercisesMissingFailureFileName = findFileName(workoutExercisesMissingFailureFileName));
 
-        restoreOriginalFile(workoutExercisesMissingFile, workoutExercisesMissingFailureFile);
+        workoutExercisesMissingFailureFilePath = "./jsons/" + workoutExercisesMissingFailureFileName;
+
+        restoreOriginalFile(workoutExercisesMissingFilePath, workoutExercisesMissingFailureFilePath);
 
         restoreStreams();
 
@@ -357,12 +378,14 @@ class StorageTest {
 
     @Test
     public void execute_load_logsExerciseFailFailure() {
-        String logsExerciseFailFile = "logsExerciseFail.json";
-        String logsExerciseFailFailureFile = "logsExerciseFail.json.old";
+        String logsExerciseFailFileName = "logsExerciseFail.json";
+        String logsExerciseFailFailureFileName = "logsExerciseFail.json.old";
+        String logsExerciseFailFilePath = "./jsons/logsExerciseFail.json";
+        String logsExerciseFailFailureFilePath = "./jsons/logsExerciseFail.json.old";
 
-        assertDoesNotThrow( () -> checkFile(logsExerciseFailFile));
+        assertDoesNotThrow( () -> checkFile(logsExerciseFailFilePath));
 
-        Storage failureStorage = new Storage(logsExerciseFailFile, new UserInterface());
+        Storage failureStorage = new Storage(logsExerciseFailFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -375,11 +398,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(logsExerciseFailFile));
+        assertDoesNotThrow( () -> checkFile(logsExerciseFailFilePath));
 
-        assertNotEquals("",logsExerciseFailFailureFile = findFileName(logsExerciseFailFailureFile));
+        assertNotEquals("",logsExerciseFailFailureFileName = findFileName(logsExerciseFailFailureFileName));
 
-        restoreOriginalFile(logsExerciseFailFile, logsExerciseFailFailureFile);
+        logsExerciseFailFailureFilePath = "./jsons/" + logsExerciseFailFailureFileName;
+
+        restoreOriginalFile(logsExerciseFailFilePath, logsExerciseFailFailureFilePath);
 
         restoreStreams();
 
@@ -387,12 +412,14 @@ class StorageTest {
 
     @Test
     public void execute_load_logsWorkoutFailFailure() {
-        String logsWorkoutFailFile = "logsWorkoutFail.json";
-        String logsWorkoutFailFailureFile = "logsWorkoutFail.json.old";
+        String logsWorkoutFailFileName = "logsWorkoutFail.json";
+        String logsWorkoutFailFailureFileName = "logsWorkoutFail.json.old";
+        String logsWorkoutFailFilePath = "./jsons/logsWorkoutFail.json";
+        String logsWorkoutFailFailureFilePath = "./jsons/logsWorkoutFail.json.old";
 
-        assertDoesNotThrow( () -> checkFile(logsWorkoutFailFile));
+        assertDoesNotThrow( () -> checkFile(logsWorkoutFailFilePath));
 
-        Storage failureStorage = new Storage(logsWorkoutFailFile, new UserInterface());
+        Storage failureStorage = new Storage(logsWorkoutFailFilePath, new UserInterface());
 
         setUpStreams();
 
@@ -405,11 +432,13 @@ class StorageTest {
 
         assertEquals(expectedOutput, outContent.toString());
 
-        assertDoesNotThrow( () -> checkFile(logsWorkoutFailFile));
+        assertDoesNotThrow( () -> checkFile(logsWorkoutFailFilePath));
 
-        assertNotEquals("",logsWorkoutFailFailureFile = findFileName(logsWorkoutFailFailureFile));
+        assertNotEquals("",logsWorkoutFailFailureFileName = findFileName(logsWorkoutFailFailureFileName));
 
-        restoreOriginalFile(logsWorkoutFailFile, logsWorkoutFailFailureFile);
+        logsWorkoutFailFailureFilePath = "./jsons/" + logsWorkoutFailFailureFileName;
+
+        restoreOriginalFile(logsWorkoutFailFilePath, logsWorkoutFailFailureFilePath);
 
         restoreStreams();
 
