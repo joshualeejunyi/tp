@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StorageTest {
 
-    private static final String FILE_PATH = "data.json";
+    private static final String FILE_PATH = "test.json";
     private static final String RENAMED_PATH = "hidden.json";
     private static Storage storage;
 
