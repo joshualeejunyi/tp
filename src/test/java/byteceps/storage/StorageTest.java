@@ -8,12 +8,16 @@ import byteceps.ui.UserInterface;
 import byteceps.ui.strings.UiStrings;
 import byteceps.ui.strings.StorageStrings;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.File;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -139,7 +143,34 @@ class StorageTest {
 
         return "";
     }
-    
+
+    public boolean isEmptyFile(String path) throws SecurityException {
+        try {
+            File jsonFile = new File(path);
+
+            if(jsonFile.length() == 0) {
+                return true;
+            }
+            return false;
+        } catch (SecurityException e) {
+            throw e;
+        }
+    }
+
+    public boolean isCorruptedFile(String path) throws SecurityException, FileNotFoundException {
+
+        File jsonFile = new File(path);
+        try (Scanner jsonScanner = new Scanner(jsonFile)) {
+            JSONObject jsonArchive = new JSONObject(jsonScanner.nextLine());
+        } catch (FileNotFoundException|SecurityException e) {
+            throw e;
+        } catch (JSONException e) {
+            return true;
+        }
+        return false;
+    }
+
+
     @Test
     public void save_expectedManagers_success() {
         setUpStreams();
@@ -204,6 +235,71 @@ class StorageTest {
     }
 
     @Test
+    public void load_preExistingJsonFileBlankBug_success() {
+        assertDoesNotThrow(() -> checkFile(FILE_PATH));
+        boolean fileExists = checkFile(FILE_PATH);
+
+        if (!fileExists) {
+            assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
+                    workoutLogsManager));
+        }
+
+        if (assertDoesNotThrow(() -> isEmptyFile(FILE_PATH))){
+            assertTrue(deleteFile(FILE_PATH));
+            assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
+                    workoutLogsManager));
+        }
+
+        setUpStreams();
+        assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
+                workoutLogsManager));
+
+        String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
+                System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
+                StorageStrings.LOAD_SUCCESS, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
+        assertEquals(expectedOutput, outContent.toString());
+
+        if (!fileExists) {
+            assertTrue(deleteFile(FILE_PATH));
+        }
+        restoreStreams();
+    }
+
+    @Test
+    public void load_preExistingJsonFileCorruptBug_success() {
+        assertDoesNotThrow(() -> checkFile(FILE_PATH));
+        boolean fileExists = checkFile(FILE_PATH);
+
+        if (!fileExists) {
+            assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
+                    workoutLogsManager));
+        }
+
+
+        if (assertDoesNotThrow(() -> isCorruptedFile(FILE_PATH))){
+            assertTrue(deleteFile(FILE_PATH));
+            assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
+                    workoutLogsManager));
+        }
+
+        setUpStreams();
+        assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
+                workoutLogsManager));
+
+        String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
+                System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
+                StorageStrings.LOAD_SUCCESS, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
+        assertEquals(expectedOutput, outContent.toString());
+
+        if (!fileExists) {
+            assertTrue(deleteFile(FILE_PATH));
+        }
+        restoreStreams();
+    }
+
+
+
+    @Test
     public void load_corruptedJSON_failure() {
         String corruptFileName = "corrupted.json";
         String corruptFailureFileName = "corrupted.json.old";
@@ -231,7 +327,7 @@ class StorageTest {
 
         corruptFailureFilePath = "./jsons/" + corruptFailureFileName;
 
-        restoreOriginalFile(corruptFilePath, corruptFailureFilePath);
+        assertTrue(restoreOriginalFile(corruptFilePath, corruptFailureFilePath));
 
         restoreStreams();
 
@@ -266,7 +362,7 @@ class StorageTest {
 
         duplicateExerciseFailureFilePath = "./jsons/"+ duplicateExerciseFailureFileName;
 
-        restoreOriginalFile(duplicateExerciseFilePath, duplicateExerciseFailureFilePath);
+        assertTrue(restoreOriginalFile(duplicateExerciseFilePath, duplicateExerciseFailureFilePath));
 
         restoreStreams();
 
@@ -300,7 +396,7 @@ class StorageTest {
 
         duplicateWorkoutFailureFilePath = "./jsons/"+ duplicateWorkoutFailureFileName;
 
-        restoreOriginalFile(duplicateWorkoutFilePath, duplicateWorkoutFailureFilePath);
+        assertTrue(restoreOriginalFile(duplicateWorkoutFilePath, duplicateWorkoutFailureFilePath));
 
         restoreStreams();
 
@@ -334,7 +430,7 @@ class StorageTest {
 
         workoutMissingFailureFilePath = "./jsons/" + workoutMissingFailureFileName;
 
-        restoreOriginalFile(workoutMissingFilePath, workoutMissingFailureFilePath);
+        assertTrue(restoreOriginalFile(workoutMissingFilePath, workoutMissingFailureFilePath));
 
         restoreStreams();
 
@@ -369,7 +465,7 @@ class StorageTest {
 
         workoutExercisesMissingFailureFilePath = "./jsons/" + workoutExercisesMissingFailureFileName;
 
-        restoreOriginalFile(workoutExercisesMissingFilePath, workoutExercisesMissingFailureFilePath);
+        assertTrue(restoreOriginalFile(workoutExercisesMissingFilePath, workoutExercisesMissingFailureFilePath));
 
         restoreStreams();
 
@@ -404,7 +500,7 @@ class StorageTest {
 
         logsExerciseFailFailureFilePath = "./jsons/" + logsExerciseFailFailureFileName;
 
-        restoreOriginalFile(logsExerciseFailFilePath, logsExerciseFailFailureFilePath);
+        assertTrue(restoreOriginalFile(logsExerciseFailFilePath, logsExerciseFailFailureFilePath));
 
         restoreStreams();
 
@@ -438,7 +534,7 @@ class StorageTest {
 
         logsWorkoutFailFailureFilePath = "./jsons/" + logsWorkoutFailFailureFileName;
 
-        restoreOriginalFile(logsWorkoutFailFilePath, logsWorkoutFailFailureFilePath);
+        assertTrue(restoreOriginalFile(logsWorkoutFailFilePath, logsWorkoutFailFailureFilePath));
 
         restoreStreams();
 
