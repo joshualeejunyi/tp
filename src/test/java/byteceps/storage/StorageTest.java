@@ -139,9 +139,9 @@ class StorageTest {
 
         return "";
     }
-
+    
     @Test
-    public void execute_save_success() {
+    public void save_expectedManagers_success() {
         setUpStreams();
 
         assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
@@ -155,7 +155,7 @@ class StorageTest {
     }
 
     @Test
-    public void execute_load_newFileSuccess() {
+    public void load_noPreExistingJsonFile_success() {
         assertDoesNotThrow(() -> checkFile(FILE_PATH));
         boolean fileExists = checkFile(FILE_PATH);
 
@@ -179,7 +179,7 @@ class StorageTest {
     }
 
     @Test
-    public void execute_load_existingFileSuccess() {
+    public void load_preExistingJsonFile_success() {
         assertDoesNotThrow(() -> checkFile(FILE_PATH));
         boolean fileExists = checkFile(FILE_PATH);
 
@@ -204,7 +204,7 @@ class StorageTest {
     }
 
     @Test
-    public void execute_load_corruptedJSONFailure() {
+    public void load_corruptedJSON_failure() {
         String corruptFileName = "corrupted.json";
         String corruptFailureFileName = "corrupted.json.old";
         String corruptFilePath = "./jsons/corrupted.json";
@@ -239,7 +239,7 @@ class StorageTest {
 
 
     @Test
-    public void execute_load_duplicateExerciseFailure() {
+    public void load_duplicateExercise_failure() {
         String duplicateExerciseFileName = "duplicateExercise.json";
         String duplicateExerciseFailureFileName = "duplicateExercise.json.old";
         String duplicateExerciseFilePath = "./jsons/duplicateExercise.json";
@@ -273,7 +273,7 @@ class StorageTest {
     }
 
     @Test
-    public void execute_load_duplicateWorkoutFailure() {
+    public void load_duplicateWorkout_failure() {
         String duplicateWorkoutFileName = "duplicateWorkout.json";
         String duplicateWorkoutFailureFileName = "duplicateWorkout.json.old";
         String duplicateWorkoutFilePath = "./jsons/duplicateWorkout.json";
@@ -307,7 +307,7 @@ class StorageTest {
     }
 
     @Test
-    public void execute_load_workoutMissingFailure() {
+    public void load_workoutMissing_failure() {
         String workoutMissingFileName = "workoutMissing.json";
         String workoutMissingFailureFileName = "workoutMissing.json.old";
         String workoutMissingFilePath = "./jsons/workoutMissing.json";
@@ -342,7 +342,7 @@ class StorageTest {
 
 
     @Test
-    public void execute_load_workoutExercisesMissingFailure() {
+    public void load_workoutExercisesMissing_failure() {
         String workoutExercisesMissingFileName = "workoutExercisesMissing.json";
         String workoutExercisesMissingFailureFileName = "workoutExercisesMissing.json.old";
         String workoutExercisesMissingFilePath = "./jsons/workoutExercisesMissing.json";
@@ -377,7 +377,7 @@ class StorageTest {
 
 
     @Test
-    public void execute_load_logsExerciseFailFailure() {
+    public void load_nonExistingExercisesInLogs_failure() {
         String logsExerciseFailFileName = "logsExerciseFail.json";
         String logsExerciseFailFailureFileName = "logsExerciseFail.json.old";
         String logsExerciseFailFilePath = "./jsons/logsExerciseFail.json";
@@ -411,7 +411,7 @@ class StorageTest {
     }
 
     @Test
-    public void execute_load_logsWorkoutFailFailure() {
+    public void load_nonExistingWorkoutInLogs_failure() {
         String logsWorkoutFailFileName = "logsWorkoutFail.json";
         String logsWorkoutFailFailureFileName = "logsWorkoutFail.json.old";
         String logsWorkoutFailFilePath = "./jsons/logsWorkoutFail.json";
