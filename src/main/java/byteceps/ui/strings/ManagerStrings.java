@@ -70,7 +70,7 @@ public class ManagerStrings {
     public static final String LOG_INCOMPLETE = "Log command not complete. " +
             "Please use: program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> " +
             "/sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]>.";
-    public static final String LOG_SUCCESS = "Successfully logged %skg %s with %s sets and %s reps on %s";
+    public static final String LOG_SUCCESS = "Successfully logged %s with %s %s and %s %s across %d %s on %s";
     public static final String NO_WORKOUT_ASSIGNED = "There does not seem to be a workout assigned to the date " +
             "%s (day: %s). Please assign one first!";
     public static final String NO_WORKOUT_ASSIGNED_TODAY = "There is no workout assigned today (%s)";
