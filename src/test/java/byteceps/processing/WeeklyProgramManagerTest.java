@@ -252,13 +252,13 @@ class WeeklyProgramManagerTest {
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
 
-        String logInput = "program /log benchpress /weight 500 /sets 5 /reps 5";
+        String logInput = "program /log benchpress /weight 60 70 80 /sets 3 /reps 5 8 10";
         parser.parseInput(logInput);
         assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
 
         String expectedOutput = String.format("[BYTE-CEPS]> Workout full day assigned to %s\n" +
                 "-------------------------------------------------" +
-                "[BYTE-CEPS]> Successfully logged 500kg benchpress with 5 sets and 5 reps on %s\n" +
+                "[BYTE-CEPS]> Successfully logged 60 70 80kg benchpress with 3 sets and 5 8 10 reps on %s\n" +
                 "-------------------------------------------------\n", todayString, dateString);
 
         assertEquals(expectedOutput.replaceAll("\\s+", ""),
@@ -271,7 +271,10 @@ class WeeklyProgramManagerTest {
         assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
 
         expectedOutput = String.format("[BYTE-CEPS]> Listing Exercises on %s:\n" +
-                "1. benchpress (weight: 500, sets: 5, reps:5)\n" +
+                "1. benchpress\n" +
+                "   Set 1: 60kg, 5 reps\n" +
+                "   Set 2: 70kg, 8 reps\n" +
+                "   Set 3: 80kg, 10 reps\n" +
                 "-------------------------------------------------", dateString);
 
         assertEquals(expectedOutput.replaceAll("\\s+", ""),
@@ -312,7 +315,7 @@ class WeeklyProgramManagerTest {
         String assignWorkoutInput = String.format("program /assign full day /to %s", todayString);
 
         parser.parseInput(assignWorkoutInput);
-        String logInput = "program /log snooze /weight 500 /sets 5 /reps 5";
+        String logInput = "program /log snooze /weight 500 /sets 1 /reps 5";
         parser.parseInput(logInput);
         assertThrows(Exceptions.ActivityDoesNotExists.class, () -> weeklyProgramManager.execute(parser));
     }
@@ -326,7 +329,7 @@ class WeeklyProgramManagerTest {
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
 
-        String logInput = "program /log benchpress /weight 500 /sets 5 /reps 5";
+        String logInput = "program /log benchpress /weight 50 /sets 1 /reps 5";
         parser.parseInput(logInput);
         assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
 
@@ -350,7 +353,7 @@ class WeeklyProgramManagerTest {
         }
 
 
-        String logHistoryInput = "program /log benchpress /weight 500 /sets 5 /reps 5 /date 2024-03-25";
+        String logHistoryInput = "program /log benchpress /weight 50 /sets 1 /reps 5 /date 2024-03-25";
         parser.parseInput(logHistoryInput);
         assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
 
