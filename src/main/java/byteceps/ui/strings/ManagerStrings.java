@@ -30,11 +30,20 @@ public class ManagerStrings {
     public static final String INCOMPLETE_EDIT = "Edit command not complete. " +
             "Please use: exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>";
 
+    public static final String INCOMPLETE_DELETE_EXERCISE = "Delete command not complete. " +
+            "Please use: exercise /delete <EXERCISE_NAME [string]>";
+
     // Workout strings
     public static final String WORKOUT = "Workout";
     public static final String WORKOUTS = "Workouts";
-    public static final String INCOMPLETE_INFO = "info command not complete. " +
+    public static final String INCOMPLETE_INFO = "Info command not complete. " +
             "Please use: workout /info <WORKOUT_PLAN_NAME [string]> ";
+    public static final String INCOMPLETE_CREATE = "Create command not complete. " +
+            "Please use: workout /create <NEW_WORKOUT_PLAN_NAME [string]>";
+    public static final String INCOMPLETE_DELETE_WORKOUT = "Delete command not complete." +
+            "Please use: workout /delete <WORKOUT_PLAN_NAME [string]>";
+    public static final String INCOMPLETE_SEARCH = "Search term cannot be left blank." +
+            "Please use: workout /search <WORKOUT_PLAN_NAME [string]>";
     public static final String INVALID_WORKOUT_LIST = "Invalid command. Use 'workout /list' to list all exercises.";
     public static final String UNASSIGNED_EXERCISE = "Unassigned Exercise '%s' from Workout Plan '%s'";
     public static final String ASSIGNED_EXERCISE = "Assigned Exercise '%s' to Workout Plan '%s'";
@@ -77,5 +86,9 @@ public class ManagerStrings {
     public static final String INVALID_REPS_SETS = "Invalid weight/reps/sets entered!";
     public static final String EXERCISE_NOT_IN_WORKOUT = "The exercise is not in your workout for today!";
     public static final String LOG_LIST = "Listing Exercises on %s:%n";
-    public static final String LOG_LIST_ITEM = "\t\t\t%d. %s (weight: %d, sets: %d, reps: %d)\n";
+    public static final String LOG_LIST_ITEM = "\t\t\t%d. %s (weight: %d, sets: %d, reps: %d)"
+            + System.lineSeparator();
+    public static final String TOO_MANY_ARGS = "Extra arguments detected. Make sure you are not using" +
+            System.lineSeparator() + "the special character '/' in any of your exercise and workout names,"
+            + System.lineSeparator() + "or in any part of your input outside command arguments.";
 }

@@ -7,28 +7,23 @@ import byteceps.commands.Parser;
 
 
 //@@author LWachtel1
-public class HelpValidator {
-
-
+public class HelpValidator extends Validator{
     //@@author LWachtel1
-    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    public static void validateCommand(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
 
-        if (parser.getAction().isEmpty()) {
+        String commandAction = parser.getAction();
+        if (commandAction.isEmpty()) {
             throw new Exceptions.InvalidInput(HelpStrings.NO_COMMAND_EXCEPTION);
         }
 
-        if (parser.hasAdditionalArguments()) {
+        try {
+            validateNumAdditionalArgs(0, 0, parser);
+        } catch (Exceptions.InvalidInput e) {
             throw new Exceptions.InvalidInput(HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION);
         }
-        String command = parser.getAction();
-        return command;
-    }
-    //@@author LWachtel1
-    public static boolean validateShow(Parser parser){
-        boolean isEmptyFlag = parser.getActionParameter().isEmpty();
-        return isEmptyFlag;
+
     }
 
 }

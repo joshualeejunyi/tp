@@ -1,82 +1,92 @@
 package byteceps.validators;
 
-
-import byteceps.activities.Day;
-import byteceps.activities.Workout;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.processing.ExerciseManager;
 import byteceps.ui.strings.CommandStrings;
 import byteceps.ui.strings.ManagerStrings;
 
-public class WeeklyProgramValidator {
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+public class WeeklyProgramValidator extends Validator {
 
 
     //@@author pqienso
-    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    public static String validateCommand(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         String commandAction = parser.getAction();
         assert commandAction != null : "Command action must not be null";
         if (commandAction.isEmpty()) {
             throw new Exceptions.InvalidInput("No action specified");
         }
+
+        switch (commandAction) {
+        case CommandStrings.ACTION_ASSIGN:
+            validateAssignAction(parser);
+            break;
+        case CommandStrings.ACTION_CLEAR:
+            validateClearAction(parser);
+            break;
+        case CommandStrings.ACTION_TODAY:
+            validateTodayAction(parser);
+            break;
+        case CommandStrings.ACTION_LOG:
+            validateLogAction(parser);
+            break;
+        case CommandStrings.ACTION_LIST:
+            validateListAction(parser);
+            break;
+        case CommandStrings.ACTION_HISTORY:
+            validateHistoryAction(parser);
+            break;
+        default:
+            throw new Exceptions.InvalidInput(String.format(ManagerStrings.UNEXPECTED_ACTION, commandAction));
+        }
+
         return commandAction;
     }
     //@@author joshualeejunyi
-    public static String validateExecuteAssignAction(Parser parser) throws Exceptions.InvalidInput{
-        assert parser.getAction().equals(CommandStrings.ACTION_ASSIGN) : "Action must be assign";
+    private static void validateAssignAction(Parser parser) throws Exceptions.InvalidInput {
+
+        String workoutName = parser.getActionParameter();
         String day = parser.getAdditionalArguments(CommandStrings.ARG_TO);
-        if (day == null || day.isEmpty()) {
+        if (hasNoInput(workoutName) || hasNoInput(day)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_PROGRAM_ASSIGN);
         }
-        return day;
+        validateNumAdditionalArgs(1, 1, parser);
     }
-    //@@author joshualeejunyi
-    public static void validateAssignWorkoutToDay(Workout chosenDayWorkout, Day selectedDay)
-            throws Exceptions.ActivityExistsException{
-        if (chosenDayWorkout != null) {
-            throw new Exceptions.ActivityExistsException(
-                    String.format(ManagerStrings.WORKOUT_ALREADY_ASSIGNED,
-                            chosenDayWorkout.getActivityName(), selectedDay.getActivityName()
-                    )
-            );
-        }
-    }
-    //@@author V4vern
-    public static String[] validateLogDetailsExecuteLogAction(Parser parser, ExerciseManager exerciseManager)
-            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-        if (!parser.hasAdditionalArguments() || parser.getAdditionalArgumentsLength() < 3) {
-            throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
-        }
 
-        String exerciseName = parser.getActionParameter();
-        String sets = parser.getAdditionalArguments(CommandStrings.ARG_SETS);
-        String repetition = parser.getAdditionalArguments(CommandStrings.ARG_REPS);
+    private static void validateClearAction(Parser parser) throws Exceptions.InvalidInput {
+        validateNumAdditionalArgs(0, 0, parser);
+    }
+
+    private static void validateLogAction(Parser parser) throws Exceptions.InvalidInput {
         String weight = parser.getAdditionalArguments(CommandStrings.ARG_WEIGHT);
+        String reps = parser.getAdditionalArguments(CommandStrings.ARG_REPS);
+        String sets = parser.getAdditionalArguments(CommandStrings.ARG_SETS);
+        String exerciseName = parser.getActionParameter();
+        String date = parser.getAdditionalArguments(CommandStrings.ARG_DATE);
 
-        if (exerciseName.isBlank() || sets.isBlank() || repetition.isBlank() || weight.isBlank()) {
+        if (hasNoInput(weight) || hasNoInput(reps) || hasNoInput(sets) || hasNoInput(exerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.LOG_INCOMPLETE);
         }
-        if (exerciseManager.doesNotHaveActivity(exerciseName)) {
-            throw new Exceptions.ActivityDoesNotExists(
-                    String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
-                            CommandStrings.COMMAND_EXERCISE, exerciseName)
-            );
+
+        if(!hasNoInput(date)) {
+            try {
+                LocalDate.parse(date);
+            } catch (DateTimeParseException e) {
+                throw new Exceptions.InvalidInput(ManagerStrings.INVALID_DATE_ENTERED);
+            }
         }
-        String[] logDetails = {exerciseName, sets, repetition, weight};
-        return logDetails;
+
+        validateNumAdditionalArgs(3, 4, parser);
     }
 
-    //MISSING validateDateExecuteLogAction() - WORRIED ABOUT CREATING NEW BUGS
+    private static void validateTodayAction(Parser parser) throws Exceptions.InvalidInput {
+        validateNumAdditionalArgs(0, 0, parser);
+    }
 
-    //@@author pqienso
-    public static void validGetTodaysWorkoutString(Workout givenWorkout,Day workoutDay)
-            throws Exceptions.ActivityDoesNotExists{
-        if (givenWorkout == null) {
-            throw new Exceptions.ActivityDoesNotExists(
-                    String.format(ManagerStrings.NO_WORKOUT_ASSIGNED_TODAY,
-                            workoutDay.getActivityName())
-            );
-        }
+    private static void validateHistoryAction(Parser parser) throws Exceptions.InvalidInput {
+        validateNumAdditionalArgs(0, 0, parser);
     }
 }

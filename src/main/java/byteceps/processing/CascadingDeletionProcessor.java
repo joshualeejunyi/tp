@@ -6,6 +6,7 @@ import byteceps.activities.Exercise;
 import byteceps.activities.Workout;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.strings.CommandStrings;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -23,14 +24,14 @@ public class CascadingDeletionProcessor {
                                                    WeeklyProgramManager weeklyProgramManager) {
         try {
             String parserAction = parser.getAction();
-            if (!parserAction.equals("delete")) {
+            if (!parserAction.equals(CommandStrings.ACTION_DELETE)) {
                 return;
             }
 
             String parserCommand = parser.getCommand();
-            if(parserCommand.equals("exercise")) {
+            if(parserCommand.equals(CommandStrings.COMMAND_EXERCISE)) {
                 removeDeletedExerciseFromWorkouts(parser.getActionParameter(), workoutManager);
-            } else if(parserCommand.equals("workout")) {
+            } else if(parserCommand.equals(CommandStrings.COMMAND_WORKOUT)) {
                 removeDeletedWorkoutsFromProgram(parser.getActionParameter(), weeklyProgramManager);
             }
 

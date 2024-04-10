@@ -7,51 +7,75 @@ import byteceps.ui.strings.CommandStrings;
 import byteceps.ui.strings.ManagerStrings;
 
 
-public class ExerciseValidator {
+public class ExerciseValidator extends Validator {
     //@@author V4vern
-    public static String validateExecute(Parser parser) throws Exceptions.InvalidInput {
+    public static String validateCommand(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
         assert parser.getAction() != null : "Command action must not be null";
+
         if (parser.getAction().isEmpty()) {
             throw new Exceptions.InvalidInput(ManagerStrings.NO_ACTION_EXCEPTION);
         }
-        String command = parser.getAction();
-        return command;
-    }
-    //@@author pqienso
-    public static void validateExecuteListAction(Parser parser) throws Exceptions.InvalidInput {
-        String userInput = parser.getActionParameter();
-        if (!userInput.isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_EXERCISE_LIST);
+
+        String action = parser.getAction();
+        switch (action) {
+        case CommandStrings.ACTION_EDIT:
+            validateEditAction(parser);
+            break;
+        case CommandStrings.ACTION_ADD:
+            validateAddAction(parser);
+            break;
+        case CommandStrings.ACTION_DELETE:
+            validateDeleteAction(parser);
+            break;
+        case CommandStrings.ACTION_LIST:
+            validateListAction(parser);
+            break;
+        case CommandStrings.ACTION_SEARCH:
+            validateSearchAction(parser);
+            break;
+        default:
+            throw new Exceptions.InvalidInput(String.format(ManagerStrings.UNEXPECTED_ACTION, parser.getAction()));
         }
+        return action;
     }
+
+    private static void validateDeleteAction(Parser parser) throws Exceptions.InvalidInput {
+        String exerciseToBeDeleted = parser.getActionParameter();
+        if (hasNoInput(exerciseToBeDeleted)) {
+            throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_DELETE_EXERCISE);
+        }
+        validateNumAdditionalArgs(0, 0, parser);
+    }
+
     //@@author joshualeejunyi
-    public static String validateProcessAddExercise(Parser parser, String activityType)throws Exceptions.InvalidInput{
-        String exerciseName = parser.getActionParameter().toLowerCase();
-        if (exerciseName.isEmpty()) {
+    private static void validateAddAction(Parser parser) throws Exceptions.InvalidInput{
+        String exerciseName = parser.getActionParameter();
+        if (hasNoInput(exerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
-        } else if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
-            throw new Exceptions.InvalidInput(
-                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, activityType));
         }
-        return exerciseName;
+
+        if (exerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, CommandStrings.COMMAND_EXERCISE));
+        }
+        validateNumAdditionalArgs(0, 0, parser);
     }
     //@@author LWachtel1
-    public static String validateProcessEditExercise(Parser parser)throws Exceptions.InvalidInput{
+    private static void validateEditAction(Parser parser)throws Exceptions.InvalidInput{
+        String oldExerciseName = parser.getActionParameter();
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
-
-        if (newExerciseName == null || newExerciseName.isEmpty()) {
+        if (hasNoInput(oldExerciseName) || hasNoInput(newExerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
-        return newExerciseName;
-
+        validateNumAdditionalArgs(1, 1, parser);
     }
     //@@author V4vern
-    public static String validateExecuteSearchAction(Parser parser) throws Exceptions.InvalidInput {
+    private static void validateSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();
-        if (searchTerm == null || searchTerm.isEmpty()) {
+        if (hasNoInput(searchTerm)) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_SEARCH);
         }
-        return searchTerm;
+        validateNumAdditionalArgs(0, 0, parser);
     }
 }
