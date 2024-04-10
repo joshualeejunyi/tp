@@ -155,7 +155,6 @@ public class Storage {
         for (int i = 0; i < jsonWorkoutLogs.length(); i++) {
             loadWorkoutLog(workoutLogsManager, jsonWorkoutLogs, i);
         }
-
     }
 
     private static void loadWorkoutLog(WorkoutLogsManager workoutLogsManager, JSONArray jsonWorkoutLogs, int index)

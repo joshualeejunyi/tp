@@ -78,11 +78,7 @@ public class WeeklyProgramValidator extends Validator {
                 throw new Exceptions.InvalidInput(ManagerStrings.INVALID_DATE_ENTERED);
             }
         }
-
-        // Ensure that the number of sets matches the number of weights and reps provided
         validateWeightsRepsSets(sets, weight, reps);
-
-
         validateNumAdditionalArgs(3, 4, parser);
     }
 
