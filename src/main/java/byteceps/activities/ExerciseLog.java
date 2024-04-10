@@ -1,13 +1,14 @@
 package byteceps.activities;
 
+import java.util.List;
 public class ExerciseLog extends Activity {
-    private final int weight;
+    private final List<Integer> weights;
     private final int sets;
-    private final int repetitions;
+    private final List<Integer> repetitions;
 
-    public ExerciseLog(String activityName, int weight, int sets, int repetitions) {
+    public ExerciseLog(String activityName, List<Integer> weights, int sets, List<Integer> repetitions) {
         super(activityName);
-        this.weight = weight;
+        this.weights = weights;
         this.sets = sets;
         this.repetitions = repetitions;
     }
@@ -17,12 +18,12 @@ public class ExerciseLog extends Activity {
         return sets;
     }
 
-    public int getRepetitions() {
+    public List<Integer> getRepetitions() {
         return repetitions;
     }
 
-    public int getWeight() {
-        return weight;
+    public List<Integer> getWeights() {
+        return weights;
     }
 
     @Override
