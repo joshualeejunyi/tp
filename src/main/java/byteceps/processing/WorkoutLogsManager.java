@@ -51,7 +51,10 @@ public class WorkoutLogsManager extends ActivityManager {
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
 
-            if (weightsList.contains(-1) || setsInt < 0 || repsList.contains(-1)) {
+            boolean hasNegativeWeights = weightsList.stream().anyMatch(weightInt -> weightInt < 0);
+            boolean hasNegativeReps = repsList.stream().anyMatch(repInt -> repInt < 0);
+
+            if (hasNegativeReps || setsInt < 0 || hasNegativeWeights) {
                 throw new NumberFormatException();
             }
 

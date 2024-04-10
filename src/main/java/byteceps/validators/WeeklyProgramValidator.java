@@ -80,24 +80,38 @@ public class WeeklyProgramValidator extends Validator {
         }
 
         // Ensure that the number of sets matches the number of weights and reps provided
-        int setsInt = Integer.parseInt(sets);
+        validateWeightsRepsSets(sets, weight, reps);
+
+
+        validateNumAdditionalArgs(3, 4, parser);
+    }
+
+    private static void validateWeightsRepsSets(String sets, String weight, String reps)
+            throws Exceptions.InvalidInput {
+        int setsInt = 0;
+        try {
+            setsInt = Integer.parseInt(sets);
+            if (setsInt < 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_REPS_SETS);
+        }
+
         int weightsCount = weight.split(" ").length;
         int repsCount = reps.split(" ").length;
 
         // Validate sets against weights
         if (weightsCount != setsInt) {
             throw new Exceptions.InvalidInput(String.format(ManagerStrings.INVALID_WEIGHTS_SETS_MISMATCH,
-                    setsInt, weightsCount));
+                    weightsCount, setsInt));
         }
 
         // Validate sets against repetitions
         if (repsCount != setsInt) {
             throw new Exceptions.InvalidInput(String.format(ManagerStrings.INVALID_REPS_SETS_MISMATCH,
-                    setsInt, repsCount));
+                    repsCount, setsInt));
         }
-
-
-        validateNumAdditionalArgs(3, 4, parser);
     }
 
     private static void validateTodayAction(Parser parser) throws Exceptions.InvalidInput {
