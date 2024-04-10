@@ -12,7 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorkoutLogsManager extends ActivityManager {
 
@@ -38,15 +41,21 @@ public class WorkoutLogsManager extends ActivityManager {
                                String weight, String sets, String repetitions)
             throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         try {
-            int weightInt = Integer.parseInt(weight);
-            int setsInt = Integer.parseInt(sets);
-            int repsInt = Integer.parseInt(repetitions);
+            List<Integer> weightsList = Arrays.stream(weight.split(" "))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
 
-            if (weightInt < 0 || setsInt < 0 || repsInt < 0) {
+            int setsInt = Integer.parseInt(sets);
+
+            List<Integer> repsList = Arrays.stream(repetitions.split(" "))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+
+            if (weightsList.contains(-1) || setsInt < 0 || repsList.contains(-1)) {
                 throw new NumberFormatException();
             }
 
-            ExerciseLog newExerciseLog = new ExerciseLog(exerciseName, weightInt, setsInt, repsInt);
+            ExerciseLog newExerciseLog = new ExerciseLog(exerciseName, weightsList, setsInt, repsList);
             WorkoutLog workoutLog = (WorkoutLog) retrieve(workoutLogDate);
 
             workoutLog.addExerciseLog(newExerciseLog);
@@ -70,12 +79,16 @@ public class WorkoutLogsManager extends ActivityManager {
         for (ExerciseLog currentExerciseLog : exerciseLogs) {
             String exerciseName = currentExerciseLog.getActivityName();
             int setCount = currentExerciseLog.getSets();
-            int repCount = currentExerciseLog.getRepetitions();
-            int weight = currentExerciseLog.getWeight();
-            result.append(String.format(ManagerStrings.LOG_LIST_ITEM,
-                    index, exerciseName, weight,
-                    setCount, repCount)
-            );
+            List<Integer> repsList = currentExerciseLog.getRepetitions();
+            List<Integer> weightsList = currentExerciseLog.getWeights();
+
+
+            result.append(String.format("\t\t\t %d. %s\n", index, exerciseName));
+            for (int setIndex = 0; setIndex < setCount; setIndex++) {
+                int weight = weightsList.get(setIndex);
+                int reps = repsList.get(setIndex);
+                result.append(String.format(ManagerStrings.LOG_LIST_ITEM, setIndex + 1, weight, reps));
+            }
 
             tempSet.removeIf(p -> p.getActivityName().equals(exerciseName));
             index++;
@@ -119,7 +132,7 @@ public class WorkoutLogsManager extends ActivityManager {
             String exerciseName = currentExercise.getActivityName();
 
             exercise.put(StorageStrings.EXERCISE_NAME, exerciseName);
-            exercise.put(StorageStrings.WEIGHT, currentExercise.getWeight());
+            exercise.put(StorageStrings.WEIGHT, currentExercise.getWeights());
             exercise.put(StorageStrings.SETS, currentExercise.getSets());
             exercise.put(StorageStrings.REPS, currentExercise.getRepetitions());
 

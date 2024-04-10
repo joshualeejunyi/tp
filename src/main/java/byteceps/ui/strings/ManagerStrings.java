@@ -1,6 +1,7 @@
 package byteceps.ui.strings;
 
 
+
 public class ManagerStrings {
     public static final String ACTIVITY_EXISTS_EXCEPTION = "The %s entry: %s already exists";
     public static final String ACTIVITY_DELETE_EXCEPTION = "The %s entry: %s does not exist and cannot be deleted";
@@ -69,7 +70,7 @@ public class ManagerStrings {
     public static final String LOG_INCOMPLETE = "Log command not complete. " +
             "Please use: program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> " +
             "/sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]>.";
-    public static final String LOG_SUCCESS = "Successfully logged %skg %s with %s sets and %s reps on %s";
+    public static final String LOG_SUCCESS = "Successfully logged %s with %s %s and %s %s across %d %s on %s";
     public static final String NO_WORKOUT_ASSIGNED = "There does not seem to be a workout assigned to the date " +
             "%s (day: %s). Please assign one first!";
     public static final String NO_WORKOUT_ASSIGNED_TODAY = "There is no workout assigned today (%s)";
@@ -86,9 +87,13 @@ public class ManagerStrings {
     public static final String INVALID_REPS_SETS = "Invalid weight/reps/sets entered!";
     public static final String EXERCISE_NOT_IN_WORKOUT = "The exercise is not in your workout for today!";
     public static final String LOG_LIST = "Listing Exercises on %s:%n";
-    public static final String LOG_LIST_ITEM = "\t\t\t%d. %s (weight: %d, sets: %d, reps: %d)"
+    public static final String LOG_LIST_ITEM = "\t\t\t\tSet %d: %d kg, %d reps"
             + System.lineSeparator();
     public static final String TOO_MANY_ARGS = "Extra arguments detected. Make sure you are not using" +
             System.lineSeparator() + "the special character '/' in any of your exercise and workout names,"
             + System.lineSeparator() + "or in any part of your input outside command arguments.";
+    public static final String INVALID_WEIGHTS_SETS_MISMATCH = "The number of weights provided (%d) does not match " +
+            "the declared number of sets (%d). Each set should have a corresponding weight.";
+    public static final String INVALID_REPS_SETS_MISMATCH = "The number of repetitions provided (%d) does not match " +
+            "the declared number of sets (%d). Each set should have a corresponding number of repetitions.";
 }

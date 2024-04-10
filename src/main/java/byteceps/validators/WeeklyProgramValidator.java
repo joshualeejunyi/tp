@@ -79,6 +79,24 @@ public class WeeklyProgramValidator extends Validator {
             }
         }
 
+        // Ensure that the number of sets matches the number of weights and reps provided
+        int setsInt = Integer.parseInt(sets);
+        int weightsCount = weight.split(" ").length;
+        int repsCount = reps.split(" ").length;
+
+        // Validate sets against weights
+        if (weightsCount != setsInt) {
+            throw new Exceptions.InvalidInput(String.format(ManagerStrings.INVALID_WEIGHTS_SETS_MISMATCH,
+                    setsInt, weightsCount));
+        }
+
+        // Validate sets against repetitions
+        if (repsCount != setsInt) {
+            throw new Exceptions.InvalidInput(String.format(ManagerStrings.INVALID_REPS_SETS_MISMATCH,
+                    setsInt, repsCount));
+        }
+
+
         validateNumAdditionalArgs(3, 4, parser);
     }
 

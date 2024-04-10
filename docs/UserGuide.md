@@ -389,26 +389,45 @@ Expected outcome:
 ```
 
 ## Logging Workouts
-You are also able to log the amount of weight, sets and repetitions you have completed for an exercise on a given day, through the logging functionality. 
+You can log the amount of weight, sets, and repetitions you have completed for an exercise on a given day using the logging functionality. This allows for comprehensive tracking of your workout progress over time.
 
-In order to log your exercises, must first have a workout plan assigned to the day that you are logging. However, you may log an exercise that was not originally in the workout plan to allow for flexibility of programs but you must create the exercise first.
+To log your exercises, you must first have a workout plan assigned for the day you are logging. It's possible to log an exercise not originally in your workout plan, providing flexibility in your programs. However, the exercise must be created beforehand.
 
 ### Adding an exercise log
-You may create a workout log using the `/log` flag in the program command.
+You may create a workout log using the `/log` flag in the program command. Now, with enhanced functionality, you can log multiple weights and repetitions for each set, allowing for a more detailed recording of your workout.
 
+#### To log a single set of an exercise
 ```
 program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]>
 ```
 
 Example of usage: 
 ```
-program /log benchpress /weight 125 /sets 3 /reps 5
+program /log benchpress /weight 125 /sets 1 /reps 5
 ```
 
 Expected outcome:
 ```
-[BYTE-CEPS]> Successfully logged 125kg benchpress with 3 sets and 5 reps on 2024-03-28
+[BYTE-CEPS]> Successfully logged benchpress with a weight of 125kg and 5 reps across 1 set on 2024-03-28
 ```
+
+#### Logging Multiple Sets with Varying Weights and Reps
+```
+program /log <EXERCISE_NAME [string]> /weight <WEIGHT1 [integer] WEIGHT2 [integer] ...> /sets <NUMBER_OF_SETS> /reps <REPS1 [integer] REPS2 [integer] ...>
+```
+
+Example of usage: 
+```
+program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> Successfully logged benchpress with weights of 100kg, 110kg, 120kg and reps of 5, 4, 3 across 3 sets on 2024-03-28
+```
+
+
+
 
 ### Adding an exercise log for a separate date
 You may also create a workout log for a specified date.
@@ -622,7 +641,7 @@ Furthermore, certain edits can cause the BYTE-CEPS to behave in unexpected ways 
 | View Weekly workout plan 	 		                 | `program /list` 								                                                                                                                                        | `program /list`			                                                     |
 | Remove a workout plan for a day 	 	           | `program /clear <DAY [string]>`						                                                                                                                           | `program /clear Tuesday`		                                             |
 | Remove all workouts in weekly program 	 	     | `program /clear`						                                                                                                                                          | `program /clear`		                                                     |
-| Adding an exercise log			                     | `program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> `                           | `program /log benchpress /weight 125 /sets 3 /reps 5 `                 |
+| Adding an exercise log			                     | `program /log <EXERCISE_NAME [string]> /weight <WEIGHT1 [integer] WEIGHT2 [integer] ...> /sets <NUMBER_OF_SETS [integer]> /reps <REPS1 [integer] REPS2 [integer] ...> `                           | `program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3`                 |
 | Adding an exercise log for a separate date			 | `program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]> ` | `program /log benchpress /weight 125 /sets 3 /reps 5 /date 2024-03-25` |
 | Viewing historic logs 	 		                    | `program /history`							                                                                                                                                       | `program /history`			                                                  |
 | Viewing historic logs 	 		                    | `program /history <DATE [yyyy-mm-dd]>	`				                                                                                                                     | `program /history <DATE [yyyy-mm-dd]>` 	                               |
