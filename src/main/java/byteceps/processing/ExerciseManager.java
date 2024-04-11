@@ -57,7 +57,7 @@ public class ExerciseManager extends ActivityManager {
 
         return messageToUser;
     }
-
+    //@@author LWachtel1
     private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
         Exercise retrievedExercise = retrieveExercise(parser);
@@ -68,11 +68,11 @@ public class ExerciseManager extends ActivityManager {
                 ManagerStrings.EXERCISE_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
-
+    //@@author pqienso
     private String executeListAction(Parser parser) {
         return getListString();
     }
-
+    //@@author pqienso
     private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
         Exercise retrievedExercise =  retrieveExercise(parser);
         delete(retrievedExercise);
