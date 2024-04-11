@@ -190,8 +190,31 @@ Here is the sequence diagram for the `workout /assign Pushups /to LegDay` comman
 
 ![assignExercise](diagrams/assignExercise.png)
 
+#### [Implemented] List all exercises in a workout plan.
 
+The feature to list all exercises within a specific workout plan is crucial for users to review their workout regimen. This section outlines the sequence of operations triggered by the `workout /info workoutplan` command, culminating in the display of all associated exercises to the user.
 
+**Step 1 - Input Processing:** 
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `workout /info workoutplan`.
+
+**Step 2 - Command Identification:** 
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. For instance, the `workout /info` command will be recognized, workout plan name `workoutplan` will be parsed as the parameter.
+
+**Step 3 - Command Validation**: The input is then validated using `WorkoutValidator` class to ensure that the command and parameters provided meet the expected format and criteria for processing.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `WorkoutManager` class. 
+- Execute Info Action: The `WorkoutManager` proceeds to execute the `executeInfoAction`, specifically tailored for fetching details about the workout plan named `workoutplan`.
+- Retrieve Workout Plan: The `WorkoutManager` requests the `ActivityManager` to retrieve the `Workout` object corresponding to `workoutplan`. The `ActivityManager` searches its records and returns the `Workout` object to the `WorkoutManager`.
+- Fetch Exercise List: The `WorkoutManager` then invokes the `getExerciseList` method on the retrieved `Workout` object to obtain a list of all exercises included in the workout plan.
+- Compile Exercise Information: For each `Exercise` in the list, the `WorkoutManager` calls the `getName` method to retrieve the name of the exercise. These names are compiled into a comprehensive message detailing all exercises within the workout plan.
+
+**Step 5 - Result Display**: After the command is executed, a message indicating the success or failure of the operation is generated and displayed to the user. This feedback is crucial for confirming the effect of the user's command on the system.
+- Success Path: The compiled list of exercises is presented to the user, providing a clear overview of the workout plan's contents.
+- Validation Failure: If the initial validation fails, the user is informed of the invalid command format without proceeding further into the sequence.
+
+Here is the sequence diagram for the `workout /info workoutplan` command to illustrate the five-step process:
+
+![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.png)
 
 
 ### Logging of workouts 
