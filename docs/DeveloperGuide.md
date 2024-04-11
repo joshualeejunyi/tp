@@ -165,6 +165,31 @@ Here is the sequence diagram for the `workout /delete LegDay` command to illustr
 
 ![deleteWorkout](diagrams/deleteWorkout.png)
 
+#### [Implemented] Assign and Unassign Workout plan.
+The ByteCeps application facilitates workout management, including the assignment and unassignment of exercises to workout plans. The process is outlined in the sequence diagram provided and follows a standard operational pattern as described below:
+
+ByteCeps streamlines the management of exercise-related tasks by following a general multi-step pattern. Here’s how these operations are carried out:
+
+**Step 1 - Input Processing:** 
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. User input examples include:
+- `workout /assign Pushups /to LegDay`  to assign the exercise `Pushups` to the workout plan `LegDay`.
+- `workout /unassign Pushups /from LegDay` to unassign the exercise `Pushups` to the workout plan `LegDay`.
+
+**Step 2 - Command Identification:** 
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. For instance, the `workout /assign` command will be recognized, workout plan name `LegDay` and exercise name `Pushups` will be parsed as the parameter.
+
+**Step 3 - Command Validation**: The input is then validated using `WorkoutValidator` class to ensure that the command and parameters provided meet the expected format and criteria for processing.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `WorkoutManager` class. 
+- Assigning: The `WorkoutManager` calls `executeAssignAction` which initiates the process to assign an exercise to a workout plan. It communicates with the `ExerciseManager` to retrieve the specified `Exercise` object. Simultaneously, it retrieves the specified `Workout` object to which the exercise will be added. The `Workout` object’s `addExercise` method is called to include the exercise within the workout plan.
+- Unassigning: The `WorkoutManager` calls `executeUnassignAction` which initiates the process to unassign an exercise to a workout plan. It first retrieves the `Workout` object corresponding to `LegDay` by calling the retrieve method on the `ActivityManager`. With the `Workout` object obtained, it attempts to find and remove the `Exercise` object representing `Pushups`. If the `Exercise` is present in the `Workout`, it is removed from the workout's exercise list.
+
+**Step 5 - Result Display**: After the command is executed, a message indicating the success or failure of the operation is generated and displayed to the user. This feedback is crucial for confirming the effect of the user's command on the system.
+
+Here is the sequence diagram for the `workout /assign Pushups /to LegDay` command to illustrate the five-step process:
+
+![assignExercise](diagrams/assignExercise.png)
+
 
 
 
