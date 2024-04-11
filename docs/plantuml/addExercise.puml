@@ -1,0 +1,51 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+participant User
+participant ":Parser" as Parser
+participant ":ExerciseManager" as ExerciseManager
+participant ":ExerciseValidator" as Validator
+participant ":ActivityManager" as ActivityManager
+
+User -> Parser : Inputs command 'exercise /add pushups'
+activate Parser
+Parser -> ExerciseManager : parseInput(command)
+activate ExerciseManager
+
+ExerciseManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> ExerciseManager : Validation success
+deactivate Validator
+
+alt Validation successful
+
+    ExerciseManager -> ExerciseManager : executeAddAction(Parser)
+    activate ExerciseManager #FFBBBB
+
+    create ":Exercise" as Exercise
+    ExerciseManager -> Exercise : new(name='pushups')
+    activate Exercise
+    Exercise --> ExerciseManager : return newExercise
+    deactivate Exercise
+
+    ExerciseManager -> ActivityManager : add(newExercise)
+    activate ActivityManager
+    ActivityManager --> ExerciseManager : Exercise added to activitySet
+    deactivate ActivityManager
+
+    ExerciseManager --> ExerciseManager : return messageToUser
+    deactivate ExerciseManager #FFBBBB
+    ExerciseManager --> User : Print success message
+    destroy Exercise
+
+else Validation fails
+    ExerciseManager --> User : Print error message indicating invalid command format
+end
+
+deactivate ExerciseManager
+deactivate Parser
+
+
+
+@enduml
