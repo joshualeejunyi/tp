@@ -1,0 +1,64 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+participant User
+participant ":Parser" as Parser
+participant ":WorkoutManager" as WorkoutManager
+participant ":WorkoutValidator" as Validator
+participant ":ActivityManager" as ActivityManager
+participant ":Workout" as Workout
+participant ":Exercise" as Exercise
+
+User -> Parser : Inputs command 'workout /info workoutplan'
+activate Parser
+Parser -> WorkoutManager : parseInput(command)
+activate WorkoutManager
+
+WorkoutManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> WorkoutManager : Validation success
+deactivate Validator
+
+alt Validation successful
+
+    WorkoutManager -> WorkoutManager : executeInfoAction(Parser)
+    activate WorkoutManager #FFBBBB
+
+    WorkoutManager -> ActivityManager : retrieve('workoutplan')
+    activate ActivityManager
+    ActivityManager -> Workout : findByName('workoutplan')
+    activate Workout
+    Workout --> ActivityManager : return existingWorkout
+    deactivate Workout
+    ActivityManager --> WorkoutManager : return existingWorkout
+    deactivate ActivityManager
+
+    WorkoutManager -> Workout : getExerciseList()
+    activate Workout
+    Workout --> WorkoutManager : return exerciseList
+    deactivate Workout
+
+    loop Each Exercise in exerciseList
+        WorkoutManager -> Exercise : getName()
+        activate Exercise
+        Exercise --> WorkoutManager : contribute to message
+        deactivate Exercise
+    end
+
+    WorkoutManager --> WorkoutManager : Compile messageToUser
+    deactivate WorkoutManager #FFBBBB
+    WorkoutManager --> User : Print list of exercises
+
+    destroy Workout
+    destroy Exercise
+
+else Validation fails
+
+    WorkoutManager --> User : Print error message indicating invalid command format
+end
+
+deactivate WorkoutManager
+deactivate Parser
+
+@enduml`
