@@ -294,11 +294,11 @@ public class WeeklyProgramManager extends ActivityManager {
             initializeDays();
             return ManagerStrings.PROGRAMS_CLEARED;
         }
-        Day currentDay = getDay(day);
-        String currentDayString = currentDay.getActivityName();
+        Day selectedDay = getDay(day);
+        String selectedDayString = selectedDay.getActivityName();
 
-        activitySet.remove(getDay(day));
-        Day newDay = new Day(currentDayString);
+        activitySet.remove(selectedDay);
+        Day newDay = new Day(selectedDayString);
         newDay.setAssignedWorkout(null);
         activitySet.add(newDay);
 
