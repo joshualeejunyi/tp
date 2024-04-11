@@ -83,14 +83,12 @@ class StorageTest {
         } catch (SecurityException e) {
             return false;
         }
-
     }
 
     public boolean renameOriginalFile(String originalPath, String newPath) {
         //Solution below inspired by https://www.geeksforgeeks.org/file-renameto-method-in-java-with-examples/
         File originalFile = new File(originalPath);
         File renamedFile = new File(newPath);
-
         try {
             if (originalFile.renameTo(renamedFile)) {
                 return true;
@@ -99,7 +97,6 @@ class StorageTest {
         } catch (SecurityException e) {
             return false;
         }
-
     }
 
     public boolean restoreOriginalFile(String originalPath, String renamedPath) {
@@ -148,7 +145,6 @@ class StorageTest {
     public boolean isEmptyFile(String path) throws SecurityException {
         try {
             File jsonFile = new File(path);
-
             if(jsonFile.length() == 0) {
                 return true;
             }
@@ -159,7 +155,6 @@ class StorageTest {
     }
 
     public boolean isCorruptedFile(String path) throws SecurityException, FileNotFoundException {
-
         File jsonFile = new File(path);
         try (Scanner jsonScanner = new Scanner(jsonFile)) {
             JSONObject jsonArchive = new JSONObject(jsonScanner.nextLine());
@@ -178,7 +173,6 @@ class StorageTest {
 
         assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
-
         String expectedOutput = String.format("%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.WORKOUTS_SAVED,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
         assertEquals(expectedOutput, outContent.toString());
@@ -190,7 +184,6 @@ class StorageTest {
     public void load_noPreExistingJsonFile_success() {
         assertDoesNotThrow(() -> checkFile(FILE_PATH));
         boolean fileExists = checkFile(FILE_PATH);
-
         if (fileExists) {
             assertTrue(renameOriginalFile(FILE_PATH, RENAMED_PATH));
         }
@@ -198,7 +191,6 @@ class StorageTest {
         setUpStreams();
         assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
-
         String expectedOutput = String.format("%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.NO_SAVE_DATA,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
         assertEquals(expectedOutput, outContent.toString());
@@ -214,12 +206,10 @@ class StorageTest {
     public void load_preExistingJsonFile_success() {
         assertDoesNotThrow(() -> checkFile(FILE_PATH));
         boolean fileExists = checkFile(FILE_PATH);
-
         if (!fileExists) {
             assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
                     workoutLogsManager));
         }
-
         setUpStreams();
         assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
@@ -244,13 +234,11 @@ class StorageTest {
             assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
                     workoutLogsManager));
         }
-
-        if (assertDoesNotThrow(() -> isEmptyFile(FILE_PATH))){
+        if (assertDoesNotThrow(() -> isEmptyFile(FILE_PATH))) {
             assertTrue(deleteFile(FILE_PATH));
             assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
                     workoutLogsManager));
         }
-
         setUpStreams();
         assertDoesNotThrow(() -> storage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
@@ -277,7 +265,7 @@ class StorageTest {
         }
 
 
-        if (assertDoesNotThrow(() -> isCorruptedFile(FILE_PATH))){
+        if (assertDoesNotThrow(() -> isCorruptedFile(FILE_PATH))) {
             assertTrue(deleteFile(FILE_PATH));
             assertDoesNotThrow(() -> storage.save(exerciseManager, workoutManager, weeklyProgramManager,
                     workoutLogsManager));
@@ -308,9 +296,9 @@ class StorageTest {
         String corruptFailureFilePath = "./jsons/corrupted.json.old";
 
         assertDoesNotThrow( () -> checkFile(corruptFilePath));
+        assertTrue(checkFile(corruptFilePath));
 
         Storage failureStorage = new Storage(corruptFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
@@ -319,15 +307,13 @@ class StorageTest {
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
                 StorageStrings.LOAD_ERROR, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
-
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(corruptFilePath));
+        assertTrue(checkFile(corruptFilePath));
 
         assertNotEquals("", corruptFailureFileName = findFileName(corruptFailureFileName));
-
         corruptFailureFilePath = FOLDER_PATH + corruptFailureFileName;
-
         assertTrue(restoreOriginalFile(corruptFilePath, corruptFailureFilePath));
 
         restoreStreams();
@@ -343,26 +329,23 @@ class StorageTest {
         String duplicateExerciseFailureFilePath = "./jsons/duplicateExercise.json.old";
 
         assertDoesNotThrow( () -> checkFile(duplicateExerciseFilePath));
+        assertTrue(checkFile(duplicateExerciseFilePath));
 
         Storage failureStorage = new Storage(duplicateExerciseFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
-
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
                 StorageStrings.LOAD_ERROR, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
-
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(duplicateExerciseFilePath));
+        assertTrue(checkFile(duplicateExerciseFilePath));
 
         assertNotEquals("",duplicateExerciseFailureFileName = findFileName(duplicateExerciseFailureFileName));
-
         duplicateExerciseFailureFilePath = FOLDER_PATH + duplicateExerciseFailureFileName;
-
         assertTrue(restoreOriginalFile(duplicateExerciseFilePath, duplicateExerciseFailureFilePath));
 
         restoreStreams();
@@ -377,26 +360,23 @@ class StorageTest {
         String duplicateWorkoutFailureFilePath = "./jsons/duplicateWorkout.json.old";
 
         assertDoesNotThrow( () -> checkFile(duplicateWorkoutFilePath));
+        assertTrue(checkFile(duplicateWorkoutFilePath));
 
         Storage failureStorage = new Storage(duplicateWorkoutFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
-
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
                 StorageStrings.LOAD_ERROR, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
-
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(duplicateWorkoutFilePath));
+        assertTrue(checkFile(duplicateWorkoutFilePath));
 
         assertNotEquals("",duplicateWorkoutFailureFileName = findFileName(duplicateWorkoutFailureFileName));
-
         duplicateWorkoutFailureFilePath = FOLDER_PATH + duplicateWorkoutFailureFileName;
-
         assertTrue(restoreOriginalFile(duplicateWorkoutFilePath, duplicateWorkoutFailureFilePath));
 
         restoreStreams();
@@ -411,9 +391,9 @@ class StorageTest {
         String workoutMissingFailureFilePath = "./jsons/workoutMissing.json.old";
 
         assertDoesNotThrow( () -> checkFile(workoutMissingFilePath));
+        assertTrue(checkFile(workoutMissingFilePath));
 
         Storage failureStorage = new Storage(workoutMissingFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
@@ -426,11 +406,10 @@ class StorageTest {
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(workoutMissingFilePath));
+        assertTrue(checkFile(workoutMissingFilePath));
 
         assertNotEquals("",workoutMissingFailureFileName = findFileName(workoutMissingFailureFileName));
-
         workoutMissingFailureFilePath = FOLDER_PATH + workoutMissingFailureFileName;
-
         assertTrue(restoreOriginalFile(workoutMissingFilePath, workoutMissingFailureFilePath));
 
         restoreStreams();
@@ -446,9 +425,9 @@ class StorageTest {
         String workoutExercisesMissingFailureFilePath = "./jsons/workoutExercisesMissing.json.old";
 
         assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFilePath));
+        assertTrue(checkFile(workoutExercisesMissingFilePath));
 
         Storage failureStorage = new Storage(workoutExercisesMissingFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
@@ -461,11 +440,11 @@ class StorageTest {
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(workoutExercisesMissingFilePath));
+        assertTrue(checkFile(workoutExercisesMissingFilePath));
 
-        assertNotEquals("",workoutExercisesMissingFailureFileName = findFileName(workoutExercisesMissingFailureFileName));
-
+        assertNotEquals("",
+                workoutExercisesMissingFailureFileName = findFileName(workoutExercisesMissingFailureFileName));
         workoutExercisesMissingFailureFilePath = FOLDER_PATH + workoutExercisesMissingFailureFileName;
-
         assertTrue(restoreOriginalFile(workoutExercisesMissingFilePath, workoutExercisesMissingFailureFilePath));
 
         restoreStreams();
@@ -481,26 +460,23 @@ class StorageTest {
         String logsExerciseFailFailureFilePath = "./jsons/logsExerciseFail.json.old";
 
         assertDoesNotThrow( () -> checkFile(logsExerciseFailFilePath));
+        assertTrue(checkFile(logsExerciseFailFilePath));
 
         Storage failureStorage = new Storage(logsExerciseFailFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
-
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
                 StorageStrings.LOAD_ERROR, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
-
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(logsExerciseFailFilePath));
+        assertTrue(checkFile(logsExerciseFailFilePath));
 
         assertNotEquals("",logsExerciseFailFailureFileName = findFileName(logsExerciseFailFailureFileName));
-
         logsExerciseFailFailureFilePath = FOLDER_PATH + logsExerciseFailFailureFileName;
-
         assertTrue(restoreOriginalFile(logsExerciseFailFilePath, logsExerciseFailFailureFilePath));
 
         restoreStreams();
@@ -515,30 +491,26 @@ class StorageTest {
         String logsWorkoutFailFailureFilePath = "./jsons/logsWorkoutFail.json.old";
 
         assertDoesNotThrow( () -> checkFile(logsWorkoutFailFilePath));
+        assertTrue(checkFile(logsWorkoutFailFilePath));
 
         Storage failureStorage = new Storage(logsWorkoutFailFilePath, new UserInterface());
-
         setUpStreams();
 
         assertDoesNotThrow( () -> failureStorage.load(exerciseManager, workoutManager, weeklyProgramManager,
                 workoutLogsManager));
-
         String expectedOutput = String.format("%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, StorageStrings.LOADING,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator(), UiStrings.BYTECEP_PROMPT,
                 StorageStrings.LOAD_ERROR, System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
-
         assertEquals(expectedOutput, outContent.toString());
 
         assertDoesNotThrow( () -> checkFile(logsWorkoutFailFilePath));
+        assertTrue(checkFile(logsWorkoutFailFilePath));
 
         assertNotEquals("",logsWorkoutFailFailureFileName = findFileName(logsWorkoutFailFailureFileName));
-
         logsWorkoutFailFailureFilePath = FOLDER_PATH + logsWorkoutFailFailureFileName;
-
         assertTrue(restoreOriginalFile(logsWorkoutFailFilePath, logsWorkoutFailFailureFilePath));
 
         restoreStreams();
-
     }
 
 
