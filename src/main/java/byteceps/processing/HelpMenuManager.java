@@ -22,8 +22,7 @@ public class HelpMenuManager {
      * Returns String that explains to user how to access each of the 3 "help menus" for the
      * 3 main commands (exercise, workout & program).
      *
-     * @return String that explains to user how to access each of the 3 "help menus" for the
-     * 3 main commands (exercise, workout & program).
+     * @return String informing user how to access each "help menu" for the main commands (exercise, workout & program).
      */
     public String getHelpGreetingString() {
         return HelpStrings.HELP_MANAGER_GREETING;
