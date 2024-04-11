@@ -1,28 +1,54 @@
 @startuml SequenceDiagram
+
 skinparam classAttributeIconSize 0
 skinparam style strictuml
 participant User
-participant Parser
-participant WorkoutManager
-participant Workout
-participant ActivityManager
+participant ":Parser" as Parser
+participant ":WorkoutManager" as WorkoutManager
+participant ":WorkoutValidator" as Validator
+participant ":ActivityManager" as ActivityManager
+participant ":Workout" as Workout
 
-User -> Parser: Inputs command 'workout /delete push_day'
-Parser -> WorkoutManager: Parse command
+User -> Parser : Inputs command 'workout /delete LegDay'
+activate Parser
+Parser -> WorkoutManager : parseInput(command)
 activate WorkoutManager
-WorkoutManager -> WorkoutManager: Validate input to ensure correct command format
-alt Input validation successful
-    WorkoutManager -> Workout: Retrieve Workout object 'push_day'
-    activate Workout
-    WorkoutManager -> ActivityManager: Invoke delete method to delete workout from activitySet
+
+WorkoutManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> WorkoutManager : Validation success
+deactivate Validator
+
+alt Validation successful
+
+    WorkoutManager -> WorkoutManager : executeDeleteAction(Parser)
+    activate WorkoutManager #FFBBBB
+
+    WorkoutManager -> ActivityManager : retrieve('LegDay')
     activate ActivityManager
-    ActivityManager -> Workout: Remove workout 'push_day' from activitySet
-    deactivate ActivityManager
+    ActivityManager -> Workout : findByName('LegDay')
+    activate Workout
+    Workout --> ActivityManager : return existingWorkout
     deactivate Workout
-    WorkoutManager -> User: Print success message
-    deactivate WorkoutManager
-else Input validation fails
-    WorkoutManager -> User: Print error message
+    ActivityManager --> WorkoutManager : return existingWorkout
+    deactivate ActivityManager
+
+    WorkoutManager -> ActivityManager : delete(existingWorkout)
+    activate ActivityManager
+    ActivityManager --> WorkoutManager : Workout plan removed from activitySet
+    deactivate ActivityManager
+
+    WorkoutManager --> WorkoutManager : return messageToUser
+    deactivate WorkoutManager #FFBBBB
+    WorkoutManager --> User : Print success message
+
+    destroy Workout
+
+else Validation fails
+    WorkoutManager --> User : Print error message indicating invalid command format
 end
+
+deactivate WorkoutManager
+deactivate Parser
 
 @enduml
