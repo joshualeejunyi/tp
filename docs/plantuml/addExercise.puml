@@ -2,15 +2,20 @@
 
 skinparam classAttributeIconSize 0
 skinparam style strictuml
-participant User
+
+participant ByteCeps as User
+participant UserInterface
 participant ":Parser" as Parser
 participant ":ExerciseManager" as ExerciseManager
 participant ":ExerciseValidator" as Validator
-participant ":ActivityManager" as ActivityManager
 
-User -> Parser : Inputs command 'exercise /add pushups'
+
+User -> Parser : parseInput(userInput)
 activate Parser
-Parser -> ExerciseManager : parseInput(command)
+User <-- Parser
+deactivate Parser
+
+User -> ExerciseManager : execute(parser)
 activate ExerciseManager
 
 ExerciseManager -> Validator : validateCommand(Parser)
@@ -29,18 +34,28 @@ alt Validation successful
     Exercise --> ExerciseManager : return newExercise
     deactivate Exercise
 
+    create ":ActivityManager" as ActivityManager
     ExerciseManager -> ActivityManager : add(newExercise)
     activate ActivityManager
-    ActivityManager --> ExerciseManager : Exercise added to activitySet
+    ActivityManager --> ExerciseManager :
     deactivate ActivityManager
+
 
     ExerciseManager --> ExerciseManager : return messageToUser
     deactivate ExerciseManager #FFBBBB
-    ExerciseManager --> User : Print success message
+    ExerciseManager --> User: messageToUser
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User
+    deactivate UserInterface
     destroy Exercise
+    destroy ActivityManager
 
 else Validation fails
-    ExerciseManager --> User : Print error message indicating invalid command format
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
 end
 
 deactivate ExerciseManager

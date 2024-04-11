@@ -2,17 +2,21 @@
 
 skinparam classAttributeIconSize 0
 skinparam style strictuml
-participant User
+
+participant ByteCeps as User
+participant UserInterface
 participant ":Parser" as Parser
 participant ":WorkoutManager" as WorkoutManager
 participant ":WorkoutValidator" as Validator
-participant ":ActivityManager" as ActivityManager
 participant ":Workout" as Workout
 participant ":Exercise" as Exercise
 
-User -> Parser : Inputs command 'workout /info workoutplan'
+User -> Parser : parseInput(userInput)
 activate Parser
-Parser -> WorkoutManager : parseInput(command)
+User <-- Parser
+deactivate Parser
+
+User -> WorkoutManager : execute(parser)
 activate WorkoutManager
 
 WorkoutManager -> Validator : validateCommand(Parser)
@@ -25,6 +29,7 @@ alt Validation successful
     WorkoutManager -> WorkoutManager : executeInfoAction(Parser)
     activate WorkoutManager #FFBBBB
 
+    create ":ActivityManager" as ActivityManager
     WorkoutManager -> ActivityManager : retrieve('workoutplan')
     activate ActivityManager
     ActivityManager -> Workout : findByName('workoutplan')
@@ -46,16 +51,24 @@ alt Validation successful
         deactivate Exercise
     end
 
-    WorkoutManager --> WorkoutManager : Compile messageToUser
+    WorkoutManager --> WorkoutManager : return messageToUser
     deactivate WorkoutManager #FFBBBB
-    WorkoutManager --> User : Print list of exercises
+    WorkoutManager --> User : messageToUser
+
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User
+    deactivate UserInterface
 
     destroy Workout
     destroy Exercise
+    destroy ActivityManager
 
 else Validation fails
-
-    WorkoutManager --> User : Print error message indicating invalid command format
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
 end
 
 deactivate WorkoutManager
