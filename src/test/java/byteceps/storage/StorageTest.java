@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StorageTest {
 
+    private static final String FOLDER_PATH = "./jsons/";
     private static final String FILE_PATH = "./jsons/test.json";
     private static final String RENAMED_PATH = "./jsons/hidden.json";
     private static Storage storage;
@@ -325,7 +326,7 @@ class StorageTest {
 
         assertNotEquals("", corruptFailureFileName = findFileName(corruptFailureFileName));
 
-        corruptFailureFilePath = "./jsons/" + corruptFailureFileName;
+        corruptFailureFilePath = FOLDER_PATH + corruptFailureFileName;
 
         assertTrue(restoreOriginalFile(corruptFilePath, corruptFailureFilePath));
 
@@ -360,7 +361,7 @@ class StorageTest {
 
         assertNotEquals("",duplicateExerciseFailureFileName = findFileName(duplicateExerciseFailureFileName));
 
-        duplicateExerciseFailureFilePath = "./jsons/"+ duplicateExerciseFailureFileName;
+        duplicateExerciseFailureFilePath = FOLDER_PATH + duplicateExerciseFailureFileName;
 
         assertTrue(restoreOriginalFile(duplicateExerciseFilePath, duplicateExerciseFailureFilePath));
 
@@ -394,7 +395,7 @@ class StorageTest {
 
         assertNotEquals("",duplicateWorkoutFailureFileName = findFileName(duplicateWorkoutFailureFileName));
 
-        duplicateWorkoutFailureFilePath = "./jsons/"+ duplicateWorkoutFailureFileName;
+        duplicateWorkoutFailureFilePath = FOLDER_PATH + duplicateWorkoutFailureFileName;
 
         assertTrue(restoreOriginalFile(duplicateWorkoutFilePath, duplicateWorkoutFailureFilePath));
 
@@ -428,7 +429,7 @@ class StorageTest {
 
         assertNotEquals("",workoutMissingFailureFileName = findFileName(workoutMissingFailureFileName));
 
-        workoutMissingFailureFilePath = "./jsons/" + workoutMissingFailureFileName;
+        workoutMissingFailureFilePath = FOLDER_PATH + workoutMissingFailureFileName;
 
         assertTrue(restoreOriginalFile(workoutMissingFilePath, workoutMissingFailureFilePath));
 
@@ -463,7 +464,7 @@ class StorageTest {
 
         assertNotEquals("",workoutExercisesMissingFailureFileName = findFileName(workoutExercisesMissingFailureFileName));
 
-        workoutExercisesMissingFailureFilePath = "./jsons/" + workoutExercisesMissingFailureFileName;
+        workoutExercisesMissingFailureFilePath = FOLDER_PATH + workoutExercisesMissingFailureFileName;
 
         assertTrue(restoreOriginalFile(workoutExercisesMissingFilePath, workoutExercisesMissingFailureFilePath));
 
@@ -498,7 +499,7 @@ class StorageTest {
 
         assertNotEquals("",logsExerciseFailFailureFileName = findFileName(logsExerciseFailFailureFileName));
 
-        logsExerciseFailFailureFilePath = "./jsons/" + logsExerciseFailFailureFileName;
+        logsExerciseFailFailureFilePath = FOLDER_PATH + logsExerciseFailFailureFileName;
 
         assertTrue(restoreOriginalFile(logsExerciseFailFilePath, logsExerciseFailFailureFilePath));
 
@@ -532,7 +533,7 @@ class StorageTest {
 
         assertNotEquals("",logsWorkoutFailFailureFileName = findFileName(logsWorkoutFailFailureFileName));
 
-        logsWorkoutFailFailureFilePath = "./jsons/" + logsWorkoutFailFailureFileName;
+        logsWorkoutFailFailureFilePath = FOLDER_PATH + logsWorkoutFailFailureFileName;
 
         assertTrue(restoreOriginalFile(logsWorkoutFailFilePath, logsWorkoutFailFailureFilePath));
 
