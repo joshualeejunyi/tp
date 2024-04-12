@@ -211,15 +211,19 @@ Here is the sequence diagram for the `workout /info workoutplan` command to illu
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
 ![](./diagrams/assignWorkoutToProgram.png)
 
+#### Clearing a day in the program
+This is the sequence diagram of the command `program /clear <day [optional]>` being run.
+The validation of user input has been omitted for purposes of brevity.
+![](./diagrams/clearProgram.png)
+
+### Logging workout management
+
 #### Logging an exercise
 Below is the sequence diagram of the command `program /log <EXERCISE_NAME [string]> /weight
  <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]> ` being run: 
 ![](./diagrams/addExerciseLog.png)
 
-#### Clearing a day in the program
-This is the sequence diagram of the command `program /clear <day [optional]>` being run.
-The validation of user input has been omitted for purposes of brevity.
-![](./diagrams/clearProgram.png)
+
 
 ### Help Menu
 To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
