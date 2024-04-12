@@ -1,48 +1,35 @@
 @startuml
 skinparam classAttributeIconSize 0
 skinparam style strictuml
-class Workout{
-exerciseList : ArrayList<Exercise>
-+ Workout(workoutName : String)
-+ getExerciseList() : ArrayList<Exercise>
-+ getExerciseSet() : HashSet<Exercise>
-+ addExercise(exercise : Exercise) : void
-+ toString(numTabs : int) : String
-}
-Workout --|> Activity
-class Exercise{
-+ Exercise(exerciseName : String)
-+ toString() : String
-+ editExerciseName(newExerciseName : String) : void
-}
-Exercise --|> Activity
-class ExerciseLog{
-- weight : int
-- sets : int
-- repetitions : int
-+ ExerciseLog(activityName : String, weight : int, sets : int, repetitions : int)
-+ getSets() : int
-+ getRepetitions() : int
-+ getWeight() : int
-}
-ExerciseLog --|> Activity
+hide circle
 class Activity{
 # activityName : String
 + Activity(activityName : String)
 + getActivityName() : String
++ setActivityName(activityName : String) : void
 + hashCode() : int
 + equals(obj : Object) : boolean
 }
+class ExerciseLog{
+- weights : List<Integer>
+- sets : int
+- repetitions : List<Integer>
++ ExerciseLog(activityName : String, weights : List<Integer>, sets : int, repetitions : List<Integer>)
++ getSets() : int
++ getRepetitions() : List<Integer>
++ getWeights() : List<Integer>
+}
+ExerciseLog --|> Activity
 class WorkoutLog{
 # workoutName : String
-exerciseLogs : HashSet<ExerciseLog>
+exerciseLogs : LinkedHashSet<ExerciseLog>
 + WorkoutLog(workoutDate : String, workoutName : String)
 + addExerciseLog(exerciseLog : ExerciseLog) : void
 + getWorkoutName() : String
 + getWorkoutDate() : String
-+ getExerciseLogs() : HashSet<ExerciseLog>
++ getExerciseLogs() : LinkedHashSet<ExerciseLog>
 }
-WorkoutLog --|> Activity
+WorkoutLog --|> Workout
 class Day{
 # assignedWorkout : Workout
 + Day(activityName : String)
@@ -50,5 +37,21 @@ class Day{
 + getAssignedWorkout() : Workout
 }
 Day --|> Activity
+class Exercise{
++ Exercise(exerciseName : String)
++ toString() : String
++ editExerciseName(newExerciseName : String, activityManager : ActivityManager) : void
+}
+Exercise --|> Activity
+class Workout{
+exerciseList : ArrayList<Exercise>
++ Workout(workoutName : String)
++ getExerciseList() : ArrayList<Exercise>
++ getExerciseSet() : LinkedHashSet<Exercise>
++ addExercise(exercise : Exercise) : void
++ toString(numTabs : int) : String
++ editWorkoutName(newWorkoutName : String, activityManager : ActivityManager) : void
+}
+Workout --|> Activity
 Day--"# assignedWorkout" Workout
 @enduml
