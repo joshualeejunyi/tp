@@ -244,6 +244,57 @@ To implement a help menu for the user, where they can view the formatting of any
 - [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all Strings including numbered help menu items, command formats and help menu error messages.
 - [HelpValidator](../src/main/java/byteceps/validators/HelpValidator.java): Parses the input to HelpMenuManager's execute() method to ensure input validity before the rest of the method executes.
 
+#### Viewing an action's help menu
+If the user enters the command `help /COMMAND_TYPE` where `COMMAND_TYPE` is one of the 3 possible actions:
+1. `exercise`
+2. `workout`
+3. `program`
+They will be shown a numbered list of functionalities associated with the specific action. 
+
+How the command `help /program` is processed and executed will be described below. This is to demonstrate how the 3 aforementioned classes interact to show a user a help menu detailing the associated functionalities of an action for which they can see command formats.
+
+**Step 1 - Input Processing:**
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `help /program`.
+
+**Step 2 - Command Identification:**
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. In this case, the `help` is recognised as the command,`program` is a flag.
+
+**Step 3 - Command Validation**: The input is then validated using `HelpValidator` class to ensure that the command and flag provided meet the expected format and criteria for processing.
+If validation fails, an exception is thrown with an accompanying error message. If validation succeeds, command execution proceeds.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
+- Execute generateAllActions: The `HelpMenuManager` proceeds to execute the `generateAllActions` method, which retrieves the array of `program` help menu items, `PROGRAM_FLAG_FUNCTIONS`, and appends each String into a single list String, which is returned.
+
+**Step 5 - Result Display**
+- Success Path: The String containg the numbered `program` help menu is presented to the user.
+- Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
+
+
+This is a sequence diagram of the command `help /program` provided to visually illustrate the described example above.
+![](./diagrams/helpMenuWholeMenu.png)
+
+#### Viewing a specific command format 
+How the command `help /exercise 1` is processed and executed will be described below to demonstrate how the 3 aforementioned classes interact to show a user command formats.
+
+**Step 1 - Input Processing:**
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `help /exercise 1`.
+
+**Step 2 - Command Identification:**
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. In this case, the `help` is recognised as the command,`exercise` and `1` are a flag-parameter pair.
+
+**Step 3 - Command Validation**: The input is then validated using `HelpValidator` class to ensure that the command and flag-parameter pair provided meet the expected format and criteria for processing.
+If validation fails, an exception is thrown with an accompanying error message. If validation succeeds, command execution proceeds.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
+- Execute getFlagFormat: The `HelpMenuManager` proceeds to execute the `getFlagFormat` method, which first converts the String parameter `1` to its corresponding Integer index `0` then calls the `getExerciseFlagFormats` method for retrieving a String command format `exercise` command formats menu.
+- Retrieve command format: The `HelpMenuManager`retrieves the specific String command format at the index `0` in the list of `exercise` command formats found in the `HelpStrings` class.
+
+**Step 5 - Result Display**
+- Success Path: The String of the desired command format (item at position `1` in the `exercise` help menu) is presented to the user.
+- Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
+
+This is a sequence diagram of the command `help /exercise 1` provided to visually illustrate the described example above.
+![](./diagrams/helpMenuCommandFormat.png)
 
 ## Product scope
 ### Target user profile

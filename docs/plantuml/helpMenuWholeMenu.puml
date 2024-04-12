@@ -9,7 +9,7 @@ participant HelpStrings
 participant HelpValidator as Validator
 
 
-User -> Parser : parseInput('help /exercise 1')
+User -> Parser : parseInput('help /program')
 activate Parser
 User <-- Parser
 deactivate Parser
@@ -23,17 +23,16 @@ Validator --> HelpMenuManager : Validation success
 deactivate Validator
 
 alt Validation successful
-    HelpMenuManager -> HelpMenuManager : getFlagFormat('1', 'exercise')
+    HelpMenuManager -> HelpMenuManager : generateAllActions('program')
     activate HelpMenuManager #FFBBBB
 
-    HelpMenuManager -> HelpMenuManager : getExerciseFlagFormats(0)
-    activate HelpMenuManager
-    HelpMenuManager -> HelpStrings : return EXERCISE_FLAG_FORMAT[0]
-    HelpMenuManager <-- HelpStrings : EXERCISE_FLAG_FORMAT[0]
-    deactivate HelpMenuManager
+
+    HelpMenuManager -> HelpStrings : retrieve PROGRAM_FLAG_FUNCTIONS
+    HelpMenuManager <-- HelpStrings : result = PROGRAM_FLAG_FUNCTIONS
+    HelpMenuManager --> HelpMenuManager : result
     deactivate HelpMenuManager #FFBBBB
 
-    User <-- HelpMenuManager : messageToUser = EXERCISE_FLAG_FORMAT[0]
+    User <-- HelpMenuManager : messageToUser = result
     User -> UserInterface: printMessage(messageToUser)
     activate UserInterface
     UserInterface --> User:
