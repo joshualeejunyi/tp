@@ -224,14 +224,17 @@ The sequence diagram below shows how a log is created.
 ![WorkoutLogOverview.png](./diagrams/WorkoutLogOverview.png)
 
 ### Program management
+#### Logging an exercise
+Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weight
+<WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
+![](./diagrams/addExerciseLog.png)
+1. The `execute()` method of `WeeklyProgramManager` calls the `executeLogAction()` method
+2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which its process has been described above.
+3. Finally, the `messageToUser` is returned to the `UserInterface`.
+
 #### Assigning a workout to a program
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
 ![](./diagrams/assignWorkoutToProgram.png)
-
-#### Logging an exercise
-Below is the sequence diagram of the command `program /log <EXERCISE_NAME [string]> /weight
- <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]> ` being run: 
-![](./diagrams/addExerciseLog.png)
 
 #### Clearing a day in the program
 This is the sequence diagram of the command `program /clear <day [optional]>` being run.

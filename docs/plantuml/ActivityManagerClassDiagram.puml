@@ -60,10 +60,9 @@ abstract class ActivityManager{
 + delete(activity : Activity) : void
 + retrieve(activityName : String) : Activity
 + getListString() : String
-+ {abstract} getActivityType(plural : boolean) : String
 }
-WorkoutManager--"- exerciseManager" ExerciseManager
-WeeklyProgramManager--"- exerciseManager" ExerciseManager
-WeeklyProgramManager--"- workoutManager" WorkoutManager
-WeeklyProgramManager--"- workoutLogsManager" WorkoutLogsManager
+WorkoutManager-->"exerciseManager" ExerciseManager
+WeeklyProgramManager-->"exerciseManager" ExerciseManager
+WeeklyProgramManager-->"workoutManager" WorkoutManager
+WeeklyProgramManager-->"workoutLogsManager" WorkoutLogsManager
 @enduml
