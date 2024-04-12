@@ -68,11 +68,11 @@ public class ExerciseManager extends ActivityManager {
                 ManagerStrings.EXERCISE_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
         );
     }
-    //@@author pqienso
+    //@@author V4vern
     private String executeListAction(Parser parser) {
         return getListString();
     }
-    //@@author pqienso
+    //@@author V4vern
     private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
         Exercise retrievedExercise =  retrieveExercise(parser);
         delete(retrievedExercise);
