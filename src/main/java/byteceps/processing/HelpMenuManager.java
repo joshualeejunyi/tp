@@ -6,6 +6,11 @@ import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
 import byteceps.validators.HelpValidator;
 
+/**
+ * Displays the correct command formatting for all BYTE-CEPS functionalities. Command formats are divided into 3
+ * categories, each one corresponding to one of the 3 main commands (exercise, workout & program).
+ */
+
 //@@author LWachtel1
 public class HelpMenuManager {
 
@@ -13,10 +18,25 @@ public class HelpMenuManager {
 
     }
 
+    /**
+     * Returns String that explains to user how to access each of the 3 "help menus" for the
+     * 3 main commands (exercise, workout & program).
+     *
+     * @return String informing user how to access each "help menu" for the main commands (exercise, workout & program).
+     */
     public String getHelpGreetingString() {
         return HelpStrings.HELP_MANAGER_GREETING;
     }
 
+
+    /**
+     * Displays either (1) a command help menu (if no valid numerical flag is provided) or (2) the specific
+     * command format for a specific BYTE-CEPS functionality, which corresponds to the help menu entry specified by
+     * the provided valid numerical flag.
+     *
+     * @param parser Parser containing required user input.
+     * @return String detailing either an entire command help menu or a specific command formatting.
+     */
     public String execute(Parser parser) throws Exceptions.InvalidInput {
         HelpValidator.validateCommand(parser);
 
@@ -31,6 +51,13 @@ public class HelpMenuManager {
 
     }
 
+    /**
+     * Builds a String containing a command's entire help menu (either exercise, workout  or program) i.e., a command's
+     * entire list of associated functionalities.
+     *
+     * @param command Command for which user wants to view help menu.
+     * @return String containing a command's help menu as an indented, numbered list starting from 1.
+     */
     private String generateAllActions(String command) throws Exceptions.InvalidInput {
         String[] flagFunctions;
         switch (command) {
@@ -55,6 +82,14 @@ public class HelpMenuManager {
         return result.toString();
     }
 
+    /**
+     * Returns a String containing the specific command format for a specific BYTE-CEPS functionality, corresponding
+     * to the help menu entry specified by the user-provided numerical flag.
+     *
+     * @param userFlag String corresponding to numerical position of help menu entry of user-desired command format.
+     * @param commandType String specifying which command help menu to find command formatting from.
+     * @return String containing the specific command format corresponding to provided flag.
+     */
     private String getFlagFormat(String userFlag,String commandType) {
         try {
             int flagChoice = Integer.parseInt(userFlag);

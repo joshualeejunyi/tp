@@ -71,19 +71,8 @@ The bulk of ByteCep's work is done by the following components:
 ### `Activity` and child classes
 The `Activity` class serves as a parent class to `Exercise`, `ExerciseLog`, `Workout`, `WorkoutLog` and `Day` classes for the ease of usage of `ActivityManager` classes (see below).
 
+**Note:** The `Day` class acts as a container class for `Workout`, for use in `WeeklyProgramManager` 
 ![ActivityClassDiagram](diagrams/ActivityClassDiagram.png)
-
-#### The `Exercise` class
-An `Exercise` object represents a single exercise entered by the user. The exercise name is stored in `Exercise.activityname`.
-
-#### The `Workout` class
-A `Workout` object represents a single workout created by the user. It contains an `ArrayList` of `Exercise` objects.
-
-#### The `ExerciseLog` class
-An `ExerciseLog` object is similar to an `Exercise` object, except that it also contains information on the weight, sets and repetitions of each exercise.
-
-#### The `WorkoutLog` class
-A `WorkoutLog` object is similar to that of a `Workout` object, except it contains an `ArrayList` of `ExerciseLog` objects.
 
 ### <code>ActivityManager</code> and child classes
 The <code>ActivityManager</code> and inheritors are responsible for managing an <code>ArrayList</code> of activities. The basic functions of an <code>ActivityManager</code> include:
@@ -233,6 +222,27 @@ The user interfaces with this feature through the `WeeklyProgramManager`, as it 
 The sequence diagram below shows how a log is created.
 
 ![WorkoutLogOverview.png](./diagrams/WorkoutLogOverview.png)
+
+### Program management
+#### Assigning a workout to a program
+Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
+![](./diagrams/assignWorkoutToProgram.png)
+
+#### Logging an exercise
+Below is the sequence diagram of the command `program /log <EXERCISE_NAME [string]> /weight
+ <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]> ` being run: 
+![](./diagrams/addExerciseLog.png)
+
+#### Clearing a day in the program
+This is the sequence diagram of the command `program /clear <day [optional]>` being run.
+The validation of user input has been omitted for purposes of brevity.
+![](./diagrams/clearProgram.png)
+
+### Help Menu
+To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
+- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns help menus to be shown to the user or, if requested, a specific functionality's command format.
+- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all Strings including numbered help menu items, command formats and help menu error messages.
+- [HelpValidator](../src/main/java/byteceps/validators/HelpValidator.java): Parses the input to HelpMenuManager's execute() method to ensure input validity before the rest of the method executes.
 
 
 ## Product scope
