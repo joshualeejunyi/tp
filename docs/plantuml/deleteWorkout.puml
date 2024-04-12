@@ -20,7 +20,7 @@ activate WorkoutManager
 
 WorkoutManager -> Validator : validateCommand(Parser)
 activate Validator
-Validator --> WorkoutManager : Validation success
+Validator --> WorkoutManager :
 deactivate Validator
 
 alt Validation successful
@@ -38,9 +38,12 @@ alt Validation successful
 
     WorkoutManager -> WorkoutManager : delete(existingWorkout)
     activate WorkoutManager
-    WorkoutManager --> WorkoutManager : return messageToUser
+    WorkoutManager --> WorkoutManager :
     deactivate WorkoutManager
 
+
+    WorkoutManager --> WorkoutManager : return messageToUser
+    deactivate WorkoutManager #FFBBBB
     WorkoutManager --> User : messageToUser
     User -> UserInterface: printMessage(messageToUser)
     activate UserInterface
