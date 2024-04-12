@@ -221,6 +221,14 @@ The sequence diagram below shows how a log is created.
 ![WorkoutLogOverview.png](./diagrams/WorkoutLogOverview.png)
 
 
+### Help Menu
+To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
+- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns help menus to be shown to the user or, if requested, a specific functionality's command format. 
+- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all Strings including numbered help menu items, command formats and help menu error messages.
+- [HelpValidator](../src/main/java/byteceps/validators/HelpValidator.java): Parses the input to HelpMenuManager's execute() method to ensure input validity before the rest of the method executes.
+
+
+
 ## Product scope
 ### Target user profile
 
