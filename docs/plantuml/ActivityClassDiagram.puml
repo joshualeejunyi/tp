@@ -1,0 +1,57 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+hide circle
+class Activity{
+# activityName : String
++ Activity(activityName : String)
++ getActivityName() : String
++ setActivityName(activityName : String) : void
++ hashCode() : int
++ equals(obj : Object) : boolean
+}
+class ExerciseLog{
+- weights : List<Integer>
+- sets : int
+- repetitions : List<Integer>
++ ExerciseLog(activityName : String, weights : List<Integer>, sets : int, repetitions : List<Integer>)
++ getSets() : int
++ getRepetitions() : List<Integer>
++ getWeights() : List<Integer>
+}
+ExerciseLog --|> Activity
+class WorkoutLog{
+# workoutName : String
+exerciseLogs : LinkedHashSet<ExerciseLog>
++ WorkoutLog(workoutDate : String, workoutName : String)
++ addExerciseLog(exerciseLog : ExerciseLog) : void
++ getWorkoutName() : String
++ getWorkoutDate() : String
++ getExerciseLogs() : LinkedHashSet<ExerciseLog>
+}
+WorkoutLog --|> Workout
+class Day{
+# assignedWorkout : Workout
++ Day(activityName : String)
++ setAssignedWorkout(assignedWorkout : Workout) : void
++ getAssignedWorkout() : Workout
+}
+Day --|> Activity
+class Exercise{
++ Exercise(exerciseName : String)
++ toString() : String
++ editExerciseName(newExerciseName : String, activityManager : ActivityManager) : void
+}
+Exercise --|> Activity
+class Workout{
+exerciseList : ArrayList<Exercise>
++ Workout(workoutName : String)
++ getExerciseList() : ArrayList<Exercise>
++ getExerciseSet() : LinkedHashSet<Exercise>
++ addExercise(exercise : Exercise) : void
++ toString(numTabs : int) : String
++ editWorkoutName(newWorkoutName : String, activityManager : ActivityManager) : void
+}
+Workout --|> Activity
+Day--"# assignedWorkout" Workout
+@enduml

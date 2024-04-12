@@ -1,0 +1,60 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps as User
+participant UserInterface
+participant ":Parser" as Parser
+participant ":ExerciseManager" as ExerciseManager
+participant ":ExerciseValidator" as Validator
+
+User -> Parser : parseInput(userInput)
+activate Parser
+User <-- Parser
+deactivate Parser
+
+User -> ExerciseManager : execute(parser)
+activate ExerciseManager
+
+ExerciseManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> ExerciseManager : Validation success
+deactivate Validator
+
+alt Validation successful
+    ExerciseManager -> ExerciseManager : executeAddAction(Parser)
+    activate ExerciseManager #FFBBBB
+
+    create ":Exercise" as Exercise
+    ExerciseManager -> Exercise : new(name='pushups')
+    activate Exercise
+    Exercise --> ExerciseManager : return newExercise
+    deactivate Exercise
+
+    ExerciseManager -> ExerciseManager : add(newExercise)
+    activate ExerciseManager
+    ExerciseManager --> ExerciseManager :
+    deactivate ExerciseManager #FFBBBB
+
+    ExerciseManager --> ExerciseManager : return messageToUser
+    deactivate ExerciseManager
+
+    ExerciseManager --> User: messageToUser
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User
+    deactivate UserInterface
+    destroy Exercise
+
+else Validation fails
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+end
+
+deactivate ExerciseManager
+deactivate Parser
+
+@enduml

@@ -1,0 +1,69 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+hide circle
+
+class ExerciseManager{
++ execute(parser : Parser) : String
+- executeEditAction(parser : Parser) : String
+- executeListAction(parser : Parser) : String
+- executeDeleteAction(parser : Parser) : String
+- executeAddAction(parser : Parser) : String
+- executeSearchAction(parser : Parser) : String
+}
+ExerciseManager --|> ActivityManager
+class WorkoutManager{
+- exerciseManager : ExerciseManager
++ WorkoutManager(exerciseManager : ExerciseManager)
++ execute(parser : Parser) : String
+- executeInfoAction(parser : Parser) : String
+- executeListAction(parser : Parser) : String
+- executeUnassignAction(parser : Parser) : String
+- executeEditAction(parser : Parser) : String
+- executeAssignAction(parser : Parser) : String
+- executeDeleteAction(parser : Parser) : String
+- executeCreateAction(parser : Parser) : String
+- executeSearchAction(parser : Parser) : String
+}
+WorkoutManager --|> ActivityManager
+class WorkoutLogsManager{
++ WorkoutLogsManager()
++ execute(parser : Parser) : String
++ addWorkoutLog(workoutLogDate : String, workoutName : String) : void
++ addExerciseLog(workoutLogDate : String, exerciseName : String, weight : String, sets : String, repetitions : String) : void
++ getWorkoutLogString(date : String, workoutLinkedHashSet : LinkedHashSet<Exercise>) : String
++ exportToJSON() : JSONArray
+- {static} getWorkoutJson(exercises : LinkedHashSet<ExerciseLog>, workoutName : String, workoutDate : String) : JSONObject
+}
+WorkoutLogsManager --|> ActivityManager
+class WeeklyProgramManager{
+- exerciseManager : ExerciseManager
+- workoutManager : WorkoutManager
+- workoutLogsManager : WorkoutLogsManager
++ WeeklyProgramManager(exerciseManager : ExerciseManager, workoutManager : WorkoutManager, workoutLogsManager : WorkoutLogsManager)
++ execute(parser : Parser) : String
+- executeListAction() : String
+- executeAssignAction(parser : Parser) : String
+- executeLogAction(parser : Parser) : String
+- executeTodayAction() : String
+- executeHistoryAction(parser : Parser) : String
+- executeClearAction(parser : Parser) : String
++ exportToJSON() : JSONObject
+}
+WeeklyProgramManager --|> ActivityManager
+abstract class ActivityManager{
+# activityType : String
+# activitySet : LinkedHashSet<Activity>
++ ActivityManager()
++ {abstract} execute(parser : Parser) : String
++ add(activity : Activity) : void
++ delete(activity : Activity) : void
++ retrieve(activityName : String) : Activity
++ getListString() : String
++ {abstract} getActivityType(plural : boolean) : String
+}
+WorkoutManager--"- exerciseManager" ExerciseManager
+WeeklyProgramManager--"- exerciseManager" ExerciseManager
+WeeklyProgramManager--"- workoutManager" WorkoutManager
+WeeklyProgramManager--"- workoutLogsManager" WorkoutLogsManager
+@enduml

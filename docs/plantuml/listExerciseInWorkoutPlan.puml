@@ -1,0 +1,75 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps as User
+participant UserInterface
+participant ":Parser" as Parser
+participant ":WorkoutManager" as WorkoutManager
+participant ":WorkoutValidator" as Validator
+participant ":Workout" as Workout
+participant ":Exercise" as Exercise
+
+User -> Parser : parseInput(userInput)
+activate Parser
+User <-- Parser
+deactivate Parser
+
+User -> WorkoutManager : execute(parser)
+activate WorkoutManager
+
+WorkoutManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> WorkoutManager : Validation success
+deactivate Validator
+
+alt Validation successful
+
+    WorkoutManager -> WorkoutManager : executeInfoAction(Parser)
+    activate WorkoutManager #FFBBBB
+
+    WorkoutManager -> WorkoutManager : retrieve('workoutplan')
+    activate WorkoutManager
+    WorkoutManager -> Workout : findByName('workoutplan')
+    activate Workout
+    Workout --> WorkoutManager : return existingWorkout
+    deactivate Workout
+    WorkoutManager --> WorkoutManager : existingWorkout
+    deactivate WorkoutManager #FFBBBB
+
+    WorkoutManager -> Workout : getExerciseList()
+    activate Workout
+    Workout --> WorkoutManager : return exerciseList
+    deactivate Workout
+
+    loop Each Exercise in exerciseList
+        WorkoutManager -> Exercise : getName()
+        activate Exercise
+        Exercise --> WorkoutManager : contribute to message
+        deactivate Exercise
+    end
+
+    WorkoutManager --> WorkoutManager : return messageToUser
+    deactivate WorkoutManager
+    WorkoutManager --> User : messageToUser
+
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User
+    deactivate UserInterface
+
+    destroy Workout
+    destroy Exercise
+
+else Validation fails
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+end
+
+deactivate WorkoutManager
+deactivate Parser
+
+@enduml
