@@ -5,6 +5,7 @@ skinparam style strictuml
 
 participant ByteCeps as User
 participant UserInterface
+participant ":ActivityManager" as ActivityManager
 participant ":Parser" as Parser
 participant ":ExerciseManager" as ExerciseManager
 participant ":ExerciseValidator" as Validator
