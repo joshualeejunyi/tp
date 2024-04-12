@@ -106,101 +106,115 @@ The <code>ActivityManager</code> and inheritors are responsible for managing an 
 
 ## Implementation
 ### Exercise Management
-#### Add an Exercise
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the user enters the command `exercise /add pushups`, indicating their intention to add a new exercise named `pushups` to the system.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /add`) and any additional parameters (e.g., the name of the exercise to be added).
-3. Upon receiving the parsed command, the Exercise Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the Exercise Manager proceeds to create a new Exercise object with the specified name, `pushups`. It then invokes the add method within the Activity Manager component to add the newly created Exercise to the activity set. Finally, a success message confirming the addition of the exercise is printed to the user interface, indicating that the operation was completed successfully.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
+#### [Implemented] Add, Edit, Delete, List, and Search Exercises
+ByteCeps streamlines the management of exercise-related tasks by following a general multi-step pattern. Here’s how these operations are carried out:
 
-The sequence diagram below shows how an exercise is created.
+**Step 1 - Input Processing:** 
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. User input examples include:
+- `exercise /add Pushups` for adding an exercise.
+- `exercise /edit Pushups /to Pullups` for editing an exercise name from Pushups to Pullups.
+- `exercise /delete Pushups` for deleting the Pushups exercise.
+- `exercise /list` for listing all exercises.
+- `exercise /search Pushups` for finding all instances of the Pushups exercise.
 
-![addExercise](https://github.com/V4Vern/tp/assets/28131050/45f7e9b3-8a31-4dfe-a783-433acb71fa58)
+**Step 2 - Command Identification:** 
+The `Parser` class determines the type of exercise operation and extracts any necessary parameters. For instance, the `exercise /add` command will be recognized, and the exercise name `Pushups` will be parsed as the parameter.
 
+**Step 3 - Command Validation**: The input is then validated using `ExerciseValidator` class to ensure that the command and parameters provided meet the expected format and criteria for processing.
 
-#### Delete an Exercise
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /delete pushups` to delete the exercise named `pushups`.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /delete`) and any additional parameters (e.g., the name of the exercise to be deleted).
-3. Upon receiving the parsed command, the Exercise Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the ExerciseManager retrieves the Exercise object associated with the name `pushups`. It then instructs the ActivityManager to delete the Exercise from the activitySet. The ExerciseManager then informs the User of the successful deletion.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
+**Step 4 - Command Execution**: The appropriate action is taken by the `ExerciseManager` class. 
+- Adding: If the user wants to add a new exercise, `ExerciseManager` creates a new `Exercise` instance and adds it to the `ExerciseManager's activitySet`.
+- Editing: When editing an exercise, `ExerciseManager` locates the existing `Exercise`, updates its details, and then updates the `activitySet` accordingly.
+- Deleting: To delete an exercise, `ExerciseManager` finds the targeted `Exercise` in the `activitySet` and removes it.
+- Listing: For listing exercises, `ExerciseManager` retrieves all the exercises from the `activitySet` and formats them into a list for display.
+- Searching: Searching is handled by querying the `activitySet` for exercises that match the search criteria provided by the user, and presenting the results.
 
-The sequence diagram below shows how an exercise is deleted.
+**Step 5 - Result Display**: After the command is executed, a message indicating the success or failure of the operation is generated and displayed to the user. This feedback is crucial for confirming the effect of the user's command on the system.
 
-![deleteExercise](https://github.com/V4Vern/tp/assets/28131050/3fde6b4e-d292-497a-9468-2118125678a7)
+Here is the sequence diagram for the `exercise /add pushups` command to illustrate the five-step process:
 
-#### Edit an Exercise
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /edit pushups /to pressups` to change the exercise named `pushups` to `pressups`.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /edit`) and any additional parameters (e.g., the name of the exercise to be changed and the new name).
-3. Upon receiving the parsed command, the Exercise Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the ExerciseManager retrieves the Exercise object associated with the name `pushups`. It then calls the object's instance method editExerciseName() to change the String stored in its instance field activityName. The ExerciseManager then informs the User of the successful edit.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
-
-The sequence diagram below shows how an exercise is edited.
-<img width="1295" alt="editExercise" src="https://github.com/V4Vern/tp/assets/28131050/0f504206-d594-4d5a-8034-2aa4c55cf3d9">
-
-
-#### List Exercises
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /list` to list all exercises.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /list`) and any additional parameters.
-3. Upon receiving the parsed command, the Exercise Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the ExerciseManager instructs the ActivityManager to list all exercises. The ActivityManager retrieves the list of exercises from the activitySet. The ActivityManager returns the exercise list to the ExerciseManager. The ExerciseManager prints the list of exercises to the User.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
-
-The sequence diagram below shows how exercises can be listed
-
-![listExercise](https://github.com/V4Vern/tp/assets/28131050/eebe0e2e-d486-4644-b36d-e26b499d1f53)
-
-#### Search an Exercise
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `exercise /search pushups` to search for exercises containing `pushups`.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`exercise /search`) and any additional parameters (e.g., the name of the exercise to be search).
-3. Upon receiving the parsed command, the Exercise Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the ExerciseManager instructs the ActivityManager to search for exercises containing the specified term. The ActivityManager performs the search operation on the activitySet. The ActivityManager returns the search results to the ExerciseManager. The ExerciseManager prints the search results to the User.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly
-
-The sequence diagram below shows how an exercise can be searched.
-
-![searchExercises](https://github.com/V4Vern/tp/assets/28131050/fd32eba4-a7f1-460d-81cc-d9e57ca100c2)
-
+![AddExercise](diagrams/addExercise.png)
 
 ### Workout Management
-#### Add a workout plan
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the user enters the command `workout /create push_day`, indicating their intention to create a new workout plan named `push_day` in the system.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`workout /create`) and any additional parameters (e.g., the name of the workout plan to be created).
-3. Upon receiving the parsed command, the Workout Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the Workout Manager proceeds to create a new Workout object with the specified name, `push_day`. It then invokes the add method within the Activity Manager component to add the newly created Workout to the activity set. Finally, a success message confirming the creation of the workout plan is printed to the user interface, indicating that the operation was completed successfully.
-6. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly.
+#### [Implemented] Add, Edit, Delete, List, and Search Workout plan.
+ByteCeps streamlines the management of exercise-related tasks by following a general multi-step pattern. Here’s how these operations are carried out:
 
-The sequence diagram below shows how a workout can be added.
+**Step 1 - Input Processing:** 
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. User input examples include:
+- `workout /create LegDay` for creating a workout plan.
+- `workout /edit LegDay /to CardioBlast` for editing a workout plan name from LegDay to CardioBlast.
+- `workout /delete LegDay` for deleting the LegDay workout plan.
+- `workout /list` for listing all workout plans.
+- `workout /search HighIntensity` for finding all workout plans containing HighIntensity.
 
-![addWorkout](https://github.com/V4Vern/tp/assets/28131050/0a3fecda-7f3b-414c-bb61-477e9f80d3ad)
+**Step 2 - Command Identification:** 
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. For instance, the `workout /create` command will be recognized, and the workout plan name `LegDay` will be parsed as the parameter.
 
+**Step 3 - Command Validation**: The input is then validated using `WorkoutValidator` class to ensure that the command and parameters provided meet the expected format and criteria for processing.
 
-#### Delete a workout plan
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `workout /delete push_day` to delete the workout named `push_day`.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`workout /delete`) and any additional parameters (e.g., the name of the workout to be deleted).
-3. Upon receiving the parsed command, the Workout Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the Workout Manager retrieves the Workout object associated with the name `push_day`. It then instructs the Activity Manager to delete the Workout from the activitySet. The Workout Manager then informs the User of the successful deletion.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly.
-6. 
-The sequence diagram below shows how a workout can be deleted.
+**Step 4 - Command Execution**: The appropriate action is taken by the `WorkoutManager` class. 
+- Creating: If the user wants to create a new workout plan, `WorkoutManager` creates a new `Workout` instance and adds it to the `WorkoutManager's activitySet`.
+- Editing: When editing a workout plan, `WorkoutManager` locates the existing `Workout`, updates its details, and then updates the `activitySet` accordingly.
+- Deleting: To delete a workout plan, `WorkoutManager` finds the targeted `Workout` in the `activitySet` and removes it.
+- Listing: For listing workout plans, `WorkoutManager` retrieves all the workouts from the `activitySet` and formats them into a list for display.
+- Searching: Searching is handled by querying the `activitySet` for workouts that match the search criteria provided by the user, and presenting the results.
 
-![deleteWorkout](https://github.com/V4Vern/tp/assets/28131050/1676f8a4-f779-4a6c-ab96-08b90013b42c)
+**Step 5 - Result Display**: After the command is executed, a message indicating the success or failure of the operation is generated and displayed to the user. This feedback is crucial for confirming the effect of the user's command on the system.
 
+Here is the sequence diagram for the `workout /delete LegDay` command to illustrate the five-step process:
 
-#### List workout plan
-1. The process begins with the user inputting a command via the command-line interface. In this scenario, the User provides the command `workout /list` to list all workouts.
-2. The command parser receives the user input and parses it to extract relevant information, such as the action (`workout /list`).
-3. Upon receiving the parsed command, the Workout Manager component validates the input to ensure it conforms to the expected format and criteria. This step is crucial for maintaining data integrity and preventing errors in subsequent processing.
-4. If the input passes validation, the Workout Manager instructs the Activity Manager to retrieve the list of workouts from the activitySet. The Activity Manager retrieves the list of workouts from the activitySet. The Activity Manager formats the list of workouts using the `getListString` method. The Activity Manager returns the formatted list of workouts to the Workout Manager. The Workout Manager then presents the formatted list of workouts to the User.
-5. If the input fails validation, an error message is generated and displayed to the user, informing them of the invalid command format. This ensures that users receive timely feedback and can correct their input accordingly.
+![deleteWorkout](diagrams/deleteWorkout.png)
 
-The sequence diagram below shows how workout plans can be listed.
+#### [Implemented] Assign and Unassign Workout plan.
+The ByteCeps application facilitates workout management, including the assignment and unassignment of exercises to workout plans. The process is outlined in the sequence diagram provided and follows a standard operational pattern as described below:
 
-![listWorkout](https://github.com/V4Vern/tp/assets/28131050/aaede000-5512-48a4-bd92-e5a59922ac20)
+ByteCeps streamlines the management of exercise-related tasks by following a general multi-step pattern. Here’s how these operations are carried out:
 
+**Step 1 - Input Processing:** 
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. User input examples include:
+- `workout /assign Pushups /to LegDay`  to assign the exercise `Pushups` to the workout plan `LegDay`.
+- `workout /unassign Pushups /from LegDay` to unassign the exercise `Pushups` to the workout plan `LegDay`.
 
+**Step 2 - Command Identification:** 
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. For instance, the `workout /assign` command will be recognized, workout plan name `LegDay` and exercise name `Pushups` will be parsed as the parameter.
 
+**Step 3 - Command Validation**: The input is then validated using `WorkoutValidator` class to ensure that the command and parameters provided meet the expected format and criteria for processing.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `WorkoutManager` class. 
+- Assigning: The `WorkoutManager` calls `executeAssignAction` which initiates the process to assign an exercise to a workout plan. It communicates with the `ExerciseManager` to retrieve the specified `Exercise` object. Simultaneously, it retrieves the specified `Workout` object to which the exercise will be added. The `Workout` object’s `addExercise` method is called to include the exercise within the workout plan.
+- Unassigning: The `WorkoutManager` calls `executeUnassignAction` which initiates the process to unassign an exercise to a workout plan. It first retrieves the `Workout` object corresponding to `LegDay` by calling the retrieve method on the `WorkoutManager`. With the `Workout` object obtained, it attempts to find and remove the `Exercise` object representing `Pushups`. If the `Exercise` is present in the `Workout`, it is removed from the workout's exercise list.
+
+**Step 5 - Result Display**: After the command is executed, a message indicating the success or failure of the operation is generated and displayed to the user. This feedback is crucial for confirming the effect of the user's command on the system.
+
+Here is the sequence diagram for the `workout /assign Pushups /to LegDay` command to illustrate the five-step process:
+
+![assignExercise](diagrams/assignExercise.png)
+
+#### [Implemented] List all exercises in a workout plan.
+
+The feature to list all exercises within a specific workout plan is crucial for users to review their workout regimen. This section outlines the sequence of operations triggered by the `workout /info workoutplan` command, culminating in the display of all associated exercises to the user.
+
+**Step 1 - Input Processing:** 
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `workout /info workoutplan`.
+
+**Step 2 - Command Identification:** 
+The `Parser` class determines the type of workout operation and extracts any necessary parameters. For instance, the `workout /info` command will be recognized, workout plan name `workoutplan` will be parsed as the parameter.
+
+**Step 3 - Command Validation**: The input is then validated using `WorkoutValidator` class to ensure that the command and parameters provided meet the expected format and criteria for processing.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `WorkoutManager` class. 
+- Execute Info Action: The `WorkoutManager` proceeds to execute the `executeInfoAction`, specifically tailored for fetching details about the workout plan named `workoutplan`.
+- Retrieve Workout Plan: The `WorkoutManager`retrieves the `Workout` object corresponding to `workoutplan`. The `WorkoutManager` then searches its records and returns the `Workout` object to the `WorkoutManager`.
+- Fetch Exercise List: The `WorkoutManager` then invokes the `getExerciseList` method on the retrieved `Workout` object to obtain a list of all exercises included in the workout plan.
+- Compile Exercise Information: For each `Exercise` in the list, the `WorkoutManager` calls the `getName` method to retrieve the name of the exercise. These names are compiled into a comprehensive message detailing all exercises within the workout plan.
+
+**Step 5 - Result Display**: After the command is executed, a message indicating the success or failure of the operation is generated and displayed to the user. This feedback is crucial for confirming the effect of the user's command on the system.
+- Success Path: The compiled list of exercises is presented to the user, providing a clear overview of the workout plan's contents.
+- Validation Failure: If the initial validation fails, the user is informed of the invalid command format without proceeding further into the sequence.
+
+Here is the sequence diagram for the `workout /info workoutplan` command to illustrate the five-step process:
+
+![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.png)
 
 
 ### Logging of workouts 

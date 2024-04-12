@@ -1,0 +1,83 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps as User
+participant UserInterface
+participant ":Parser" as Parser
+participant ":WorkoutManager" as WorkoutManager
+participant ":WorkoutValidator" as Validator
+participant ":ExerciseManager" as ExerciseManager
+participant ":Exercise" as Exercise
+participant ":Workout" as Workout
+
+User -> Parser : parseInput(userInput)
+activate Parser
+User <-- Parser
+deactivate Parser
+
+User -> WorkoutManager : execute(parser)
+activate WorkoutManager
+
+WorkoutManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> WorkoutManager : Validation success
+deactivate Validator
+
+alt Validation successful
+
+    WorkoutManager -> WorkoutManager : executeAssignAction(Parser)
+    activate WorkoutManager #FFBBBB
+
+    WorkoutManager -> ExerciseManager : retrieve('Pushups')
+    activate ExerciseManager
+    ExerciseManager -> ExerciseManager : retrieve('Pushups')
+    activate ExerciseManager
+    ExerciseManager -> Exercise : findByName('Pushups')
+    activate Exercise
+    Exercise --> ExerciseManager : return existingExercise
+    ExerciseManager --> ExerciseManager : existingExercise
+    deactivate ExerciseManager
+    deactivate Exercise
+    ExerciseManager --> WorkoutManager : return existingExercise
+
+
+    WorkoutManager -> WorkoutManager : retrieve('LegDay')
+    activate WorkoutManager
+    WorkoutManager -> Workout : findByName('LegDay')
+    activate Workout
+    Workout --> WorkoutManager : return existingWorkout
+    deactivate Workout
+
+    WorkoutManager -> Workout : addExercise(existingExercise)
+    activate Workout
+    Workout --> WorkoutManager :
+    deactivate Workout
+
+    WorkoutManager --> WorkoutManager : return existingWorkout
+    deactivate WorkoutManager #FFBBBB
+
+    WorkoutManager --> WorkoutManager : return messageToUser
+    deactivate WorkoutManager #FFBBBB
+    WorkoutManager --> User : messageToUser
+
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User
+    deactivate UserInterface
+
+    destroy Workout
+    destroy Exercise
+
+else Validation fails
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+end
+
+deactivate WorkoutManager
+deactivate Parser
+
+@enduml
