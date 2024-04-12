@@ -1,0 +1,61 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps
+participant UserInterface
+participant ":Parser"
+participant ":WeeklyProgramManager"
+participant WeeklyProgramValidator
+participant ":WorkoutLogsManager"
+
+activate ByteCeps
+ByteCeps -> ":Parser": parseInput(userInput)
+activate ":Parser"
+ByteCeps <-- ":Parser":
+deactivate ":Parser"
+ByteCeps -> ":WeeklyProgramManager": execute(parser)
+activate ":WeeklyProgramManager"
+":WeeklyProgramManager" -> WeeklyProgramValidator: validateCommand()
+
+activate WeeklyProgramValidator
+":WeeklyProgramManager" <-- WeeklyProgramValidator :
+deactivate WeeklyProgramValidator
+
+alt Input validation successful
+    ":WeeklyProgramManager" -> ":WeeklyProgramManager" : executeLogAction
+    activate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" -> ":WeeklyProgramManager" : getDayFromDate(workoutDate)
+    activate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" --> ":WeeklyProgramManager" : selectedDay
+    deactivate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" -> ":WeeklyProgramManager" : getWorkoutName(selectedDay, workoutDate)
+    activate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" --> ":WeeklyProgramManager" : workoutName
+    deactivate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" -> ":WorkoutLogsManager" : addWorkoutLog(workoutDate, workoutName)
+    activate ":WorkoutLogsManager"
+    ":WorkoutLogsManager" --> ":WeeklyProgramManager" :
+    deactivate ":WorkoutLogsManager"
+     ":WeeklyProgramManager" -> ":WorkoutLogsManager" : addExerciseLog(workoutDate, exerciseName, weight, sets, repetition)
+    activate ":WorkoutLogsManager"
+    ":WorkoutLogsManager" --> ":WeeklyProgramManager" :
+    deactivate ":WorkoutLogsManager"
+    ":WeeklyProgramManager" --> ":WeeklyProgramManager": messageToUser
+    deactivate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" --> ByteCeps: messageToUser
+    ByteCeps -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> ByteCeps :
+    deactivate UserInterface
+
+else Input validation fails
+    ":WeeklyProgramManager" --> ByteCeps:
+    deactivate ":WeeklyProgramManager"
+    ByteCeps -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> ByteCeps:
+    deactivate UserInterface
+end
+deactivate WeeklyProgramValidator
+@enduml
