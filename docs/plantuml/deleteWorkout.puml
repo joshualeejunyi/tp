@@ -5,12 +5,10 @@ skinparam style strictuml
 
 participant ByteCeps as User
 participant UserInterface
-participant ":ActivityManager" as ActivityManager
 participant ":Parser" as Parser
 participant ":WorkoutManager" as WorkoutManager
 participant ":WorkoutValidator" as Validator
 participant ":Workout" as Workout
-
 
 User -> Parser : parseInput(userInput)
 activate Parser
@@ -26,27 +24,23 @@ Validator --> WorkoutManager : Validation success
 deactivate Validator
 
 alt Validation successful
-
     WorkoutManager -> WorkoutManager : executeDeleteAction(Parser)
     activate WorkoutManager #FFBBBB
 
-    create ":ActivityManager" as ActivityManager
-    WorkoutManager -> ActivityManager : retrieve('LegDay')
-    activate ActivityManager
-    ActivityManager -> Workout : findByName('LegDay')
+    WorkoutManager -> WorkoutManager : retrieve('LegDay')
+    activate WorkoutManager
+    WorkoutManager -> Workout : findByName('LegDay')
     activate Workout
-    Workout --> ActivityManager : return existingWorkout
+    Workout --> WorkoutManager : return existingWorkout
     deactivate Workout
-    ActivityManager --> WorkoutManager : return existingWorkout
-    deactivate ActivityManager
-
-    WorkoutManager -> ActivityManager : delete(existingWorkout)
-    activate ActivityManager
-    ActivityManager --> WorkoutManager :
-    deactivate ActivityManager
-
-    WorkoutManager --> WorkoutManager : return messageToUser
+    WorkoutManager --> WorkoutManager : existingWorkout
     deactivate WorkoutManager #FFBBBB
+
+    WorkoutManager -> WorkoutManager : delete(existingWorkout)
+    activate WorkoutManager
+    WorkoutManager --> WorkoutManager : return messageToUser
+    deactivate WorkoutManager
+
     WorkoutManager --> User : messageToUser
     User -> UserInterface: printMessage(messageToUser)
     activate UserInterface
@@ -54,7 +48,6 @@ alt Validation successful
     deactivate UserInterface
 
     destroy Workout
-    destroy ActivityManager
 
 else Validation fails
     User -> UserInterface: printMessage(exceptionMessage : String)

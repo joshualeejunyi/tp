@@ -5,7 +5,6 @@ skinparam style strictuml
 
 participant ByteCeps as User
 participant UserInterface
-participant ":ActivityManager" as ActivityManager
 participant ":Parser" as Parser
 participant ":WorkoutManager" as WorkoutManager
 participant ":WorkoutValidator" as Validator
@@ -30,15 +29,14 @@ alt Validation successful
     WorkoutManager -> WorkoutManager : executeInfoAction(Parser)
     activate WorkoutManager #FFBBBB
 
-    create ":ActivityManager" as ActivityManager
-    WorkoutManager -> ActivityManager : retrieve('workoutplan')
-    activate ActivityManager
-    ActivityManager -> Workout : findByName('workoutplan')
+    WorkoutManager -> WorkoutManager : retrieve('workoutplan')
+    activate WorkoutManager
+    WorkoutManager -> Workout : findByName('workoutplan')
     activate Workout
-    Workout --> ActivityManager : return existingWorkout
+    Workout --> WorkoutManager : return existingWorkout
     deactivate Workout
-    ActivityManager --> WorkoutManager : return existingWorkout
-    deactivate ActivityManager
+    WorkoutManager --> WorkoutManager : existingWorkout
+    deactivate WorkoutManager #FFBBBB
 
     WorkoutManager -> Workout : getExerciseList()
     activate Workout
@@ -53,7 +51,7 @@ alt Validation successful
     end
 
     WorkoutManager --> WorkoutManager : return messageToUser
-    deactivate WorkoutManager #FFBBBB
+    deactivate WorkoutManager
     WorkoutManager --> User : messageToUser
 
     User -> UserInterface: printMessage(messageToUser)
@@ -63,7 +61,6 @@ alt Validation successful
 
     destroy Workout
     destroy Exercise
-    destroy ActivityManager
 
 else Validation fails
     User -> UserInterface: printMessage(exceptionMessage : String)
@@ -75,4 +72,4 @@ end
 deactivate WorkoutManager
 deactivate Parser
 
-@enduml`
+@enduml

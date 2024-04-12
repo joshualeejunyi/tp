@@ -5,7 +5,6 @@ skinparam style strictuml
 
 participant ByteCeps as User
 participant UserInterface
-participant ":ActivityManager" as ActivityManager
 participant ":Parser" as Parser
 participant ":WorkoutManager" as WorkoutManager
 participant ":WorkoutValidator" as Validator
@@ -33,34 +32,31 @@ alt Validation successful
 
     WorkoutManager -> ExerciseManager : retrieve('Pushups')
     activate ExerciseManager
-    create ":ActivityManager" as ActivityManager
-    ExerciseManager -> ActivityManager : retrieve('Pushups')
-    activate ActivityManager
-
-    ActivityManager -> Exercise : findByName('Pushups')
+    ExerciseManager -> ExerciseManager : retrieve('Pushups')
+    activate ExerciseManager
+    ExerciseManager -> Exercise : findByName('Pushups')
     activate Exercise
-    Exercise --> ActivityManager : return existingExercise
-    deactivate Exercise
-
-    ActivityManager --> ExerciseManager : return existingExercise
-    deactivate ActivityManager
-    ExerciseManager --> WorkoutManager : return existingExercise
+    Exercise --> ExerciseManager : return existingExercise
+    ExerciseManager --> ExerciseManager : existingExercise
     deactivate ExerciseManager
+    deactivate Exercise
+    ExerciseManager --> WorkoutManager : return existingExercise
 
-    WorkoutManager -> ActivityManager : retrieve('LegDay')
-    activate ActivityManager
-    ActivityManager -> Workout : findByName('LegDay')
+
+    WorkoutManager -> WorkoutManager : retrieve('LegDay')
+    activate WorkoutManager
+    WorkoutManager -> Workout : findByName('LegDay')
     activate Workout
-
-    Workout --> ActivityManager : return existingWorkout
+    Workout --> WorkoutManager : return existingWorkout
     deactivate Workout
-    ActivityManager --> WorkoutManager : return existingWorkout
-    deactivate ActivityManager
 
     WorkoutManager -> Workout : addExercise(existingExercise)
     activate Workout
     Workout --> WorkoutManager :
     deactivate Workout
+
+    WorkoutManager --> WorkoutManager : return existingWorkout
+    deactivate WorkoutManager #FFBBBB
 
     WorkoutManager --> WorkoutManager : return messageToUser
     deactivate WorkoutManager #FFBBBB
@@ -73,7 +69,6 @@ alt Validation successful
 
     destroy Workout
     destroy Exercise
-    destroy ActivityManager
 
 else Validation fails
     User -> UserInterface: printMessage(exceptionMessage : String)
