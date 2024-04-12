@@ -23,19 +23,19 @@ Validator --> HelpMenuManager : Validation success
 deactivate Validator
 
 alt Validation successful
-    HelpMenuManager -> HelpMenuManager : getFlagFormat('1', 'exercise')
+    HelpMenuManager -> HelpMenuManager : getParamFormat('1', 'exercise')
     activate HelpMenuManager #FFBBBB
 
-    HelpMenuManager -> HelpMenuManager : getExerciseFlagFormats(0)
+    HelpMenuManager -> HelpMenuManager : getExerciseParamFormats(0)
     activate HelpMenuManager
-    HelpMenuManager -> HelpStrings : retrieve EXERCISE_FLAG_FORMAT[0]
-    HelpMenuManager <-- HelpStrings : EXERCISE_FLAG_FORMAT[0]
-    HelpMenuManager --> HelpMenuManager: EXERCISE_FLAG_FORMAT[0]
+    HelpMenuManager -> HelpStrings : retrieve EXERCISE_PARAM_FORMAT[0]
+    HelpMenuManager <-- HelpStrings : EXERCISE_PARAM_FORMAT[0]
+    HelpMenuManager --> HelpMenuManager: EXERCISE_PARAM_FORMAT[0]
     deactivate HelpMenuManager
-    HelpMenuManager --> HelpMenuManager : EXERCISE_FLAG_FORMAT[0]
+    HelpMenuManager --> HelpMenuManager : EXERCISE_PARAM_FORMAT[0]
     deactivate HelpMenuManager #FFBBBB
 
-    User <-- HelpMenuManager : messageToUser = EXERCISE_FLAG_FORMAT[0]
+    User <-- HelpMenuManager : messageToUser = EXERCISE_PARAM_FORMAT[0]
     User -> UserInterface: printMessage(messageToUser)
     activate UserInterface
     UserInterface --> User:

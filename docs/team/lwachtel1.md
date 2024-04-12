@@ -10,7 +10,7 @@ BYTE-CEPS is written in Java, and has approximately 5.6 kLoC.
 
 ### Features
 + **Help menu**:  Shows the user how to correctly format each possible BYTE-CEPS command.
-    + What it does: Upon initial program execution, a message detailing the commands to access the help menu is displayed. A user can enter 1 of these commands to view 3 different lists, each one with numbered items describing the functionalities associated with a category tracked by BYTE-CEPS. They can then see a given functionality's specific command formatting by entering the previous command along with the number from its help menu list position as a flag.
+    + What it does: Upon initial program execution, a message detailing the commands to access the help menu is displayed. A user can enter 1 of these commands to view 3 different lists, each one with numbered items describing the functionalities associated with a category tracked by BYTE-CEPS. They can then see a given functionality's specific command formatting by entering the previous command along with the number from its help menu list position as a parameter.
     + Justification: The user can make full use of BYTE-CEPS with easy access to guidance for its commands. If they enter a command incorrectly, they can quickly check the exact formatting in-program.
     + Credits: I wrote the initial HelpMenuManager class, and **_joshualeejunyi_** & **_pqienso_** refined my code. 
 
