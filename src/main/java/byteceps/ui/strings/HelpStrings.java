@@ -2,7 +2,8 @@ package byteceps.ui.strings;
 
 //@@author LWachtel1
 public class HelpStrings {
-    public static final String HELP_LIST_INDENT = "\t\t\t ";
+    public static final String HELP_LIST_INDENT = "             ";
+
 
     public static final String HELP_MANAGER_GREETING =
             String.format("%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",
@@ -11,10 +12,10 @@ public class HelpStrings {
                     "exercise", System.lineSeparator(), "workout", System.lineSeparator(), "program");
 
     public static final String[] EXERCISE_FLAG_FUNCTIONS = {
-        "(1) add an exercise",
-        "(2) delete an existing exercise",
-        "(3) edit an existing exercise's name",
-        "(4) list all existing exercises"
+        "1. add an exercise",
+        "2. delete an existing exercise",
+        "3. edit an existing exercise's name",
+        "4. list all existing exercises"
     };
 
     public static final String[] EXERCISE_FLAG_FORMAT = {
@@ -26,12 +27,12 @@ public class HelpStrings {
 
 
     public static final String[] WORKOUT_FLAG_FUNCTIONS = {
-        "(1) create a workout plan",
-        "(2) delete an existing workout plan",
-        "(3) list all existing workout plans",
-        "(4) assign an exercise to a specified workout plan",
-        "(5) remove an exercise from a specified workout plan",
-        "(6) list all exercises in a given workout plan"
+        "1. create a workout plan",
+        "2. delete an existing workout plan",
+        "3. list all existing workout plans",
+        "4. assign an exercise to a specified workout plan",
+        "5. remove an exercise from a specified workout plan",
+        "6. list all exercises in a given workout plan"
     };
 
     public static final String[] WORKOUT_FLAG_FORMAT = {
@@ -44,15 +45,15 @@ public class HelpStrings {
     };
 
     public static final String[] PROGRAM_FLAG_FUNCTIONS = {
-        "(1) assign a workout plan to a specific day of the week",
-        "(2) view today's workout plan",
-        "(3) see all workout plans assigned to each day of the week",
-        "(4) remove a workout plan from a given day of the week",
-        String.format ("%s%n%s%s", "(5) create a log for the amount of weight, sets & reps completed for an exercise on"
+        "1. assign a workout plan to a specific day of the week",
+        "2. view today's workout plan",
+        "3. see all workout plans assigned to each day of the week",
+        "4. remove a workout plan from a given day of the week",
+        String.format ("%s%n%s%s", "5. create a log for the amount of weight, sets & reps completed for an exercise on"
                 + " a given day", HELP_LIST_INDENT, "which already has an assigned workout plan"),
-        "(6) create a log for a specified date",
-        "(7) see all the dates that you have entered at least 1 log entry",
-        "(8) view the logs that you have added on a specific date"
+        "6. create a log for a specified date",
+        "7. see all the dates that you have entered at least 1 log entry",
+        "8. view the logs that you have added on a specific date"
     };
     public static final String DAY_STRING = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", System.lineSeparator(),
         "The <DAY [string]> parameter must be a day of the week, and is case insensitive:", System.lineSeparator(),
@@ -72,7 +73,7 @@ public class HelpStrings {
                 + "/reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]>", "program /history",
         "program /history <DATE [yyyy-mm-dd]>"
     };
-    public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
+    public static final String HELP_LIST_ITEM = "             %s%s";
 
     public static final String EXERCISE_MESSAGE = "Please enter 'help /exercise LIST_NUMBER'. " +
             "LIST_NUMBER corresponds to the exercise command format you want to see";
