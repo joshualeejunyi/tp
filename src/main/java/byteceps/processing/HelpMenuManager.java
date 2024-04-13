@@ -46,8 +46,8 @@ public class HelpMenuManager {
         if (showAllActions) {
             return generateAllActions(commandToShow);
         }
-        String flag = parser.getActionParameter();
-        return getParamFormat(flag, commandToShow);
+        String parameter = parser.getActionParameter();
+        return getParamFormat(parameter, commandToShow);
 
     }
 
