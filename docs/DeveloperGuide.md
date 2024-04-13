@@ -228,18 +228,47 @@ The sequence diagram below shows how a log is created.
 Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weight
 <WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
 ![](./diagrams/addExerciseLog.png)
-1. The `execute()` method of `WeeklyProgramManager` calls the `executeLogAction()` method
-2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which its process has been described above.
+1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeLogAction()` method
+2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which its process has been described above under "**Logging of workouts**".
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
 
 #### Assigning a workout to a program
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
 ![](./diagrams/assignWorkoutToProgram.png)
+1. After input validation, the `execute()` method of `WeeklyProgramManager calls the `executeAssignAction()` method.
+2. This method then retrieves the appropriate `Workout` object, and assigns it to be contained in the appropriate `Day` object.
+3. Finally, the `messageToUser` is returned to the `UserInterface`.
 
 #### Clearing a day in the program
 This is the sequence diagram of the command `program /clear <day [optional]>` being run.
 The validation of user input has been omitted for purposes of brevity.
 ![](./diagrams/clearProgram.png)
+1. If no day has been assigned to the user, the `executeClearAction()` method clears all workouts in the `WeeklyProgramManager` object.
+2. Otherwise, the specified `Day` object is removed from `WeeklyProgramManager` object, and a new `Day` object with no workout assigned is constructed in its place.
+
+### The `Storage` class
+   A `Storage` object is responsible to reading and writing to `.json` files so that user data is saved between sessions.
+
+#### Loading data from `data.json`
+The `storage.load()` method is called with the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
+These objects are to be updated in the method.
+![](./diagrams/loadStorage.png)
+1. If there has been no `data.json` file detected, a new `File` is created and the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager`
+ is returned without modification.
+2. Else, a new `JSONObject` called `jsonArchive`, loaded from `data.json` is created.
+3. Each `ActivityManager` object is then loaded sequentially using `jsonArchive` as input.
+
+#### Loading data for a specific `ActivityManager` class
+From the last sequence diagram, we see that each `ActivityManager` class is loaded from `jsonArchive` via its own method.
+For example, the `WorkoutManager` object is loaded from the `loadWorkouts()` method. The below sequence diagram shows how `loadWorkouts()` is run. 
+The loading of other `ActivityManager` objects is similar in nature.
+![](./diagrams/loadWorkouts.png)
+1. The `jsonWorkoutArray` is first retrieved from `jsonArchive`.
+2. Then, the workout name of each `jsonWorkout` in `jsonWorkoutArray` is retrieved.
+3. These workout names are used to create new `Workout` objects contained in `WorkoutManager`.
+4. The exercise list, `jsonExercisesInWorkout` inside each `jsonWorkout` is retrieved.
+5. The exercise name of each `jsonExercise` in `jsonExercisesInWorkout` is used to assign the correct exercises in `ExerciseManager` to each `Workout` object.
+
 
 ## Product scope
 ### Target user profile

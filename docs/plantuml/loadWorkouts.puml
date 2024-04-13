@@ -1,0 +1,69 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps
+participant ":Storage" as Storage
+participant ":UserInterface" as UserInterface
+participant "jsonArchive:JSONObject" as jsonArchive
+participant "jsonWorkoutArray:JSONArray" as jsonWorkoutArray
+participant "jsonWorkout:JSONObject" as jsonWorkout
+participant "jsonExercisesInWorkout:JSONArray" as jsonExerciseList
+participant "jsonExercise:JSONObject" as jsonExercise
+
+activate Storage
+Storage -> Storage : loadWorkouts(allExercises, allWorkouts, jsonArchive)
+activate Storage
+Storage -> jsonArchive : getJSONArray("workoutManager")
+activate jsonArchive
+jsonArchive --> Storage : jsonWorkoutArray:JSONArray
+deactivate jsonArchive
+loop for every jsonWorkout in jsonWorkoutArray
+    Storage -> jsonWorkoutArray : getJSONObject(index)
+    activate jsonWorkoutArray
+    jsonWorkoutArray --> Storage : jsonWorkout:JSONObject
+    deactivate jsonWorkoutArray
+
+    Storage -> jsonWorkout : getString("activityName")
+    activate jsonWorkout
+    jsonWorkout -> Storage : workoutName:String
+    deactivate jsonWorkout
+
+    create ":Workout" as Workout
+    Storage -> Workout: new Workout(workoutName)
+    activate Workout
+    Workout --> Storage : workout:Workout
+    deactivate Workout
+
+    Storage -> jsonWorkout : getJSONArray("exerciseList")
+    activate jsonWorkout
+    jsonWorkout --> Storage : jsonExercisesInWorkout:JSONArray
+    deactivate jsonWorkout
+
+    loop for every jsonExercise in jsonExercisesInWorkout
+        Storage -> jsonExerciseList : getJSONObject(index)
+        activate jsonExerciseList
+        jsonExerciseList --> Storage : jsonExercise:JSONObject
+        deactivate jsonExerciseList
+
+        Storage -> jsonExercise : getString("activityName")
+        activate jsonExercise
+        jsonExercise --> Storage : exerciseInWorkout:String
+        deactivate jsonExercise
+
+        Storage -> Storage : allExercises.retrieve(exerciseInWorkout)
+        activate Storage
+        Storage --> Storage : retrievedExercise:Exercise
+        deactivate Storage
+
+        Storage -> Workout : addExercise(retrievedExercise)
+        activate Workout
+        Workout --> Storage:
+        deactivate Workout
+    end
+end
+Storage --> Storage :
+deactivate Storage
+
+@enduml
