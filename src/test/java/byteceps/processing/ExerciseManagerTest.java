@@ -39,6 +39,13 @@ class ExerciseManagerTest {
     }
 
     @Test
+    public void execute_emptyExerciseAction_throwsInvalidInput() {
+        String emptyInput = "";
+        parser.parseInput(emptyInput);
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
+    }
+
+    @Test
     public void execute_addValidExercise_success() {
         String validInput = "exercise /add Pushups";
         parser.parseInput(validInput);
@@ -51,6 +58,14 @@ class ExerciseManagerTest {
         parser.parseInput(emptyInput);
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
+
+    @Test
+    public void execute_addSpecialCharacterExercise_throwsInvalidInput() {
+        String invalidInput = "exercise /add Pushups.-";
+        parser.parseInput(invalidInput);
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
+    }
+
 
     @Test
     public void execute_addDuplicateExercise_throwsActivityExists() {
@@ -69,6 +84,13 @@ class ExerciseManagerTest {
         String deleteInput = "exercise /delete Pushups";
         parser.parseInput(deleteInput);
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
+    }
+
+    @Test
+    public void execute_deleteEmptyNameExercise_throwsInvalidInput() {
+        String emptyInput = "exercise /delete";
+        parser.parseInput(emptyInput);
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     @Test
