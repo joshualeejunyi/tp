@@ -17,7 +17,7 @@ public class HelpStrings {
         "(4) list all existing exercises"
     };
 
-    public static final String[] EXERCISE_FLAG_FORMAT = {
+    public static final String[] EXERCISE_PARAM_FORMAT = {
         "exercise /add <EXERCISE_NAME [string]>",
         "exercise /delete <EXERCISE_NAME [string]>",
         "exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>",
@@ -34,7 +34,7 @@ public class HelpStrings {
         "(6) list all exercises in a given workout plan"
     };
 
-    public static final String[] WORKOUT_FLAG_FORMAT = {
+    public static final String[] WORKOUT_PARAM_FORMAT = {
         "workout /create <WORKOUT_PLAN_NAME [string]>",
         "workout /delete <WORKOUT_PLAN_NAME [string]>",
         "workout /list",
@@ -61,7 +61,7 @@ public class HelpStrings {
         "Friday/Fri", System.lineSeparator(), "Saturday/Sat", System.lineSeparator(),
         "Sunday/Sun");
 
-    public static final String[] PROGRAM_FLAG_FORMAT = {
+    public static final String[] PROGRAM_PARAM_FORMAT = {
         "program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>" + DAY_STRING,
         "program /today",
         "program /list",

@@ -1,0 +1,52 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+participant ByteCeps as User
+participant UserInterface
+participant ":Parser" as Parser
+participant ":HelpMenuManager" as HelpMenuManager
+participant HelpStrings
+participant HelpValidator as Validator
+
+
+User -> Parser : parseInput('help /exercise 1')
+activate Parser
+User <-- Parser
+deactivate Parser
+
+User -> HelpMenuManager : execute(parser)
+activate HelpMenuManager
+
+HelpMenuManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> HelpMenuManager : Validation success
+deactivate Validator
+
+alt Validation successful
+    HelpMenuManager -> HelpMenuManager : getParamFormat('1', 'exercise')
+    activate HelpMenuManager #FFBBBB
+
+    HelpMenuManager -> HelpMenuManager : getExerciseParamFormats(0)
+    activate HelpMenuManager
+    HelpMenuManager -> HelpStrings : retrieve EXERCISE_PARAM_FORMAT[0]
+    HelpMenuManager <-- HelpStrings : EXERCISE_PARAM_FORMAT[0]
+    HelpMenuManager --> HelpMenuManager: EXERCISE_PARAM_FORMAT[0]
+    deactivate HelpMenuManager
+    HelpMenuManager --> HelpMenuManager : EXERCISE_PARAM_FORMAT[0]
+    deactivate HelpMenuManager #FFBBBB
+
+    User <-- HelpMenuManager : messageToUser = EXERCISE_PARAM_FORMAT[0]
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+
+
+else Validation fails
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+end
+
+@enduml
