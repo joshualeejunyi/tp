@@ -1,0 +1,65 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps
+participant ":Storage" as Storage
+participant ":UserInterface" as UserInterface
+
+activate ByteCeps
+ByteCeps -> Storage : load(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager)
+activate Storage
+alt data.json exists
+    create ":JSONObject" as JSONObject
+    Storage -> JSONObject : new JSONObject(jsonScanner.nextLine())
+    activate JSONObject
+    JSONObject --> Storage : jsonArchive
+    deactivate JSONObject
+
+    Storage -> Storage : loadExercises(allExercises, jsonArchive)
+    activate Storage
+    Storage --> Storage :
+    deactivate Storage
+
+    Storage -> Storage : loadWorkouts(allExercises, allWorkouts, jsonArchive)
+    activate Storage
+    Storage --> Storage :
+    deactivate Storage
+
+    Storage -> Storage : loadWeeklyProgram(allWorkouts, weeklyProgram, jsonArchive)
+    activate Storage
+    Storage --> Storage :
+    deactivate Storage
+
+    Storage -> Storage : loadWorkoutLogs(allExercises, allWorkouts, jsonArchive, workoutLogsManager)
+    activate Storage
+    Storage --> Storage :
+    deactivate Storage
+
+    Storage -> UserInterface : printMessage(LOAD_SUCCESS)
+    activate UserInterface
+    UserInterface --> Storage:
+    deactivate UserInterface
+
+    Storage --> ByteCeps:
+else data.json does not exist
+    create ":File" as File
+    Storage -> File : createNewFile()
+    activate File
+    File --> Storage : newFile
+    deactivate File
+    Storage -> UserInterface : printMessage(NO_SAVE_DATA);
+    activate UserInterface
+    UserInterface --> Storage
+    deactivate UserInterface
+    Storage --> ByteCeps :
+    deactivate Storage
+end
+
+
+
+
+
+
+@enduml
