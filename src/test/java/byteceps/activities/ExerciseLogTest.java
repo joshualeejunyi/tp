@@ -81,7 +81,4 @@ class ExerciseLogTest {
     void equals_withNull_returnsFalse() {
         assertNotEquals(exerciseLog, null);
     }
-
-
-
 }
