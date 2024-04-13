@@ -38,7 +38,8 @@ class UserInterfaceTest {
     public void printMessage_message_success() {
         String message = "Test message";
         ui.printMessage(message);
-        String expectedOutput = String.format(UiStrings.BYTECEP_PROMPT_FORMAT, UiStrings.BYTECEP_PROMPT, message, System.lineSeparator()) + UiStrings.SEPARATOR + System.lineSeparator();
+        String expectedOutput = String.format(UiStrings.BYTECEP_PROMPT_FORMAT, UiStrings.BYTECEP_PROMPT, message,
+                System.lineSeparator()) + UiStrings.SEPARATOR + System.lineSeparator();
         assertEquals(expectedOutput, outContent.toString());
     }
 
