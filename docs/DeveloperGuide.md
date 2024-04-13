@@ -206,37 +206,24 @@ Here is the sequence diagram for the `workout /info workoutplan` command to illu
 ![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.png)
 
 
-### Logging of workouts 
-In order to log workouts, we have several layers to implement:
-1. Logging of exercises
-2. Storing logged exercises in a logged workout
-3. Storing all logged workouts
-
-The implementation for the above is as such:
-1. `ExerciseLog` extends from the `Activity` class, and introduces `weight`, `set` and `repetitions` as variables to be stored.
-2. `WorkoutLog` extends from the `Activity` class, and introduces `HashSet<ExerciseLog>` to store all logged exercises for that given workout, and `workoutName` to store the name of the `Workout` that was intended to be for that day. The id for this class is the date of the workout.
-3. All `WorkoutLog` classes created are stored in `WorkoutLogsManager`, which is extended from `ActivityManager`. 
-
-The user interfaces with this feature through the `WeeklyProgramManager`, as it is intended that the user logs their exercises according to the workout program that they have assigned to a specified day. 
-
-The sequence diagram below shows how a log is created.
-
-![WorkoutLogOverview.png](./diagrams/WorkoutLogOverview.png)
-
 ### Program management
 #### Assigning a workout to a program
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
 ![](./diagrams/assignWorkoutToProgram.png)
+
+#### Clearing a day in the program
+This is the sequence diagram of the command `program /clear <day [optional]>` being run.
+The validation of user input has been omitted for purposes of brevity.
+![](./diagrams/clearProgram.png)
+
+### Logging workout management
 
 #### Logging an exercise
 Below is the sequence diagram of the command `program /log <EXERCISE_NAME [string]> /weight
  <WEIGHT [integer]> /sets <NUMBER_OF_SETS [integer]> /reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]> ` being run: 
 ![](./diagrams/addExerciseLog.png)
 
-#### Clearing a day in the program
-This is the sequence diagram of the command `program /clear <day [optional]>` being run.
-The validation of user input has been omitted for purposes of brevity.
-![](./diagrams/clearProgram.png)
+
 
 ### Help Menu
 To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
@@ -338,6 +325,8 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 | v2.0    | fitness professional | log my exercise data for a specific date                       | accurately track my progress over time                            |
 | v2.0    | fitness professional | view a list of dates on which I have logged exercise entries   | track my consistency and adherence to my workout routine          |
 | v2.0    | fitness professional | review specific exercise logs for a particular date            | analyze my workout details and progress on that specific day      |
+| v2.1    | fitness professional |  log multiple sets of an exercise, including different weights and reps for each set            |  have a comprehensive log of my exercise sessions to monitor variations in my performance and strength training progress     |
+| v2.1    | fitness professional |  access and review historical workout data with detailed breakdowns by exercise, set, weight, and repetition            |  analyze trends in my performance and identify areas for improvement or adjustment in my training regime     |
 
 ## Non-Functional Requirements
 

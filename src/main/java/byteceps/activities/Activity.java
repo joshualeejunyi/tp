@@ -45,7 +45,7 @@ public class Activity {
      * Two Activity objects are considered equal if they have the same name.
      *
      * @param obj The reference object with which to compare.
-     * @return true if this Activity is the same as the obj argument; false otherwise.
+     * @return true if this Activity is the  same as the obj argument; false otherwise.
      */
     @Override
     public boolean equals(Object obj) {
