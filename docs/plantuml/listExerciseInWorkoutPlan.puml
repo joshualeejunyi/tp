@@ -21,7 +21,7 @@ activate WorkoutManager
 
 WorkoutManager -> Validator : validateCommand(Parser)
 activate Validator
-Validator --> WorkoutManager : Validation success
+Validator --> WorkoutManager :
 deactivate Validator
 
 alt Validation successful

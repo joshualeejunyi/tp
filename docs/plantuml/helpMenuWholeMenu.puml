@@ -1,0 +1,49 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+participant ByteCeps as User
+participant UserInterface
+participant ":Parser" as Parser
+participant ":HelpMenuManager" as HelpMenuManager
+participant HelpStrings
+participant HelpValidator as Validator
+
+
+User -> Parser : parseInput('help /program')
+activate Parser
+User <-- Parser
+deactivate Parser
+
+User -> HelpMenuManager : execute(parser)
+activate HelpMenuManager
+
+HelpMenuManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> HelpMenuManager : Validation success
+deactivate Validator
+
+alt Validation successful
+    HelpMenuManager -> HelpMenuManager : generateAllActions('program')
+    activate HelpMenuManager #FFBBBB
+
+
+    HelpMenuManager -> HelpStrings : retrieve PROGRAM_FLAG_FUNCTIONS
+    HelpMenuManager <-- HelpStrings : result = PROGRAM_FLAG_FUNCTIONS
+    HelpMenuManager --> HelpMenuManager : result
+    deactivate HelpMenuManager #FFBBBB
+
+    User <-- HelpMenuManager : messageToUser = result
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+
+
+else Validation fails
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+end
+
+@enduml

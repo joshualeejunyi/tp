@@ -48,7 +48,6 @@ public class ExerciseValidator extends Validator {
         validateNumAdditionalArgs(0, 0, parser);
     }
 
-    //@@author joshualeejunyi
     private static void validateAddAction(Parser parser) throws Exceptions.InvalidInput{
         String exerciseName = parser.getActionParameter();
         if (hasNoInput(exerciseName)) {

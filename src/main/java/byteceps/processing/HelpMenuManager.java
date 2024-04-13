@@ -30,9 +30,9 @@ public class HelpMenuManager {
 
 
     /**
-     * Displays either (1) a command help menu (if no valid numerical flag is provided) or (2) the specific
+     * Displays either (1) a command help menu (if no valid numerical parameter is provided) or (2) the specific
      * command format for a specific BYTE-CEPS functionality, which corresponds to the help menu entry specified by
-     * the provided valid numerical flag.
+     * the provided valid numerical parameter.
      *
      * @param parser Parser containing required user input.
      * @return String detailing either an entire command help menu or a specific command formatting.
@@ -46,8 +46,8 @@ public class HelpMenuManager {
         if (showAllActions) {
             return generateAllActions(commandToShow);
         }
-        String flag = parser.getActionParameter();
-        return getFlagFormat(flag, commandToShow);
+        String parameter = parser.getActionParameter();
+        return getParamFormat(parameter, commandToShow);
 
     }
 
@@ -84,24 +84,24 @@ public class HelpMenuManager {
 
     /**
      * Returns a String containing the specific command format for a specific BYTE-CEPS functionality, corresponding
-     * to the help menu entry specified by the user-provided numerical flag.
+     * to the help menu entry specified by the user-provided numerical parameter.
      *
-     * @param userFlag String corresponding to numerical position of help menu entry of user-desired command format.
+     * @param userParam String corresponding to numerical position of help menu entry of user-desired command format.
      * @param commandType String specifying which command help menu to find command formatting from.
-     * @return String containing the specific command format corresponding to provided flag.
+     * @return String containing the specific command format corresponding to provided parameter.
      */
-    private String getFlagFormat(String userFlag,String commandType) {
+    private String getParamFormat(String userParam, String commandType) {
         try {
-            int flagChoice = Integer.parseInt(userFlag);
-            int flagIndex = flagChoice - 1;
+            int paramChoice = Integer.parseInt(userParam);
+            int paramIndex = paramChoice - 1;
 
             switch (commandType) {
             case CommandStrings.COMMAND_EXERCISE:
-                return getExerciseFlagFormats(flagIndex);
+                return getExerciseParamFormats(paramIndex);
             case CommandStrings.COMMAND_WORKOUT:
-                return getWorkoutFlagFormats(flagIndex);
+                return getWorkoutParamFormats(paramIndex);
             case CommandStrings.COMMAND_PROGRAM:
-                return getProgramFlagFormats(flagIndex);
+                return getProgramParamFormats(paramIndex);
             default:
                 return "";
             }
@@ -110,14 +110,14 @@ public class HelpMenuManager {
         }
     }
 
-    private String getExerciseFlagFormats(int index) {
-        return HelpStrings.EXERCISE_FLAG_FORMAT[index];
+    private String getExerciseParamFormats(int index) {
+        return HelpStrings.EXERCISE_PARAM_FORMAT[index];
     }
-    private String getWorkoutFlagFormats(int index) {
-        return HelpStrings.WORKOUT_FLAG_FORMAT[index];
+    private String getWorkoutParamFormats(int index) {
+        return HelpStrings.WORKOUT_PARAM_FORMAT[index];
     }
-    private String getProgramFlagFormats(int index) {
-        return HelpStrings.PROGRAM_FLAG_FORMAT[index];
+    private String getProgramParamFormats(int index) {
+        return HelpStrings.PROGRAM_PARAM_FORMAT[index];
     }
 
 }

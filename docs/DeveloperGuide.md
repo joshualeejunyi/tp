@@ -206,23 +206,6 @@ Here is the sequence diagram for the `workout /info workoutplan` command to illu
 ![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.png)
 
 
-### Logging of workouts 
-In order to log workouts, we have several layers to implement:
-1. Logging of exercises
-2. Storing logged exercises in a logged workout
-3. Storing all logged workouts
-
-The implementation for the above is as such:
-1. `ExerciseLog` extends from the `Activity` class, and introduces `weight`, `set` and `repetitions` as variables to be stored.
-2. `WorkoutLog` extends from the `Activity` class, and introduces `HashSet<ExerciseLog>` to store all logged exercises for that given workout, and `workoutName` to store the name of the `Workout` that was intended to be for that day. The id for this class is the date of the workout.
-3. All `WorkoutLog` classes created are stored in `WorkoutLogsManager`, which is extended from `ActivityManager`. 
-
-The user interfaces with this feature through the `WeeklyProgramManager`, as it is intended that the user logs their exercises according to the workout program that they have assigned to a specified day. 
-
-The sequence diagram below shows how a log is created.
-
-![WorkoutLogOverview.png](./diagrams/WorkoutLogOverview.png)
-
 ### Program management
 #### Logging an exercise
 Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weight
@@ -245,6 +228,66 @@ The validation of user input has been omitted for purposes of brevity.
 ![](./diagrams/clearProgram.png)
 1. If no day has been assigned to the user, the `executeClearAction()` method clears all workouts in the `WeeklyProgramManager` object.
 2. Otherwise, the specified `Day` object is removed from `WeeklyProgramManager` object, and a new `Day` object with no workout assigned is constructed in its place.
+
+
+### Help Menu
+To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
+- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns help menus to be shown to the user or, if requested, a specific functionality's command format.
+- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all Strings including numbered help menu items, command formats and help menu error messages.
+- [HelpValidator](../src/main/java/byteceps/validators/HelpValidator.java): Parses the input to HelpMenuManager's execute() method to ensure input validity before the rest of the method executes.
+
+#### Viewing an flag's help menu
+If the user enters the command `help /COMMAND_TYPE` where `COMMAND_TYPE` is one of the 3 possible flags:
+1. `exercise`
+2. `workout`
+3. `program`
+
+They will be shown a numbered list of functionalities associated with the specific flag. 
+
+How the command `help /program` is processed and executed will be described below. This is to demonstrate how the 3 aforementioned classes interact to show a user a help menu which details the associated functionalities of a flag (for which they can see command formats).
+
+**Step 1 - Input Processing:**
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `help /program`.
+
+**Step 2 - Command Identification:**
+The `Parser` class determines the type of help operation and extracts any necessary arguments. In this case, the `help` is recognised as the command,`program` is a flag.
+
+**Step 3 - Command Validation**: The input is then validated using `HelpValidator` class to ensure that the arguments provided meet the expected format and criteria for processing.
+If validation fails, an exception is thrown with an accompanying error message. If validation succeeds, command execution proceeds.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
+- Execute generateAllActions: The `HelpMenuManager` proceeds to execute the `generateAllActions` method, which retrieves the array of `program` help menu items, `PROGRAM_FLAG_FUNCTIONS`, from `HelpStrings` class and appends each String into a single String that contains a numbered list. This is then returned.
+
+**Step 5 - Result Display**
+- Success Path: The String containg the numbered `program` help menu is presented to the user.
+- Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
+
+
+This is a sequence diagram of the command `help /program` provided to visually illustrate the described example above.
+![](./diagrams/helpMenuWholeMenu.png)
+
+#### Viewing a specific command format 
+How the command `help /exercise 1` is processed and executed will be described below to demonstrate how the 3 aforementioned classes interact to show a user command formats.
+
+**Step 1 - Input Processing:**
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `help /exercise 1`.
+
+**Step 2 - Command Identification:**
+The `Parser` class determines the type of help operation and extracts any necessary arguments. In this case, the `help` is recognised as the command,`exercise` and `1` are a flag-parameter pair.
+
+**Step 3 - Command Validation**: The input is then validated using `HelpValidator` class to ensure that the arguments provided meet the expected format and criteria for processing.
+If validation fails, an exception is thrown with an accompanying error message. If validation succeeds, command execution proceeds.
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
+- Execute getFlagFormat: The `HelpMenuManager` proceeds to execute the `getFlagFormat` method, which first converts the String parameter `1` to its corresponding Integer index `0` then calls the `getExerciseFlagFormats` method for retrieving a single String command format from the `exercise` command formats menu.
+- Retrieve command format: The `HelpMenuManager`retrieves the specific String command format at the index `0` in the list of `exercise` command formats found in the `HelpStrings` class.
+
+**Step 5 - Result Display**
+- Success Path: The String of the desired command format (item at position `1`/index `0` in the `exercise` help menu) is presented to the user.
+- Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
+
+This is a sequence diagram of the command `help /exercise 1` provided to visually illustrate the described example above.
+![](./diagrams/helpMenuCommandFormat.png)
 
 ### The `Storage` class
    A `Storage` object is responsible to reading and writing to `.json` files so that user data is saved between sessions.
@@ -311,6 +354,8 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 | v2.0    | fitness professional | log my exercise data for a specific date                       | accurately track my progress over time                            |
 | v2.0    | fitness professional | view a list of dates on which I have logged exercise entries   | track my consistency and adherence to my workout routine          |
 | v2.0    | fitness professional | review specific exercise logs for a particular date            | analyze my workout details and progress on that specific day      |
+| v2.1    | fitness professional |  log multiple sets of an exercise, including different weights and reps for each set            |  have a comprehensive log of my exercise sessions to monitor variations in my performance and strength training progress     |
+| v2.1    | fitness professional |  access and review historical workout data with detailed breakdowns by exercise, set, weight, and repetition            |  analyze trends in my performance and identify areas for improvement or adjustment in my training regime     |
 
 ## Non-Functional Requirements
 
