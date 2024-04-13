@@ -290,7 +290,6 @@ class StorageTest {
 
     @Test
     public void load_corruptedJSON_failure() {
-        String corruptFileName = "corrupted.json";
         String corruptFailureFileName = "corrupted.json.old";
         String corruptFilePath = "./jsons/corrupted.json";
         String corruptFailureFilePath = "./jsons/corrupted.json.old";
@@ -323,7 +322,6 @@ class StorageTest {
 
     @Test
     public void load_duplicateExercise_failure() {
-        String duplicateExerciseFileName = "duplicateExercise.json";
         String duplicateExerciseFailureFileName = "duplicateExercise.json.old";
         String duplicateExerciseFilePath = "./jsons/duplicateExercise.json";
         String duplicateExerciseFailureFilePath = "./jsons/duplicateExercise.json.old";
@@ -354,7 +352,6 @@ class StorageTest {
 
     @Test
     public void load_duplicateWorkout_failure() {
-        String duplicateWorkoutFileName = "duplicateWorkout.json";
         String duplicateWorkoutFailureFileName = "duplicateWorkout.json.old";
         String duplicateWorkoutFilePath = "./jsons/duplicateWorkout.json";
         String duplicateWorkoutFailureFilePath = "./jsons/duplicateWorkout.json.old";
@@ -385,7 +382,6 @@ class StorageTest {
 
     @Test
     public void load_workoutMissing_failure() {
-        String workoutMissingFileName = "workoutMissing.json";
         String workoutMissingFailureFileName = "workoutMissing.json.old";
         String workoutMissingFilePath = "./jsons/workoutMissing.json";
         String workoutMissingFailureFilePath = "./jsons/workoutMissing.json.old";
@@ -419,7 +415,6 @@ class StorageTest {
 
     @Test
     public void load_workoutExercisesMissing_failure() {
-        String workoutExercisesMissingFileName = "workoutExercisesMissing.json";
         String workoutExercisesMissingFailureFileName = "workoutExercisesMissing.json.old";
         String workoutExercisesMissingFilePath = "./jsons/workoutExercisesMissing.json";
         String workoutExercisesMissingFailureFilePath = "./jsons/workoutExercisesMissing.json.old";
@@ -454,7 +449,6 @@ class StorageTest {
 
     @Test
     public void load_nonExistingExercisesInLogs_failure() {
-        String logsExerciseFailFileName = "logsExerciseFail.json";
         String logsExerciseFailFailureFileName = "logsExerciseFail.json.old";
         String logsExerciseFailFilePath = "./jsons/logsExerciseFail.json";
         String logsExerciseFailFailureFilePath = "./jsons/logsExerciseFail.json.old";
@@ -485,7 +479,6 @@ class StorageTest {
 
     @Test
     public void load_nonExistingWorkoutInLogs_failure() {
-        String logsWorkoutFailFileName = "logsWorkoutFail.json";
         String logsWorkoutFailFailureFileName = "logsWorkoutFail.json.old";
         String logsWorkoutFailFilePath = "./jsons/logsWorkoutFail.json";
         String logsWorkoutFailFailureFilePath = "./jsons/logsWorkoutFail.json.old";

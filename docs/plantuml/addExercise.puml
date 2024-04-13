@@ -19,7 +19,7 @@ activate ExerciseManager
 
 ExerciseManager -> Validator : validateCommand(Parser)
 activate Validator
-Validator --> ExerciseManager : Validation success
+Validator --> ExerciseManager :
 deactivate Validator
 
 alt Validation successful
