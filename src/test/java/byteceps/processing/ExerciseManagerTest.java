@@ -115,6 +115,25 @@ class ExerciseManagerTest {
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
+    @Test
+    public void executeListAction_noExercises_success() {
+        setUpStreams();
+
+        String listInput = "exercise /list";
+        parser.parseInput(listInput);
+        assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
+
+        String expectedOutput = "[BYTE-CEPS]>YourListofExercisesisEmpty\n" +
+                "-------------------------------------------------\n";
+
+        assertEquals(expectedOutput.replaceAll("\\s+", ""),
+                outContent.toString().replaceAll("\\s+", ""));
+
+        restoreStreams();
+    }
+
+
+
     //@@author LWachtel1
     @Test
     public void execute_validExerciseEdit_success() {
@@ -255,6 +274,20 @@ class ExerciseManagerTest {
     public void execute_searchEmptyQuery_throwsInvalidInput() {
         String emptyInput = "exercise /search ";
         parser.parseInput(emptyInput);
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
+    }
+
+    @Test
+    public void execute_searchInvalidQuery_throwsInvalidInput() {
+        String invalidInput = "exercise /search /";
+        parser.parseInput(invalidInput);
+        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
+    }
+
+    @Test
+    public void execute_searchInvalidFlag_throwsInvalidInput() {
+        String invalidInput = "exercise /search Pushups /to";
+        parser.parseInput(invalidInput);
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 }
