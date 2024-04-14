@@ -449,6 +449,7 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 | v2.0    | fitness professional | review specific exercise logs for a particular date            | analyze my workout details and progress on that specific day      |
 | v2.1    | fitness professional |  log multiple sets of an exercise, including different weights and reps for each set            |  have a comprehensive log of my exercise sessions to monitor variations in my performance and strength training progress     |
 | v2.1    | fitness professional |  access and review historical workout data with detailed breakdowns by exercise, set, weight, and repetition            |  analyze trends in my performance and identify areas for improvement or adjustment in my training regime     |
+| v2.1    | fitness enthusiast |  be able to overwrite an incorrect log entry for a workout            |  ensure my workout history is accurate and reflects what I actually performed     |
 
 ## Non-Functional Requirements
 
@@ -459,8 +460,10 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 
 
 ## Glossary
-
-* *glossary item* - Definition
+* **Reps (Repetitions)** - Refers to the number of times an exercise is performed in one set. For example, doing ten pushups in a row counts as ten reps.
+* **Sets** - A group of consecutive repetitions. For example, if you do ten pushups and rest, then another ten pushups and rest again, you have completed two sets of ten reps each.
+* **Weight** - The amount of resistance used during an exercise, typically measured in pounds (lbs) or kilograms (kg). It is used to quantify the load lifted or moved in strength training and bodybuilding exercises.
+  
 
 ## Instructions for manual testing
 
@@ -781,7 +784,24 @@ Developers are expected to conduct more extensive tests.
      * Command: `bye` 
      * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
 
-1. Viewing Help Messages:
-   * Test case 1:
-     * Command:
-     * Expected Outcome: 
+2. Viewing Help Messages:
+    - Test case 1:
+        * Incorrect Help Command Usage.
+        * Command: `help /exercis` 
+        * Expected Outcome: The system should display an error message indicating incorrect command usage
+    - Test case 2:
+        * Accessing Help Menu for Exercise.
+        * Command: `help /exercise`
+        * Expected Outcome: The system should display a list of exercise-related commands and prompt the user to enter a specific list number to get detailed command formats.
+   - Test case 3:
+        * Request Specific Exercise Command Format
+        * Command: `help /exercise 3`
+        * Expected Outcome: The system should display the command format for editing an exercise's name, as specified by list number 3.
+   - Test case 4:
+        * Invalid List Number for Help Command
+        * Command: `help /exercise 10`
+        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
+    - Test case 5:
+        * Accessing Help Without Specifying a Category
+        * Command: `help /`
+        * Expected Outcome: The system should display an error message indicating that the user must specify a valid command.
