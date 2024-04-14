@@ -31,6 +31,10 @@ public class UserInterface {
         System.out.println(UiStrings.SEPARATOR);
     }
 
+    public void printMessageNoSeparator(String message) {
+        System.out.printf(UiStrings.BYTECEP_PROMPT_FORMAT, UiStrings.BYTECEP_PROMPT, message, System.lineSeparator());
+    }
+
     //@@author pqienso
     public void printWelcomeMessage() {
         out.println(UiStrings.SEPARATOR);

@@ -36,7 +36,7 @@ class CascadingDeletionProcessorTest {
 
     @Test
     void checkForCascadingDeletions_deleteExerciseFromWorkouts_exerciseRemoved() throws Exceptions.ErrorAddingActivity,
-            Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+            Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExist, Exceptions.InvalidInput {
         // Create an exercise and add it to the system
         String validInput = "exercise /add test";
         parser.parseInput(validInput);
@@ -75,7 +75,7 @@ class CascadingDeletionProcessorTest {
 
     @Test
     void checkForCascadingDeletions_deleteExerciseFromWorkouts_workoutRemoved() throws Exceptions.InvalidInput,
-            Exceptions.ActivityDoesNotExists, Exceptions.ActivityExistsException, Exceptions.ErrorAddingActivity {
+            Exceptions.ActivityDoesNotExist, Exceptions.ActivityExistsException, Exceptions.ErrorAddingActivity {
         // Create an exercise and add it to the system
         String validInput = "exercise /add test";
         parser.parseInput(validInput);
