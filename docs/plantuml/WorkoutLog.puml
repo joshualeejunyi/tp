@@ -4,11 +4,11 @@ skinparam style strictuml
 
 participant ":WeeklyProgramManager"
 
-activate ":WorkoutLogsManager"
 activate ":WeeklyProgramManager"
     ":WeeklyProgramManager" -> ":WeeklyProgramManager" : executeLogAction
     activate ":WeeklyProgramManager"
     ":WeeklyProgramManager" -> ":WorkoutLogsManager" : addWorkoutLog(workoutDate, workoutName)
+    activate ":WorkoutLogsManager"
     create ":WorkoutLog" as WorkoutLog
     ":WorkoutLogsManager" -> WorkoutLog : new(workoutDate, workoutName)
     activate WorkoutLog
@@ -19,7 +19,9 @@ activate ":WeeklyProgramManager"
     ":WorkoutLogsManager" --> ":WorkoutLogsManager"
     deactivate ":WorkoutLogsManager"
     ":WorkoutLogsManager" --> ":WeeklyProgramManager"
+    deactivate ":WorkoutLogsManager"
     ":WeeklyProgramManager" -> ":WorkoutLogsManager" : addExerciseLog(workoutDate, exerciseName, weight, sets, repetition)
+    activate ":WorkoutLogsManager"
     create ":ExerciseLog" as ExerciseLog
     ":WorkoutLogsManager" -> ExerciseLog : new(exerciseName, weightsList, setsInt, repsList)
     activate ExerciseLog
@@ -34,5 +36,7 @@ activate ":WeeklyProgramManager"
     WorkoutLog --> ":WorkoutLogsManager"
     deactivate WorkoutLog
     ":WorkoutLogsManager" --> ":WeeklyProgramManager"
-
+    deactivate ":WorkoutLogsManager"
+    ":WeeklyProgramManager" --> ":WeeklyProgramManager": messageToUser
+    deactivate ":WeeklyProgramManager"
 @enduml
