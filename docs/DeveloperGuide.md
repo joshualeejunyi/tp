@@ -449,6 +449,7 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 | v2.0    | fitness professional | review specific exercise logs for a particular date            | analyze my workout details and progress on that specific day      |
 | v2.1    | fitness professional |  log multiple sets of an exercise, including different weights and reps for each set            |  have a comprehensive log of my exercise sessions to monitor variations in my performance and strength training progress     |
 | v2.1    | fitness professional |  access and review historical workout data with detailed breakdowns by exercise, set, weight, and repetition            |  analyze trends in my performance and identify areas for improvement or adjustment in my training regime     |
+| v2.1    | fitness enthusiast |  be able to overwrite an incorrect log entry for a workout            |  ensure my workout history is accurate and reflects what I actually performed     |
 
 ## Non-Functional Requirements
 
