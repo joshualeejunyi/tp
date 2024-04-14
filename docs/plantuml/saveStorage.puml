@@ -1,0 +1,94 @@
+@startuml SequenceDiagram
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps
+participant ":UserInterface" as UserInterface
+participant ":Storage" as Storage
+
+
+
+activate ByteCeps
+ByteCeps -> Storage : save(exerciseManager, workoutManager, weeklyProgramManager, workoutLogsManager)
+activate Storage
+
+create "jsonArchive:JSONObject" as jsonArchive
+Storage -> jsonArchive : new JSONObject()
+activate jsonArchive
+jsonArchive --> Storage : jsonArchive
+deactivate jsonArchive
+
+participant ":ExerciseManager" as ExerciseManager
+participant ":WorkoutManager" as WorkoutManager
+participant ":WeeklyProgramManager" as WeeklyProgramManager
+participant ":WorkoutLogsManager" as WorkoutLogsManager
+
+Storage -> ExerciseManager : getActivityList().toArray()
+activate ExerciseManager
+ExerciseManager --> Storage : exerciseList:Array
+deactivate ExerciseManager
+
+Storage -> jsonArchive : put(exerciseList)
+activate jsonArchive
+jsonArchive --> Storage :
+deactivate jsonArchive
+
+Storage -> WorkoutManager : getActivityList().toArray()
+activate WorkoutManager
+WorkoutManager --> Storage : workoutList:Array
+deactivate WorkoutManager
+
+Storage -> jsonArchive : put(workoutList)
+activate jsonArchive
+jsonArchive --> Storage :
+deactivate jsonArchive
+
+Storage -> WeeklyProgramManager : exportToJSON()
+activate WeeklyProgramManager
+WeeklyProgramManager --> Storage : weeklyProgram:JSONObject
+deactivate WeeklyProgramManager
+
+Storage -> jsonArchive : put(weeklyProgram)
+activate jsonArchive
+jsonArchive --> Storage :
+deactivate jsonArchive
+
+Storage -> WorkoutLogsManager : exportToJSON()
+activate WorkoutLogsManager
+WorkoutLogsManager --> Storage : workoutLogs:JSONObject
+deactivate WorkoutLogsManager
+
+Storage -> jsonArchive : put(workoutLogs)
+activate jsonArchive
+jsonArchive --> Storage :
+deactivate jsonArchive
+
+create ":FileWriter" as FileWriter
+Storage -> FileWriter: new FileWriter(filePath)
+activate FileWriter
+FileWriter --> Storage:
+deactivate FileWriter
+
+Storage -> jsonArchive : toString()
+activate jsonArchive
+jsonArchive --> Storage : archiveString
+deactivate jsonArchive
+
+Storage -> FileWriter: write(archiveString)
+activate FileWriter
+FileWriter --> Storage :
+deactivate FileWriter
+
+Storage -> FileWriter : close()
+destroy FileWriter
+
+Storage -> UserInterface : printMessage(WORKOUTS_SAVED)
+activate UserInterface
+UserInterface --> Storage :
+deactivate UserInterface
+
+Storage --> ByteCeps :
+deactivate Storage
+
+@enduml

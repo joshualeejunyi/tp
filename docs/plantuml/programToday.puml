@@ -1,0 +1,55 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant ByteCeps
+participant UserInterface
+participant ":WeeklyProgramManager" as WeeklyProgramManager
+participant "today:Day" as today
+
+
+    activate ByteCeps
+    ByteCeps -> WeeklyProgramManager : execute(parser)
+    activate WeeklyProgramManager
+    WeeklyProgramManager -> WeeklyProgramManager : executeTodayAction(parser)
+    activate WeeklyProgramManager
+
+    create "currentDate:LocalDate" as currentDate
+    WeeklyProgramManager -> currentDate : LocalDate.now()
+    activate currentDate
+    currentDate --> WeeklyProgramManager : currentDate
+    deactivate currentDate
+
+    WeeklyProgramManager -> WeeklyProgramManager : getDayFromDate(currentDate)
+    activate WeeklyProgramManager
+    WeeklyProgramManager --> WeeklyProgramManager : today:Day
+    deactivate WeeklyProgramManager
+
+    WeeklyProgramManager -> today : getAssignedWorkout()
+    activate today
+    today --> WeeklyProgramManager : todaysWorkout:Workout
+    deactivate today
+
+    WeeklyProgramManager -> currentDate : toString()
+    activate currentDate
+    currentDate --> WeeklyProgramManager : todayDate:String
+    deactivate currentDate
+
+    WeeklyProgramManager -> WeeklyProgramManager : getTodaysWorkoutString(todaysWorkout, todayDate, today)
+    activate WeeklyProgramManager
+    WeeklyProgramManager --> WeeklyProgramManager : messageToUser
+    deactivate WeeklyProgramManager
+
+    WeeklyProgramManager --> WeeklyProgramManager : messageToUser
+    deactivate WeeklyProgramManager
+
+    WeeklyProgramManager --> ByteCeps : messageToUser
+    deactivate WeeklyProgramManager
+
+    ByteCeps -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> ByteCeps :
+    deactivate UserInterface
+
+
+@enduml

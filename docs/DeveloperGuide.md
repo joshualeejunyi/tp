@@ -207,6 +207,26 @@ Here is the sequence diagram for the `workout /info workoutplan` command to illu
 
 
 ### Program management
+#### [Implemented] Assign, List, Log workouts in Weekly program, and view today's workout plan.
+ByteCeps streamlines the management of the user's weekly program by following the same general multi-step pattern as above for workout and exercise management.
+Namely, the steps consist:
+1. Input processing
+2. Command identification
+3. Command validation
+4. Command execution
+5. Result display
+
+The first 2 steps will be omitted in the sequence diagrams following this overview for brevity purposes, as they are similar to the explanations offered in
+workout and exercise management.
+
+The following are the possible commands the `WeeklyProgramManager` object can run:
+- `program /list` to list out the weekly program.
+- `program /assign LegDay /to Monday` for assigning a workout to a specific day.
+- `program /log Squats /weight 90 100 110 /reps 12 10 8 /sets 3` for logging a specific exercise done today.
+- `program /clear` for clearing the entire weekly workout plan.
+- `program /clear Monday` for clearing a specific day's workout plan.
+- `program /today` for viewing today's workout.
+
 #### Logging an exercise
 Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weight
 <WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
@@ -218,10 +238,19 @@ Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weig
 #### Assigning a workout to a program
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
 ![](./diagrams/assignWorkoutToProgram.png)
-1. After input validation, the `execute()` method of `WeeklyProgramManager calls the `executeAssignAction()` method.
+1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeAssignAction()` method.
 2. This method then retrieves the appropriate `Workout` object, and assigns it to be contained in the appropriate `Day` object.
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
 
+#### Viewing today's workout program
+Below is the sequence diagram of the command `program /today` being run.
+The validation of user input has been omitted for purposes of brevity.
+![](./diagrams/programToday.png)
+1. Today's date is retrieved in the form of a `Date` object.
+2. This is used to retrieve the appropriate `Day` object.
+3. The `Workout` contained in the `Day` object is retrieved.
+4. The `Workout` , along with `Date` and `Day` is then converted to the `messageToUser:String`, which is returned to `execute()` and `ByteCeps` for printing.
+ 
 #### Clearing a day in the program
 This is the sequence diagram of the command `program /clear <day [optional]>` being run.
 The validation of user input has been omitted for purposes of brevity.
@@ -292,7 +321,17 @@ This is a sequence diagram of the command `help /exercise 1` provided to visuall
 ### The `Storage` class
    A `Storage` object is responsible to reading and writing to `.json` files so that user data is saved between sessions.
 
-#### Loading data from `data.json`
+#### Overview: Saving data to `data.json`
+The `storage.save()` method is called with the `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
+![](./diagrams/saveStorage.png)
+**NOTE**: plantUML does not allow for termination of lifelines after destroying an object (`:FileWriter`), but note that the lifeline should end after the red cross.
+1. An empty `JSONObject`, `jsonArchive`, is created.
+2. `ExerciseManager` and `WorkoutManager` objects have their list of `Activity`s converted into an `Array`, which is then `.put()` into `jsonArchive`.
+3. `WeeklyProgramManager` and `WorkoutLogsManager` objects have their own `exportToJSON` method which is called. The results are again `.put()` into `jsonArchive`.
+4. A `FileWriter` object is created, which writes `jsonArchive` converted to a `String` to the appropriate `filePath`.
+5. The `Storage` object calls the `UserInterface` directly to print the success message.
+
+#### Overview: Loading data from `data.json`
 The `storage.load()` method is called with the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
 These objects are to be updated in the method.
 ![](./diagrams/loadStorage.png)
@@ -301,7 +340,7 @@ These objects are to be updated in the method.
 2. Else, a new `JSONObject` called `jsonArchive`, loaded from `data.json` is created.
 3. Each `ActivityManager` object is then loaded sequentially using `jsonArchive` as input.
 
-#### Loading data for a specific `ActivityManager` class
+#### Example: Loading data for a specific `ActivityManager` class
 From the last sequence diagram, we see that each `ActivityManager` class is loaded from `jsonArchive` via its own method.
 For example, the `WorkoutManager` object is loaded from the `loadWorkouts()` method. The below sequence diagram shows how `loadWorkouts()` is run. 
 The loading of other `ActivityManager` objects is similar in nature.
@@ -313,6 +352,27 @@ The loading of other `ActivityManager` objects is similar in nature.
 5. The exercise name of each `jsonExercise` in `jsonExercisesInWorkout` is used to assign the correct exercises in `ExerciseManager` to each `Workout` object.
 
 
+### The `CascadingDeletionProcessor` class
+This class is a utility class that is responsible for handling cascading deletions (eg. when an exercise assigned to an existing workout is deleted from `ByteCeps` by the user).
+It removes the required `Workout`/`Exercise` objects from the `Workout`/`WeeklyProgramManager` silently whenever a `delete` command is called.
+Its only public method, `checkForCascadingDeletions()`, is run after executing a parsed command.
+
+#### Removing a deleted exercise from a workout
+If the command entered by the user starts with `exercise /delete` and is executed successfully, the private method `removeDeletedExerciseFromWorkouts()` is run:
+![](./diagrams/deleteExerciseFromWorkouts.png)
+1. `removeDeletedExerciseFromWorkouts()` iterates through every `Workout` in `WorkoutManager`.
+2. If the deleted `exerciseName` matches that of an exercise in the `Workout`, the exercise is deleted from the workout too.
+
+#### Removing a deleted workout from the weekly program
+If the command entered by the user starts with `workout /delete` and is executed successfully, the private method `removeDeletedWorkoutsFromProgram()` is run:
+![](./diagrams/deleteWorkoutFromProgram.png)
+1. A copy of all 7 `Days` in `WeeklyProgramManager` is stored as `oldWorkoutsInProgram`.
+2. `removeDeletedWorkoutsFromProgram()` iterates through every `Day` in `oldWorkoutsInProgram`.
+3. If the name of the `Workout` assigned to a particular `Day`  matches that of the deleted `Workout`, 
+   that particular `Day` is deleted from `newWorkoutsInProgram` .
+4. A new `Day` with no `Workout` assigned to it is added to `newWorkoutsInProgram` in replacement of the deleted `Day`.
+   
+ 
 ## Product scope
 ### Target user profile
 
