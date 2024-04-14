@@ -258,7 +258,11 @@ public class WeeklyProgramManager extends ActivityManager {
 
     private String getTodaysWorkoutString(Workout givenWorkout, String workoutDate, Day workoutDay)
             throws Exceptions.ActivityDoesNotExists {
-        String workoutName = workoutDay.getAssignedWorkout().getActivityName();
+        Workout workout = workoutDay.getAssignedWorkout();
+        if (workout == null) {
+            throw new Exceptions.ActivityDoesNotExists("Workout does not exist");
+        }
+        String workoutName = workout.getActivityName();
         LinkedHashSet<Exercise> workoutLinkedHashSet = givenWorkout.getExerciseSet();
         workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
         return workoutLogsManager.getWorkoutLogString(workoutDate, workoutLinkedHashSet);
