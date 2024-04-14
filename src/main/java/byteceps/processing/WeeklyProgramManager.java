@@ -47,6 +47,19 @@ public class WeeklyProgramManager extends ActivityManager {
         return assignedWorkout.getActivityName();
     }
 
+    private static String formatDateString(String workoutDate) throws Exceptions.ActivityDoesNotExists {
+        if (workoutDate == null || workoutDate.isEmpty()) {
+            workoutDate = LocalDate.now().toString();
+        } else {
+            LocalDate currentDate = LocalDate.now();
+            LocalDate inputDate = LocalDate.parse(workoutDate);
+            if (inputDate.isAfter(currentDate)) {
+                throw new Exceptions.ActivityDoesNotExists(DayStrings.FUTURE_DATE);
+            }
+        }
+        return workoutDate;
+    }
+
     private void initializeDays() {
         for (String day : DayStrings.DAYS) {
             Day newDay = new Day(day);
@@ -224,25 +237,16 @@ public class WeeklyProgramManager extends ActivityManager {
                 exerciseName, weightWord, formattedWeights, formattedReps, repWord, setsInt, setWord, workoutDate);
     }
 
-    private static String formatDateString(String workoutDate) throws Exceptions.ActivityDoesNotExists {
-        if (workoutDate == null || workoutDate.isEmpty()) {
-            workoutDate = LocalDate.now().toString();
-        } else {
-            LocalDate currentDate = LocalDate.now();
-            LocalDate inputDate = LocalDate.parse(workoutDate);
-            if (inputDate.isAfter(currentDate)) {
-                throw new Exceptions.ActivityDoesNotExists(DayStrings.FUTURE_DATE);
-            }
-        }
-        return workoutDate;
-    }
-
     private String executeTodayAction() throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         LocalDate currentDate = LocalDate.now();
+
         Day today = getDayFromDate(currentDate);
         Workout todaysWorkout = today.getAssignedWorkout();
         String todayDate = currentDate.toString();
 
+        if (todaysWorkout == null) {
+            return String.format(ManagerStrings.NO_WORKOUT_ASSIGNED_TODAY, today.getActivityName());
+        }
         return getTodaysWorkoutString(todaysWorkout, todayDate, today);
     }
 
@@ -288,13 +292,15 @@ public class WeeklyProgramManager extends ActivityManager {
             return ManagerStrings.PROGRAMS_CLEARED;
         }
         Day selectedDay = getDay(day);
-        String selectedDayString = selectedDay.getActivityName();
+        Workout currentWorkout = selectedDay.getAssignedWorkout();
 
+        if (currentWorkout == null) {
+            return String.format(ManagerStrings.NO_WORKOUT_TO_CLEAR, day);
+        }
+
+        selectedDay.setAssignedWorkout(null);
         activitySet.remove(selectedDay);
-        Day newDay = new Day(selectedDayString);
-        newDay.setAssignedWorkout(null);
-        activitySet.add(newDay);
-
+        activitySet.add(selectedDay);
         return String.format(ManagerStrings.WORKOUT_CLEARED, day);
     }
 

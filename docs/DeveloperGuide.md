@@ -464,4 +464,307 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+**Note**: This section serves to provide a quick start for manual testing on BYTE-CEPS. This list is not exhaustive.
+Developers are expected to conduct more extensive tests.
+
+### Initial Launch
+
+* ✅ Download the latest BYTE-CEPS from the official repository.
+* ✅ Copy the downloaded file to a folder you want to designate as the home for BYTE-CEPS.
+* ✅ Open a command terminal, cd into the folder where you copied the file, and run `java -jar byteceps.jar`.
+
+### Exercise Management
+1. Adding an Exercise:
+    - Test case 1:
+        * Add a new exercise.
+        * Command: `exercise /add pushups`
+        * Expected Outcome: The system should confirm that the exercise `pushups`has been added.
+    - Test case 2:
+        * Add an exercise with special characters.
+        * Command: `exercise /add push-ups!`
+        * Expected Outcome: The system should display an error message indicating that the exercise name cannot contain special characters.
+    - Test case 3:
+        * Add a duplicate exercise.
+        * Command: `exercise /add pushups` 
+        * Expected Outcome: The system should display an error message indicating that the exercise already exists.
+    - Test case 4:
+        * Add an exercise with a case variation in name.
+        * Command: `exercise /add PUSHUPS` 
+        * Expected Outcome: The system should display an error message indicating that the exercise already exists, as the exercise name is case insensitive.
+2. Deleting an Exercise:
+    - Test case 1:
+        * Delete an existing exercise.
+        * Command: `exercise /delete pushups`
+        * Expected Outcome: The system should confirm that the exercise `pushup` has been deleted. 
+    - Test case 2:
+        * Attempt to delete a non-existent exercise.
+        * Command: `exercise /delete situps`
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist.
+    - Test case 3:
+        * Delete an exercise with a case variation in name.
+        * Command: `exercise /delete PUSHUPS`
+        * Expected Outcome:  Since exercise names are case insensitive, the system should successfully delete the 'pushups' exercise, confirming that case sensitivity is handled correctly.
+3. Listing All Exercises:
+    - Test case 1:
+        * List all exercises.
+        * Command: `exercise /list`
+        * Expected Outcome: The system should display all current exercises stored in the system, regardless of the order they were added.
+    - Test case 2:
+        * List exercises when no exercises have been added.
+        * Command: `exercise /list`
+        * Expected Outcome: The system should display a message indicating that there are no exercises to display.
+4. Editing an Exercise:
+    - Test case 1:
+        * Edit an existing exercise name.
+        * Command: `exercise /edit pushups /to Decline pushups`
+        * Expected Outcome: The system should confirm that the exercise name has been changed from `pushups` to `Decline pushups`
+    - Test case 2:
+        * Attempt to edit a non-existent exercise.
+        * Command: `exercise /edit crunches /to Incline crunches`
+        * Expected Outcome: The system should display an error message indicating that the original exercise does not exist.
+    - Test case 3:
+        * Edit an exercise to have a special character in the new name.
+        * Command: `exercise /edit Decline pushups /to Decline-pushups!`
+        * Expected Outcome: The system should display an error message indicating that the new name cannot contain special characters.
+    - Test case 4:
+        * Edit an exercise using the same existing name.
+        * Command: `exercise /edit Decline pushups /to Decline pushups`
+        * Expected Outcome: The system should notify that the new name is the same as the old name.
+5. Searching for Exercises:
+    - Test case 1:
+        * Search for an exercise by partial name match.
+        * Command: `exercise /search push`
+        * Expected Outcome: The system should return all exercises that partially match `pushups`, including `pushups` and `Decline pushups`
+    - Test case 2:
+        * Search for an exercise with no matching entries.
+        * Command: `exercise /search pullups`
+        * Expected Outcome: The system should display a message indicating no search results.
+    - Test case 3:
+        * Search for an exercise using a complete name.
+        * Command: `exercise /search Decline pushups`
+        * Expected Outcome: The system should display only the `Decline` pushups exercise, ensuring that exact matches are correctly prioritized over partial matches.
+    - Test case 4:
+        * Search for an exercise immediately after deletion.
+        * Command: `exercise /search decline pushups` after deleting `decline pushups`
+        * Expected Outcome: The system should indicate that there are no results for `decline pushups`, confirming that the deletion was processed correctly.
+
+### Workout Management
+1. Adding a Workout Plan:
+    - Test case 1:
+        * Create a new workout plan.
+        * Command: `workout /create Leg Day`
+        * Expected Outcome: The system should confirm that the workout plan `leg day` has been created.
+    - Test case 2:
+        * Add a new workout plan with special characters.
+        * Command: `exercise /add push-ups!`
+        * Expected Outcome: The system should display an error message stating that the workout plan name cannot contain special characters.
+    - Test case 3:
+        * Add a duplicate workout plan.
+        * Command: `workout /create Arm-Day` 
+        * Expected Outcome: The system should display an error message indicating that the workout plan already exists.
+    - Test case 4:
+        * Add a Workout plan with a case variation in name.
+        * Command: `workout /create LEG DAY` 
+        * Expected Outcome: The system should display an error message indicating that the workout plan already exists, as the workout plan name is case insensitive.
+2. Deleting a Workout Plan:
+    - Test case 1:
+        * Delete an existing workout plan.
+        * Command: `workout /delete leg day`
+        * Expected Outcome: The system should confirm that the workout plan `leg day` has been deleted. 
+    - Test case 2:
+        * Attempt to delete a non-existent exercise.
+        * Command: `workout /delete back day`
+        * Expected Outcome: The system should display an error message indicating that the workout plan does not exist.
+    - Test case 3:
+        * Delete a workout plan with a case variation in name.
+        * Command: `workout /delete LEG DAY`
+        * Expected Outcome:  Since workout names are case insensitive, the system should successfully delete the 'leg day' workout, confirming that case sensitivity is handled correctly.
+3. Listing All Workout Plan:
+    - Test case 1:
+        * List all workout plan.
+        * Command: `workout /list`
+        * Expected Outcome: The system should display all workout plans stored in the system, regardless of the order they were added.
+    - Test case 2:
+        * List exercises when no exercises have been added.
+        * Command: `workout /list`
+        * Expected Outcome: The system should display a message indicating that there are no workout plans to display.
+4. Editing a Workout Plan:
+    - Test case 1:
+        * Edit an existing workout plan name.
+        * Command: `workout /edit leg day /to back day`
+        * Expected Outcome: The system should confirm that the workout plan name has been changed from `leg day` to `back day`
+    - Test case 2:
+        * Attempt to edit a non-existent workout plan.
+        * Command: `workout /edit chest day /to pull day`
+        * Expected Outcome: The system should display an error message indicating that the original workout plan `chest day` does not exist.
+    - Test case 3:
+        * Edit a workout plan to have a special character in the new name.
+        * Command: `workout /edit Full Body Day /to Full Body Day-`
+        * Expected Outcome: The system should display an error message indicating that the new name cannot contain special characters.
+    - Test case 4:
+        * Edit a workout plan using the same existing name.
+        * Command: `workout /edit Full Body Day /to Full Body Day`
+        * Expected Outcome: The system should notify that the new name is the same as the old name.
+5. Searching for workout plan:
+    - Test case 1:
+        * Search for an exercise by partial name match.
+        * Command: `workout /search day`
+        * Expected Outcome: The system should return all workout plans that partially match `day`, including `leg day` and `back day`
+    - Test case 2:
+        * Search for a workout plan with no matching entries.
+        * Command: `exercise /search chest`
+        * Expected Outcome: The system should display a message indicating no search results.
+    - Test case 3:
+        * Search for an exercise using a complete name.
+        * Command: `exercise /search leg day`
+        * Expected Outcome: The system should display only the `leg day` workout plan, ensuring that exact matches are correctly prioritized over partial matches.
+    - Test case 4:
+        * Search for an exercise immediately after deletion.
+        * Command: `workout /search leg day` after deleting `leg day`
+        * Expected Outcome: The system should indicate that there are no results for `leg day`, confirming that the deletion was processed correctly.     
+6. Assigning Exercises to Workout plan:
+    - Test case 1:
+        * Assign an exercise to a workout plan.
+        * Command: `workout /assign pushups /to Push Day`
+        * Expected Outcome: The system should confirm that `pushups` have been assigned to `Push Day`.
+    - Test case 2:
+        * Attempt to assign an exercise to a non-existent workout plan.
+        * Command: `workout /assign squats /to Nonexistent Plan`
+        * Expected Outcome: The system should indicate that the workout plan does not exist.
+    - Test case 3:
+        * Attempt to assign a non-existent exercise to a workout plan.
+        * Command: `workout /assign Nonexistent exercise /to Push Day`
+        * Expected Outcome: The system should indicate that the exercise does not exist.
+    - Test case 4:
+        * Assign an exercise to a workout plan with a case variation in name.
+        * Command: `workout /assign PUSHUPS /to PUSH DAY`
+        * Expected Outcome: The system should confirm that `pushups` have been assigned to `Push Day` as both the workout plan & exercise name are case insensitive.      
+7. Unassigning Exercises to Workout plan:
+    - Test case 1:
+        * Unassign an exercise from a workout plan.
+        * Command: `workout /unassign pushups /from Push Day`
+        * Expected Outcome: The system should confirm that `pushups` have been removed from `Push Day`.
+    - Test case 2:
+        * Attempt to unassign an exercise from a non-existent workout plan.
+        * Command: `workout /unassign squats /from Nonexistent Plan`
+        * Expected Outcome: The system should indicate that the workout plan does not exist.
+    - Test case 3:
+        * Attempt to unassign a non-existent exercise from a workout plan.
+        * Command: `workout /unassign Nonexistent exercise /from Push Day`
+        * Expected Outcome: The system should indicate that the exercise does not exist.
+    - Test case 4:
+        * Unassign an exercise to a workout plan with a case variation in name.
+        * Command: `workout /unassign PUSHUPS /from PUSH DAY`
+        * Expected Outcome: The system should confirm that `pushups` have been unassigned from `Push Day` as both the workout plan & exercise name are case insensitive.
+8. Viewing Exercises in a Workout Plan:
+    - Test case 1:
+        * List all exercises in a specific workout plan.
+        * Command: `workout /info Push Day`
+        * Expected Outcome: The system should list all exercises included in `Push Day`. If the workout plan is empty, the system should indicate that there are no exercises.
+    - Test case 2:
+        * View an empty workout plan.
+        * Command: `workout /info Newbie Plan` (assuming no exercises have been assigned to `Newbie Plan`)
+        * Expected Outcome: The system should indicate that there are no exercises listed in `Newbie Plan`.
+    - Test case 3:
+        * View a workout plan with a case variation in name.
+        * Command: `workout /info PUSH DAY`
+        * Expected Outcome: The system should either display the details for `push day` confirming case insensitivity.
+### Program Management
+1. Assigning Workout Plans to Days:
+    - Test case 1:
+        * Assign a workout plan to a specific day.
+        * Command: `program /assign Push Day /to Monday`
+        * Expected Outcome: The system should confirm that `Push Day` has been assigned to Monday.
+    - Test case 2:
+        * Attempt to assign multiple workout plans to the same day.
+        * Command: `program /assign Leg Day /to Monday`
+        * Expected Outcome: The system should display an error message indicating that a workout is already assigned to Monday, as only one workout can be assigned per day.
+    - Test case 3:
+        * Assign workout plans to non-standard day formats.
+        * Command: `program /assign Push Day /to Mon` 
+        * Expected Outcome: The system should recognize 'Mon' as Monday and successfully assign the workout plan, reflecting flexibility in day input.
+    - Test case 4:
+        * Assign empty workout plans to a specific day
+        * Command: `program /assign test /to Mon` 
+        * Expected Outcome: The system should indicate that there are no workout plan called `test`
+2. Viewing Today's Workout Plans:
+    - Test case 1:
+        * View today's workout plan when one is assigned
+        * Command: Assume today is Monday and `Push Day` is assigned to `Monday`, then execute `program /today`
+        * Expected Outcome: The system should display the exercises scheduled for `Push Day`.
+    - Test case 2:
+        * View today's workout when no workout is assigned
+        * Command: `program /today` 
+        * Expected Outcome: The system should display a message indicating no workout is assigned for today.
+3. Viewing Weekly's Workout Plans:
+    - Test case 1:
+        * View the weekly workout schedule
+        * Command:`program /list`
+        * Expected Outcome: The system should display the workout plan assigned to each day of the week, including any `Rest days` where no workouts are assigned.
+4. Removing Workout Plans from Days:
+    - Test case 1: 
+        * Remove a workout plan from a specific day
+        * Command:`program /clear Monday`
+        * Expected Outcome: The system should confirm that Monday's workout plan has been cleared, and subsequent checks for Monday should show no assigned workout.
+    - Test case 2: 
+        * Attempt to clear a day with no workout assigned
+        * Command:`program /clear Sunday` (assuming no workout is assigned to Sunday)
+        * Expected Outcome: The system should notify that there was no workout to clear for Sunday
+    - Test case 3: 
+        * Remove all workout plans in a week
+        * Command:`program /clear ` 
+        * Expected Outcome: The system should confirm that all workouts for that week has been cleared.
+### Program Logging Management     
+1. Adding Exercise Logs:
+    - Test case 1:
+        * Log a single set of an exercise.
+        * Command: `program /log benchpress /weight 125 /sets 1 /reps 5` (MUST create exercise & workout plan first & have a workout plan assigned for the day you are logging.)
+        * Expected Outcome: The system should confirm that the log entry for benchpress has been successfully created with the specified weight, sets, and reps.
+    - Test case 2:
+        * Log multiple sets with varying weights and reps.
+        * Command: `program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3`
+        * Expected Outcome: The system should display an error message indicating that a workout is already assigned to Monday, as only one workout can be assigned per day.
+    - Test case 3:
+        * Attempt to log an exercise not created in the system.
+        * Command: `program /log nonexistent /weight 100 /sets 1 /reps 10` 
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist, ensuring only valid exercises can be logged.
+    - Test case 4:
+        * Log an exercise for a specific past date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-03-25` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the exercise has been logged for the specified date, showing flexibility in recording workouts on different dates
+    - Test case 5:
+        * Log an exercise for an invalid date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-2-31` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the date does not exists and returns an error telling the user of the invalid date entered.
+    - Test case 6:
+        * Attempt to log an exercise not created in the system.
+        * Command: `program /log nonexistent /weight 100 /sets 1 /reps 10` 
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist, ensuring only valid exercises can be logged.
+    - Test case 7:
+        * Log an exercise for a specific past date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-03-25` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the exercise has been logged for the specified date, showing flexibility in recording workouts on different dates
+   - Test case 8:
+        * Log an exercise for an invalid date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-2-31` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the date does not exists and returns an error telling the user of the invalid date entered.
+   - Test case 9:
+        * Log an exercise without specifying one or more required parameters
+        * Command: `program /log benchpress /weight 100 /sets 3`  (missing reps)
+        * Expected Outcome: The system should display an error message requiring all parameters (weight, sets, reps) to be specified.
+    - Test case 10:
+        * Attempt to log with unrealistic or invalid values
+        * Command: `program /log benchpress /weight -10 /sets 3 /reps 100` 
+        * Expected Outcome: The system should reject negative weights, ensuring realistic and valid data entry.
+           
+ 2. Viewing Exercise Logs:
+    - Test case 1:
+        * View the dates with logged workouts
+        * Command: `program /history` 
+        * Expected Outcome: The system should list all the dates for which logs have been recorded, providing an overview of active workout days.
+    - Test case 2:
+        * View detailed logs for a specific date.
+        * Command: `program /history 2024-03-27`
+        * Expected Outcome: The system should display all exercises logged on that date along with their weights, sets, and reps, giving detailed insights into the workout for that day.
+  
+   

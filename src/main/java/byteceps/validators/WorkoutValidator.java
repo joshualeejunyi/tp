@@ -48,8 +48,9 @@ public class WorkoutValidator extends Validator {
 
         return command;
     }
+
     //@@author pqienso
-    private static void validateInfoAction(Parser parser) throws Exceptions.InvalidInput{
+    private static void validateInfoAction(Parser parser) throws Exceptions.InvalidInput {
         assert parser.getAction().equals(CommandStrings.ACTION_INFO) : "Action must be info";
         String workoutName = parser.getActionParameter();
         if (hasNoInput(workoutName)) {
@@ -60,9 +61,15 @@ public class WorkoutValidator extends Validator {
 
     private static void validateCreateAction(Parser parser) throws Exceptions.InvalidInput {
         String createdWorkoutName = parser.getActionParameter();
-        if(hasNoInput(createdWorkoutName)) {
+        if (hasNoInput(createdWorkoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_CREATE);
         }
+
+        if (createdWorkoutName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, CommandStrings.COMMAND_WORKOUT));
+        }
+
         validateNumAdditionalArgs(0, 0, parser);
     }
 
@@ -80,6 +87,11 @@ public class WorkoutValidator extends Validator {
         String oldWorkoutName = parser.getActionParameter();
         if (hasNoInput(newWorkoutName) || hasNoInput(oldWorkoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
+        }
+
+        if (newWorkoutName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, CommandStrings.COMMAND_WORKOUT));
         }
         validateNumAdditionalArgs(1, 1, parser);
     }
@@ -112,5 +124,5 @@ public class WorkoutValidator extends Validator {
         }
         validateNumAdditionalArgs(0, 0, parser);
     }
-    
+
 }

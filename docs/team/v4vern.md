@@ -79,6 +79,7 @@ Sequence Diagram for listExercisesinWorkoutPlan:
 - Setup issue tracker for V1.0 & V2.0
 - Updating user/developer docs that are not specific to a feature e.g. documenting the target user profile
 - Review PRs
+- Increased code test coverage from 66% to 82%
 
 ### Contributions beyond the project team
 * PE dry Run:
