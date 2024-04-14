@@ -681,7 +681,57 @@ Developers are expected to conduct more extensive tests.
         * Remove all workout plans in a week
         * Command:`program /clear ` 
         * Expected Outcome: The system should confirm that all workouts for that week has been cleared.
-     
-
-   
+### Program Logging Management     
+1. Adding Exercise Logs:
+    - Test case 1:
+        * Log a single set of an exercise.
+        * Command: `program /log benchpress /weight 125 /sets 1 /reps 5` (MUST create exercise & workout plan first & have a workout plan assigned for the day you are logging.)
+        * Expected Outcome: The system should confirm that the log entry for benchpress has been successfully created with the specified weight, sets, and reps.
+    - Test case 2:
+        * Log multiple sets with varying weights and reps.
+        * Command: `program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3`
+        * Expected Outcome: The system should display an error message indicating that a workout is already assigned to Monday, as only one workout can be assigned per day.
+    - Test case 3:
+        * Attempt to log an exercise not created in the system.
+        * Command: `program /log nonexistent /weight 100 /sets 1 /reps 10` 
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist, ensuring only valid exercises can be logged.
+    - Test case 4:
+        * Log an exercise for a specific past date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-03-25` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the exercise has been logged for the specified date, showing flexibility in recording workouts on different dates
+    - Test case 5:
+        * Log an exercise for an invalid date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-2-31` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the date does not exists and returns an error telling the user of the invalid date entered.
+    - Test case 6:
+        * Attempt to log an exercise not created in the system.
+        * Command: `program /log nonexistent /weight 100 /sets 1 /reps 10` 
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist, ensuring only valid exercises can be logged.
+    - Test case 7:
+        * Log an exercise for a specific past date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-03-25` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the exercise has been logged for the specified date, showing flexibility in recording workouts on different dates
+   - Test case 8:
+        * Log an exercise for an invalid date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-2-31` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the date does not exists and returns an error telling the user of the invalid date entered.
+   - Test case 9:
+        * Log an exercise without specifying one or more required parameters
+        * Command: `program /log benchpress /weight 100 /sets 3`  (missing reps)
+        * Expected Outcome: The system should display an error message requiring all parameters (weight, sets, reps) to be specified.
+    - Test case 10:
+        * Attempt to log with unrealistic or invalid values
+        * Command: `program /log benchpress /weight -10 /sets 3 /reps 100` 
+        * Expected Outcome: The system should reject negative weights, ensuring realistic and valid data entry.
+           
+ 2. Viewing Exercise Logs:
+    - Test case 1:
+        * View the dates with logged workouts
+        * Command: `program /history` 
+        * Expected Outcome: The system should list all the dates for which logs have been recorded, providing an overview of active workout days.
+    - Test case 2:
+        * View detailed logs for a specific date.
+        * Command: `program /history 2024-03-27`
+        * Expected Outcome: The system should display all exercises logged on that date along with their weights, sets, and reps, giving detailed insights into the workout for that day.
+  
    
