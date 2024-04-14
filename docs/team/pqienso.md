@@ -79,24 +79,24 @@ All code contributed can be seen on the tP dashboard
 
 #### Contributions to DG: extracts
 `Activity` class diagram:\
-![](../diagrams/ActivityClassDiagram.png)\
+![](../diagrams/ActivityClassDiagram.svg)\
 `ActivityManager` class diagram:\
-![](../diagrams/ActivityManagerClassDiagram.png)\
+![](../diagrams/ActivityManagerClassDiagram.svg)\
 `program /assign ...` sequence diagram: \
-![](../diagrams/assignWorkoutToProgram.png)\
+![](../diagrams/assignWorkoutToProgram.svg)\
 `program /log ...` sequence diagram:\
-![](../diagrams/addExerciseLog.png)\
+![](../diagrams/addExerciseLog.svg)\
 `program /clear ...` sequence diagram:\
-![](../diagrams/clearProgram.png)\
+![](../diagrams/clearProgram.svg)\
 `program /today` sequence diagram:\
-![](../diagrams/programToday.png)\
+![](../diagrams/programToday.svg)\
 `storage.save()` sequence diagram:\
-![](../diagrams/saveStorage.png)
+![](../diagrams/saveStorage.svg)
 `storage.load()` sequence diagram:\
-![](../diagrams/loadStorage.png)
+![](../diagrams/loadStorage.svg)
 `storage.loadWorkouts()` sequence diagram:\
-![](../diagrams/loadWorkouts.png)
+![](../diagrams/loadWorkouts.svg)
 `CascadingDeletionProcessor.removeDeletedExerciseFromWorkouts` sequence diagram:\
-![](../diagrams/deleteExerciseFromWorkouts.png)
+![](../diagrams/deleteExerciseFromWorkouts.svg)
 `CascadingDeletionProcessor.removeDeletedWorkoutsFromProgram` sequence diagram:\
-![](../diagrams/deleteWorkoutFromProgram.png)
+![](../diagrams/deleteWorkoutFromProgram.svg)

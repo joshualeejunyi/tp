@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class WeeklyProgramValidator extends Validator {
-
-
     //@@author pqienso
     public static String validateCommand(Parser parser) throws Exceptions.InvalidInput {
         assert parser != null : "Parser must not be null";
@@ -47,7 +45,6 @@ public class WeeklyProgramValidator extends Validator {
     }
     //@@author joshualeejunyi
     private static void validateAssignAction(Parser parser) throws Exceptions.InvalidInput {
-
         String workoutName = parser.getActionParameter();
         String day = parser.getAdditionalArguments(CommandStrings.ARG_TO);
         if (hasNoInput(workoutName) || hasNoInput(day)) {

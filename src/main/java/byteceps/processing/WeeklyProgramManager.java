@@ -12,6 +12,7 @@ import byteceps.ui.strings.DayStrings;
 import byteceps.ui.strings.ManagerStrings;
 import byteceps.validators.WeeklyProgramValidator;
 
+import byteceps.validators.WorkoutLogsValidator;
 import org.json.JSONObject;
 
 import java.time.DayOfWeek;
@@ -199,26 +200,20 @@ public class WeeklyProgramManager extends ActivityManager {
     }
 
     private String executeLogAction(Parser parser) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
-
         String exerciseName = parser.getActionParameter();
         String sets = parser.getAdditionalArguments(CommandStrings.ARG_SETS);
         String repetition = parser.getAdditionalArguments(CommandStrings.ARG_REPS);
         String weight = parser.getAdditionalArguments(CommandStrings.ARG_WEIGHT);
 
+        WorkoutLogsValidator.exerciseExists(exerciseManager, exerciseName);
+
         String workoutDate = parser.getAdditionalArguments(CommandStrings.ARG_DATE);
-
-        if (exerciseManager.doesNotHaveActivity(exerciseName)) {
-            throw new Exceptions.ActivityDoesNotExists(
-                    String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
-                            CommandStrings.COMMAND_EXERCISE, exerciseName)
-            );
-        }
-
         workoutDate = formatDateString(workoutDate);
         Day selectedDay = getDayFromDate(workoutDate);
 
         String workoutName = getWorkoutName(selectedDay, workoutDate);
         workoutLogsManager.addWorkoutLog(workoutDate, workoutName);
+
         workoutLogsManager.addExerciseLog(workoutDate, exerciseName, weight, sets, repetition);
 
         int setsInt = Integer.parseInt(sets);
@@ -237,7 +232,6 @@ public class WeeklyProgramManager extends ActivityManager {
         String setWord = setsInt == 1 ? "set" : "sets";
         String weightWord = weightList.size() == 1 ? "weight of" : "weights of";
         String repWord = (repetitionList.size() == 1 && repetitionList.get(0) == 1) ? "rep" : "reps";
-
 
         return String.format(ManagerStrings.LOG_SUCCESS,
                 exerciseName, weightWord, formattedWeights, formattedReps, repWord, setsInt, setWord, workoutDate);
@@ -322,7 +316,6 @@ public class WeeklyProgramManager extends ActivityManager {
                 if (assignedWorkout != null) {
                     workoutName = assignedWorkout.getActivityName();
                 }
-
                 json.put(day, workoutName);
             }
         } catch (Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists ignored) {
