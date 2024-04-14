@@ -86,11 +86,10 @@ public class Storage {
             } catch (IOException ex) {
                 ui.printMessage(StorageStrings.NEW_JSON_ERROR);
             }
-
-            allExercises = new ExerciseManager();
-            allWorkouts = new WorkoutManager(allExercises);
-            weeklyProgram = new WeeklyProgramManager(allExercises, allWorkouts, workoutLogsManager);
-            workoutLogsManager = new WorkoutLogsManager();
+            allExercises.reset();
+            allWorkouts.reset();
+            weeklyProgram.reset();
+            workoutLogsManager.reset();
         }
 
     }
