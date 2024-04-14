@@ -1,7 +1,6 @@
 package byteceps.ui.strings;
 
 
-
 public class ManagerStrings {
     public static final String ACTIVITY_EXISTS_EXCEPTION = "The %s entry: %s already exists";
     public static final String ACTIVITY_DELETE_EXCEPTION = "The %s entry: %s does not exist and cannot be deleted";
@@ -26,6 +25,7 @@ public class ManagerStrings {
     public static final String EXERCISE_EDITED = "Edited Exercise from %s to %s";
     public static final String EXERCISE_DELETED = "Deleted Exercise: %s";
     public static final String EXERCISE_ADDED = "Added Exercise: %s";
+    public static final String EXERCISE_NAME_SAME = "No change needed: the exercise name '%s' is already in use.";
     public static final String INVALID_EXERCISE_LIST = "Invalid command. Use 'exercise /list' to list all exercises.";
     public static final String EMPTY_EXCERCISE_NAME = "Exercise name cannot be empty";
     public static final String INCOMPLETE_EDIT = "Edit command not complete. " +
@@ -97,4 +97,5 @@ public class ManagerStrings {
     public static final String INVALID_REPS_SETS_MISMATCH = "The number of repetitions provided (%d) does not match " +
             System.lineSeparator() +
             "the declared number of sets (%d). Each set should have a corresponding number of repetitions.";
+
 }

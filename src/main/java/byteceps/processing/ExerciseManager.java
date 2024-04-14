@@ -59,7 +59,13 @@ public class ExerciseManager extends ActivityManager {
     }
     //@@author LWachtel1
     private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+        String oldExerciseName = parser.getActionParameter().toLowerCase();
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
+
+        if (oldExerciseName.equals(newExerciseName)) {
+            return String.format(ManagerStrings.EXERCISE_NAME_SAME, oldExerciseName);
+        }
+
         Exercise retrievedExercise = retrieveExercise(parser);
         retrievedExercise.editExerciseName(newExerciseName.toLowerCase(), this);
         newExerciseName =  newExerciseName.toLowerCase();
