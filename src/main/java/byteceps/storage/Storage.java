@@ -192,7 +192,10 @@ public class Storage {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DayStrings.YEAR_FORMAT);
             formatter = formatter.withLocale(formatter.getLocale());
-            LocalDate.parse(workoutDate, formatter); //ignore result, just catch exception
+            LocalDate parsedDate = LocalDate.parse(workoutDate, formatter); //ignore result, just catch exception
+            if (!parsedDate.toString().equals(workoutDate)) {
+                throw new Exceptions.InvalidInput("");
+            }
         } catch (DateTimeParseException e) {
             throw new Exceptions.InvalidInput(""); //no need for error message, LOAD_ERROR will be printed
         }
