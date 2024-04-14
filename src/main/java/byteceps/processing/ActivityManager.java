@@ -231,4 +231,7 @@ public abstract class ActivityManager {
         activitySet.add(activityToAdd);
     }
 
+    public void reset() {
+        activitySet.clear();
+    }
 }
