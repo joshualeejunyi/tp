@@ -48,7 +48,7 @@ public class ExerciseValidator extends Validator {
         validateNumAdditionalArgs(0, 0, parser);
     }
 
-    private static void validateAddAction(Parser parser) throws Exceptions.InvalidInput{
+    private static void validateAddAction(Parser parser) throws Exceptions.InvalidInput {
         String exerciseName = parser.getActionParameter();
         if (hasNoInput(exerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.EMPTY_EXCERCISE_NAME);
@@ -60,15 +60,21 @@ public class ExerciseValidator extends Validator {
         }
         validateNumAdditionalArgs(0, 0, parser);
     }
+
     //@@author LWachtel1
-    private static void validateEditAction(Parser parser)throws Exceptions.InvalidInput{
+    private static void validateEditAction(Parser parser) throws Exceptions.InvalidInput {
         String oldExerciseName = parser.getActionParameter();
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO);
         if (hasNoInput(oldExerciseName) || hasNoInput(newExerciseName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
+        if (newExerciseName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, CommandStrings.COMMAND_EXERCISE));
+        }
         validateNumAdditionalArgs(1, 1, parser);
     }
+
     //@@author V4vern
     private static void validateSearchAction(Parser parser) throws Exceptions.InvalidInput {
         String searchTerm = parser.getActionParameter();

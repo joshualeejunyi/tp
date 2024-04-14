@@ -21,11 +21,11 @@ class WeeklyProgramManagerTest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
+    private final UserInterface ui = new UserInterface();
     private Parser parser;
     private ExerciseManager exerciseManager;
     private WorkoutManager workoutManager;
     private WeeklyProgramManager weeklyProgramManager;
-    private final UserInterface ui = new UserInterface();
 
     @BeforeEach
     void setUp() {
@@ -178,6 +178,37 @@ class WeeklyProgramManagerTest {
         assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
     }
 
+
+    @Test
+    void executeHistoryAction_validDate_returnsFormattedWorkout() {
+        setUpStreams();
+        String dateString = LocalDate.now().toString();
+        String todayString = LocalDate.now().getDayOfWeek().toString();
+        String assignWorkoutInput = String.format("program /assign full day /to %s", todayString);
+
+        parser.parseInput(assignWorkoutInput);
+        assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
+
+        String logInput = "program /log benchpress /weight 50 /sets 1 /reps 5";
+        parser.parseInput(logInput);
+        assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
+
+        outContent.reset();
+
+        String todayInput = "program /today";
+        parser.parseInput(todayInput);
+        assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
+
+        String expectedOutput = String.format("[BYTE-CEPS]> Listing Exercises on %s:\n" +
+                "1. benchpress\n" +
+                "   Set 1: 50kg, 5 reps\n" +
+                "-------------------------------------------------", dateString);
+
+        assertEquals(expectedOutput.replaceAll("\\s+", ""),
+                outContent.toString().replaceAll("\\s+", ""));
+        restoreStreams();
+    }
+
     @Test
     void execute_clearAll_success() {
         setUpStreams();
@@ -291,24 +322,20 @@ class WeeklyProgramManagerTest {
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
 
-        String[] invalidInputs = {"program /log benchpress /weight 500 /sets 5",
-            "program /log benchpress /weight 500 /reps 5",
-            "program /log benchpress /sets 5 /reps 5",
-            "program /log/weight 500 /sets 5 /reps 5",
-            "program /log benchpress /weight /sets 5 /reps 5",
-            "program /log benchpress /weight /sets 5 /reps 5",
-            "program /log benchpress /weight 2 /sets /reps 5",
-            "program /log benchpress /weight 2 /sets 5 /reps ",
-            "program /log benchpress /weight /sets /reps ",
-            "program /log benchpress /weight /sets /reps abc",
-            "program /log benchpress /weight /sets test /reps 4",
-            "program /log benchpress /weight abc /sets 3 /reps 4",
-        };
+        String[] invalidInputs = {"program /log benchpress /weight 500 /sets 5", "program /log benchpress " +
+                "/weight 500 /reps 5", "program /log benchpress /sets 5 /reps 5", "program /log /weight 500 /sets 5 " +
+                "/reps 5", "program /log benchpress /weight /sets 5 /reps 5", "program /log benchpress /weight /sets 5"
+                + " /reps 5", "program /log benchpress /weight 2 /sets /reps 5", "program /log benchpress /weight 2 " +
+                "/sets 5 /reps ", "program /log benchpress /weight /sets /reps ", "program /log benchpress /weight " +
+                "/sets /reps abc", "program /log benchpress /weight /sets test /reps 4", "program /log benchpress " +
+                "/weight abc /sets 3 /reps 4"};
+
         for (String input : invalidInputs) {
             parser.parseInput(input);
             assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
         }
     }
+
 
     @Test
     void log_invalidExerciseLog_throwsActivityDoesNotExist() {
@@ -378,4 +405,34 @@ class WeeklyProgramManagerTest {
         parser.parseInput(logHistoryInput);
         assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
     }
+
+    @Test
+    void execute_list_success() {
+        setUpStreams();
+        String assignWorkoutInput = "program /assign full day /to monday";
+        parser.parseInput(assignWorkoutInput);
+        assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
+
+        String listInput = "program /list";
+        parser.parseInput(listInput);
+        assertDoesNotThrow(() -> ui.printMessage(weeklyProgramManager.execute(parser)));
+
+        String expectedOutput = "[BYTE-CEPS]>Workoutfulldayassignedtomonday\n" +
+                "-------------------------------------------------";
+
+        expectedOutput += "[BYTE-CEPS]> Your workouts for the week:\n" +
+                "\tMONDAY: full day\n" +
+                "\tTUESDAY: Rest day\n" +
+                "\tWEDNESDAY: Rest day\n" +
+                "\tTHURSDAY: Rest day\n" +
+                "\tFRIDAY: Rest day\n" +
+                "\tSATURDAY: Rest day\n" +
+                "\tSUNDAY: Rest day\n" +
+                "-------------------------------------------------";
+
+        assertEquals(expectedOutput.replaceAll("\\s+", ""),
+                outContent.toString().replaceAll("\\s+", ""));
+        restoreStreams();
+    }
+
 }

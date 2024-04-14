@@ -56,4 +56,9 @@ public class UserInterface {
         return userInput;
     }
 
+    // Reset method for testing
+    static void resetInstance() {
+        uiInstance = null;
+    }
+
 }
