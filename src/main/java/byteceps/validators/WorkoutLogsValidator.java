@@ -32,9 +32,7 @@ public class WorkoutLogsValidator extends  Validator {
     public static void removeExerciseIfLogExists(WorkoutLog workoutLog, String exerciseName)
             throws Exceptions.ActivityDoesNotExist {
         if (!workoutLog.hasExerciseName(exerciseName)) {
-            throw new Exceptions.ActivityDoesNotExist(
-                    String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
-                            ManagerStrings.EXERCISE, exerciseName));
+            return; // does not exist and should not do anything
         }
 
         // technically should not print here, but it would be too many layers back to return a message

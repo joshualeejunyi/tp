@@ -56,8 +56,6 @@ public class WorkoutLogsManager extends ActivityManager {
             workoutLog.addExerciseLog(newExerciseLog);
         } catch (NumberFormatException e) {
             throw new Exceptions.InvalidInput(ManagerStrings.INVALID_REPS_SETS);
-        } catch (Exceptions.ActivityDoesNotExist e) {
-            throw new Exceptions.ActivityDoesNotExist(ManagerStrings.EXERCISE_NOT_IN_WORKOUT);
         }
     }
 

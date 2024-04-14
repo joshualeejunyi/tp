@@ -77,11 +77,4 @@ class WorkoutLogsValidatorTest {
         setUp();
         assertDoesNotThrow(()-> WorkoutLogsValidator.removeExerciseIfLogExists(workoutLog, "test"));
     }
-
-    @Test
-    void removeExerciseIfLogExists_doesNotExist_throwsActivityDoesNotExist() {
-        setUp();
-        assertThrows(Exceptions.ActivityDoesNotExist.class,
-                ()-> WorkoutLogsValidator.removeExerciseIfLogExists(workoutLog, "test1"));
-    }
 }
