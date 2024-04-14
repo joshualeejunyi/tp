@@ -110,9 +110,10 @@ public class WorkoutManager extends ActivityManager {
     }
 
     private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
-        Workout existingWorkout = (Workout) retrieve(parser.getActionParameter());
-        delete(existingWorkout);
-        return String.format(ManagerStrings.WORKOUT_DELETED, existingWorkout.getActivityName());
+        String workoutName = parser.getActionParameter().toLowerCase();
+        Workout workoutToDelete = (Workout) retrieve(workoutName);
+        delete(workoutToDelete);
+        return String.format(ManagerStrings.WORKOUT_DELETED, workoutToDelete.getActivityName());
     }
 
     private String executeCreateAction(Parser parser) throws Exceptions.ActivityExistsException {
