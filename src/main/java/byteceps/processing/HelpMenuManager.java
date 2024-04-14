@@ -78,7 +78,7 @@ public class HelpMenuManager {
         for (String flagFunction : flagFunctions) {
             result.append(String.format(HelpStrings.HELP_LIST_ITEM, flagFunction, System.lineSeparator()));
         }
-        result.delete(0, 4); //remove the first 3 tabs
+        result.delete(0, 13); //remove the first 12 whitespace characters
         return result.toString();
     }
 
@@ -90,7 +90,8 @@ public class HelpMenuManager {
      * @param commandType String specifying which command help menu to find command formatting from.
      * @return String containing the specific command format corresponding to provided parameter.
      */
-    private String getParamFormat(String userParam, String commandType) {
+
+    private String getParamFormat(String userParam, String commandType) throws Exceptions.InvalidInput {
         try {
             int paramChoice = Integer.parseInt(userParam);
             int paramIndex = paramChoice - 1;
@@ -103,7 +104,7 @@ public class HelpMenuManager {
             case CommandStrings.COMMAND_PROGRAM:
                 return getProgramParamFormats(paramIndex);
             default:
-                return "";
+                throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
             }
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             return HelpStrings.INVALID_COMMAND;
