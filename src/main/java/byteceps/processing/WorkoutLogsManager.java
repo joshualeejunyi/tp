@@ -38,7 +38,7 @@ public class WorkoutLogsManager extends ActivityManager {
 
     public void addExerciseLog(String workoutLogDate, String exerciseName,
                                String weight, String sets, String repetitions)
-            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExist {
         try {
             List<Integer> weightsList = Arrays.stream(weight.split(" "))
                     .map(Integer::parseInt)
@@ -52,17 +52,17 @@ public class WorkoutLogsManager extends ActivityManager {
 
             ExerciseLog newExerciseLog = new ExerciseLog(exerciseName, weightsList, setsInt, repsList);
             WorkoutLog workoutLog = (WorkoutLog) retrieve(workoutLogDate);
-
+            WorkoutLogsValidator.removeExerciseIfLogExists(workoutLog, exerciseName);
             workoutLog.addExerciseLog(newExerciseLog);
         } catch (NumberFormatException e) {
             throw new Exceptions.InvalidInput(ManagerStrings.INVALID_REPS_SETS);
-        } catch (Exceptions.ActivityDoesNotExists e) {
-            throw new Exceptions.ActivityDoesNotExists(ManagerStrings.EXERCISE_NOT_IN_WORKOUT);
+        } catch (Exceptions.ActivityDoesNotExist e) {
+            throw new Exceptions.ActivityDoesNotExist(ManagerStrings.EXERCISE_NOT_IN_WORKOUT);
         }
     }
 
     public String getWorkoutLogString(String date, LinkedHashSet<Exercise> workoutLinkedHashSet)
-            throws Exceptions.ActivityDoesNotExists {
+            throws Exceptions.ActivityDoesNotExist {
         WorkoutLog retrievedWorkout = (WorkoutLog) retrieve(date);
         LinkedHashSet<ExerciseLog> exerciseLogs = retrievedWorkout.getExerciseLogs();
         LinkedHashSet<Exercise> tempSet = new LinkedHashSet<>(workoutLinkedHashSet);

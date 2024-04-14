@@ -90,6 +90,8 @@ public class ManagerStrings {
     public static final String LOG_INVALID_STATE = "RepsSetsManager is not meant to be executed";
     public static final String INVALID_REPS_SETS = "Invalid weight/reps/sets entered!";
     public static final String EXERCISE_NOT_IN_WORKOUT = "The exercise is not in your workout for today!";
+    public static final String LOG_ENTRY_EXERCISE_DOES_NOT_EXIST = "The exercise does not exist and " +
+            "cannot be removed from log. Actually, you should not be seeing this message hmm...";
     public static final String LOG_LIST = "Listing Exercises on %s:%n";
     public static final String LOG_LIST_ITEM = "\t\t\t\tSet %d: %d kg, %d reps"
             + System.lineSeparator();
@@ -102,5 +104,5 @@ public class ManagerStrings {
             System.lineSeparator() +
             "the declared number of sets (%d). Each set should have a corresponding number of repetitions.";
 
-
+    public static final String OVERWRITE_EXERCISE_LOG = "It seems like %s already exists, overwriting...";
 }
