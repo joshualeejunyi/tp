@@ -1,6 +1,5 @@
 package byteceps.processing;
 
-
 import byteceps.activities.Exercise;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
@@ -12,8 +11,6 @@ import byteceps.validators.ExerciseValidator;
  * Manages operations related to exercises, such as adding, deleting, editing, listing, and searching exercises.
  */
 public class ExerciseManager extends ActivityManager {
-
-
     //@@author V4vern
     /**
      * Executes all commands that start with the keyword "exercise".
@@ -111,5 +108,4 @@ public class ExerciseManager extends ActivityManager {
         String searchTerm = parser.getActionParameter();
         return getSearchResultsString(searchTerm);
     }
-
 }

@@ -68,6 +68,12 @@ public class WeeklyProgramManager extends ActivityManager {
         }
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        initializeDays();
+    }
+
     public Day getDay(String day) throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
         switch (day.toLowerCase()) {
         case DayStrings.DAY_MON:

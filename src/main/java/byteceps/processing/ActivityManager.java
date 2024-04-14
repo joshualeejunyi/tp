@@ -14,7 +14,7 @@ import java.util.Iterator;
  */
 public abstract class ActivityManager {
     protected final String activityType;
-    protected final LinkedHashSet<Activity> activitySet;
+    protected LinkedHashSet<Activity> activitySet;
 
     public ActivityManager() {
         this.activityType = getActivityType(false);
@@ -231,4 +231,7 @@ public abstract class ActivityManager {
         activitySet.add(activityToAdd);
     }
 
+    public void reset() {
+        activitySet = new LinkedHashSet<>();
+    }
 }
