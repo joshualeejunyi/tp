@@ -246,10 +246,14 @@ public class WeeklyProgramManager extends ActivityManager {
 
     private String executeTodayAction() throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
         LocalDate currentDate = LocalDate.now();
+
         Day today = getDayFromDate(currentDate);
         Workout todaysWorkout = today.getAssignedWorkout();
         String todayDate = currentDate.toString();
 
+        if (todaysWorkout == null) {
+            return String.format(ManagerStrings.NO_WORKOUT_ASSIGNED_TODAY, today.getActivityName());
+        }
         return getTodaysWorkoutString(todaysWorkout, todayDate, today);
     }
 
