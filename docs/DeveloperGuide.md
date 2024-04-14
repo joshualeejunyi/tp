@@ -6,6 +6,7 @@
 
 1. [AB-3 Developer Guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
 2. [PlantUML for sequence diagrams](https://plantuml.com/)
+3. [JSON-java](https://github.com/stleary/JSON-java)
 
 ## Setting Up and Getting Started
 
@@ -23,24 +24,62 @@ to import the project into IDEA.
    * Run `ByteCeps.java` and try a few commands.
    * Run the tests using `./gradlew check` and ensure they all pass.
 
----
+## Table of Contents
+- [Developer Guide](#developer-guide)
+  - [Acknowledgements](#acknowledgements)
+  - [Setting Up and Getting Started](#setting-up-and-getting-started)
+  - [Table of Contents](#table-of-contents)
+  - [Design](#design)
+    - [Architecture](#architecture)
+  - [Classes: overview](#classes-overview)
+    - [`Activity` and child classes](#activity-and-child-classes)
+    - [`ActivityManager` and child classes](#activitymanager-and-child-classes)
+      - [The `ExerciseManager` class](#the-exercisemanager-class)
+      - [The `WorkoutManager` class](#the-workoutmanager-class)
+      - [The `WeeklyProgramManager` class](#the-weeklyprogrammanager-class)
+  - [Implementation](#implementation)
+    - [Exercise Management](#exercise-management)
+      - [\[Implemented\] Add, Edit, Delete, List, and Search Exercises](#implemented-add-edit-delete-list-and-search-exercises)
+    - [Workout Management](#workout-management)
+      - [\[Implemented\] Add, Edit, Delete, List, and Search Workout plan.](#implemented-add-edit-delete-list-and-search-workout-plan)
+      - [\[Implemented\] Assign and Unassign Workout plan.](#implemented-assign-and-unassign-workout-plan)
+      - [\[Implemented\] List all exercises in a workout plan.](#implemented-list-all-exercises-in-a-workout-plan)
+    - [Program management](#program-management)
+      - [\[Implemented\] Assign, List, Log workouts in Weekly program, and view today's workout plan.](#implemented-assign-list-log-workouts-in-weekly-program-and-view-todays-workout-plan)
+      - [Logging an exercise](#logging-an-exercise)
+      - [Assigning a workout to a program](#assigning-a-workout-to-a-program)
+      - [Viewing today's workout program](#viewing-todays-workout-program)
+      - [Clearing a day in the program](#clearing-a-day-in-the-program)
+    - [Help Menu](#help-menu)
+      - [Viewing an flag's help menu](#viewing-an-flags-help-menu)
+      - [Viewing a specific command format](#viewing-a-specific-command-format)
+    - [The `Storage` class](#the-storage-class)
+      - [Overview: Saving data to `data.json`](#overview-saving-data-to-datajson)
+      - [Overview: Loading data from `data.json`](#overview-loading-data-from-datajson)
+      - [Example: Loading data for a specific `ActivityManager` class](#example-loading-data-for-a-specific-activitymanager-class)
+    - [The `CascadingDeletionProcessor` class](#the-cascadingdeletionprocessor-class)
+      - [Removing a deleted exercise from a workout](#removing-a-deleted-exercise-from-a-workout)
+      - [Removing a deleted workout from the weekly program](#removing-a-deleted-workout-from-the-weekly-program)
+  - [Product scope](#product-scope)
+    - [Target user profile](#target-user-profile)
+    - [Value proposition](#value-proposition)
+  - [User Stories](#user-stories)
+  - [Non-Functional Requirements](#non-functional-requirements)
+  - [Glossary](#glossary)
+  - [Instructions for manual testing](#instructions-for-manual-testing)
+    - [Initial Launch](#initial-launch)
+    - [Exercise Management](#exercise-management-1)
+    - [Workout Management](#workout-management-1)
+    - [Program Management](#program-management-1)
+    - [Program Logging Management](#program-logging-management)
+    - [Miscellaneous](#miscellaneous)
+
+
 ## Design
 
 This section provides a high-level explanation of the design and implementation of ByteCeps, 
 supported by UML diagrams and short code snippets to illustrate the flow of data and interactions between the 
 components.
-
----
-
-### Architecture
-
-Given below is a quick overview of main components and how they interact with each other.
-
-
-
-
-
-## Design
 ### Architecture
 Given below is a quick overview of the main components of ByteCeps and how they interact with each other.
 
@@ -74,12 +113,12 @@ The `Activity` class serves as a parent class to `Exercise`, `ExerciseLog`, `Wor
 **Note:** The `Day` class acts as a container class for `Workout`, for use in `WeeklyProgramManager` 
 ![ActivityClassDiagram](diagrams/ActivityClassDiagram.svg)
 
-### <code>ActivityManager</code> and child classes
-The <code>ActivityManager</code> and inheritors are responsible for managing an <code>ArrayList</code> of activities. The basic functions of an <code>ActivityManager</code> include:
-1. <code>add()</code>: Adding an activity to the <code>ArrayList</code>
-2. <code>delete()</code>: Deleting an activity from the <code>ArrayList</code>
-3. <code>retrieve()</code>: Retrieving an activity from the <code>ArrayList</code> by name
-4. <code>getListString()</code>: Get the string containing all the activities contained in the <code>ActivityManager</code>.
+### `ActivityManager` and child classes
+The `ActivityManager` and inheritors are responsible for managing an `ArrayList` of activities. The basic functions of an `ActivityManager` include:
+1. `add()`: Adding an activity to the `ArrayList`
+2. `delete()`: Deleting an activity from the `ArrayList`
+3. `retrieve()`: Retrieving an activity from the `ArrayList` by name
+4. `getListString()`: Get the string containing all the activities contained in the `ActivityManager`.
 5. `execute()`: Execute all commands related to the `ActivityManager` and return the required user input.
 
 ![ActivityManagerClassDiagram](diagrams/ActivityManagerClassDiagram.svg)
@@ -328,7 +367,7 @@ If validation fails, an exception is thrown with an accompanying error message. 
 This is a sequence diagram of the command `help /program` provided to visually illustrate the described example above.
 ![](./diagrams/helpMenuWholeMenu.svg)
 
-#### Viewing a specific command format 
+#### Viewing a specific command format
 How the command `help /exercise 1` is processed and executed will be described below to demonstrate how the 3 aforementioned classes interact to show a user command formats.
 
 **Step 1 - Input Processing:**
@@ -722,7 +761,7 @@ Developers are expected to conduct more extensive tests.
         * Command:`program /clear ` 
         * Expected Outcome: The system should confirm that all workouts for that week has been cleared.
           
-### Program Logging Management 
+### Program Logging Management
 
 1. Adding Exercise Logs:
     - Test case 1:
