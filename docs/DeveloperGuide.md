@@ -636,6 +636,52 @@ Developers are expected to conduct more extensive tests.
         * View a workout plan with a case variation in name.
         * Command: `workout /info PUSH DAY`
         * Expected Outcome: The system should either display the details for `push day` confirming case insensitivity.
+### Program Management
+1. Assigning Workout Plans to Days:
+    - Test case 1:
+        * Assign a workout plan to a specific day.
+        * Command: `program /assign Push Day /to Monday`
+        * Expected Outcome: The system should confirm that `Push Day` has been assigned to Monday.
+    - Test case 2:
+        * Attempt to assign multiple workout plans to the same day.
+        * Command: `program /assign Leg Day /to Monday`
+        * Expected Outcome: The system should display an error message indicating that a workout is already assigned to Monday, as only one workout can be assigned per day.
+    - Test case 3:
+        * Assign workout plans to non-standard day formats.
+        * Command: `program /assign Push Day /to Mon` 
+        * Expected Outcome: The system should recognize 'Mon' as Monday and successfully assign the workout plan, reflecting flexibility in day input.
+    - Test case 4:
+        * Assign empty workout plans to a specific day
+        * Command: `program /assign test /to Mon` 
+        * Expected Outcome: The system should indicate that there are no workout plan called `test`
+2. Viewing Today's Workout Plans:
+    - Test case 1:
+        * View today's workout plan when one is assigned
+        * Command: Assume today is Monday and `Push Day` is assigned to `Monday`, then execute `program /today`
+        * Expected Outcome: The system should display the exercises scheduled for `Push Day`.
+    - Test case 2:
+        * View today's workout when no workout is assigned
+        * Command: `program /today` 
+        * Expected Outcome: The system should display a message indicating no workout is assigned for today.
+3. Viewing Weekly's Workout Plans:
+    - Test case 1:
+        * View the weekly workout schedule
+        * Command:`program /list`
+        * Expected Outcome: The system should display the workout plan assigned to each day of the week, including any `Rest days` where no workouts are assigned.
+4. Removing Workout Plans from Days:
+    - Test case 1: 
+        * Remove a workout plan from a specific day
+        * Command:`program /clear Monday`
+        * Expected Outcome: The system should confirm that Monday's workout plan has been cleared, and subsequent checks for Monday should show no assigned workout.
+    - Test case 2: 
+        * Attempt to clear a day with no workout assigned
+        * Command:`program /clear Sunday` (assuming no workout is assigned to Sunday)
+        * Expected Outcome: The system should notify that there was no workout to clear for Sunday
+    - Test case 3: 
+        * Remove all workout plans in a week
+        * Command:`program /clear ` 
+        * Expected Outcome: The system should confirm that all workouts for that week has been cleared.
+     
 
-       
+   
    
