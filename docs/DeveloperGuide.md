@@ -371,4 +371,91 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+**Note**: This section serves to provide a quick start for manual testing on BYTE-CEPS. This list is not exhaustive.
+Developers are expected to conduct more extensive tests.
+
+### Initial Launch
+
+* ✅ Download the latest BYTE-CEPS from the official repository.
+* ✅ Copy the downloaded file to a folder you want to designate as the home for BYTE-CEPS.
+* ✅ Open a command terminal, cd into the folder where you copied the file, and run `java -jar byteceps.jar`.
+
+### Exercise Management
+1. Adding an Exercise:
+    - Test case 1:
+        * Add a new exercise.
+        * Command: `exercise /add pushups`
+        * Expected Outcome: The system should confirm that the exercise `pushups`has been added.
+    - Test case 2:
+        * Add an exercise with special characters.
+        * Command: `exercise /add push-ups!`
+        * Expected Outcome: The system should display an error message indicating that the exercise name cannot contain special characters.
+    - Test case 3:
+        * Add a duplicate exercise.
+        * Command: `exercise /add pushups` 
+        * Expected Outcome: The system should display an error message indicating that the exercise already exists, assuming your system does not allow duplicate entries.
+    - Test case 4:
+        * Add an exercise with a case variation in name.
+        * Command: `exercise /add PUSHUPS` 
+        * Expected Outcome: The system should display an error message indicating that the exercise already exists, as exercise names are case insensitive.
+2. Deleting an Exercise:
+    - Test case 1:
+        * Delete an existing exercise.
+        * Command: `exercise /delete pushups`
+        * Expected Outcome: The system should confirm that the exercise `pushup` has been deleted. 
+    - Test case 2:
+        * Attempt to delete a non-existent exercise.
+        * Command: `exercise /delete situps`
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist.
+    - Test case 3:
+        * Delete an existing exercise.
+        * Command: `exercise /delete pushups`
+        * Expected Outcome: The system should confirm that the exercise `pushup` has been deleted. 
+    - Test case 4:
+        * Delete an exercise with a case variation in name.
+        * Command: `exercise /delete PUSHUPS`
+        * Expected Outcome:  Since exercise names are case insensitive, the system should successfully delete the 'pushups' exercise, confirming that case sensitivity is handled correctly.
+3. Listing All Exercises:
+    - Test case 1:
+        * List all exercises.
+        * Command: `exercise /list`
+        * Expected Outcome: The system should display all current exercises stored in the system, regardless of the order they were added.
+    - Test case 2:
+        * List exercises when no exercises have been added.
+        * Command: `exercise /list`
+        * Expected Outcome: The system should display a message indicating that there are no exercises to display.
+4. Editing an Exercise:
+    - Test case 1:
+        * Edit an existing exercise name.
+        * Command: `exercise /edit pushups /to Decline pushups`
+        * Expected Outcome: The system should confirm that the exercise name has been changed from `pushups` to `Decline pushups`
+    - Test case 2:
+        * Attempt to edit a non-existent exercise.
+        * Command: `exercise /edit crunches /to Incline crunches`
+        * Expected Outcome: The system should display an error message indicating that the original exercise does not exist.
+    - Test case 3:
+        * Edit an exercise to have a special character in the new name.
+        * Command: `exercise /edit Decline pushups /to Decline-pushups!`
+        * Expected Outcome: The system should display an error message indicating that the new name cannot contain special characters.
+    - Test case 4:
+        * Edit an exercise using the same existing name.
+        * Command: `exercise /edit Decline pushups /to Decline pushups`
+        * Expected Outcome: The system should notify that the new name is the same as the old name.
+5. Searching for Exercises:
+    - Test case 1:
+        * Search for an exercise by partial name match.
+        * Command: `exercise /search push`
+        * Expected Outcome: TThe system should return all exercises that partially match `pushups`, including `pushups` and `Decline pushups`
+    - Test case 2:
+        * Search for an exercise with no matching entries.
+        * Command: `exercise /search pullups`
+        * Expected Outcome: The system should display a message indicating no search results.
+    - Test case 3:
+        * Search for an exercise using a complete name.
+        * Command: `exercise /search Decline pushups`
+        * Expected Outcome: The system should display only the `Decline` pushups exercise, ensuring that exact matches are correctly prioritized over partial matches.
+    - Test case 4:
+        * Search for an exercise immediately after deletion.
+        * Command: `exercise /search decline pushups` after deleting `decline pushups`
+        * Expected Outcome: The system should indicate that there are no results for `decline pushups`, confirming that the deletion was processed correctly.
+   
