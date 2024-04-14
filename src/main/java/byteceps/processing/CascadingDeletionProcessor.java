@@ -35,7 +35,7 @@ public class CascadingDeletionProcessor {
                 removeDeletedWorkoutsFromProgram(parser.getActionParameter(), weeklyProgramManager);
             }
 
-        } catch (Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists e) {
+        } catch (Exceptions.InvalidInput | Exceptions.ActivityDoesNotExist e) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class CascadingDeletionProcessor {
 
     private static void removeDeletedWorkoutsFromProgram (String workoutName,
                                                           WeeklyProgramManager weeklyProgramManager)
-            throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+            throws Exceptions.ActivityDoesNotExist, Exceptions.InvalidInput {
         LinkedHashSet<Activity> newWorkoutsInProgram = weeklyProgramManager.getDaySet();
         LinkedHashSet<Activity> oldWorkoutsInProgram = new LinkedHashSet<>(newWorkoutsInProgram);
 

@@ -31,7 +31,7 @@ class WorkoutLogsManagerTest {
 
 
     @Test
-    public void addWorkoutLog_nonDuplicate_success() throws Exceptions.ActivityDoesNotExists {
+    public void addWorkoutLog_nonDuplicate_success() throws Exceptions.ActivityDoesNotExist {
         assertDoesNotThrow(() -> workoutLogsManager.addWorkoutLog("2023-04-01",
                 "Morning Fitness"));
         WorkoutLog log = (WorkoutLog) workoutLogsManager.retrieve("2023-04-01");
@@ -40,7 +40,7 @@ class WorkoutLogsManagerTest {
     }
 
     @Test
-    public void addWorkoutLog_duplicate_success() throws Exceptions.ActivityDoesNotExists {
+    public void addWorkoutLog_duplicate_success() throws Exceptions.ActivityDoesNotExist {
         assertDoesNotThrow(() -> workoutLogsManager.addWorkoutLog("2023-04-01",
                 "Morning Fitness"));
         assertDoesNotThrow(() -> workoutLogsManager.addWorkoutLog("2023-04-01",
@@ -51,7 +51,7 @@ class WorkoutLogsManagerTest {
     }
 
     @Test
-    public void addExerciseLog_validInput_success() throws Exceptions.ActivityDoesNotExists {
+    public void addExerciseLog_validInput_success() throws Exceptions.ActivityDoesNotExist {
         workoutLogsManager.addWorkoutLog("2023-04-01", "Leg Day");
         assertDoesNotThrow(() ->
                 workoutLogsManager.addExerciseLog("2023-04-01", "Squats", "100 200",
@@ -90,7 +90,7 @@ class WorkoutLogsManagerTest {
 
     @Test
     public void addExerciseLog_nonExistentWorkoutLog_throwsActivityDoesNotExists() {
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () ->
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () ->
                 workoutLogsManager.addExerciseLog("2023-04-01", "Squats", "100 200",
                         "2", "10 10")
         );
@@ -98,13 +98,13 @@ class WorkoutLogsManagerTest {
 
     @Test
     public void getWorkoutLog_nonExistentWorkoutLog_throwsActivityDoesNotExists() {
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () ->
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () ->
                 workoutLogsManager.getWorkoutLogString("2023-04-01", new LinkedHashSet<>())
         );
     }
 
     @Test
-    public void getWorkoutLog_validInput_success() throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+    public void getWorkoutLog_validInput_success() throws Exceptions.ActivityDoesNotExist, Exceptions.InvalidInput {
         workoutLogsManager.addWorkoutLog("2023-04-01", "Leg Day");
         workoutLogsManager.addExerciseLog("2023-04-01", "Squats", "100 200",
                 "2", "10 10");
@@ -114,7 +114,7 @@ class WorkoutLogsManagerTest {
 
     @Test
     public void getWorkoutLogString_unloggedExercises_returnsCorrectlyAppendedUnloggedExercises() throws
-            Exceptions.ActivityDoesNotExists {
+            Exceptions.ActivityDoesNotExist {
         workoutLogsManager.addWorkoutLog("2023-04-01", "Leg Day");
         LinkedHashSet<Exercise> exercises = new LinkedHashSet<>();
         exercises.add(new Exercise("Squats"));
@@ -131,7 +131,7 @@ class WorkoutLogsManagerTest {
 
 
     @Test
-    public void exportToJSON_validInput_success() throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+    public void exportToJSON_validInput_success() throws Exceptions.ActivityDoesNotExist, Exceptions.InvalidInput {
         workoutLogsManager.addWorkoutLog("2023-04-01", "Leg Day");
         workoutLogsManager.addExerciseLog("2023-04-01", "Squats", "100 200", "2", "10 10");
         JSONArray jsonOutput = workoutLogsManager.exportToJSON();

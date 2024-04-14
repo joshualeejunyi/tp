@@ -97,7 +97,7 @@ class ExerciseManagerTest {
     public void execute_deleteInvalidExercise_throwsActivityDoesNotExist() {
         String invalidInput = "exercise /delete Run";
         parser.parseInput(invalidInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> exerciseManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> exerciseManager.execute(parser));
     }
 
     @Test
@@ -224,7 +224,7 @@ class ExerciseManagerTest {
 
         String editedInput = "exercise /edit Pull ups /to Decline Push ups";
         parser.parseInput(editedInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> exerciseManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> exerciseManager.execute(parser));
     }
 
     //@@author LWachtel1
