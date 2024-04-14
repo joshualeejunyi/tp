@@ -59,9 +59,12 @@ All code contributed can be seen on the tP dashboard
     - This is to better adhere to SRP, since the `Validator` methods were previously returning processed inputs if the inputs were valid.
       This led to an overlap in responsibilities between the `ActivityManager` and `Validator` classes.
 
-#### Release management
+#### Contributions to team-based tasks
   - Managed releases [`v1.0`](https://github.com/AY2324S2-CS2113-F14-3/tp/releases/tag/v1.0),
    [`v2.0`](https://github.com/AY2324S2-CS2113-F14-3/tp/releases/tag/v2.0)
+  - Reviewed PRs ([example](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/153))
+  - [Raised issues](https://github.com/AY2324S2-CS2113-F14-3/tp/issues?q=is%3Aissue+is%3Aclosed+author%3Apqienso)
+  - [Fixed bugs](https://github.com/AY2324S2-CS2113-F14-3/tp/issues?q=is%3Aissue+is%3Aclosed+assignee%3Apqienso+label%3Abug)
 
 #### User Guide contributions
   - Added precautions of cascading deletions to user guide
