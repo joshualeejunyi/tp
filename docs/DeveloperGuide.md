@@ -44,7 +44,7 @@ Given below is a quick overview of main components and how they interact with ea
 ### Architecture
 Given below is a quick overview of the main components of ByteCeps and how they interact with each other.
 
-![architectureDiagram.png](diagrams/architectureDiagram.png)
+![architectureDiagram.png](diagrams/architectureDiagram.svg)
 
 **Main components of the architecture**
 
@@ -72,7 +72,7 @@ The bulk of ByteCep's work is done by the following components:
 The `Activity` class serves as a parent class to `Exercise`, `ExerciseLog`, `Workout`, `WorkoutLog` and `Day` classes for the ease of usage of `ActivityManager` classes (see below).
 
 **Note:** The `Day` class acts as a container class for `Workout`, for use in `WeeklyProgramManager` 
-![ActivityClassDiagram](diagrams/ActivityClassDiagram.png)
+![ActivityClassDiagram](diagrams/ActivityClassDiagram.svg)
 
 ### <code>ActivityManager</code> and child classes
 The <code>ActivityManager</code> and inheritors are responsible for managing an <code>ArrayList</code> of activities. The basic functions of an <code>ActivityManager</code> include:
@@ -82,7 +82,7 @@ The <code>ActivityManager</code> and inheritors are responsible for managing an 
 4. <code>getListString()</code>: Get the string containing all the activities contained in the <code>ActivityManager</code>.
 5. `execute()`: Execute all commands related to the `ActivityManager` and return the required user input.
 
-![ActivityManagerClassDiagram](diagrams/ActivityManagerClassDiagram.png)
+![ActivityManagerClassDiagram](diagrams/ActivityManagerClassDiagram.svg)
 
 #### The `ExerciseManager` class
 `ExerciseManager` is responsible for tracking and manipulating all exercises added to `ByteCeps` by the user.
@@ -122,7 +122,7 @@ The `Parser` class determines the type of exercise operation and extracts any ne
 
 Here is the sequence diagram for the `exercise /add pushups` command to illustrate the five-step process:
 
-![AddExercise](diagrams/addExercise.png)
+![AddExercise](diagrams/addExercise.svg)
 
 ### Workout Management
 #### [Implemented] Add, Edit, Delete, List, and Search Workout plan.
@@ -152,7 +152,7 @@ The `Parser` class determines the type of workout operation and extracts any nec
 
 Here is the sequence diagram for the `workout /delete LegDay` command to illustrate the five-step process:
 
-![deleteWorkout](diagrams/deleteWorkout.png)
+![deleteWorkout](diagrams/deleteWorkout.svg)
 
 #### [Implemented] Assign and Unassign Workout plan.
 The ByteCeps application facilitates workout management, including the assignment and unassignment of exercises to workout plans. The process is outlined in the sequence diagram provided and follows a standard operational pattern as described below:
@@ -177,7 +177,7 @@ The `Parser` class determines the type of workout operation and extracts any nec
 
 Here is the sequence diagram for the `workout /assign Pushups /to LegDay` command to illustrate the five-step process:
 
-![assignExercise](diagrams/assignExercise.png)
+![assignExercise](diagrams/assignExercise.svg)
 
 #### [Implemented] List all exercises in a workout plan.
 
@@ -203,7 +203,7 @@ The `Parser` class determines the type of workout operation and extracts any nec
 
 Here is the sequence diagram for the `workout /info workoutplan` command to illustrate the five-step process:
 
-![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.png)
+![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.svg)
 
 
 ### Program management
@@ -228,16 +228,49 @@ The following are the possible commands the `WeeklyProgramManager` object can ru
 - `program /today` for viewing today's workout.
 
 #### Logging an exercise
-Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weight
+The sequence diagram below gives the high-level overview of the command `program /log <EXERCISE_NAME> /weight
 <WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
-![](./diagrams/addExerciseLog.png)
+
+![](./diagrams/addExerciseLog.svg)
 1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeLogAction()` method
-2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which its process has been described above under "**Logging of workouts**".
+2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which is elaborated below.
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
+
+To dive deeper into how the `WorkoutLogsManager` works, we must first understand the several layers that are required to be implemented in order for this feature to work.
+1. Exercises needs to be logged, including the weight(s) that the user has completed, as well as the number of sets and repetitions completed in the exercise.
+2. These exercises exist as a set (referred to as "exercise logs"), supposedly tied to a workout plan that the user has created in the application, and has a unique date that the user did their workout on.
+3. These workouts exist again as a set (referred to as "workout logs"), with their unique identifiers being the date that the user completed the workout. 
+
+The implementation thus is as follows:
+
+**Step 1 - Parsing & Validation**
+- When the `executeLogAction()` method is called, it must first extract the various parameters of the command. 
+- The workoutDate, exercise name, the weights, as well as the number of sets and repetitions completed.
+- The exercise is validated to check if it currently exists as a created exercise. 
+  - One consideration noted is for the logging of an exercise under a workout in the past (i.e. a historical workout), however, the user has swapped the exercise and no longer has it in his exercise list.
+  - However, we believe that in this case, even though the user no longer needs the exercise in the database, the user should still add in the exercise to log it.
+- If the user specifies a date (for the logging of historical workouts),  then the date is parsed and the workout name is retrieved for that day.
+  - If no date is specified, it is assumed to be the current date.
+
+**Step 2 - Adding a Workout Log**
+- The workout date and name is then passed to the `addWorkoutLog()` method of `WorkoutLogsManager`
+- A new instance of a `WorkoutLog` is created and added into the `LinkedHashSet` of the `WorkoutLogsManager`
+  - As this method might be called multiple times as a workout has multiple exercise logs, thus, the adding of the `WorkoutLog` silently fails
+  - This `WorkoutLog` contains a `LinkedHashSet` of a variable number of `ExerciseLog`.
+
+**Step 3 - Adding an Exercise Log**
+- The exercise information such as the workout date, exercise name, weight, sets and repetitions is then passed to the `addExerciseLog()` method of `WorkoutLogsManager`
+- The method then instantiates a new `ExerciseLog` with the information, retrieves the `WorkoutLog` based on the given date, and finally calls the `addExerciseLog` method of the `WorkoutLog` instance with the new `ExerciseLog` instance.
+
+**Step 4 - Feedback to User**
+- If no errors were encountered throughout the process, a success message is returned and printed through the `printMessage()` method
+
+Below shows the sequence diagram of the process, focusing on the flow after the `executeLogAction()` method is  called.
+![](./diagrams/workoutLog.svg)
 
 #### Assigning a workout to a program
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
-![](./diagrams/assignWorkoutToProgram.png)
+![](./diagrams/assignWorkoutToProgram.svg)
 1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeAssignAction()` method.
 2. This method then retrieves the appropriate `Workout` object, and assigns it to be contained in the appropriate `Day` object.
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
@@ -245,7 +278,7 @@ Below is the sequence diagram of the command `program /assign <workout> /to <day
 #### Viewing today's workout program
 Below is the sequence diagram of the command `program /today` being run.
 The validation of user input has been omitted for purposes of brevity.
-![](./diagrams/programToday.png)
+![](./diagrams/programToday.svg)
 1. Today's date is retrieved in the form of a `Date` object.
 2. This is used to retrieve the appropriate `Day` object.
 3. The `Workout` contained in the `Day` object is retrieved.
@@ -254,7 +287,7 @@ The validation of user input has been omitted for purposes of brevity.
 #### Clearing a day in the program
 This is the sequence diagram of the command `program /clear <day [optional]>` being run.
 The validation of user input has been omitted for purposes of brevity.
-![](./diagrams/clearProgram.png)
+![](./diagrams/clearProgram.svg)
 1. If no day has been assigned to the user, the `executeClearAction()` method clears all workouts in the `WeeklyProgramManager` object.
 2. Otherwise, the specified `Day` object is removed from `WeeklyProgramManager` object, and a new `Day` object with no workout assigned is constructed in its place.
 
@@ -293,7 +326,7 @@ If validation fails, an exception is thrown with an accompanying error message. 
 
 
 This is a sequence diagram of the command `help /program` provided to visually illustrate the described example above.
-![](./diagrams/helpMenuWholeMenu.png)
+![](./diagrams/helpMenuWholeMenu.svg)
 
 #### Viewing a specific command format 
 How the command `help /exercise 1` is processed and executed will be described below to demonstrate how the 3 aforementioned classes interact to show a user command formats.
@@ -316,14 +349,14 @@ If validation fails, an exception is thrown with an accompanying error message. 
 - Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
 
 This is a sequence diagram of the command `help /exercise 1` provided to visually illustrate the described example above.
-![](./diagrams/helpMenuCommandFormat.png)
+![](./diagrams/helpMenuCommandFormat.svg)
 
 ### The `Storage` class
    A `Storage` object is responsible to reading and writing to `.json` files so that user data is saved between sessions.
 
 #### Overview: Saving data to `data.json`
 The `storage.save()` method is called with the `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
-![](./diagrams/saveStorage.png)
+![](./diagrams/saveStorage.svg)
 **NOTE**: plantUML does not allow for termination of lifelines after destroying an object (`:FileWriter`), but note that the lifeline should end after the red cross.
 1. An empty `JSONObject`, `jsonArchive`, is created.
 2. `ExerciseManager` and `WorkoutManager` objects have their list of `Activity`s converted into an `Array`, which is then `.put()` into `jsonArchive`.
@@ -334,7 +367,7 @@ The `storage.save()` method is called with the `ExerciseManager`, `WorkoutManage
 #### Overview: Loading data from `data.json`
 The `storage.load()` method is called with the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
 These objects are to be updated in the method.
-![](./diagrams/loadStorage.png)
+![](./diagrams/loadStorage.svg)
 1. If there has been no `data.json` file detected, a new `File` is created and the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager`
  is returned without modification.
 2. Else, a new `JSONObject` called `jsonArchive`, loaded from `data.json` is created.
@@ -344,7 +377,7 @@ These objects are to be updated in the method.
 From the last sequence diagram, we see that each `ActivityManager` class is loaded from `jsonArchive` via its own method.
 For example, the `WorkoutManager` object is loaded from the `loadWorkouts()` method. The below sequence diagram shows how `loadWorkouts()` is run. 
 The loading of other `ActivityManager` objects is similar in nature.
-![](./diagrams/loadWorkouts.png)
+![](./diagrams/loadWorkouts.svg)
 1. The `jsonWorkoutArray` is first retrieved from `jsonArchive`.
 2. Then, the workout name of each `jsonWorkout` in `jsonWorkoutArray` is retrieved.
 3. These workout names are used to create new `Workout` objects contained in `WorkoutManager`.
@@ -359,13 +392,13 @@ Its only public method, `checkForCascadingDeletions()`, is run after executing a
 
 #### Removing a deleted exercise from a workout
 If the command entered by the user starts with `exercise /delete` and is executed successfully, the private method `removeDeletedExerciseFromWorkouts()` is run:
-![](./diagrams/deleteExerciseFromWorkouts.png)
+![](./diagrams/deleteExerciseFromWorkouts.svg)
 1. `removeDeletedExerciseFromWorkouts()` iterates through every `Workout` in `WorkoutManager`.
 2. If the deleted `exerciseName` matches that of an exercise in the `Workout`, the exercise is deleted from the workout too.
 
 #### Removing a deleted workout from the weekly program
 If the command entered by the user starts with `workout /delete` and is executed successfully, the private method `removeDeletedWorkoutsFromProgram()` is run:
-![](./diagrams/deleteWorkoutFromProgram.png)
+![](./diagrams/deleteWorkoutFromProgram.svg)
 1. A copy of all 7 `Days` in `WeeklyProgramManager` is stored as `oldWorkoutsInProgram`.
 2. `removeDeletedWorkoutsFromProgram()` iterates through every `Day` in `oldWorkoutsInProgram`.
 3. If the name of the `Workout` assigned to a particular `Day`  matches that of the deleted `Workout`, 

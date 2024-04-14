@@ -1,26 +1,38 @@
-@startuml
+@startuml SequenceDiagram
 skinparam classAttributeIconSize 0
 skinparam style strictuml
 
-participant WeeklyProgramManager
-participant WorkoutLogsManager
-participant WorkoutLog
-participant ExerciseLog
+participant ":WeeklyProgramManager"
 
-activate WeeklyProgramManager
-activate WorkoutLogsManager
+activate ":WorkoutLogsManager"
+activate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" -> ":WeeklyProgramManager" : executeLogAction
+    activate ":WeeklyProgramManager"
+    ":WeeklyProgramManager" -> ":WorkoutLogsManager" : addWorkoutLog(workoutDate, workoutName)
+    create ":WorkoutLog" as WorkoutLog
+    ":WorkoutLogsManager" -> WorkoutLog : new(workoutDate, workoutName)
+    activate WorkoutLog
+    WorkoutLog --> ":WorkoutLogsManager" : return newWorkoutLog
+    deactivate WorkoutLog
+    ":WorkoutLogsManager" -> ":WorkoutLogsManager" : add(newWorkoutLog)
+    activate ":WorkoutLogsManager"
+    ":WorkoutLogsManager" --> ":WorkoutLogsManager"
+    deactivate ":WorkoutLogsManager"
+    ":WorkoutLogsManager" --> ":WeeklyProgramManager"
+    ":WeeklyProgramManager" -> ":WorkoutLogsManager" : addExerciseLog(workoutDate, exerciseName, weight, sets, repetition)
+    create ":ExerciseLog" as ExerciseLog
+    ":WorkoutLogsManager" -> ExerciseLog : new(exerciseName, weightsList, setsInt, repsList)
+    activate ExerciseLog
+    ExerciseLog --> ":WorkoutLogsManager" : return newExerciseLog
+    deactivate ExerciseLog
+    ":WorkoutLogsManager" -> ":WorkoutLogsManager" : retrieve(workoutLogDate)
+    activate ":WorkoutLogsManager"
+    ":WorkoutLogsManager" --> ":WorkoutLogsManager": workoutLog
+    deactivate ":WorkoutLogsManager"
+    ":WorkoutLogsManager" -> WorkoutLog : addExerciseLog(newExerciseLog)
+    activate WorkoutLog
+    WorkoutLog --> ":WorkoutLogsManager"
+    deactivate WorkoutLog
+    ":WorkoutLogsManager" --> ":WeeklyProgramManager"
 
-WeeklyProgramManager -> WorkoutLogsManager:addWorkoutLog(workoutDate, workoutName)
-WorkoutLogsManager -> WorkoutLog: Create new workout log
-activate WorkoutLog
-return
-WorkoutLogsManager --> WeeklyProgramManager
-
-WeeklyProgramManager -> WorkoutLogsManager:addExerciseLog(workoutDate, exerciseName, weight, sets, repetition)
-WorkoutLogsManager -> ExerciseLog: Create new exercise log
-activate ExerciseLog
-return
-
-WorkoutLogsManager --> WeeklyProgramManager
-deactivate WeeklyProgramManager
 @enduml
