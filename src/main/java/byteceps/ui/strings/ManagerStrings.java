@@ -37,6 +37,8 @@ public class ManagerStrings {
     // Workout strings
     public static final String WORKOUT = "Workout";
     public static final String WORKOUTS = "Workouts";
+
+    public static final String WORKOUT_NAME_SAME = "No change needed: the workout name '%s' is already in use." ;
     public static final String INCOMPLETE_INFO = "Info command not complete. " +
             "Please use: workout /info <WORKOUT_PLAN_NAME [string]> ";
     public static final String INCOMPLETE_CREATE = "Create command not complete. " +

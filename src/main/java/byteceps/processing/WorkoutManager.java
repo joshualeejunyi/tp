@@ -87,20 +87,18 @@ public class WorkoutManager extends ActivityManager {
     }
 
     private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
-        String newExerciseName = processEditWorkout(parser, this);
-        return String.format(
-                ManagerStrings.WORKOUT_EDITED, parser.getActionParameter().toLowerCase(), newExerciseName
-        );
-    }
-
-    private String processEditWorkout(Parser parser, ActivityManager activityManager) throws
-            Exceptions.ActivityDoesNotExists {
-        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
         String oldWorkoutName = parser.getActionParameter().toLowerCase();
+        String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
+
+        if (oldWorkoutName.equals(newWorkoutName)) {
+            return String.format(ManagerStrings.WORKOUT_NAME_SAME, oldWorkoutName);
+        }
 
         Workout workoutToEdit = (Workout) retrieve(oldWorkoutName);
-        workoutToEdit.editWorkoutName(newWorkoutName, activityManager);
-        return newWorkoutName;
+        workoutToEdit.editWorkoutName(newWorkoutName, this);
+        return String.format(
+                ManagerStrings.WORKOUT_EDITED, oldWorkoutName, newWorkoutName
+        );
     }
 
     private String executeAssignAction(Parser parser)

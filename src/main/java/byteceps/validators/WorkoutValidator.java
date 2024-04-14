@@ -88,6 +88,11 @@ public class WorkoutValidator extends Validator {
         if (hasNoInput(newWorkoutName) || hasNoInput(oldWorkoutName)) {
             throw new Exceptions.InvalidInput(ManagerStrings.INCOMPLETE_EDIT);
         }
+
+        if (newWorkoutName.matches(ManagerStrings.SPECIAL_CHARS_PATTERN)) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.SPEC_CHAR_EXCEPTION, CommandStrings.COMMAND_WORKOUT));
+        }
         validateNumAdditionalArgs(1, 1, parser);
     }
 
