@@ -82,6 +82,8 @@ public class ManagerStrings {
     public static final String PROGRAM_LIST = "Your workouts for the week:";
     public static final String PROGRAM_LIST_ITEM = "\t%s: ";
 
+    public static final String NO_WORKOUT_TO_CLEAR = "There are no workouts scheduled for %s that require clearing.";
+
     // Logs strings
     public static final String WORKOUT_LOGS = "Workout Logs";
     public static final String WORKOUT_LOG = "Workout Log";
@@ -99,5 +101,6 @@ public class ManagerStrings {
     public static final String INVALID_REPS_SETS_MISMATCH = "The number of repetitions provided (%d) does not match " +
             System.lineSeparator() +
             "the declared number of sets (%d). Each set should have a corresponding number of repetitions.";
+
 
 }

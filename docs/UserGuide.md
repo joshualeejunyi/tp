@@ -28,6 +28,7 @@ Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fi
 		- [View Today's workout plan:](#view-todays-workout-plan)
 		- [View Weekly workout plan](#view-weekly-workout-plan)
 		- [Remove a workout plan for a day](#remove-a-workout-plan-for-a-day)
+  		- [Remove all workout plan in a week](#remove-all-workouts-in-weekly-program)	
 	- [Logging Workouts](#logging-workouts)
 		- [Adding an exercise log](#adding-an-exercise-log)
 		- [Adding an exercise log for a separate date](#adding-an-exercise-log-for-a-separate-date)
@@ -386,6 +387,19 @@ program /clear Tuesday
 Expected outcome:
 ```
 [BYTE-CEPS]> Your workout on Tuesday has been cleared
+```
+
+### Remove all workouts in weekly program
+You can also remove all workout plans in a week by using the `/clear` flag without specifying the date.
+
+Example of usage: 
+```
+program /clear
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> All your workouts have been cleared from the week
 ```
 
 ## Logging Workouts
