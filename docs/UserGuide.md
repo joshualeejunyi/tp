@@ -451,7 +451,7 @@ program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_O
 
 Example of usage: 
 ```
-program /log benchpress /weight 125 /sets 3 /reps 5 /date 2024-03-25
+program /log benchpress /weight 125 /sets 1 /reps 5 /date 2024-03-25
 ```
 
 Expected outcome:

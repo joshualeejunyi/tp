@@ -474,6 +474,7 @@ Developers are expected to conduct more extensive tests.
 * ✅ Open a command terminal, cd into the folder where you copied the file, and run `java -jar byteceps.jar`.
 
 ### Exercise Management
+
 1. Adding an Exercise:
     - Test case 1:
         * Add a new exercise.
@@ -549,6 +550,7 @@ Developers are expected to conduct more extensive tests.
         * Expected Outcome: The system should indicate that there are no results for `decline pushups`, confirming that the deletion was processed correctly.
 
 ### Workout Management
+
 1. Adding a Workout Plan:
     - Test case 1:
         * Create a new workout plan.
@@ -669,7 +671,9 @@ Developers are expected to conduct more extensive tests.
         * View a workout plan with a case variation in name.
         * Command: `workout /info PUSH DAY`
         * Expected Outcome: The system should either display the details for `push day` confirming case insensitivity.
+          
 ### Program Management
+
 1. Assigning Workout Plans to Days:
     - Test case 1:
         * Assign a workout plan to a specific day.
@@ -714,7 +718,9 @@ Developers are expected to conduct more extensive tests.
         * Remove all workout plans in a week
         * Command:`program /clear ` 
         * Expected Outcome: The system should confirm that all workouts for that week has been cleared.
-### Program Logging Management     
+          
+### Program Logging Management 
+
 1. Adding Exercise Logs:
     - Test case 1:
         * Log a single set of an exercise.
@@ -756,7 +762,7 @@ Developers are expected to conduct more extensive tests.
         * Attempt to log with unrealistic or invalid values
         * Command: `program /log benchpress /weight -10 /sets 3 /reps 100` 
         * Expected Outcome: The system should reject negative weights, ensuring realistic and valid data entry.
-           
+
  2. Viewing Exercise Logs:
     - Test case 1:
         * View the dates with logged workouts
@@ -766,5 +772,16 @@ Developers are expected to conduct more extensive tests.
         * View detailed logs for a specific date.
         * Command: `program /history 2024-03-27`
         * Expected Outcome: The system should display all exercises logged on that date along with their weights, sets, and reps, giving detailed insights into the workout for that day.
-  
-   
+
+### Miscellaneous
+
+1. Exiting BYTE-CEPS:
+   * Test case 1:
+     * During normal execution.
+     * Command: `bye` 
+     * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
+
+1. Viewing Help Messages:
+   * Test case 1:
+     * Command:
+     * Expected Outcome: 
