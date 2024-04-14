@@ -2,16 +2,13 @@ package byteceps.validators;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.processing.HelpMenuManager;
-import byteceps.ui.UserInterface;
 import byteceps.ui.strings.HelpStrings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 public class HelpValidatorTest {
 
