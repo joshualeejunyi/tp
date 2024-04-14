@@ -1,0 +1,36 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant CascadingDeletionProcessor as c
+participant ":WorkoutManager" as WorkoutManager
+participant ":Workout" as Workout
+participant "workoutExerciseList:ArrayList<Exercise>" as exerciseList
+
+
+activate c
+c -> c : removeDeletedExerciseFromWorkouts(exerciseName, workoutManager)
+activate c
+
+c-> WorkoutManager : getActivityList()
+activate WorkoutManager
+WorkoutManager --> c: workoutList
+deactivate WorkoutManager
+
+loop for every workout in workoutList
+    opt deleted exercise is in workout
+        c -> Workout : getExerciseList()
+        activate Workout
+        Workout --> c: workoutExerciseList()
+        deactivate Workout
+
+        c-> exerciseList : removeIf(exercise -> exercise.equals(exerciseName))
+        activate exerciseList
+        exerciseList --> c:
+        deactivate exerciseList
+    end
+end
+c--> c:
+deactivate c
+
+@enduml

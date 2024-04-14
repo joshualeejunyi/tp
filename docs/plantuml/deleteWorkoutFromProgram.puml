@@ -1,0 +1,59 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+participant CascadingDeletionProcessor as c
+participant ":WeeklyProgramManager" as WeeklyProgramManager
+participant "newWorkoutsInProgram:LinkedHashSet<Workout>" as newWorkouts
+participant "currentDay:Day" as currentDay
+
+activate c
+
+c-> c: removeDeletedWorkoutsFromProgram(workoutName, weeklyProgramManager)
+activate c
+
+c->WeeklyProgramManager: getDaySet()
+activate WeeklyProgramManager
+WeeklyProgramManager --> c: newWorkoutsInProgram
+deactivate WeeklyProgramManager
+
+create "oldWorkoutsInProgram:LinkedHashSet<Workout>" as oldWorkouts
+c-> oldWorkouts: new LinkedHashSet(newWorkoutsInProgram)
+activate oldWorkouts
+oldWorkouts --> c: oldWorkoutsInProgram
+deactivate oldWorkouts
+
+loop for every day in oldWorkoutsInProgram
+    c->currentDay : getAssignedWorkout()
+    activate currentDay
+    currentDay --> c: workout
+    deactivate currentDay
+
+    opt workout name matches currentDay.getAssignedWorkout()
+        c->newWorkouts: remove(currentDay)
+        activate newWorkouts
+        newWorkouts --> c:
+        deactivate newWorkouts
+
+        create "newDay:Day" as newDay
+        c->newDay: new Day(currentDayString);
+        activate newDay
+        newDay --> c: newDay
+        deactivate newDay
+
+        c->newDay: setAssignedWorkout(null);
+        activate newDay
+        newDay --> c:
+        deactivate newDay
+
+        c-> newWorkouts: add(newDay)
+        activate newWorkouts
+        newWorkouts --> c:
+        deactivate newWorkouts
+    end
+end
+c--> c:
+deactivate c
+
+
+@enduml
