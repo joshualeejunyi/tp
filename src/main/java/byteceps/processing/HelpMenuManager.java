@@ -6,12 +6,10 @@ import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
 import byteceps.validators.HelpValidator;
 
-
 /**
  * Displays the correct command formatting for all BYTE-CEPS functionalities. Command formats are divided into 3
  * categories, each one corresponding to one of the 3 main commands (exercise, workout & program).
  */
-
 //@@author LWachtel1
 public class HelpMenuManager {
 
@@ -26,7 +24,6 @@ public class HelpMenuManager {
     public String getHelpGreetingString() {
         return HelpStrings.HELP_MANAGER_GREETING;
     }
-
     /**
      * Displays either (1) a command help menu (if no valid numerical parameter is provided) or (2) the specific
      * command format for a specific BYTE-CEPS functionality, which corresponds to the help menu entry specified by
@@ -49,8 +46,6 @@ public class HelpMenuManager {
         return getParamFormat(parameter, commandToShow);
 
     }
-
-
     /**
      * Builds a String containing a command's entire help menu (either exercise, workout  or program) i.e., a command's
      * entire list of associated functionalities, or if 'help /view' is entered, returns the message containing
@@ -91,7 +86,6 @@ public class HelpMenuManager {
         result.delete(0, 4);
         return result.toString();
     }
-
     /**
      * Returns a String containing the specific command format for a specific BYTE-CEPS functionality, corresponding
      * to the help menu entry specified by the user-provided numerical parameter.
@@ -121,7 +115,6 @@ public class HelpMenuManager {
             throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND);
         }
     }
-
     private String getExerciseParamFormats(int index) {
         return HelpStrings.EXERCISE_PARAM_FORMAT[index];
     }

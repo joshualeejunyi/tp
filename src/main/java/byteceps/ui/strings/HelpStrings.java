@@ -3,8 +3,8 @@ package byteceps.ui.strings;
 //@@author LWachtel1
 public class HelpStrings {
     public static final String HELP_LIST_INDENT = "\t\t\t ";
-
-
+    public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
+    
     public static final String HELP_MANAGER_GREETING =
             String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",
                     System.lineSeparator(), "help /COMMAND_TYPE_FLAG", System.lineSeparator(),
@@ -26,7 +26,6 @@ public class HelpStrings {
         "exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>",
         "exercise /list"
     };
-
 
     public static final String[] WORKOUT_FLAG_FUNCTIONS = {
         "1. create a workout plan",
@@ -78,9 +77,6 @@ public class HelpStrings {
 
     public static final String VIEW_HELP_GREETING = "view";
     public static final String INVALID_VIEW_FORMAT = "Please enter 'help /view' without any parameters";
-
-    public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
-
     public static final String EXERCISE_MESSAGE = "Please enter 'help /exercise LIST_NUMBER'. " +
             "LIST_NUMBER corresponds to the exercise command format you want to see";
     public static final String WORKOUT_MESSAGE ="Please enter 'help /workout LIST_NUMBER'. " +
