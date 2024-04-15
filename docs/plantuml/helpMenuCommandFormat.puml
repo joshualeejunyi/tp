@@ -29,7 +29,9 @@ alt Validation successful
     HelpMenuManager -> HelpMenuManager : getExerciseParamFormats(0)
     activate HelpMenuManager
     HelpMenuManager -> HelpStrings : retrieve EXERCISE_PARAM_FORMAT[0]
+    activate HelpStrings
     HelpMenuManager <-- HelpStrings : EXERCISE_PARAM_FORMAT[0]
+    deactivate HelpStrings
     HelpMenuManager --> HelpMenuManager: EXERCISE_PARAM_FORMAT[0]
     deactivate HelpMenuManager
     HelpMenuManager --> HelpMenuManager : EXERCISE_PARAM_FORMAT[0]

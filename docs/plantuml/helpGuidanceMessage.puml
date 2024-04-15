@@ -28,7 +28,9 @@ alt Expected error message for 'help'
 
 
     HelpMenuManager -> HelpStrings : retrieve HELP_GUIDANCE_MESSAGE
+    activate HelpStrings
     HelpMenuManager <-- HelpStrings : HELP_GUIDANCE_MESSAGE
+    deactivate HelpStrings
     HelpMenuManager --> HelpMenuManager : HELP_GUIDANCE_MESSAGE
     deactivate HelpMenuManager #FFBBBB
 

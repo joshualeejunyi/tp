@@ -50,8 +50,6 @@ alt Validation successful
     UserInterface --> User
     deactivate UserInterface
 
-    destroy Workout
-
 else Validation fails
     User -> UserInterface: printMessage(exceptionMessage : String)
     activate UserInterface

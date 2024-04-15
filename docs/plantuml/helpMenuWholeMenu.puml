@@ -28,7 +28,9 @@ alt Validation successful
 
 
     HelpMenuManager -> HelpStrings : retrieve PROGRAM_FLAG_FUNCTIONS
+    activate HelpStrings
     HelpMenuManager <-- HelpStrings : result = PROGRAM_FLAG_FUNCTIONS
+    deactivate HelpStrings
     HelpMenuManager --> HelpMenuManager : result
     deactivate HelpMenuManager #FFBBBB
 
