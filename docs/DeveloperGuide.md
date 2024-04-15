@@ -267,10 +267,10 @@ The following are the possible commands the `WeeklyProgramManager` object can ru
 - `program /today` for viewing today's workout.
 
 #### Logging an exercise
-The sequence diagram below gives the high-level overview of the command `program /log <EXERCISE_NAME> /weight
-<WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
+The sequence diagram below gives the high-level overview of the command `program /log <EXERCISE_NAME> /weight <WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
 
 ![](./diagrams/addExerciseLog.svg)
+
 1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeLogAction()` method
 2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which is elaborated below.
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
