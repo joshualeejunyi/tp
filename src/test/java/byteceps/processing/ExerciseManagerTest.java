@@ -41,28 +41,28 @@ class ExerciseManagerTest {
     @Test
     public void execute_emptyExerciseAction_throwsInvalidInput() {
         String emptyInput = "";
-        parser.parseInput(emptyInput);
+        assertDoesNotThrow(() -> parser.parseInput(emptyInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     @Test
     public void execute_addValidExercise_success() {
         String validInput = "exercise /add Pushups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
     }
 
     @Test
     public void execute_addEmptyNameExercise_throwsInvalidInput() {
         String emptyInput = "exercise /add";
-        parser.parseInput(emptyInput);
+        assertDoesNotThrow(() -> parser.parseInput(emptyInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     @Test
     public void execute_addSpecialCharacterExercise_throwsInvalidInput() {
         String invalidInput = "exercise /add Pushups.-";
-        parser.parseInput(invalidInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
@@ -70,7 +70,7 @@ class ExerciseManagerTest {
     @Test
     public void execute_addDuplicateExercise_throwsActivityExists() {
         String validInput = "exercise /add Pushups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
         assertThrows(Exceptions.ActivityExistsException.class, () -> exerciseManager.execute(parser));
     }
@@ -78,25 +78,25 @@ class ExerciseManagerTest {
     @Test
     public void execute_deleteValidExercise_success() {
         String validInput = "exercise /add Pushups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
 
         String deleteInput = "exercise /delete Pushups";
-        parser.parseInput(deleteInput);
+        assertDoesNotThrow(() -> parser.parseInput(deleteInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
     }
 
     @Test
     public void execute_deleteEmptyNameExercise_throwsInvalidInput() {
         String emptyInput = "exercise /delete";
-        parser.parseInput(emptyInput);
+        assertDoesNotThrow(() -> parser.parseInput(emptyInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     @Test
     public void execute_deleteInvalidExercise_throwsActivityDoesNotExist() {
         String invalidInput = "exercise /delete Run";
-        parser.parseInput(invalidInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput));
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> exerciseManager.execute(parser));
     }
 
@@ -107,9 +107,9 @@ class ExerciseManagerTest {
         String validInput1 = "exercise /add Pushups";
         String validInput2 = "exercise /add Deadlifts";
 
-        parser.parseInput(validInput1);
+        assertDoesNotThrow(() -> parser.parseInput(validInput1));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
-        parser.parseInput(validInput2);
+        assertDoesNotThrow(() -> parser.parseInput(validInput2));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         ui.printMessage(exerciseManager.getListString());
@@ -132,7 +132,7 @@ class ExerciseManagerTest {
     @Test
     public void execute_invalidExerciseAction_throwsIllegalState() {
         String invalidInput = "exercise /unknown";
-        parser.parseInput(invalidInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput));
 
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
@@ -142,7 +142,7 @@ class ExerciseManagerTest {
         setUpStreams();
 
         String listInput = "exercise /list";
-        parser.parseInput(listInput);
+        assertDoesNotThrow(() -> parser.parseInput(listInput));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]>YourListofExercisesisEmpty\n" +
@@ -162,12 +162,12 @@ class ExerciseManagerTest {
         setUpStreams();
 
         String validInput = "exercise /add Pushups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
         ui.printMessage(exerciseManager.getListString());
 
         String editedInput = "exercise /edit Pushups /to Push Ups";
-        parser.parseInput(editedInput);
+        assertDoesNotThrow(() -> parser.parseInput(editedInput));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
         ui.printMessage(exerciseManager.getListString());
 
@@ -194,11 +194,11 @@ class ExerciseManagerTest {
     @Test
     public void execute_invalidExerciseEdit_throwsInvalidInput() {
         String invalidInput = "exercise /edit";
-        parser.parseInput(invalidInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
 
         String invalidInput2 = "exercise /edit non existent";
-        parser.parseInput(invalidInput2);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput2));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
 
     }
@@ -207,11 +207,11 @@ class ExerciseManagerTest {
     @Test
     public void invalidExerciseEdit_emptyNewExercise_throwsInvalidInput() {
         String validInput = "exercise /add Push ups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
 
         String editedInput = "exercise /edit Push ups /to";
-        parser.parseInput(editedInput);
+        assertDoesNotThrow(() -> parser.parseInput(editedInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
@@ -219,11 +219,11 @@ class ExerciseManagerTest {
     @Test
     public void invalidExerciseEdit_invalidPreviousName_throwsActivityDoesNotExists() {
         String validInput = "exercise /add Push ups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
 
         String editedInput = "exercise /edit Pull ups /to Decline Push ups";
-        parser.parseInput(editedInput);
+        assertDoesNotThrow(() -> parser.parseInput(editedInput));
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> exerciseManager.execute(parser));
     }
 
@@ -231,11 +231,11 @@ class ExerciseManagerTest {
     @Test
     public void invalidExerciseEdit_emptyPreviousName_throwsActivityDoesNotExists() {
         String validInput = "exercise /add Push ups";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
 
         String editedInput = "exercise /edit /to Decline Push ups";
-        parser.parseInput(editedInput);
+        assertDoesNotThrow(() -> parser.parseInput(editedInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
@@ -243,7 +243,7 @@ class ExerciseManagerTest {
     @Test
     public void execute_invalidFlag_throwsIllegalStateException() {
         String invalidInput = "exercise /change Push ups";
-        parser.parseInput(invalidInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
@@ -253,11 +253,11 @@ class ExerciseManagerTest {
         setUpStreams();
 
         String addInput = "exercise /add Pushups";
-        parser.parseInput(addInput);
+        assertDoesNotThrow(() -> parser.parseInput(addInput));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String searchInput = "exercise /search Pushups";
-        parser.parseInput(searchInput);
+        assertDoesNotThrow(() -> parser.parseInput(searchInput));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]> AddedExercise: \n" +
@@ -280,7 +280,7 @@ class ExerciseManagerTest {
         setUpStreams();
 
         String searchInput = "exercise /search Nonexistent";
-        parser.parseInput(searchInput);
+        assertDoesNotThrow(() -> parser.parseInput(searchInput));
         assertDoesNotThrow(() -> ui.printMessage(exerciseManager.execute(parser)));
 
         String expectedOutput = "[BYTE-CEPS]>Noresultsfound\n" +
@@ -295,21 +295,20 @@ class ExerciseManagerTest {
     @Test
     public void execute_searchEmptyQuery_throwsInvalidInput() {
         String emptyInput = "exercise /search ";
-        parser.parseInput(emptyInput);
+        assertDoesNotThrow(() -> parser.parseInput(emptyInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 
     @Test
     public void execute_searchInvalidQuery_throwsInvalidInput() {
         String invalidInput = "exercise /search /";
-        parser.parseInput(invalidInput);
-        assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
+        assertThrows(Exceptions.InvalidInput.class, () -> parser.parseInput(invalidInput));
     }
 
     @Test
     public void execute_searchInvalidFlag_throwsInvalidInput() {
         String invalidInput = "exercise /search Pushups /to";
-        parser.parseInput(invalidInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidInput));
         assertThrows(Exceptions.InvalidInput.class, () -> exerciseManager.execute(parser));
     }
 }

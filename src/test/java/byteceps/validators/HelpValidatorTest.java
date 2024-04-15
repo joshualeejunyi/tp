@@ -23,21 +23,21 @@ public class HelpValidatorTest {
     @Test
     public void validateCommand_hasFlagNoAdditionalArgs_success() {
         String flagNoAdditionalArgs = "help /exercise";
-        parser.parseInput(flagNoAdditionalArgs);
+        assertDoesNotThrow(() -> parser.parseInput(flagNoAdditionalArgs));
         assertDoesNotThrow( () -> HelpValidator.validateCommand(parser));
     }
 
     @Test
     public void validateCommand_hasFlagParamNoAdditionalArgs_success() {
         String flagParamNoAdditionalArgs = "help /exercise 1";
-        parser.parseInput(flagParamNoAdditionalArgs);
+        assertDoesNotThrow(() -> parser.parseInput(flagParamNoAdditionalArgs));
         assertDoesNotThrow( () -> HelpValidator.validateCommand(parser));
     }
 
     @Test
     public void validateCommand_hasFlagAdditionalArgs_throwsInvalidInput() {
         String flagAdditionalArgs = "help /exercise /error";
-        parser.parseInput(flagAdditionalArgs);
+        assertDoesNotThrow(() -> parser.parseInput(flagAdditionalArgs));
 
         String errorMessage = HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION;
         assertEquals(errorMessage, assertThrowsExactly(Exceptions.InvalidInput.class,() ->
@@ -47,7 +47,7 @@ public class HelpValidatorTest {
     @Test
     public void validateCommand_hasFlagParamAdditionalArgs_throwsInvalidInput() {
         String flagParamAdditionalArgs = "help /exercise 1 /error";
-        parser.parseInput(flagParamAdditionalArgs);
+        assertDoesNotThrow(() -> parser.parseInput(flagParamAdditionalArgs));
 
         String errorMessage = HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION;
         assertEquals(errorMessage, assertThrowsExactly(Exceptions.InvalidInput.class,() ->
@@ -57,7 +57,7 @@ public class HelpValidatorTest {
     @Test
     public void validateCommand_emptyFlag_throwsInvalidInput() {
         String emptyFlag = "help / ";
-        parser.parseInput(emptyFlag);
+        assertDoesNotThrow(() -> parser.parseInput(emptyFlag));
 
         String errorMessage = HelpStrings.NO_COMMAND_EXCEPTION;
         assertEquals(errorMessage, assertThrowsExactly(Exceptions.InvalidInput.class,() ->
@@ -67,7 +67,7 @@ public class HelpValidatorTest {
     @Test
     public void validateCommand_noFlag_throwsInvalidInput() {
         String noFlag = "help";
-        parser.parseInput(noFlag);
+        assertDoesNotThrow(() -> parser.parseInput(noFlag));
 
         String errorMessage = ManagerStrings.NO_ACTION_EXCEPTION;
         assertEquals(errorMessage, assertThrowsExactly(Exceptions.InvalidInput.class,() ->

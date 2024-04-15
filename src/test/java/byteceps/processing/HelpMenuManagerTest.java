@@ -41,7 +41,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_helpOnly_success() {
         String helpOnlyInput = "help";
-        parser.parseInput(helpOnlyInput);
+        assertDoesNotThrow(() -> parser.parseInput(helpOnlyInput));
 
         setupStreams();
         assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
@@ -55,7 +55,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_viewFlagMenu_success() {
         String validInputFlagMenu = "help /exercise";
-        parser.parseInput(validInputFlagMenu);
+        assertDoesNotThrow(() -> parser.parseInput(validInputFlagMenu));
 
         setupStreams();
         assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
@@ -74,7 +74,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_viewSpecificCommandFormat_success() {
         String validInputSpecificCommandFormat = "help /program 1";
-        parser.parseInput(validInputSpecificCommandFormat);
+        assertDoesNotThrow(() -> parser.parseInput(validInputSpecificCommandFormat));
 
         setupStreams();
         assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
@@ -88,7 +88,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_invalidFlagNoParam_throwsInvalidInput() {
         String invalidFlagInput = "help /schedule";
-        parser.parseInput(invalidFlagInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidFlagInput));
 
         setupStreams();
         String errorMessage = HelpStrings.INVALID_COMMAND_TYPE;
@@ -100,7 +100,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_invalidFlagValidParam_throwsInvalidInput() {
         String invalidFlagInput = "help /schedule 1";
-        parser.parseInput(invalidFlagInput);
+        assertDoesNotThrow(() -> parser.parseInput(invalidFlagInput));
 
         setupStreams();
         String errorMessage = HelpStrings.INVALID_COMMAND_TYPE;
@@ -113,7 +113,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_outOfBoundsParameterSpecificCommandFormat_returnInvalidCommand() {
         String outOfBoundsParamInput = "help /exercise 10";
-        parser.parseInput(outOfBoundsParamInput);
+        assertDoesNotThrow(() -> parser.parseInput(outOfBoundsParamInput));
 
         setupStreams();
         String errorMessage = HelpStrings.INVALID_COMMAND;
@@ -125,7 +125,7 @@ public class HelpMenuManagerTest {
     @Test
     public void execute_nonNumericalParameterSpecificCommandFormat_returnInvalidCommand() {
         String outOfBoundsParamInput = "help /exercise abc";
-        parser.parseInput(outOfBoundsParamInput);
+        assertDoesNotThrow(() -> parser.parseInput(outOfBoundsParamInput));
 
         setupStreams();
         String errorMessage = HelpStrings.INVALID_COMMAND;

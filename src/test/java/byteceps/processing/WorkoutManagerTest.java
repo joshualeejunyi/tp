@@ -45,21 +45,21 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_createValidWorkout_success() {
+    public void execute_createValidWorkout_success() throws Exceptions.InvalidInput {
         String validInput = "workout /create LegDay";
         parser.parseInput(validInput);
         assertDoesNotThrow(() -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_createEmptyNameWorkout_throwsInvalidInput() {
+    public void execute_createEmptyNameWorkout_throwsInvalidInput() throws Exceptions.InvalidInput {
         String emptyInput = "workout /create";
         parser.parseInput(emptyInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_createDuplicateWorkout_throwsActivityExists() {
+    public void execute_createDuplicateWorkout_throwsActivityExists() throws Exceptions.InvalidInput {
         String validInput = "workout /create LegDay";
         parser.parseInput(validInput);
         assertDoesNotThrow(() -> workoutManager.execute(parser));
@@ -67,7 +67,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_deleteExistingWorkoutPlan_success() {
+    public void execute_deleteExistingWorkoutPlan_success() throws Exceptions.InvalidInput {
         String workoutInput = "workout /create chest day";
         parser.parseInput(workoutInput);
         assertDoesNotThrow(() -> workoutManager.execute(parser));
@@ -81,14 +81,14 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_deleteNonExistingWorkoutPlan_throwsActivityDoesNotExists() {
+    public void execute_deleteNonExistingWorkoutPlan_throwsActivityDoesNotExists() throws Exceptions.InvalidInput {
         String deleteInput = "workout /delete NonExistingWorkout";
         parser.parseInput(deleteInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_deleteEmptyWorkoutPlan_throwsInvalidInput() {
+    public void execute_deleteEmptyWorkoutPlan_throwsInvalidInput() throws Exceptions.InvalidInput {
         String deleteInput = "workout /delete";
         parser.parseInput(deleteInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
@@ -96,7 +96,7 @@ class WorkoutManagerTest {
 
 
     @Test
-    public void execute_editExistingWorkoutPlan_success() {
+    public void execute_editExistingWorkoutPlan_success() throws Exceptions.InvalidInput {
         String workoutInput = "workout /create chest day";
         parser.parseInput(workoutInput);
         assertDoesNotThrow(() -> workoutManager.execute(parser));
@@ -108,14 +108,14 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_editNonExistingWorkoutPlan_throwsActivityDoesNotExists() {
+    public void execute_editNonExistingWorkoutPlan_throwsActivityDoesNotExists() throws Exceptions.InvalidInput {
         String editInput = "workout /edit NonExistingWorkout /to chest day 2";
         parser.parseInput(editInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_editEmptyWorkoutPlan_throwsInvalidInput() {
+    public void execute_editEmptyWorkoutPlan_throwsInvalidInput() throws Exceptions.InvalidInput {
         String editInput = "workout /edit /to chest day 2";
         parser.parseInput(editInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
@@ -123,7 +123,7 @@ class WorkoutManagerTest {
 
 
     @Test
-    public void execute_assignExerciseToWorkout_success() {
+    public void execute_assignExerciseToWorkout_success() throws Exceptions.InvalidInput {
         String exerciseInput = "exercise /add Squat";
         parser.parseInput(exerciseInput);
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
@@ -138,7 +138,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_assignExerciseToNonexistentWorkout_throwsActivityDoesNotExist() {
+    public void execute_assignExerciseToNonexistentWorkout_throwsActivityDoesNotExist() throws Exceptions.InvalidInput {
         String exerciseInput = "exercise /add Squat";
         parser.parseInput(exerciseInput);
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
@@ -149,7 +149,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_assignExerciseAlreadyAssigned_throwsActivityExistsException() {
+    public void execute_assignExerciseAlreadyAssigned_throwsActivityExistsException() throws Exceptions.InvalidInput {
         String exerciseInput = "exercise /add Squat";
         parser.parseInput(exerciseInput);
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
@@ -167,7 +167,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_assignExerciseNonexistentExercise_throwsActivityDoesNotExists(){
+    public void execute_assignExerciseNonexistentExercise_throwsActivityDoesNotExists() throws Exceptions.InvalidInput {
         String workoutInput = "workout /create legday";
         parser.parseInput(workoutInput);
         assertDoesNotThrow(() -> workoutManager.execute(parser));
@@ -178,14 +178,14 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_assignEmptyExercise_throwsInvalidInput(){
+    public void execute_assignEmptyExercise_throwsInvalidInput() throws Exceptions.InvalidInput {
         String assignInput = "workout /assign /to legday";
         parser.parseInput(assignInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_unassignExerciseFromWorkout_success() {
+    public void execute_unassignExerciseFromWorkout_success() throws Exceptions.InvalidInput {
         String exerciseInput = "exercise /add Pushups";
         parser.parseInput(exerciseInput);
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
@@ -204,28 +204,30 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_unassignNonexistentExerciseFromWorkout_throwsActivityDoesNotExist() {
+    public void execute_unassignNonexistentExerciseFromWorkout_throwsActivityDoesNotExist()
+            throws Exceptions.InvalidInput {
         String validInput = "workout /unassign NonexistentExercise /from LegDay";
         parser.parseInput(validInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_unassignNonexistentWorkout_throwsActivityDoesNotExist() {
+    public void execute_unassignNonexistentWorkout_throwsActivityDoesNotExist() throws Exceptions.InvalidInput {
         String validInput = "workout /unassign Pushups /from NonexistentWorkout";
         parser.parseInput(validInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_unassignNonexistentExerciseFromNonexistentWorkout_throwsActivityDoesNotExist() {
+    public void execute_unassignNonexistentExerciseFromNonexistentWorkout_throwsActivityDoesNotExist()
+            throws Exceptions.InvalidInput {
         String validInput = "workout /unassign NonexistentExercise /from NonexistentWorkout";
         parser.parseInput(validInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_unassignExerciseNotAssigned_throwsActivityDoesNotExists(){
+    public void execute_unassignExerciseNotAssigned_throwsActivityDoesNotExists() throws Exceptions.InvalidInput {
         String exerciseInput = "exercise /add Pushups";
         parser.parseInput(exerciseInput);
         assertDoesNotThrow(() -> exerciseManager.execute(parser));
@@ -240,7 +242,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_unassignEmptyExercise_throwsInvalidInput(){
+    public void execute_unassignEmptyExercise_throwsInvalidInput() throws Exceptions.InvalidInput {
         String unassignInput = "workout /unassign /from chestday";
         parser.parseInput(unassignInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
@@ -249,7 +251,7 @@ class WorkoutManagerTest {
 
 
     @Test
-    public void execute_listWorkouts_success() {
+    public void execute_listWorkouts_success() throws Exceptions.InvalidInput {
         setUpStreams();
 
         String validInput1 = "workout /create LegDay";
@@ -278,7 +280,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void executeListAction_noWorkouts_returnsEmptyMessage() {
+    public void executeListAction_noWorkouts_returnsEmptyMessage() throws Exceptions.InvalidInput {
         setUpStreams();
 
         String validInput = "workout /list";
@@ -296,7 +298,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void executeListAction_withWorkouts_returnsCorrectListing(){
+    public void executeListAction_withWorkouts_returnsCorrectListing() throws Exceptions.InvalidInput {
         setUpStreams();
 
         String validInput1 = "workout /create LegDay";
@@ -329,7 +331,7 @@ class WorkoutManagerTest {
 
 
     @Test
-    public void execute_info_success() {
+    public void execute_info_success() throws Exceptions.InvalidInput {
         String exerciseInput1 = "exercise /add Squat";
         String exerciseInput2 = "exercise /add lunges";
         parser.parseInput(exerciseInput1);
@@ -364,14 +366,14 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_infoNonexistentWorkout_throwsActivityDoesNotExists() {
+    public void execute_infoNonexistentWorkout_throwsActivityDoesNotExists() throws Exceptions.InvalidInput {
         String validInput = "workout /info NonexistentWorkout";
         parser.parseInput(validInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
-    public void execute_infoActionEmptyWorkout_returnsEmptyMessage(){
+    public void execute_infoActionEmptyWorkout_returnsEmptyMessage() throws Exceptions.InvalidInput {
         setUpStreams();
 
         String workoutInput = "workout /create legday";
@@ -392,7 +394,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_infoActionEmptyWorkout_throwsInvalidInput(){
+    public void execute_infoActionEmptyWorkout_throwsInvalidInput() throws Exceptions.InvalidInput {
         String infoInput = "workout /info";
         parser.parseInput(infoInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
@@ -400,7 +402,7 @@ class WorkoutManagerTest {
 
 
     @Test
-    public void execute_invalidWorkoutAction_throwsIllegalState() {
+    public void execute_invalidWorkoutAction_throwsIllegalState() throws Exceptions.InvalidInput {
         String invalidInput = "workout /unknown";
         parser.parseInput(invalidInput);
 
@@ -408,7 +410,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_searchExistingWorkout_success() {
+    public void execute_searchExistingWorkout_success() throws Exceptions.InvalidInput {
         setUpStreams();
 
         String addInput = "workout /create LegDay";
@@ -433,7 +435,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_searchNonExistingWorkout_returnsEmptyResults() {
+    public void execute_searchNonExistingWorkout_returnsEmptyResults() throws Exceptions.InvalidInput {
         setUpStreams();
 
         String searchInput = "workout /search NonExistentWorkout";
@@ -451,7 +453,7 @@ class WorkoutManagerTest {
     }
 
     @Test
-    public void execute_searchEmptyQuery_throwsInvalidInput() {
+    public void execute_searchEmptyQuery_throwsInvalidInput() throws Exceptions.InvalidInput {
         String searchInput = "workout /search";
         parser.parseInput(searchInput);
         assertThrows(Exceptions.InvalidInput.class, () -> workoutManager.execute(parser));
