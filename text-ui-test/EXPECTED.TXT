@@ -9,7 +9,7 @@ Available command types (type exactly as shown):
 exercise
 workout
 program
-To view this message again, enter help /view
+To view this message again, enter 'help' alone
 -------------------------------------------------
 [User]> [BYTE-CEPS]> All your workouts and exercises have been saved.
 -------------------------------------------------

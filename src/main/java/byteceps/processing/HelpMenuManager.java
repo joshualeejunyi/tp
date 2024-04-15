@@ -6,6 +6,8 @@ import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
 import byteceps.validators.HelpValidator;
 
+import static byteceps.ui.strings.ManagerStrings.NO_ACTION_EXCEPTION;
+
 /**
  * Displays the correct command formatting for all BYTE-CEPS functionalities. Command formats are divided into 3
  * categories, each one corresponding to one of the 3 main commands (exercise, workout & program).
@@ -17,7 +19,7 @@ public class HelpMenuManager {
     }
     /**
      * Returns String that explains to user how to access each of the 3 "help menus" for the
-     * 3 main commands (exercise, workout & program). This can be accessed by user using 'help /view'.
+     * 3 main commands (exercise, workout & program). This can be accessed by user using 'help'.
      *
      * @return String informing user how to access each "help menu" for the main commands (exercise, workout & program).
      */
@@ -28,13 +30,22 @@ public class HelpMenuManager {
      * Displays either (1) a command help menu (if no valid numerical parameter is provided) or (2) the specific
      * command format for a specific BYTE-CEPS functionality, which corresponds to the help menu entry specified by
      * the provided valid numerical parameter or (3) the message containing guidance for accessing help menus (if
-     * 'help /view' is entered).
+     * 'help' is entered alone).
      *
      * @param parser Parser containing required user input.
      * @return String of a command help menu, a specific command formatting or guidance for accessing help menus.
      */
     public String execute(Parser parser) throws Exceptions.InvalidInput {
-        HelpValidator.validateCommand(parser);
+
+        try {
+            HelpValidator.validateCommand(parser);
+        } catch (Exceptions.InvalidInput e) {
+            if (e.getMessage().equals(NO_ACTION_EXCEPTION)) {
+                return getHelpGreetingString();
+            } else {
+                throw e;
+            }
+        }
 
         String commandToShow = parser.getAction().toLowerCase();
         boolean showAllActions = parser.getActionParameter().isEmpty();
@@ -48,11 +59,10 @@ public class HelpMenuManager {
     }
     /**
      * Builds a String containing a command's entire help menu (either exercise, workout  or program) i.e., a command's
-     * entire list of associated functionalities, or if 'help /view' is entered, returns the message containing
-     * guidance for accessing help menus.
+     * entire list of associated functionalities
      *
      * @param command Command for which user wants to view help menu.
-     * @return String of a command's help menu as an indented list, or message with guidance for help menu access
+     * @return String of a command's help menu as an indented list
      */
     private String generateAllActions(String command) throws Exceptions.InvalidInput {
         String[] flagFunctions;
@@ -74,8 +84,6 @@ public class HelpMenuManager {
             result.append(String.format(HelpStrings.HELP_LIST_ITEM, HelpStrings.PROGRAM_MESSAGE,
                     System.lineSeparator()));
             break;
-        case HelpStrings.VIEW_HELP_GREETING:
-            return getHelpGreetingString();
         default:
             throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
         }
@@ -106,8 +114,6 @@ public class HelpMenuManager {
                 return getWorkoutParamFormats(paramIndex);
             case CommandStrings.COMMAND_PROGRAM:
                 return getProgramParamFormats(paramIndex);
-            case HelpStrings.VIEW_HELP_GREETING:
-                throw new Exceptions.InvalidInput(HelpStrings.INVALID_VIEW_FORMAT);
             default:
                 throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
             }

@@ -11,7 +11,7 @@ public class HelpStrings {
                     "Available command types (type exactly as shown):", System.lineSeparator(),
                     CommandStrings.COMMAND_EXERCISE, System.lineSeparator(), CommandStrings.COMMAND_WORKOUT,
                     System.lineSeparator(), CommandStrings.COMMAND_PROGRAM, System.lineSeparator(),
-                    "To view this message again, enter help /view");
+                    "To view this message again, enter 'help' alone");
 
     public static final String[] EXERCISE_FLAG_FUNCTIONS = {
         "1. add an exercise",
@@ -75,8 +75,6 @@ public class HelpStrings {
         "program /history <DATE [yyyy-mm-dd]>"
     };
 
-    public static final String VIEW_HELP_GREETING = "view";
-    public static final String INVALID_VIEW_FORMAT = "Please enter 'help /view' without any parameters";
     public static final String EXERCISE_MESSAGE = "Please enter 'help /exercise LIST_NUMBER'. " +
             "LIST_NUMBER corresponds to the exercise command format you want to see";
     public static final String WORKOUT_MESSAGE ="Please enter 'help /workout LIST_NUMBER'. " +

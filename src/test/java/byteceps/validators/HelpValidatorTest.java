@@ -3,6 +3,7 @@ package byteceps.validators;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.HelpStrings;
+import byteceps.ui.strings.ManagerStrings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +60,16 @@ public class HelpValidatorTest {
         parser.parseInput(emptyFlag);
 
         String errorMessage = HelpStrings.NO_COMMAND_EXCEPTION;
+        assertEquals(errorMessage, assertThrowsExactly(Exceptions.InvalidInput.class,() ->
+                HelpValidator.validateCommand(parser)).getMessage());
+    }
+
+    @Test
+    public void validateCommand_noFlag_throwsInvalidInput() {
+        String noFlag = "help";
+        parser.parseInput(noFlag);
+
+        String errorMessage = ManagerStrings.NO_ACTION_EXCEPTION;
         assertEquals(errorMessage, assertThrowsExactly(Exceptions.InvalidInput.class,() ->
                 HelpValidator.validateCommand(parser)).getMessage());
     }

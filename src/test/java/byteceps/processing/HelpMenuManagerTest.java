@@ -39,9 +39,9 @@ public class HelpMenuManagerTest {
     }
 
     @Test
-    public void execute_flagIsViewOnly_success() {
-        String validViewInput = "help /view";
-        parser.parseInput(validViewInput);
+    public void execute_helpOnly_success() {
+        String helpOnlyInput = "help";
+        parser.parseInput(helpOnlyInput);
 
         setupStreams();
         assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
@@ -83,16 +83,6 @@ public class HelpMenuManagerTest {
                 System.lineSeparator());
         assertEquals(commandFormat, outContent.toString());
         restoreStreams();
-    }
-
-    @Test
-    public void execute_flagIsViewParam_failure() {
-        String viewFlagWithParam = "help /view 1";
-        parser.parseInput(viewFlagWithParam);
-
-        String erroneousViewResponse = HelpStrings.INVALID_VIEW_FORMAT;
-        assertEquals(erroneousViewResponse, assertThrowsExactly(Exceptions.InvalidInput.class,
-                () -> helpMenuManager.execute(parser)).getMessage());
     }
 
     @Test
