@@ -12,7 +12,9 @@ public abstract class Validator {
     protected static void validateListAction(Parser parser) throws Exceptions.InvalidInput {
         validateNumAdditionalArgs(0, 0, parser);
         if (!parser.getActionParameter().isEmpty()) {
-            throw new Exceptions.InvalidInput(ManagerStrings.INVALID_EXERCISE_LIST);
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.INVALID_LIST, parser.getCommand())
+            );
         }
     }
 
