@@ -3,7 +3,7 @@
 ## Introduction
 Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fitness goals. Whether you're a tech-savvy fitness enthusiast or just starting your fitness journey, BYTE-CEPS offers the simplicity and efficiency of a CLI interface to help you maintain or improve your fitness through self-managed routines.
 
-Please note that as of the current version, BYTE-CEPS supports tracking both weight-related exercises and body weight exercises. However, cardio tracking is not yet supported. Stay tuned for future updates as we strive to expand BYTE-CEPS to encompass a broader range of fitness activities.
+Please note that, as of the current version, BYTE-CEPS supports tracking both weight-related exercises and body weight exercises. However, cardio tracking is not yet supported. Stay tuned for future updates as we strive to expand BYTE-CEPS to encompass a broader range of fitness activities.
 
 - [BYTE-CEPS User Guide](#byte-ceps-user-guide)
 	- [Introduction](#introduction)
@@ -60,11 +60,11 @@ BYTE-CEPS can track & manage several types of tasks, such as:
 ### Running ByteCeps
 - You are required to install Java 11 onto your computer.
 - Download the [latest release](https://github.com/AY2324S2-CS2113-F14-3/tp/releases) from the releases page.
-- Run the program in your preferred terminal using the command: java -jar byteceps.jar.
+- Run the program, in its own folder, from your preferred terminal using the command: java -jar byteceps.jar.
 
 ## Exercise Management
 Using the `exercise` command, you may manage your exercises that have been stored in BYTE-CEPS. 
-- Do take note that exercise name are `case insensitive`
+- Do take note that exercise names are `case insensitive`
   
 ### Add an exercise
 You may add a new exercise using the `/add` flag.
@@ -81,7 +81,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Added Exercise: pushups
 ```
-**Note:** Exercise name cannot contain special characters: { } [ ] / \\ : , # -
+**Note:** Exercise names cannot contain special characters: { } [ ] / \\ : , # -
 
 ### Delete an exercise
 You may also delete an existing exercise using the `/delete` flag.
@@ -153,7 +153,7 @@ Expected outcome:
 
 ## Workout Plan Management
 A workout plan is a curated list of exercises that you would like to do in a single session. You may use the `workout` command to manage your workout plans.
-- Do take note that workout plan name are `case insensitive`
+- Do take note that workout plan names are `case insensitive`
   
 ### Add a workout plan
 In order to assign a exercise to a workout plan, you must first create a workout using the `/create` flag.
@@ -170,7 +170,7 @@ Expected outcome:
 ```
 [BYTE-CEPS]> Added Workout Plan: push day
 ```
-**Note:** Workout Plan name cannot contain special characters: { } [ ] / \\ : , # -
+**Note:** Workout Plan names cannot contain special characters: { } [ ] / \\ : , # -
 
 ### Delete a workout plan
 To delete an existing workout plan, use the `/delete` flag.
@@ -300,7 +300,7 @@ You may assign a workout plan to a specific day of the week using the `/assign` 
 program /assign <WORKOUT_PLAN_NAME [string]> /to <DAY [string]>
 ```
 
-The `<DAY [string]>` parameter must be either variants of a day of the week, and is case insensitive:
+The `<DAY [string]>` parameter must be one of the listed variants of a day of the week, and is case insensitive:
 1. Monday / Mon
 2. Tuesday / Tues / Tue
 3. Wednesday / Wed
@@ -486,7 +486,7 @@ Expected outcome:
 ```
 
 ### Viewing logs
-You may see all the dates that you have entered at least a log entry by using the `/history` flag in the program command. 
+You may see all the dates for which you have entered at least a single log entry by using the `/history` flag in the program command. 
 ```
 program /history
 ```
