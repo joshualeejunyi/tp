@@ -92,6 +92,7 @@ public class HelpMenuManager {
 
         for (String flagFunction : flagFunctions) {
             result.append(String.format(HelpStrings.HELP_LIST_ITEM, flagFunction, System.lineSeparator()));
+            //ui.printMessage() adds another lineSeparator so Help Menu will have extra blank line before SEPARATOR
         }
         result.delete(0, 4);
         return result.toString();
@@ -121,7 +122,7 @@ public class HelpMenuManager {
                 throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
             }
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            return HelpStrings.INVALID_COMMAND;
+            throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND);
         }
     }
 
