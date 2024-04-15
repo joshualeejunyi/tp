@@ -1,6 +1,5 @@
 package byteceps.validators;
 
-
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.commands.Parser;
@@ -33,7 +32,5 @@ public class HelpValidator extends Validator{
         } catch (Exceptions.InvalidInput e) {
             throw new Exceptions.InvalidInput(HelpStrings.ADDITIONAL_ARGUMENTS_EXCEPTION);
         }
-
     }
-
 }
