@@ -20,7 +20,7 @@ The user interacts with the tool using commands entered via the CLI interface. W
       **_pqienso_** significantly improved said package by changing each `Validator`-type class to have only one public method, which is  called from the `Validator`-type class `execute()` method. This public `Validator` method calls another private method that validates input for the specific private `Manager` method that `execute()` has called to execute the user's command. 
 + **Testing `Storage` methods**: 75% of methods within `Storage` are covered.
     + Credits: I wrote all test methods within the `StorageTest` class and the helper methods for file handling. **_joshualeejunyi_** wrote `setup()`, `setUpStreams()`and `restoreStreams()`, which are integral to the functioning of the test methods.
-+ **Testing `ExerciseManager` method for editing an exercise**: Enables my teammates and I, as well as any future developers, to ensure that the functionality for editing an exercise name is working properly.
++ **Testing `ExerciseManager` method for editing an exercise**: 
   + Credits: I wrote all test methods for editing an exercise. However, other tests written by my teammates acted as helpful guidance.
 + **Testing `HelpMenuManager` and `HelpValidator` methods**: 87% of methods within `HelpMenuManager` and 100% within `HelpValidator` are covered.
   + Credits: I wrote all test methods. I reused and adapted **_joshualeejunyi_**'s `setup()`, `setUpStreams()`and `restoreStreams()` methods.
