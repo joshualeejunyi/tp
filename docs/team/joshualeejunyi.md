@@ -7,8 +7,6 @@ title: Lee Jun Yi, Joshua - Project Portfolio Page
 BYTE-CEPS is a CLI-based tool for setting and tracking fitness goals.
 The user interacts with the tool using commands entered via the CLI interface. With BYTE-CEPS, they can compile a list of exercises, build custom workouts, assign workouts to a weekly schedule and log details of each exercise completed in each performed workout.
 
-BYTE-CEPS is written in Java, and has approximately 5.6 kLoC.
-
 ## Summary of Contributions
 ### Code contributed
 * Do check out the RepoSense link [here](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs%7Efunctional-code%7Etest-code%7Eother&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=joshualeejunyi&tabRepo=AY2324S2-CS2113-F14-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs%7Efunctional-code%7Etest-code%7Eother&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)!
