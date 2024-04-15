@@ -27,7 +27,7 @@ The user interacts with the tool using commands entered via the CLI interface. W
 + **Bug fixes**:
     + [Issue #114](https://github.com/AY2324S2-CS2113-F14-3/tp/issues/114): Implemented a [fix](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/139) for a logging bug where a user was unable to log two of the same exercise on the same day; I did this by overriding the existing `equals()` method used by `ExerciseLog`, which was the bug's cause. 
     + [Issue #69](https://github.com/AY2324S2-CS2113-F14-3/tp/issues/69): Use of the `HashSet` class was causing incorrect ordering in exercise & workout lists, so I implemented a [fix](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/92) by using the `LinkedHashSet` class instead.
-    + [Issue #44](https://github.com/AY2324S2-CS2113-F14-3/tp/issues/44): Implemented [fixes](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/49) for unhandled exceptions for `week` (now called `program`).
+    + [Issue #47](https://github.com/AY2324S2-CS2113-F14-3/tp/issues/47): Implemented [fixes](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/49) for unhandled exceptions for `week` (now called `program`).
 
 ### Documentation
 + **UG**: Added all documentation for the help menu and related commands.
