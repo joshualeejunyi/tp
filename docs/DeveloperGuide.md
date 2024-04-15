@@ -337,9 +337,44 @@ The validation of user input has been omitted for purposes of brevity.
 
 ### Help Menu
 To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
-- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns help menus to be shown to the user or, if requested, a specific functionality's command format.
-- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all Strings including numbered help menu items, command formats and help menu error messages.
+- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns a help menu access guidance message or help menus to be shown to the user or, if requested, a specific functionality's command format.
+- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all static Strings including the help menu guidance message, numbered help menu items, command formats and help menu error messages.
 - [HelpValidator](../src/main/java/byteceps/validators/HelpValidator.java): Parses the input to HelpMenuManager's execute() method to ensure input validity before the rest of the method executes.
+
+#### Viewing help command guidance message
+If the user enters the command `help` alone, they will be shown the following guidance message for accessing help menus:
+```
+[BYTE-CEPS]> To access the help menu for command guidance, please type:
+help /COMMAND_TYPE_FLAG
+Available command types (type exactly as shown):
+exercise
+workout
+program
+To view this message again, enter 'help' alone
+```
+
+How the command `help` is processed and executed will be described below. This is to demonstrate how the 3 aforementioned classes interact to show a user the guidance message for accessing help menus:
+
+**Step 1 - Input Processing:**
+The user’s input is received and processed by ByteCeps, which involves parsing the command through the `Parser` class. The user initiates the process by inputting the command `help`.
+
+**Step 2 - Command Identification:**
+The `Parser` class determines the type of help operation and extracts any necessary arguments. In this case, the `help` is recognised as the command.
+
+**Step 3 - Command Validation**: The input is then validated using `HelpValidator` class to ensure that the arguments provided meet the expected format and criteria for processing.
+Here, validation will fail as `help` is not accompanied by any arguments. An exception, with an error message specifying this, is thrown. 
+
+**Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
+- Catch Validation Exception: The `HelpMenuManager` proceeds to catch this exception, and check the error message is as expected.
+- Expected Error Message Path: The `HelpMenuManager` calls getHelpGuidanceString(), which returns the desired guidance message String. 
+- Different Error Message Path: The `HelpMenuManager` rethrows the exception.
+
+**Step 5 - Result Display**
+- Success Path: The guidance message String is presented to the user. 
+- Failure Path: If the exception's message did not match that caused by the user command `help`, the user is shown the received error message, informing them of the invalid command format without proceeding further into the sequence.
+
+This is a sequence diagram of the command `help` provided to visually illustrate the described example above.
+![](./diagrams/helpGuidanceMessage.svg)
 
 #### Viewing an flag's help menu
 If the user enters the command `help /COMMAND_TYPE` where `COMMAND_TYPE` is one of the 3 possible flags:
@@ -361,10 +396,10 @@ The `Parser` class determines the type of help operation and extracts any necess
 If validation fails, an exception is thrown with an accompanying error message. If validation succeeds, command execution proceeds.
 
 **Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
-- Execute generateAllActions: The `HelpMenuManager` proceeds to execute the `generateAllActions` method, which retrieves the array of `program` help menu items, `PROGRAM_FLAG_FUNCTIONS`, from `HelpStrings` class and appends each String into a single String that contains a numbered list. This is then returned.
+- Execute generateAllActions: The `HelpMenuManager` proceeds to execute the `generateAllActions` method, which retrieves the array of `program` help menu items, `PROGRAM_FLAG_FUNCTIONS`, from the static `HelpStrings` class and appends each String into a single String that contains a numbered list. This is then returned.
 
 **Step 5 - Result Display**
-- Success Path: The String containg the numbered `program` help menu is presented to the user.
+- Success Path: The String containing the numbered `program` help menu is presented to the user.
 - Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
 
 
@@ -385,7 +420,7 @@ If validation fails, an exception is thrown with an accompanying error message. 
 
 **Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
 - Execute getFlagFormat: The `HelpMenuManager` proceeds to execute the `getFlagFormat` method, which first converts the String parameter `1` to its corresponding Integer index `0` then calls the `getExerciseFlagFormats` method for retrieving a single String command format from the `exercise` command formats menu.
-- Retrieve command format: The `HelpMenuManager`retrieves the specific String command format at the index `0` in the list of `exercise` command formats found in the `HelpStrings` class.
+- Retrieve command format: The `HelpMenuManager`retrieves the specific String command format at the index `0` in the list of `exercise` command formats found in the static `HelpStrings` class.
 
 **Step 5 - Result Display**
 - Success Path: The String of the desired command format (item at position `1`/index `0` in the `exercise` help menu) is presented to the user.
@@ -819,6 +854,41 @@ Developers are expected to conduct more extensive tests.
         * Command: `program /history 2024-03-27`
         * Expected Outcome: The system should display all exercises logged on that date along with their weights, sets, and reps, giving detailed insights into the workout for that day.
 
+### Help Menu Access
+1. Viewing Help Messages:
+    - Test case 1:
+        * Incorrect Help Command Usage.
+        * Command: `help /exercis`
+        * Expected Outcome: The system should display an error message indicating incorrect command usage
+    - Test case 2:
+        * Accessing Help Menu for a Category.
+        * Command: `help /exercise`
+        * Expected Outcome: The system should display a list of exercise category-related commands and prompt the user to enter a specific list number to get detailed command formats.
+    - Test case 3:
+        * Request Specific Command Format from Category
+        * Command: `help /exercise 3`
+        * Expected Outcome: The system should display a specific command format, in this case, the format for editing an exercise's name, as specified by exercise category list number 3.
+    - Test case 4:
+        * Invalid List Number for Help Command (Out of Bounds)
+        * Command: `help /program 100`
+        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
+    - Test case 5:
+        * Invalid List Number for Help Command (Non-numerical)
+        * Command: `help /workout abc`
+        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
+    - Test case 6:
+        * Accessing Help Without Specifying a Category
+        * Command: `help /`
+        * Expected Outcome: The system should display an error message indicating that the user must specify a valid command.
+   - Test case 7:
+       * Accessing Help With Too Many Arguments i.e., too many `/`s
+       * Command: `help /exercise 1 /list`
+       * Expected Outcome: The system should display an error message indicating that additional (unneccesary) arguments have been provided.
+   - Test case 8:
+       * Accessing Help Menu Guidance Message
+       * Command: `help`
+       * Expected Outcome: The system should display a message explaining the commands for accessing each of the category-specific help menus.
+
 ### Miscellaneous
 
 1. Exiting BYTE-CEPS:
@@ -827,24 +897,4 @@ Developers are expected to conduct more extensive tests.
      * Command: `bye` 
      * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
 
-2. Viewing Help Messages:
-    - Test case 1:
-        * Incorrect Help Command Usage.
-        * Command: `help /exercis` 
-        * Expected Outcome: The system should display an error message indicating incorrect command usage
-    - Test case 2:
-        * Accessing Help Menu for Exercise.
-        * Command: `help /exercise`
-        * Expected Outcome: The system should display a list of exercise-related commands and prompt the user to enter a specific list number to get detailed command formats.
-   - Test case 3:
-        * Request Specific Exercise Command Format
-        * Command: `help /exercise 3`
-        * Expected Outcome: The system should display the command format for editing an exercise's name, as specified by list number 3.
-   - Test case 4:
-        * Invalid List Number for Help Command
-        * Command: `help /exercise 10`
-        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
-    - Test case 5:
-        * Accessing Help Without Specifying a Category
-        * Command: `help /`
-        * Expected Outcome: The system should display an error message indicating that the user must specify a valid command.
+

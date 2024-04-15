@@ -45,7 +45,7 @@ public class HelpMenuManagerTest {
 
         setupStreams();
         assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
-        String viewResponse = String.format("%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, HelpStrings.HELP_MANAGER_GREETING,
+        String viewResponse = String.format("%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, HelpStrings.HELP_GUIDANCE_MESSAGE,
                 System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
         assertEquals(viewResponse, outContent.toString());
         restoreStreams();

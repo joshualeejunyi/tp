@@ -530,7 +530,10 @@ Available command types (type exactly as shown):
 exercise
 workout
 program
+To view this message again, enter 'help' alone
 ```
+
+To view this message that provides guidance for how to access the help menu, a user only needs to type `help` with no additional flags or parameters.
 
 Command formats are shown according to 3 separate categories: `exercise`, `workout` & `program`
 
@@ -542,11 +545,11 @@ help /exercise
 
 Outcome:
 ```
-Please enter 'help /exercise LIST_NUMBER'. LIST_NUMBER corresponds to the exercise command format you want to see
-			 (1) add an exercise
-			 (2) delete an existing exercise
-			 (3) edit an existing exercise's name
-			 (4) list all existing exercises
+[BYTE-CEPS]> Please enter 'help /exercise LIST_NUMBER'. LIST_NUMBER corresponds to the exercise command format you want to see
+			 1. add an exercise
+			 2. delete an existing exercise
+			 3. edit an existing exercise's name
+			 4. list all existing exercises
 ```
 
 To see a specific `exercise`-related command's format, enter `help /exercise <INDEX [integer]>`.
@@ -555,7 +558,7 @@ The `<INDEX [integer]>` parameter refers to the desired command's corresponding 
 
 Example of usage:
 ```
-[User]> help /exercise 3
+help /exercise 3
 ```
 
 Expected outcome:
@@ -572,12 +575,12 @@ help /workout
 Outcome:
 ```
 [BYTE-CEPS]> Please enter 'help /workout LIST_NUMBER'. LIST_NUMBER corresponds to the workout command format you want to see
-			 (1) create a workout plan
-			 (2) delete an existing workout plan
-			 (3) list all existing workout plans
-			 (4) assign an exercise to a specified workout plan
-			 (5) remove an exercise from a specified workout plan
-			 (6) list all exercises in a given workout plan
+			 1. create a workout plan
+			 2. delete an existing workout plan
+			 3. list all existing workout plans
+			 4. assign an exercise to a specified workout plan
+			 5. remove an exercise from a specified workout plan
+			 6. list all exercises in a given workout plan
 ```
 
 To see a specific `workout`-related command's format, enter `help /workout <INDEX [integer]>`.
@@ -586,7 +589,7 @@ The `<INDEX [integer]>` parameter refers to the desired command's corresponding 
 
 Example of usage:
 ```
-[User]> help /workout 4
+help /workout 4
 ```
 
 Expected outcome:
@@ -603,23 +606,24 @@ help /program
 Outcome:
 ```
 [BYTE-CEPS]> Please enter 'help /program LIST_NUMBER'. LIST_NUMBER corresponds to the program command format you want to see
-			 (1) assign a workout plan to a specific day of the week
-			 (2) view today's workout plan
-			 (3) see all workout plans assigned to each day of the week
-			 (4) remove a workout plan from a given day of the week
-			 (5) create a log for the amount of weight, sets & reps completed for an exercise on a given day which already has an assigned workout plan
-			 (6) create a log for a specified date
-			 (7) see all the dates that you have entered at least 1 log entry
-			 (8) view the logs that you have added on a specific date
+			 1. assign a workout plan to a specific day of the week
+			 2. view today's workout plan
+			 3. see all workout plans assigned to each day of the week
+			 4. remove a workout plan from a given day of the week
+			 5. create a log for the amount of weight, sets & reps completed for an exercise on a given day
+			 which already has an assigned workout plan
+			 6. create a log for a specified date
+			 7. see all the dates that you have entered at least 1 log entry
+			 8. view the logs that you have added on a specific date
 ```
 
-To see a specific `progarm`-related command's format, enter `help /program <INDEX [integer]>`.
+To see a specific `program`-related command's format, enter `help /program <INDEX [integer]>`.
 
 The `<INDEX [integer]>` parameter refers to the desired command's corresponding list number as displayed by the help menu.
 
 Example of usage:
 ```
-[User]> help /program 7
+help /program 7
 ```
 
 Expected outcome:

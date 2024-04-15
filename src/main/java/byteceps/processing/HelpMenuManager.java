@@ -23,8 +23,8 @@ public class HelpMenuManager {
      *
      * @return String informing user how to access each "help menu" for the main commands (exercise, workout & program).
      */
-    public String getHelpGreetingString() {
-        return HelpStrings.HELP_MANAGER_GREETING;
+    public String getHelpGuidanceString() {
+        return HelpStrings.HELP_GUIDANCE_MESSAGE;
     }
     /**
      * Displays either (1) a command help menu (if no valid numerical parameter is provided) or (2) the specific
@@ -41,7 +41,7 @@ public class HelpMenuManager {
             HelpValidator.validateCommand(parser);
         } catch (Exceptions.InvalidInput e) {
             if (e.getMessage().equals(NO_ACTION_EXCEPTION)) {
-                return getHelpGreetingString();
+                return getHelpGuidanceString();
             } else {
                 throw e;
             }

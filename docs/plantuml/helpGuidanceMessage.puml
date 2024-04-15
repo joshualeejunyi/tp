@@ -9,7 +9,7 @@ participant HelpStrings as "<<static>> \n HelpStrings"
 participant HelpValidator as Validator
 
 
-User -> Parser : parseInput('help /program')
+User -> Parser : parseInput('help')
 activate Parser
 User <-- Parser
 deactivate Parser
@@ -19,27 +19,26 @@ activate HelpMenuManager
 
 HelpMenuManager -> Validator : validateCommand(Parser)
 activate Validator
-Validator --> HelpMenuManager : Validation success
+Validator --> HelpMenuManager : Invalid Input Exception thrown
 deactivate Validator
 
-alt Validation successful
-    HelpMenuManager -> HelpMenuManager : generateAllActions('program')
+alt Expected error message for 'help'
+    HelpMenuManager -> HelpMenuManager : getHelpGuidanceString()
     activate HelpMenuManager #FFBBBB
 
 
-    HelpMenuManager -> HelpStrings : retrieve PROGRAM_FLAG_FUNCTIONS
-    HelpMenuManager <-- HelpStrings : result = PROGRAM_FLAG_FUNCTIONS
-    HelpMenuManager --> HelpMenuManager : result
+    HelpMenuManager -> HelpStrings : retrieve HELP_GUIDANCE_MESSAGE
+    HelpMenuManager <-- HelpStrings : HELP_GUIDANCE_MESSAGE
+    HelpMenuManager --> HelpMenuManager : HELP_GUIDANCE_MESSAGE
     deactivate HelpMenuManager #FFBBBB
 
-    User <-- HelpMenuManager : messageToUser = result
+    User <-- HelpMenuManager : messageToUser = HELP_GUIDANCE_MESSAGE
     User -> UserInterface: printMessage(messageToUser)
     activate UserInterface
     UserInterface --> User:
     deactivate UserInterface
 
-
-else Validation fails
+else Unexpected error message
     User -> UserInterface: printMessage(exceptionMessage : String)
     activate UserInterface
     UserInterface --> User:
