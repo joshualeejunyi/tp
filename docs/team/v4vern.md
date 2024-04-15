@@ -60,7 +60,8 @@ Functionality: Expanded the workout logging capabilities to support multiple set
   - Added implementation details of all features of `Workout Management`.
   - Created sequence diagram of `addExercise` under `Exercise Management`.
   - Created sequence diagrams of `deleteWorkout`,`assignExerciseToWorkout`, `listExercisesinWorkoutPlan`  under `Workout Management`.
-  - Added Product Scope Information (Target User Profile, Value Proposition, User Stories & Non-Functional Requirements)
+  - Added Product Scope Information (Target User Profile, Value Proposition, User Stories & Non-Functional Requirements) & Glossary
+  - Added Instructions for manual testing
 
 #### Added UML diagrams:
 Sequence Diagram for addExercise:
