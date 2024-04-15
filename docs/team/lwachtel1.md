@@ -9,7 +9,7 @@ The user interacts with the tool using commands entered via the CLI interface. W
 ### New Features
 + **Help menu**:  Shows the user how to correctly format each possible BYTE-CEPS command.
     + What it does: Upon initial program execution, a guidance message detailing the commands to access the help menu is displayed. A user can enter 1 of these commands to view 3 different lists, each one with numbered items describing the functionalities associated with a category tracked by BYTE-CEPS. They can then see a given functionality's specific command formatting by entering the previous command along with the number from its help menu list position as a parameter.
-    + Credits: I wrote the initial HelpMenuManager class, and **_joshualeejunyi_** & **_pqienso_** refined my code. I then added functionality to view the access guidance message whenever the user enters `help` alone.
+    + Credits: I wrote the initial HelpMenuManager class & added Javadocs, and **_joshualeejunyi_** & **_pqienso_** refined my code. I then added functionality to view the access guidance message whenever the user enters `help` alone.
 + **Editing an exercise**: Allows user to change name of an already created exercise.
 
 ### Enhancements to Existing Features 
@@ -31,7 +31,6 @@ The user interacts with the tool using commands entered via the CLI interface. W
     + [Issue #44](https://github.com/AY2324S2-CS2113-F14-3/tp/issues/44): Implemented [fixes](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/49) for unhandled exceptions for `week` (now called `program`).
 
 ### Documentation
-+ **Javadocs**: Added Javadocs to all non-trivial methods in the `HelpMenuManager` and `HelpValidator` classes, as well as adding class header comments for both classes.
 + **UG**: Added all documentation for the help menu and related commands.
 + **DG**:
     + Entire help menu section, including descriptions and sequence diagrams
