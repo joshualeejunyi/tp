@@ -61,7 +61,8 @@ As such, I tweaked all print messages to reflect the commands that they needed t
 ### Contributions to team-based tasks
 * Setup organization in GitHub
 * Regularly followed up on issues and PRs
-* Examples of PR reviewed:
+* Submitted and managed latest release version `v2.1` 
+* Regularly reviewed [PRs](https://github.com/AY2324S2-CS2113-F14-3/tp/pulls?q=is%3Apr+is%3Aclosed+reviewed-by%3A%40me), some examples:
     * [Add Storage class and functionality](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/60#pullrequestreview-1956391203)
     * [Refactor code to use UserInterface.printMessage() ](https://github.com/AY2324S2-CS2113-F14-3/tp/pull/30#discussion_r1527492503)
 
