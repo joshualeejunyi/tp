@@ -19,7 +19,7 @@ public class HelpMenuManager {
     }
     /**
      * Returns String that explains to user how to access each of the 3 "help menus" for the
-     * 3 main commands (exercise, workout & program).
+     * 3 main commands (exercise, workout & program). This can be accessed by user using 'help /view'.
      *
      * @return String informing user how to access each "help menu" for the main commands (exercise, workout & program).
      */
@@ -30,10 +30,11 @@ public class HelpMenuManager {
     /**
      * Displays either (1) a command help menu (if no valid numerical parameter is provided) or (2) the specific
      * command format for a specific BYTE-CEPS functionality, which corresponds to the help menu entry specified by
-     * the provided valid numerical parameter.
+     * the provided valid numerical parameter or (3) the message containing guidance for accessing help menus (if
+     * 'help /view' is entered).
      *
      * @param parser Parser containing required user input.
-     * @return String detailing either an entire command help menu or a specific command formatting.
+     * @return String of a command help menu, a specific command formatting or guidance for accessing help menus.
      */
     public String execute(Parser parser) throws Exceptions.InvalidInput {
         HelpValidator.validateCommand(parser);
@@ -52,10 +53,11 @@ public class HelpMenuManager {
 
     /**
      * Builds a String containing a command's entire help menu (either exercise, workout  or program) i.e., a command's
-     * entire list of associated functionalities.
+     * entire list of associated functionalities, or if 'help /view' is entered, returns the message containing
+     * guidance for accessing help menus.
      *
      * @param command Command for which user wants to view help menu.
-     * @return String containing a command's help menu as an indented, numbered list starting from 1.
+     * @return String of a command's help menu as an indented list, or message with guidance for help menu access
      */
     private String generateAllActions(String command) throws Exceptions.InvalidInput {
         String[] flagFunctions;
