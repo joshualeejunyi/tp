@@ -1,4 +1,4 @@
-# Lukas Ethan Wachtel's Project Portfolio Page
+# Lukas Ethan Wachtel (LWachtel1) Project Portfolio Page
 
 ## Project: ByteCeps
 BYTE-CEPS is a CLI-based tool for setting and tracking fitness goals. 
