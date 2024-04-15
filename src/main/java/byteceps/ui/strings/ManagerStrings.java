@@ -17,7 +17,7 @@ public class ManagerStrings {
     public static final String EMPTY_SEARCH = "Search term cannot be empty.";
     public static final String NO_RESULTS = "No results found";
     public static final String SEARCH_RESULTS = "Search Results:%s";
-
+    public static final String INVALID_LIST = "Invalid command. Use '%s /list' to list all exercises.";
 
     // Exercise strings
     public static final String EXERCISE = "Exercise";
@@ -26,7 +26,6 @@ public class ManagerStrings {
     public static final String EXERCISE_DELETED = "Deleted Exercise: %s";
     public static final String EXERCISE_ADDED = "Added Exercise: %s";
     public static final String EXERCISE_NAME_SAME = "No change needed: the exercise name '%s' is already in use.";
-    public static final String INVALID_EXERCISE_LIST = "Invalid command. Use 'exercise /list' to list all exercises.";
     public static final String EMPTY_EXCERCISE_NAME = "Exercise name cannot be empty";
     public static final String INCOMPLETE_EDIT = "Edit command not complete. " +
             "Please use: exercise /edit <OLD_EXERCISE_NAME [string]> /to <NEW_EXERCISE_NAME [string]>";
@@ -47,7 +46,6 @@ public class ManagerStrings {
             "Please use: workout /delete <WORKOUT_PLAN_NAME [string]>";
     public static final String INCOMPLETE_SEARCH = "Search term cannot be left blank." +
             "Please use: workout /search <WORKOUT_PLAN_NAME [string]>";
-    public static final String INVALID_WORKOUT_LIST = "Invalid command. Use 'workout /list' to list all exercises.";
     public static final String UNASSIGNED_EXERCISE = "Unassigned Exercise '%s' from Workout Plan '%s'";
     public static final String ASSIGNED_EXERCISE = "Assigned Exercise '%s' to Workout Plan '%s'";
     public static final String WORKOUT_EDITED = "Edited Workout Plan from %s to %s";
