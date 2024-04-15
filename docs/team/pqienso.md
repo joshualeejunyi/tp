@@ -64,13 +64,13 @@ All code contributed can be seen on the tP dashboard
   - Added precautions of cascading deletions to user guide
   - Contributed to summary table of all commands
 
-<div style="page-break-after: always;"></div>
-
 #### Developer Guide contributions
   - Created class diagrams of all `Activity` classes and `ActivityManager` classes, along with their overview and explanation.
   - Documented all implementation details for `WeeklyProgramManager`.
   - Documented all implementation details for the `Storage` class.
   - Documented all implementation details for the `CascadingDeletionProcessor` class.
+
+<div style="page-break-after: always;"></div>
 
 #### Contributions to DG: extracts
 `Activity` class diagram:\
