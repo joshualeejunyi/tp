@@ -6,6 +6,7 @@ import byteceps.errors.Exceptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -27,9 +28,9 @@ class CascadingDeletionProcessorTest {
     }
 
     @Test
-    void checkForCascadingDeletions_nonDeleteAction_noActionTaken() throws Exceptions.InvalidInput {
+    void checkForCascadingDeletions_nonDeleteAction_noActionTaken() {
         String validInput = "workout /create test";
-        parser.parseInput(validInput);
+        assertDoesNotThrow(() -> parser.parseInput(validInput));
         CascadingDeletionProcessor.checkForCascadingDeletions(parser, workoutManager, weeklyProgramManager);
         assertEquals(0, workoutManager.getActivityList().size());
     }
