@@ -449,7 +449,7 @@ Expected outcome:
 [BYTE-CEPS]> Successfully logged benchpress with weights of 100kg, 110kg, 120kg and reps of 5, 4, 3 across 3 sets on 2024-03-28
 ```
 
-#### Overwriting a Existing Log
+#### Overwriting an Existing Log
 You may overwrite an existing logged exercise by logging an exercise with the same name.
 
 For example, you may have logged an exercise incorrectly.
@@ -654,13 +654,13 @@ GOODBYE FOR NOW. STAY HARD!
 ```
 
 ## Saving the data
-BYTE-CEPS data are saved in the hard disk automatically after the `exit` command . There is no need to save manually.
+BYTE-CEPS data are saved on the hard disk automatically after the `exit` command . There is no need to save manually.
 
 ## Editing the data
 BYTE-CEPS data are saved automatically as a JSON file `data.json` in the same directory as the Jar File. Advanced users are welcome to update data directly by editing that data file.
 
-> Caution: If your changes to the data file makes its format invalid, BYTE-CEPS will save the current data file as `data.json.old_YYYY_MMDD_HHSS_MM` and start with an empty data file at the next run.
-Furthermore, certain edits can cause the BYTE-CEPS to behave in unexpected ways (e.g., if a date entered is of a different format). Therefore, edit the data file only if you are confident that you can update it correctly.
+> Caution: If your changes to the data file make its format invalid, BYTE-CEPS will save the current data file as `data.json.old_YYYY_MMDD_HHSS_MM` and start with an empty data file at the next run.
+Furthermore, certain edits can cause BYTE-CEPS to behave in unexpected ways (e.g., if a date entered is of a different format). Therefore, only edit the data file if you are confident that you can do so correctly.
 
 ## Command summary
 
