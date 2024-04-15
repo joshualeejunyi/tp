@@ -177,14 +177,24 @@ public class Storage {
         JSONObject currentExercise = exercisesArray.getJSONObject(index);
         String exerciseName = currentExercise.getString(StorageStrings.EXERCISE_NAME);
         JSONArray weightArray = currentExercise.getJSONArray(StorageStrings.WEIGHT);
-        String sets = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
+        String setsString  = String.valueOf(currentExercise.getInt((StorageStrings.SETS)));
         JSONArray repsArray = currentExercise.getJSONArray(StorageStrings.REPS);
 
         String weights = weightArray.join(" ").replaceAll("\"", "");
         String reps = repsArray.join(" ").replaceAll("\"", "");
 
+        int sets = Integer.parseInt(setsString);
+        validateLogCounts(weightArray.length(), repsArray.length(), sets);
+
         workoutLogsManager.addExerciseLog(workoutDate, exerciseName,
-                weights, sets, reps);
+                weights, setsString , reps);
+    }
+
+    private static void validateLogCounts(int weightCount, int repCount, int sets)
+            throws Exceptions.InvalidInput {
+        if (weightCount != sets || repCount != sets) {
+            throw new Exceptions.InvalidInput("");
+        }
     }
 
     private static void validateDateString(String workoutDate) throws Exceptions.InvalidInput {

@@ -37,7 +37,7 @@ public class ManagerStrings {
     public static final String WORKOUT = "Workout";
     public static final String WORKOUTS = "Workouts";
 
-    public static final String WORKOUT_NAME_SAME = "No change needed: the workout name '%s' is already in use." ;
+    public static final String WORKOUT_NAME_SAME = "No change needed: the workout name '%s' is already in use.";
     public static final String INCOMPLETE_INFO = "Info command not complete. " +
             "Please use: workout /info <WORKOUT_PLAN_NAME [string]> ";
     public static final String INCOMPLETE_CREATE = "Create command not complete. " +
@@ -81,6 +81,9 @@ public class ManagerStrings {
     public static final String PROGRAM_LIST = "Your workouts for the week:";
     public static final String PROGRAM_LIST_ITEM = "\t%s: ";
 
+    public static final String INVALID_PROGRAM_LIST = "Invalid command. Use '%s /today' to view the " +
+            "workout plan for today.";
+
     public static final String NO_WORKOUT_TO_CLEAR = "There are no workouts scheduled for %s that require clearing.";
 
     // Logs strings
@@ -103,4 +106,5 @@ public class ManagerStrings {
             "the declared number of sets (%d). Each set should have a corresponding number of repetitions.";
 
     public static final String OVERWRITE_EXERCISE_LOG = "It seems like %s already exists, overwriting...";
+
 }

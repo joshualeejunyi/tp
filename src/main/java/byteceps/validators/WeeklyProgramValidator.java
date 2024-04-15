@@ -108,6 +108,11 @@ public class WeeklyProgramValidator extends Validator {
     }
 
     private static void validateTodayAction(Parser parser) throws Exceptions.InvalidInput {
+        if (!parser.getActionParameter().isEmpty()) {
+            throw new Exceptions.InvalidInput(
+                    String.format(ManagerStrings.INVALID_PROGRAM_LIST, parser.getCommand())
+            );
+        }
         validateNumAdditionalArgs(0, 0, parser);
     }
 

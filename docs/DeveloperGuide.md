@@ -896,5 +896,8 @@ Developers are expected to conduct more extensive tests.
      * During normal execution.
      * Command: `bye` 
      * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
-
+   * Test case 2:
+     * During normal execution.
+     * Command: `exit` 
+     * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
 

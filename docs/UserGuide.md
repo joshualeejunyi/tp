@@ -636,16 +636,14 @@ Expected outcome:
 ```
 
 ## Exiting program
-You may exit the program using the `exit` command.
+You may exit the program using the `exit` or the `bye` command.
 ```
 exit
 ```
-
 Example of usage: 
 ```
 exit
 ```
-
 Expected outcome:
 ```
 [BYTE-CEPS]> All your workouts and exercises have been saved.
@@ -692,5 +690,6 @@ Furthermore, certain edits can cause the BYTE-CEPS to behave in unexpected ways 
 | Displaying Help Menu Category: Exercise	      | `help /exercise <INDEX [integer]> 	`				                                                                                                                        | `help /exercise 3` 			                                                 |
 | Displaying Help Menu Category: Workout	       | `help /workout<INDEX [integer]> 	`					                                                                                                                         | `help /workout 4` 			                                                  |
 | Displaying Help Menu Category: Program	       | `help /program<INDEX [integer]>	`				                                                                                                                           | `help /program 7`			                                                   |
-
+| Exit the program	       | `bye `					                                                                                                                         | `bye` 			                                                  |
+| Exit the program	       | `exit `					                                                                                                                         | `exit` 			                                                  |
 
