@@ -34,7 +34,7 @@ The user interacts with the tool using commands entered via the CLI interface. W
 + **Javadocs**: Added Javadocs to all non-trivial methods in the `HelpMenuManager` and `HelpValidator` classes, as well as adding class header comments for both classes.
 + **UG**: Added all documentation for the help menu and related commands.
 + **DG**:
-    + Help menu section, including descriptions and sequence diagrams
+    + Entire help menu section, including descriptions and sequence diagrams
     + Added to **_v4vern_**'s manual testing section regarding the help menu.
 
 ### Community (Contributions to the Team and Beyond):
