@@ -5,7 +5,7 @@ participant ByteCeps as User
 participant UserInterface
 participant ":Parser" as Parser
 participant ":HelpMenuManager" as HelpMenuManager
-participant HelpStrings
+participant HelpStrings as "<<static>> \n HelpStrings"
 participant HelpValidator as Validator
 
 
