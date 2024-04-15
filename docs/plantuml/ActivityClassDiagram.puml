@@ -53,5 +53,7 @@ exerciseList : ArrayList<Exercise>
 + editWorkoutName(newWorkoutName : String, activityManager : ActivityManager) : void
 }
 Workout --|> Activity
-Day--"# assignedWorkout" Workout
+Day-->"assignedWorkout 0..1" Workout
+Workout-->"exercises *" Exercise
+WorkoutLog --> "exerciseLogs *"ExerciseLog
 @enduml

@@ -61,8 +61,8 @@ abstract class ActivityManager{
 + retrieve(activityName : String) : Activity
 + getListString() : String
 }
-WorkoutManager-->"exerciseManager" ExerciseManager
-WeeklyProgramManager-->"exerciseManager" ExerciseManager
-WeeklyProgramManager-->"workoutManager" WorkoutManager
-WeeklyProgramManager-->"workoutLogsManager" WorkoutLogsManager
+WorkoutManager-->"1 exerciseManager" ExerciseManager
+WeeklyProgramManager-->"1 exerciseManager" ExerciseManager
+WeeklyProgramManager-->"1 workoutManager" WorkoutManager
+WeeklyProgramManager-->"1 workoutLogsManager" WorkoutLogsManager
 @enduml
