@@ -317,7 +317,9 @@ Below is the sequence diagram of the command `program /assign <workout> /to <day
 #### Viewing today's workout program
 Below is the sequence diagram of the command `program /today` being run.
 The validation of user input has been omitted for purposes of brevity.
+
 ![](./diagrams/programToday.svg)
+
 1. Today's date is retrieved in the form of a `Date` object.
 2. This is used to retrieve the appropriate `Day` object.
 3. The `Workout` contained in the `Day` object is retrieved.
@@ -326,7 +328,9 @@ The validation of user input has been omitted for purposes of brevity.
 #### Clearing a day in the program
 This is the sequence diagram of the command `program /clear <day [optional]>` being run.
 The validation of user input has been omitted for purposes of brevity.
+
 ![](./diagrams/clearProgram.svg)
+
 1. If no day has been assigned to the user, the `executeClearAction()` method clears all workouts in the `WeeklyProgramManager` object.
 2. Otherwise, the specified `Day` object is removed from `WeeklyProgramManager` object, and a new `Day` object with no workout assigned is constructed in its place.
 
