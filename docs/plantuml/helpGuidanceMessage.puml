@@ -1,0 +1,48 @@
+@startuml SequenceDiagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+participant ByteCeps as User
+participant UserInterface
+participant ":Parser" as Parser
+participant ":HelpMenuManager" as HelpMenuManager
+participant HelpStrings as "<<static>> \n HelpStrings"
+participant HelpValidator as Validator
+
+
+User -> Parser : parseInput('help')
+activate Parser
+User <-- Parser
+deactivate Parser
+
+User -> HelpMenuManager : execute(parser)
+activate HelpMenuManager
+
+HelpMenuManager -> Validator : validateCommand(Parser)
+activate Validator
+Validator --> HelpMenuManager : Invalid Input Exception thrown
+deactivate Validator
+
+alt Expected error message for 'help'
+    HelpMenuManager -> HelpMenuManager : getHelpGreetingString()
+    activate HelpMenuManager #FFBBBB
+
+
+    HelpMenuManager -> HelpStrings : retrieve HELP_MANAGER_GREETING
+    HelpMenuManager <-- HelpStrings : HELP_MANAGER_GREETING
+    HelpMenuManager --> HelpMenuManager : HELP_MANAGER_GREETING
+    deactivate HelpMenuManager #FFBBBB
+
+    User <-- HelpMenuManager : messageToUser = HELP_MANAGER_GREETING
+    User -> UserInterface: printMessage(messageToUser)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+
+else Unexpected error message
+    User -> UserInterface: printMessage(exceptionMessage : String)
+    activate UserInterface
+    UserInterface --> User:
+    deactivate UserInterface
+end
+
+@enduml
