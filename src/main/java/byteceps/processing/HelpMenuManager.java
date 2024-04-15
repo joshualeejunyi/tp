@@ -2,14 +2,10 @@ package byteceps.processing;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
-import byteceps.ui.UserInterface;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
-import byteceps.ui.strings.ManagerStrings;
 import byteceps.validators.HelpValidator;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 /**
  * Displays the correct command formatting for all BYTE-CEPS functionalities. Command formats are divided into 3
@@ -21,8 +17,6 @@ public class HelpMenuManager {
 
     public HelpMenuManager() {
     }
-
-
     /**
      * Returns String that explains to user how to access each of the 3 "help menus" for the
      * 3 main commands (exercise, workout & program).
@@ -32,7 +26,6 @@ public class HelpMenuManager {
     public String getHelpGreetingString() {
         return HelpStrings.HELP_MANAGER_GREETING;
     }
-
 
     /**
      * Displays either (1) a command help menu (if no valid numerical parameter is provided) or (2) the specific
