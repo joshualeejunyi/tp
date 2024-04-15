@@ -21,7 +21,6 @@ The user interacts with the tool using commands entered via the CLI interface. W
 + **Testing `Storage` methods**: 75% of methods within `Storage` are covered.
     + Credits: I wrote all test methods within the `StorageTest` class and the helper methods for file handling. **_joshualeejunyi_** wrote `setup()`, `setUpStreams()`and `restoreStreams()`, which are integral to the functioning of the test methods.
 + **Testing `ExerciseManager` method for editing an exercise**: Enables my teammates and I, as well as any future developers, to ensure that the functionality for editing an exercise name is working properly.
-  + What it does: It tests that the `execute()` method in `ExerciseManager` edits an exercise under conditions where success is expected and throw exceptions under conditions where editing should fail.
   + Credits: I wrote all test methods for editing an exercise. However, other tests written by my teammates acted as helpful guidance.
 + **Testing `HelpMenuManager` and `HelpValidator` methods**: 87% of methods within `HelpMenuManager` and 100% within `HelpValidator` are covered.
   + Credits: I wrote all test methods. I reused and adapted **_joshualeejunyi_**'s `setup()`, `setUpStreams()`and `restoreStreams()` methods.
