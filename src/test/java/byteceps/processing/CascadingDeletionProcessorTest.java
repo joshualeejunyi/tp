@@ -27,7 +27,7 @@ class CascadingDeletionProcessorTest {
     }
 
     @Test
-    void checkForCascadingDeletions_nonDeleteAction_noActionTaken() {
+    void checkForCascadingDeletions_nonDeleteAction_noActionTaken() throws Exceptions.InvalidInput {
         String validInput = "workout /create test";
         parser.parseInput(validInput);
         CascadingDeletionProcessor.checkForCascadingDeletions(parser, workoutManager, weeklyProgramManager);

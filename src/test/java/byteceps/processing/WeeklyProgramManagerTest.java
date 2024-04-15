@@ -6,6 +6,7 @@ import byteceps.ui.UserInterface;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.TestInstantiationException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -35,17 +36,22 @@ class WeeklyProgramManagerTest {
         WorkoutLogsManager workoutLogsManager = new WorkoutLogsManager();
         weeklyProgramManager = new WeeklyProgramManager(exerciseManager, workoutManager, workoutLogsManager);
 
-        // create dummy exercises and workouts
-        String[] exerciseInput = {"exercise /add benchpress", "exercise /add deadlift", "exercise /add barbell squat"};
-        for (String input : exerciseInput) {
-            parser.parseInput(input);
-            assertDoesNotThrow(() -> exerciseManager.execute(parser));
-        }
+        try {
+            // create dummy exercises and workouts
+            String[] exerciseInput = {"exercise /add benchpress", "exercise /add deadlift",
+                "exercise /add barbell squat"};
+            for (String input : exerciseInput) {
+                parser.parseInput(input);
+                assertDoesNotThrow(() -> exerciseManager.execute(parser));
+            }
 
-        String[] workoutInput = {"workout /create leg day", "workout /create full day"};
-        for (String input : workoutInput) {
-            parser.parseInput(input);
-            assertDoesNotThrow(() -> workoutManager.execute(parser));
+            String[] workoutInput = {"workout /create leg day", "workout /create full day"};
+            for (String input : workoutInput) {
+                parser.parseInput(input);
+                assertDoesNotThrow(() -> workoutManager.execute(parser));
+            }
+        } catch (Exceptions.InvalidInput e) {
+            throw new TestInstantiationException("Could not instantiate tests");
         }
     }
 
@@ -64,14 +70,14 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void execute_assignValidWorkout_success() {
+    void execute_assignValidWorkout_success() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign leg day /to thurs";
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
     }
 
     @Test
-    void execute_assignDuplicateWorkout_throwsActivityExistsException() {
+    void execute_assignDuplicateWorkout_throwsActivityExistsException() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign leg day /to thurs";
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
@@ -79,21 +85,21 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void execute_assignInvalidWorkout_throwsActivityDoesNotExist() {
+    void execute_assignInvalidWorkout_throwsActivityDoesNotExist() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign laze day /to thurs";
         parser.parseInput(assignWorkoutInput);
         assertThrows(Exceptions.ActivityDoesNotExist.class, () -> weeklyProgramManager.execute(parser));
     }
 
     @Test
-    void execute_assignBlankWorkout_throwsActivityDoesNotExist() {
+    void execute_assignBlankWorkout_throwsActivityDoesNotExist() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign/to thurs";
         parser.parseInput(assignWorkoutInput);
         assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
     }
 
     @Test
-    void execute_assignInvalidDate_throwsInvalidInput() {
+    void execute_assignInvalidDate_throwsInvalidInput() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign leg day /to wrong day";
         parser.parseInput(assignWorkoutInput);
         assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
@@ -104,14 +110,14 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void execute_incompleteAssignCommand_throwsInvalidInput() {
+    void execute_incompleteAssignCommand_throwsInvalidInput() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign";
         parser.parseInput(assignWorkoutInput);
         assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
     }
 
     @Test
-    void execute_clearWorkout_success() {
+    void execute_clearWorkout_success() throws Exceptions.InvalidInput {
         setUpStreams();
         String assignWorkoutInput = "program /assign leg day /to thurs";
         parser.parseInput(assignWorkoutInput);
@@ -172,7 +178,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void execute_clearInvalidDay_throwsInvalidInput() {
+    void execute_clearInvalidDay_throwsInvalidInput() throws Exceptions.InvalidInput {
         String clearWorkoutInput = "program /clear noday";
         parser.parseInput(clearWorkoutInput);
         assertThrows(Exceptions.InvalidInput.class, () -> weeklyProgramManager.execute(parser));
@@ -180,7 +186,7 @@ class WeeklyProgramManagerTest {
 
 
     @Test
-    void executeHistoryAction_validDate_returnsFormattedWorkout() {
+    void executeHistoryAction_validDate_returnsFormattedWorkout() throws Exceptions.InvalidInput {
         setUpStreams();
         String dateString = LocalDate.now().toString();
         String todayString = LocalDate.now().getDayOfWeek().toString();
@@ -210,7 +216,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void execute_clearAll_success() {
+    void execute_clearAll_success() throws Exceptions.InvalidInput {
         setUpStreams();
         String assignWorkoutInput = "program /assign leg day /to thurs";
         parser.parseInput(assignWorkoutInput);
@@ -274,7 +280,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void log_validLog_success() {
+    void log_validLog_success() throws Exceptions.InvalidInput {
         setUpStreams();
         String dateString = LocalDate.now().toString();
         String todayString = LocalDate.now().getDayOfWeek().toString();
@@ -315,7 +321,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void log_incompleteLog_throwsInvalidInput() {
+    void log_incompleteLog_throwsInvalidInput() throws Exceptions.InvalidInput {
         String todayString = LocalDate.now().getDayOfWeek().toString();
         String assignWorkoutInput = String.format("program /assign full day /to %s", todayString);
 
@@ -338,7 +344,7 @@ class WeeklyProgramManagerTest {
 
 
     @Test
-    void log_invalidExerciseLog_throwsActivityDoesNotExist() {
+    void log_invalidExerciseLog_throwsActivityDoesNotExist() throws Exceptions.InvalidInput {
         String todayString = LocalDate.now().getDayOfWeek().toString();
         String assignWorkoutInput = String.format("program /assign full day /to %s", todayString);
 
@@ -349,7 +355,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void log_history_success() {
+    void log_history_success() throws Exceptions.InvalidInput {
         setUpStreams();
         String dateString = LocalDate.now().toString();
         String todayString = LocalDate.now().getDayOfWeek().toString();
@@ -396,7 +402,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void log_historyInvalidDate_throwsInvalidInput() {
+    void log_historyInvalidDate_throwsInvalidInput() throws Exceptions.InvalidInput {
         String assignWorkoutInput = "program /assign full day /to monday";
         parser.parseInput(assignWorkoutInput);
         assertDoesNotThrow(() -> weeklyProgramManager.execute(parser));
@@ -407,7 +413,7 @@ class WeeklyProgramManagerTest {
     }
 
     @Test
-    void execute_list_success() {
+    void execute_list_success() throws Exceptions.InvalidInput {
         setUpStreams();
         String assignWorkoutInput = "program /assign full day /to monday";
         parser.parseInput(assignWorkoutInput);

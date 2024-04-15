@@ -21,21 +21,21 @@ public class HelpValidatorTest {
     }
 
     @Test
-    public void validateCommand_hasFlagNoAdditionalArgs_success() {
+    public void validateCommand_hasFlagNoAdditionalArgs_success() throws Exceptions.InvalidInput {
         String flagNoAdditionalArgs = "help /exercise";
         parser.parseInput(flagNoAdditionalArgs);
         assertDoesNotThrow( () -> HelpValidator.validateCommand(parser));
     }
 
     @Test
-    public void validateCommand_hasFlagParamNoAdditionalArgs_success() {
+    public void validateCommand_hasFlagParamNoAdditionalArgs_success() throws Exceptions.InvalidInput {
         String flagParamNoAdditionalArgs = "help /exercise 1";
         parser.parseInput(flagParamNoAdditionalArgs);
         assertDoesNotThrow( () -> HelpValidator.validateCommand(parser));
     }
 
     @Test
-    public void validateCommand_hasFlagAdditionalArgs_throwsInvalidInput() {
+    public void validateCommand_hasFlagAdditionalArgs_throwsInvalidInput() throws Exceptions.InvalidInput {
         String flagAdditionalArgs = "help /exercise /error";
         parser.parseInput(flagAdditionalArgs);
 
@@ -45,7 +45,7 @@ public class HelpValidatorTest {
     }
 
     @Test
-    public void validateCommand_hasFlagParamAdditionalArgs_throwsInvalidInput() {
+    public void validateCommand_hasFlagParamAdditionalArgs_throwsInvalidInput() throws Exceptions.InvalidInput {
         String flagParamAdditionalArgs = "help /exercise 1 /error";
         parser.parseInput(flagParamAdditionalArgs);
 
@@ -55,7 +55,7 @@ public class HelpValidatorTest {
     }
 
     @Test
-    public void validateCommand_emptyFlag_throwsInvalidInput() {
+    public void validateCommand_emptyFlag_throwsInvalidInput() throws Exceptions.InvalidInput {
         String emptyFlag = "help / ";
         parser.parseInput(emptyFlag);
 
@@ -65,7 +65,7 @@ public class HelpValidatorTest {
     }
 
     @Test
-    public void validateCommand_noFlag_throwsInvalidInput() {
+    public void validateCommand_noFlag_throwsInvalidInput() throws Exceptions.InvalidInput {
         String noFlag = "help";
         parser.parseInput(noFlag);
 

@@ -39,7 +39,7 @@ public class HelpMenuManagerTest {
     }
 
     @Test
-    public void execute_helpOnly_success() {
+    public void execute_helpOnly_success() throws Exceptions.InvalidInput {
         String helpOnlyInput = "help";
         parser.parseInput(helpOnlyInput);
 
@@ -53,7 +53,7 @@ public class HelpMenuManagerTest {
 
 
     @Test
-    public void execute_viewFlagMenu_success() {
+    public void execute_viewFlagMenu_success() throws Exceptions.InvalidInput {
         String validInputFlagMenu = "help /exercise";
         parser.parseInput(validInputFlagMenu);
 
@@ -72,7 +72,7 @@ public class HelpMenuManagerTest {
 
 
     @Test
-    public void execute_viewSpecificCommandFormat_success() {
+    public void execute_viewSpecificCommandFormat_success() throws Exceptions.InvalidInput {
         String validInputSpecificCommandFormat = "help /program 1";
         parser.parseInput(validInputSpecificCommandFormat);
 
@@ -86,7 +86,7 @@ public class HelpMenuManagerTest {
     }
 
     @Test
-    public void execute_invalidFlagNoParam_throwsInvalidInput() {
+    public void execute_invalidFlagNoParam_throwsInvalidInput() throws Exceptions.InvalidInput {
         String invalidFlagInput = "help /schedule";
         parser.parseInput(invalidFlagInput);
 
@@ -98,7 +98,7 @@ public class HelpMenuManagerTest {
     }
 
     @Test
-    public void execute_invalidFlagValidParam_throwsInvalidInput() {
+    public void execute_invalidFlagValidParam_throwsInvalidInput() throws Exceptions.InvalidInput {
         String invalidFlagInput = "help /schedule 1";
         parser.parseInput(invalidFlagInput);
 
@@ -111,7 +111,8 @@ public class HelpMenuManagerTest {
 
 
     @Test
-    public void execute_outOfBoundsParameterSpecificCommandFormat_returnInvalidCommand() {
+    public void execute_outOfBoundsParameterSpecificCommandFormat_returnInvalidCommand()
+            throws Exceptions.InvalidInput {
         String outOfBoundsParamInput = "help /exercise 10";
         parser.parseInput(outOfBoundsParamInput);
 
@@ -123,7 +124,8 @@ public class HelpMenuManagerTest {
     }
 
     @Test
-    public void execute_nonNumericalParameterSpecificCommandFormat_returnInvalidCommand() {
+    public void execute_nonNumericalParameterSpecificCommandFormat_returnInvalidCommand()
+            throws Exceptions.InvalidInput {
         String outOfBoundsParamInput = "help /exercise abc";
         parser.parseInput(outOfBoundsParamInput);
 

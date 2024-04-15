@@ -9,5 +9,6 @@ public class UiStrings {
     public static final String MESSAGE_GOODBYE = "GOODBYE FOR NOW. STAY HARD!";
     public static final String SEPARATOR = "-------------------------------------------------";
     public static final String ERROR_STRING = "Error: %s";
+    public static final String MORE_SLASHES_THAN_ARGS = "More slashes than arguments";
 
 }

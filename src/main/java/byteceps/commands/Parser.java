@@ -2,6 +2,7 @@ package byteceps.commands;
 
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.ManagerStrings;
+import byteceps.ui.strings.UiStrings;
 
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ public class Parser {
     }
 
     //@@author pqienso
-    public void parseInput(String line) {
+    public void parseInput(String line) throws Exceptions.InvalidInput {
         // flush the old input
         flush();
 
@@ -41,6 +42,13 @@ public class Parser {
 
         command = line.substring(0, indexOfFirstSlash).trim().toLowerCase();
         String[] argumentKeyValuePairs = line.substring(indexOfFirstSlash + 1).split("/");
+
+        long numberOfSlashes = line.chars().filter(ch -> ch == '/').count();
+
+        if (numberOfSlashes != argumentKeyValuePairs.length) {
+            throw new Exceptions.InvalidInput(UiStrings.MORE_SLASHES_THAN_ARGS);
+        }
+
         for (String keyValuePair : argumentKeyValuePairs) {
             String[] currentKV = keyValuePair.split( " ", 2);
             String flag = currentKV[0].trim();

@@ -44,11 +44,11 @@ public class ByteCeps {
 
     public void runCommandLine() {
         while (true) {
-            String userInput = ui.getUserInput();
-            parser.parseInput(userInput);
-
-            String messageToUser;
             try {
+                String userInput = ui.getUserInput();
+                parser.parseInput(userInput);
+
+                String messageToUser;
                 switch (parser.getCommand()) {
                 case CommandStrings.COMMAND_EXERCISE:
                     messageToUser = exerciseManager.execute(parser);
