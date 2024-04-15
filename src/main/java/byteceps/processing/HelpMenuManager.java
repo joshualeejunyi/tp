@@ -2,9 +2,14 @@ package byteceps.processing;
 
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
+import byteceps.ui.UserInterface;
 import byteceps.ui.strings.HelpStrings;
 import byteceps.ui.strings.CommandStrings;
+import byteceps.ui.strings.ManagerStrings;
 import byteceps.validators.HelpValidator;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Displays the correct command formatting for all BYTE-CEPS functionalities. Command formats are divided into 3
@@ -15,8 +20,8 @@ import byteceps.validators.HelpValidator;
 public class HelpMenuManager {
 
     public HelpMenuManager() {
-
     }
+
 
     /**
      * Returns String that explains to user how to access each of the 3 "help menus" for the
@@ -51,6 +56,7 @@ public class HelpMenuManager {
 
     }
 
+
     /**
      * Builds a String containing a command's entire help menu (either exercise, workout  or program) i.e., a command's
      * entire list of associated functionalities.
@@ -60,21 +66,30 @@ public class HelpMenuManager {
      */
     private String generateAllActions(String command) throws Exceptions.InvalidInput {
         String[] flagFunctions;
+        StringBuilder result = new StringBuilder();
+
         switch (command) {
         case CommandStrings.COMMAND_EXERCISE:
             flagFunctions = HelpStrings.EXERCISE_FLAG_FUNCTIONS;
+            result.append(String.format(HelpStrings.HELP_LIST_ITEM, HelpStrings.EXERCISE_MESSAGE,
+                    System.lineSeparator()));
             break;
         case CommandStrings.COMMAND_WORKOUT:
             flagFunctions = HelpStrings.WORKOUT_FLAG_FUNCTIONS;
+            result.append(String.format(HelpStrings.HELP_LIST_ITEM, HelpStrings.WORKOUT_MESSAGE,
+                    System.lineSeparator()));
             break;
         case CommandStrings.COMMAND_PROGRAM:
             flagFunctions = HelpStrings.PROGRAM_FLAG_FUNCTIONS;
+            result.append(String.format(HelpStrings.HELP_LIST_ITEM, HelpStrings.PROGRAM_MESSAGE,
+                    System.lineSeparator()));
             break;
+        case HelpStrings.VIEW_HELP_GREETING:
+            return getHelpGreetingString();
         default:
             throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
         }
 
-        StringBuilder result = new StringBuilder();
         for (String flagFunction : flagFunctions) {
             result.append(String.format(HelpStrings.HELP_LIST_ITEM, flagFunction, System.lineSeparator()));
         }
@@ -90,7 +105,6 @@ public class HelpMenuManager {
      * @param commandType String specifying which command help menu to find command formatting from.
      * @return String containing the specific command format corresponding to provided parameter.
      */
-
     private String getParamFormat(String userParam, String commandType) throws Exceptions.InvalidInput {
         try {
             int paramChoice = Integer.parseInt(userParam);
