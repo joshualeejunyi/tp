@@ -79,7 +79,7 @@ public class Storage {
             loadWorkoutLogs(allExercises, allWorkouts, jsonArchive, workoutLogsManager);
             ui.printMessage(StorageStrings.LOAD_SUCCESS);
         } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
-             Exceptions.ActivityDoesNotExists | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
+                 Exceptions.ActivityDoesNotExist | Exceptions.InvalidInput | JSONException | NoSuchElementException e) {
             ui.printMessage(StorageStrings.LOAD_ERROR);
             try {
                 renameCorruptedFile(jsonFile);
@@ -105,7 +105,7 @@ public class Storage {
 
     private static void loadWeeklyProgram(WorkoutManager allWorkouts, WeeklyProgramManager weeklyProgram,
         JSONObject jsonArchive)
-            throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput, Exceptions.ActivityExistsException {
+            throws Exceptions.ActivityDoesNotExist, Exceptions.InvalidInput, Exceptions.ActivityExistsException {
         JSONObject jsonWeeklyProgram = jsonArchive.getJSONObject(StorageStrings.WEEKLY_PROGRAM);
 
         assert jsonWeeklyProgram.length() == 7 : "Weekly program array must be length 7";
@@ -121,7 +121,7 @@ public class Storage {
 
     private static void loadWorkouts(ExerciseManager allExercises, WorkoutManager allWorkouts, JSONObject jsonArchive)
             throws Exceptions.ActivityExistsException, Exceptions.ErrorAddingActivity,
-            Exceptions.ActivityDoesNotExists {
+            Exceptions.ActivityDoesNotExist {
         JSONArray jsonWorkoutArray = jsonArchive.getJSONArray(StorageStrings.WORKOUT_MANAGER);
         for (int i = 0; i < jsonWorkoutArray.length(); i++) {
             JSONObject jsonWorkout = jsonWorkoutArray.getJSONObject(i);
@@ -149,7 +149,7 @@ public class Storage {
 
     private void loadWorkoutLogs(ExerciseManager allExercises, WorkoutManager allWorkouts,
                                  JSONObject jsonArchive, WorkoutLogsManager workoutLogsManager)
-            throws Exceptions.ActivityDoesNotExists, Exceptions.InvalidInput {
+            throws Exceptions.ActivityDoesNotExist, Exceptions.InvalidInput {
         JSONArray jsonWorkoutLogs = jsonArchive.getJSONArray(StorageStrings.WORKOUT_LOG_MANAGER);
         for (int i = 0; i < jsonWorkoutLogs.length(); i++) {
             loadWorkoutLog(workoutLogsManager, jsonWorkoutLogs, i);
@@ -157,7 +157,7 @@ public class Storage {
     }
 
     private static void loadWorkoutLog(WorkoutLogsManager workoutLogsManager, JSONArray jsonWorkoutLogs, int index)
-            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExist {
         JSONObject currentWorkout = jsonWorkoutLogs.getJSONObject(index);
         JSONArray exercisesArray = currentWorkout.getJSONArray(StorageStrings.EXERCISES);
         String workoutDate = currentWorkout.getString(StorageStrings.WORKOUT_DATE);
@@ -173,7 +173,7 @@ public class Storage {
 
     private static void loadExerciseLog(WorkoutLogsManager workoutLogsManager,
                                         JSONArray exercisesArray, int index, String workoutDate)
-            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExist {
         JSONObject currentExercise = exercisesArray.getJSONObject(index);
         String exerciseName = currentExercise.getString(StorageStrings.EXERCISE_NAME);
         JSONArray weightArray = currentExercise.getJSONArray(StorageStrings.WEIGHT);

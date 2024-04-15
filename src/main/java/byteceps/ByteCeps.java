@@ -71,7 +71,7 @@ public class ByteCeps {
                 ui.printMessage(messageToUser);
                 CascadingDeletionProcessor.checkForCascadingDeletions(parser, workoutManager, weeklyProgramManager);
             } catch (Exceptions.ActivityExistsException | Exceptions.ErrorAddingActivity |
-                     Exceptions.InvalidInput | Exceptions.ActivityDoesNotExists | IllegalStateException e) {
+                     Exceptions.InvalidInput | Exceptions.ActivityDoesNotExist | IllegalStateException e) {
                 ui.printMessage(String.format(UiStrings.ERROR_STRING, e.getMessage()));
             }
         }

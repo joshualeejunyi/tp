@@ -7,8 +7,8 @@ public class Exceptions {
         }
     }
 
-    public static class ActivityDoesNotExists extends Exception {
-        public ActivityDoesNotExists(String errorMessage) {
+    public static class ActivityDoesNotExist extends Exception {
+        public ActivityDoesNotExist(String errorMessage) {
             super(errorMessage);
         }
     }

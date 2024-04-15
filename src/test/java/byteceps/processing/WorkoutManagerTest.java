@@ -77,14 +77,14 @@ class WorkoutManagerTest {
         assertDoesNotThrow(() -> workoutManager.execute(parser));
 
         // Ensure the workout plan is deleted
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.retrieve("LegDay"));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.retrieve("LegDay"));
     }
 
     @Test
     public void execute_deleteNonExistingWorkoutPlan_throwsActivityDoesNotExists() {
         String deleteInput = "workout /delete NonExistingWorkout";
         parser.parseInput(deleteInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
@@ -111,7 +111,7 @@ class WorkoutManagerTest {
     public void execute_editNonExistingWorkoutPlan_throwsActivityDoesNotExists() {
         String editInput = "workout /edit NonExistingWorkout /to chest day 2";
         parser.parseInput(editInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
@@ -145,7 +145,7 @@ class WorkoutManagerTest {
 
         String validInput = "workout /assign Squat /to NonexistentWorkout";
         parser.parseInput(validInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
@@ -174,7 +174,7 @@ class WorkoutManagerTest {
 
         String assignInput = "workout /assign NonexistentExercise /to legday";
         parser.parseInput(assignInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
@@ -207,21 +207,21 @@ class WorkoutManagerTest {
     public void execute_unassignNonexistentExerciseFromWorkout_throwsActivityDoesNotExist() {
         String validInput = "workout /unassign NonexistentExercise /from LegDay";
         parser.parseInput(validInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
     public void execute_unassignNonexistentWorkout_throwsActivityDoesNotExist() {
         String validInput = "workout /unassign Pushups /from NonexistentWorkout";
         parser.parseInput(validInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
     public void execute_unassignNonexistentExerciseFromNonexistentWorkout_throwsActivityDoesNotExist() {
         String validInput = "workout /unassign NonexistentExercise /from NonexistentWorkout";
         parser.parseInput(validInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
@@ -236,7 +236,7 @@ class WorkoutManagerTest {
 
         String unassignInput = "workout /unassign Pushups /from chestday";
         parser.parseInput(unassignInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test
@@ -367,7 +367,7 @@ class WorkoutManagerTest {
     public void execute_infoNonexistentWorkout_throwsActivityDoesNotExists() {
         String validInput = "workout /info NonexistentWorkout";
         parser.parseInput(validInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> workoutManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> workoutManager.execute(parser));
     }
 
     @Test

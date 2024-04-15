@@ -28,12 +28,12 @@ public class WorkoutManager extends ActivityManager {
      * @param parser Parser containing user input.
      * @return Message to user after executing the command.
      * @throws Exceptions.InvalidInput            if no command action specified.
-     * @throws Exceptions.ActivityDoesNotExists   if user inputs name of an activity that does not exist.
+     * @throws Exceptions.ActivityDoesNotExist   if user inputs name of an activity that does not exist.
      * @throws Exceptions.ActivityExistsException if user attempts to create an existing workout.
      */
     @Override
     public String execute(Parser parser) throws Exceptions.ActivityExistsException,
-            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+            Exceptions.InvalidInput, Exceptions.ActivityDoesNotExist {
         String command = WorkoutValidator.validateCommand(parser);
 
         String messageToUser;
@@ -70,7 +70,7 @@ public class WorkoutManager extends ActivityManager {
         return messageToUser;
     }
 
-    private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String executeInfoAction(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String workoutName = parser.getActionParameter().toLowerCase();
         return getFullWorkoutString(workoutName);
     }
@@ -79,14 +79,14 @@ public class WorkoutManager extends ActivityManager {
         return getListString();
     }
 
-    private String executeUnassignAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String executeUnassignAction(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String workoutName = unassignExerciseFromWorkout(parser);
         return String.format(
                 ManagerStrings.UNASSIGNED_EXERCISE, parser.getActionParameter().toLowerCase(), workoutName
         );
     }
 
-    private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String oldWorkoutName = parser.getActionParameter().toLowerCase();
         String newWorkoutName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
 
@@ -102,12 +102,12 @@ public class WorkoutManager extends ActivityManager {
     }
 
     private String executeAssignAction(Parser parser)
-            throws Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExists {
+            throws Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExist {
         String workoutPlan = assignExerciseToWorkout(parser);
         return String.format(ManagerStrings.ASSIGNED_EXERCISE, parser.getActionParameter().toLowerCase(), workoutPlan);
     }
 
-    private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String workoutName = parser.getActionParameter().toLowerCase();
         Workout workoutToDelete = (Workout) retrieve(workoutName);
         delete(workoutToDelete);
@@ -123,7 +123,7 @@ public class WorkoutManager extends ActivityManager {
 
     //@@author V4vern
     private String assignExerciseToWorkout(Parser parser) throws
-            Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExists {
+            Exceptions.ActivityExistsException, Exceptions.ActivityDoesNotExist {
         String exerciseName = parser.getActionParameter().toLowerCase();
         String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
 
@@ -142,7 +142,7 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    private String getFullWorkoutString(String workoutPlanName) throws Exceptions.ActivityDoesNotExists {
+    private String getFullWorkoutString(String workoutPlanName) throws Exceptions.ActivityDoesNotExist {
         assert workoutPlanName != null : "Workout plan name cannot be null";
         Workout workout = (Workout) retrieve(workoutPlanName);
         assert workout != null : "Workout plan does not exist";
@@ -163,7 +163,7 @@ public class WorkoutManager extends ActivityManager {
     }
 
     //@@author V4vern
-    private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String unassignExerciseFromWorkout(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String workoutPlanName = parser.getAdditionalArguments(CommandStrings.ARG_FROM).toLowerCase();
         String exerciseName = parser.getActionParameter();
         Workout workoutPlan = (Workout) retrieve(workoutPlanName);
@@ -173,7 +173,7 @@ public class WorkoutManager extends ActivityManager {
         boolean exerciseIsInWorkout =
                 workoutList.removeIf(exercise -> exercise.getActivityName().equalsIgnoreCase(exerciseName));
         if (!exerciseIsInWorkout) {
-            throw new Exceptions.ActivityDoesNotExists(ManagerStrings.EXERCISE_WORKOUT_DOES_NOT_EXIST);
+            throw new Exceptions.ActivityDoesNotExist(ManagerStrings.EXERCISE_WORKOUT_DOES_NOT_EXIST);
         }
 
         return workoutPlanName;
