@@ -4,9 +4,6 @@
 BYTE-CEPS is a CLI-based tool for setting and tracking fitness goals.
 The user interacts with the tool using commands entered via the CLI interface. With BYTE-CEPS, they can compile a list of exercises, build custom workouts, assign workouts to a weekly schedule and log details of each exercise completed in each performed workout.
 
-BYTE-CEPS is written in Java, and has approximately 5.6 kLoC.
-
-
 ## Summary of Contributions
 ### Code contributed
 All code contributed can be seen on the tP dashboard
@@ -47,13 +44,17 @@ Functionality: Expanded the workout logging capabilities to support multiple set
   - Newly introduced functionality that allows logging multiple sets with different weights and repetitions.
   - Command: `program /log <EXERCISE_NAME> /weight <WEIGHT1 WEIGHT2 ...> /sets <NUMBER_OF_SETS> /reps <REPS1 REPS2 ...>`
   - Example: `program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3`
-  - Outcome: Logs benchpress with three sets at varying weights and reps, providing a detailed record of the workout performance on a given day.   
+  - Outcome: Logs benchpress with three sets at varying weights and reps, providing a detailed record of the workout performance on a given day.
+
+### Enhancement: Wrote Test cases for the following files
+- Wrote majority of the test cases in `ExerciseTest`, `WorkoutTest`, `ActivityTest`, `WorkoutManagerTest`, `ExerciseManagerTest`, `CascadingDeletion` & `UserInterface`. 
+- Added some test cases in `WeeklyProgramManagerTest`, `ExerciseLog` , `WorkoutLog`, `exercisevalidator`, `workoutvalidator` & `parser`.
 
 #### User Guide contributions
-  - Authored the Exercise Management section of the UG
-  - Authored the Workout Management section of the UG
-  - Authored the Exit/Saving and Edit data section of the UG
-  - Created a summary table of all commands
+  - Authored the Exercise Management section of the UG.
+  - Authored the Workout Management section of the UG.
+  - Authored the Exit/Saving and Edit data section of the UG.
+  - Created a summary table of all commands.
 
 #### Developer Guide contributions
   - Added implementation details of all features of `Exercise Management`.
@@ -61,26 +62,14 @@ Functionality: Expanded the workout logging capabilities to support multiple set
   - Created sequence diagram of `addExercise` under `Exercise Management`.
   - Created sequence diagrams of `deleteWorkout`,`assignExerciseToWorkout`, `listExercisesinWorkoutPlan`  under `Workout Management`.
   - Added Product Scope Information (Target User Profile, Value Proposition, User Stories & Non-Functional Requirements) & Glossary
-  - Added Instructions for manual testing
-
-#### Added UML diagrams:
-Sequence Diagram for addExercise:
-![](../diagrams/addExercise.svg)
-
-Sequence Diagram for deleteWorkout:
-![](../diagrams/deleteWorkout.svg)
-
-Sequence Diagram for assignExerciseToWorkout:
-![](../diagrams/assignExercise.svg)
-
-Sequence Diagram for listExercisesinWorkoutPlan:
-![](../diagrams/listExerciseInWorkoutPlan.svg)
+  - Added Instructions for manual testing.
 
 ### Contributions to team-based tasks
-- Setup issue tracker for V1.0 & V2.0
-- Updating user/developer docs that are not specific to a feature e.g. documenting the target user profile
-- Review PRs
-- Increased code test coverage from 66% to 82%
+- Setup issue tracker for V1.0 & V2.0.
+- Updating user/developer docs that are not specific to a feature e.g. documenting the target user profile.
+- Review PRs.
+- Increased code test coverage from 66% to 82%.
+- [Fixed bugs](https://github.com/AY2324S2-CS2113-F14-3/tp/issues?q=is%3Aissue+is%3Aclosed+label%3Abug+assignee%3AV4Vern) 
 
 ### Contributions beyond the project team
 * PE dry Run:
