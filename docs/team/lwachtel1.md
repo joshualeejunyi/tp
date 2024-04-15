@@ -58,4 +58,3 @@ The user interacts with the tool using commands entered via the CLI interface. W
 
 `help /FLAG PARAMETER` command sequence diagram:\
 ![](../diagrams/helpMenuCommandFormat.svg)
-
