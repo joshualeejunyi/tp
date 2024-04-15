@@ -76,19 +76,31 @@ All code contributed can be seen on the tP dashboard
 `Activity` class diagram:\
 ![](../diagrams/ActivityClassDiagram.svg)\
 `ActivityManager` class diagram:\
-![](../diagrams/ActivityManagerClassDiagram.svg)\
+<img src="../diagrams/ActivityManagerClassDiagram.svg" alt="drawing" width="350"/>
+
+<div style="page-break-after: always;"></div>
+
 `program /assign ...` sequence diagram: \
 ![](../diagrams/assignWorkoutToProgram.svg)\
 `program /log ...` sequence diagram:\
 ![](../diagrams/addExerciseLog.svg)\
+
+<div style="page-break-after: always;"></div>
+
 `program /clear ...` sequence diagram:\
 ![](../diagrams/clearProgram.svg)\
 `program /today` sequence diagram:\
 ![](../diagrams/programToday.svg)\
+
+<div style="page-break-after: always;"></div>
+
 `storage.save()` sequence diagram:\
 ![](../diagrams/saveStorage.svg)
 `storage.load()` sequence diagram:\
 ![](../diagrams/loadStorage.svg)
+
+<div style="page-break-after: always;"></div>
+
 `storage.loadWorkouts()` sequence diagram:\
 ![](../diagrams/loadWorkouts.svg)
 `CascadingDeletionProcessor.removeDeletedExerciseFromWorkouts` sequence diagram:\
