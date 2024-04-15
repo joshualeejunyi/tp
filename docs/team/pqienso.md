@@ -45,8 +45,7 @@ All code contributed can be seen on the tP dashboard
       method is only called in `ByteCeps`, which already handles these classes, to minimise coupling.
     
 #### Refactoring: Refactored `ActivityManager` classes to reduce coupling
-- Previously, `ActivityManager` classes had scattered calls to `UserInterface.printMessage()` in all of their methods.
-- This led to high coupling and low maintainability of code.
+- Previously, `ActivityManager` classes had scattered calls to `UserInterface.printMessage()` in all of their methods, causing high coupling and low maintainability of code.
 - Thus, the `ActivityManager`'s `execute()` classes were refactored such that they returned the `messageToUser` to `ByteCeps`,
   and only then is `UserInterface.printMessage()` is called.
 - This greatly reduced coupling, as `UserInterface` was now only associated with `ByteCeps` and `Storage` classes,
