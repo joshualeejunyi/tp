@@ -54,9 +54,13 @@ As such, I tweaked all print messages to reflect the commands that they needed t
 * Described in detail regarding the flow and process of Logging an exercise
 
 #### Added UML diagrams:
-* [Class Diagram for ByteCeps Architecture](../diagrams/architectureDiagram.svg)
+* Class Diagram for ByteCeps Architecture: 
 
-* [Sequence diagram for logging workouts](../diagrams/workoutLog.svg)
+  ![](../diagrams/architectureDiagram.svg)
+
+* Sequence diagram for logging workouts:
+
+  ![](../diagrams/workoutLog.svg)
 
 ### Contributions to team-based tasks
 * Setup organization in GitHub
