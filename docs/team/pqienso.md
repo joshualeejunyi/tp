@@ -4,8 +4,6 @@
 BYTE-CEPS is a CLI-based tool for setting and tracking fitness goals.
 The user interacts with the tool using commands entered via the CLI interface. With BYTE-CEPS, they can compile a list of exercises, build custom workouts, assign workouts to a weekly schedule and log details of each exercise completed in each performed workout.
 
-BYTE-CEPS is written in Java, and has approximately 5.6 kLoC.
-
 ### Summary of Contributions
 All code contributed can be seen on the tP dashboard
  [here](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=totalCommits%20dsc&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=pqienso&tabRepo=AY2324S2-CS2113-F14-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
@@ -22,8 +20,7 @@ All code contributed can be seen on the tP dashboard
 #### New feature: Weekly Program Management
   - Added the `program` functionality.
     - Created the class `WeeklyProgramManager` that handles all commands starting with
-      `program`. These commands allow the user to assign specific workouts to specific
-      days of the week, and view their workouts for the day or week.
+      `program`, allowing users to create and customise their weekly workout plan.
   - Commands implemented:
     - List: `program /list`
     - Assign workout: `program /assign <WORKOUT_NAME> /to <DAY>`
@@ -66,6 +63,8 @@ All code contributed can be seen on the tP dashboard
 #### User Guide contributions
   - Added precautions of cascading deletions to user guide
   - Contributed to summary table of all commands
+
+<div style="page-break-after: always;"></div>
 
 #### Developer Guide contributions
   - Created class diagrams of all `Activity` classes and `ActivityManager` classes, along with their overview and explanation.
