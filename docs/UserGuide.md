@@ -35,7 +35,7 @@ Please note that, as of the current version, BYTE-CEPS supports tracking both we
 		- [Adding an exercise log](#adding-an-exercise-log)
 			- [To log a single set of an exercise](#to-log-a-single-set-of-an-exercise)
 			- [Logging Multiple Sets with Varying Weights and Reps](#logging-multiple-sets-with-varying-weights-and-reps)
-			- [Overwriting a Existing Log](#overwriting-a-existing-log)
+			- [Overwriting an Existing Log](#overwriting-an-existing-log)
 		- [Adding an exercise log for a separate date](#adding-an-exercise-log-for-a-separate-date)
 		- [Viewing logs](#viewing-logs)
 		- [Viewing historic logs](#viewing-historic-logs)
