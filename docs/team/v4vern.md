@@ -64,16 +64,16 @@ Functionality: Expanded the workout logging capabilities to support multiple set
 
 #### Added UML diagrams:
 Sequence Diagram for addExercise:
-![](../diagrams/addExercise.png)
+![](../diagrams/addExercise.svg)
 
 Sequence Diagram for deleteWorkout:
-![](../diagrams/deleteWorkout.png)
+![](../diagrams/deleteWorkout.svg)
 
 Sequence Diagram for assignExerciseToWorkout:
-![](../diagrams/assignExercise.png)
+![](../diagrams/assignExercise.svg)
 
 Sequence Diagram for listExercisesinWorkoutPlan:
-![](../diagrams/listExerciseInWorkoutPlan.png)
+![](../diagrams/listExerciseInWorkoutPlan.svg)
 
 ### Contributions to team-based tasks
 - Setup issue tracker for V1.0 & V2.0

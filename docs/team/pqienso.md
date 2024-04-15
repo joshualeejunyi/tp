@@ -11,15 +11,18 @@ All code contributed can be seen on the tP dashboard
  [here](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=totalCommits%20dsc&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=pqienso&tabRepo=AY2324S2-CS2113-F14-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false).
 
 ### Features implemented
+
 #### Parsing user input
   - Created initial iteration of `Parser` class
     - Created the `Parser` class that takes in user input and outputs the command actions
       arguments in the form of a `HashSet`.
     - Created the corresponding JUnit tests.
+
 #### Created `UserInterface` class
   - Created initial iteration of `UserInterface` class
     - Created the `UserInterface` class that is responsible for taking in user input and
       printing to `System.out`.
+    
 #### New feature: Weekly Program Management
   - Added the `program` functionality.
     - Created the class `WeeklyProgramManager` that handles all commands starting with
@@ -30,10 +33,12 @@ All code contributed can be seen on the tP dashboard
     - Assign workout: `program /assign <WORKOUT_NAME> /to <DAY>`
     - Clear program: `program /clear <DAY [optional]>`
     - View today's program: `program /today`
+
 #### New feature: saving to storage
   - Added the functionality of saving user data to a `.json` file
     - Created the initial iteration of the `Storage` class which loads and saves user data
       to and from a `.json` file using [this JSON-java library](https://github.com/stleary/JSON-java).
+
 #### New feature: cascading deletion management
   - Added the ability for `ByteCeps` to handle cascading deletions
     - Created the `CascadingDeletionProcessor` class that checks for cascading deletions
@@ -79,24 +84,24 @@ All code contributed can be seen on the tP dashboard
 
 #### Contributions to DG: extracts
 `Activity` class diagram:\
-![](../diagrams/ActivityClassDiagram.png)\
+![](../diagrams/ActivityClassDiagram.svg)\
 `ActivityManager` class diagram:\
-![](../diagrams/ActivityManagerClassDiagram.png)\
+![](../diagrams/ActivityManagerClassDiagram.svg)\
 `program /assign ...` sequence diagram: \
-![](../diagrams/assignWorkoutToProgram.png)\
+![](../diagrams/assignWorkoutToProgram.svg)\
 `program /log ...` sequence diagram:\
-![](../diagrams/addExerciseLog.png)\
+![](../diagrams/addExerciseLog.svg)\
 `program /clear ...` sequence diagram:\
-![](../diagrams/clearProgram.png)\
+![](../diagrams/clearProgram.svg)\
 `program /today` sequence diagram:\
-![](../diagrams/programToday.png)\
+![](../diagrams/programToday.svg)\
 `storage.save()` sequence diagram:\
-![](../diagrams/saveStorage.png)
+![](../diagrams/saveStorage.svg)
 `storage.load()` sequence diagram:\
-![](../diagrams/loadStorage.png)
+![](../diagrams/loadStorage.svg)
 `storage.loadWorkouts()` sequence diagram:\
-![](../diagrams/loadWorkouts.png)
+![](../diagrams/loadWorkouts.svg)
 `CascadingDeletionProcessor.removeDeletedExerciseFromWorkouts` sequence diagram:\
-![](../diagrams/deleteExerciseFromWorkouts.png)
+![](../diagrams/deleteExerciseFromWorkouts.svg)
 `CascadingDeletionProcessor.removeDeletedWorkoutsFromProgram` sequence diagram:\
-![](../diagrams/deleteWorkoutFromProgram.png)
+![](../diagrams/deleteWorkoutFromProgram.svg)

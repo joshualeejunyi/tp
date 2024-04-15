@@ -13,13 +13,13 @@ Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fi
 		- [Delete an exercise](#delete-an-exercise)
 		- [Edit an exercise](#edit-an-exercise)
 		- [List all exercises](#list-all-exercises)
-  		- [Search exercises](#search-exercises)	 	
+		- [Search exercises](#search-exercises)
 	- [Workout Plan Management](#workout-plan-management)
 		- [Add a workout plan](#add-a-workout-plan)
 		- [Delete a workout plan](#delete-a-workout-plan)
-  		- [Edit a workout plan](#edit-workout-plan)	
+		- [Edit Workout Plan](#edit-workout-plan)
 		- [List workout plan](#list-workout-plan)
-  		- [Search workout plans](#search-workout-plans)	
+		- [Search workout plans](#search-workout-plans)
 		- [Assign an exercise to a workout plan](#assign-an-exercise-to-a-workout-plan)
 		- [Remove an exercise from a workout plan](#remove-an-exercise-from-a-workout-plan)
 		- [List all exercises in a workout plan](#list-all-exercises-in-a-workout-plan)
@@ -28,19 +28,25 @@ Welcome to BYTE-CEPS, your CLI-based all-in-one tool for setting and tracking fi
 		- [View Today's workout plan:](#view-todays-workout-plan)
 		- [View Weekly workout plan](#view-weekly-workout-plan)
 		- [Remove a workout plan for a day](#remove-a-workout-plan-for-a-day)
+		- [Remove all workouts in weekly program](#remove-all-workouts-in-weekly-program)
 	- [Logging Workouts](#logging-workouts)
 		- [Adding an exercise log](#adding-an-exercise-log)
+			- [To log a single set of an exercise](#to-log-a-single-set-of-an-exercise)
+			- [Logging Multiple Sets with Varying Weights and Reps](#logging-multiple-sets-with-varying-weights-and-reps)
+			- [Overwriting a Existing Log](#overwriting-a-existing-log)
 		- [Adding an exercise log for a separate date](#adding-an-exercise-log-for-a-separate-date)
 		- [Viewing logs](#viewing-logs)
 		- [Viewing historic logs](#viewing-historic-logs)
-  	- [Help Menu](#help-menu)
-  		- [Displaying Help Menu Category: Exercise](#displaying-help-menu-category-exercise)
-  	 	- [Displaying Help Menu Category: Workout](#displaying-help-menu-category-workout)
-  	  	- [Displaying Help Menu Category: Program](#displaying-help-menu-category-program)	  	
-  	- [Exiting Program](#exiting-program)
-  	- [Saving Program](#saving-the-data)
-  	- [Editing Program](#editing-the-data)
-  	- [Command Summary](#command-summary)
+	- [Help Menu](#help-menu)
+		- [Accessing Help Menu](#accessing-help-menu)
+		- [Displaying Help Menu Category: Exercise](#displaying-help-menu-category-exercise)
+		- [Displaying Help Menu Category: Workout](#displaying-help-menu-category-workout)
+		- [Displaying Help Menu Category: Program](#displaying-help-menu-category-program)
+	- [Exiting program](#exiting-program)
+	- [Saving the data](#saving-the-data)
+	- [Editing the data](#editing-the-data)
+	- [Command summary](#command-summary)
+
 
 ## Features
 BYTE-CEPS can track & manage several types of tasks, such as:
@@ -388,6 +394,19 @@ Expected outcome:
 [BYTE-CEPS]> Your workout on Tuesday has been cleared
 ```
 
+### Remove all workouts in weekly program
+You can also remove all workout plans in a week by using the `/clear` flag without specifying the date.
+
+Example of usage: 
+```
+program /clear
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> All your workouts have been cleared from the week
+```
+
 ## Logging Workouts
 You can log the amount of weight, sets, and repetitions you have completed for an exercise on a given day using the logging functionality. This allows for comprehensive tracking of your workout progress over time.
 
@@ -426,7 +445,24 @@ Expected outcome:
 [BYTE-CEPS]> Successfully logged benchpress with weights of 100kg, 110kg, 120kg and reps of 5, 4, 3 across 3 sets on 2024-03-28
 ```
 
+#### Overwriting a Existing Log
+You may overwrite an existing logged exercise by logging an exercise with the same name.
 
+For example, you may have logged an exercise incorrectly.
+```
+program /log benchpress /weight 100 11 120 /sets 3 /reps 5 4 3
+```
+
+You may wish to overwrite it by sending the same command with the fixed values.
+```
+program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3
+```
+
+Expected outcome:
+```
+[BYTE-CEPS]> It seems like benchpress already exists, overwriting...
+[BYTE-CEPS]> Successfully logged benchpress with weights of 100kg, 110kg, 120kg and 5, 4, 3 reps across 3 sets on 2024-04-14
+```
 
 
 ### Adding an exercise log for a separate date
@@ -437,7 +473,7 @@ program /log <EXERCISE_NAME [string]> /weight <WEIGHT [integer]> /sets <NUMBER_O
 
 Example of usage: 
 ```
-program /log benchpress /weight 125 /sets 3 /reps 5 /date 2024-03-25
+program /log benchpress /weight 125 /sets 1 /reps 5 /date 2024-03-25
 ```
 
 Expected outcome:
@@ -498,7 +534,7 @@ program
 
 Command formats are shown according to 3 separate categories: `exercise`, `workout` & `program`
 
-### Displaying Help Menu Category: Exercise 
+### Displaying Help Menu Category: Exercise
 You may access this portion of the help menu using the `/exercise` flag with the `help command`:
 ```
 help /exercise

@@ -8,6 +8,7 @@ import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
 import byteceps.ui.strings.ManagerStrings;
 import byteceps.ui.strings.StorageStrings;
+import byteceps.validators.WorkoutLogsValidator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,8 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WorkoutLogsManager extends ActivityManager {
-
-
     public WorkoutLogsManager() {
     }
 
@@ -39,38 +38,29 @@ public class WorkoutLogsManager extends ActivityManager {
 
     public void addExerciseLog(String workoutLogDate, String exerciseName,
                                String weight, String sets, String repetitions)
-            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExists {
+            throws Exceptions.InvalidInput, Exceptions.ActivityDoesNotExist {
         try {
             List<Integer> weightsList = Arrays.stream(weight.split(" "))
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
-
             int setsInt = Integer.parseInt(sets);
-
             List<Integer> repsList = Arrays.stream(repetitions.split(" "))
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
 
-            boolean hasNegativeWeights = weightsList.stream().anyMatch(weightInt -> weightInt < 0);
-            boolean hasNegativeReps = repsList.stream().anyMatch(repInt -> repInt < 0);
-
-            if (hasNegativeReps || setsInt < 0 || hasNegativeWeights) {
-                throw new NumberFormatException();
-            }
+            WorkoutLogsValidator.hasNegativeInput(weightsList, repsList, setsInt);
 
             ExerciseLog newExerciseLog = new ExerciseLog(exerciseName, weightsList, setsInt, repsList);
             WorkoutLog workoutLog = (WorkoutLog) retrieve(workoutLogDate);
-
+            WorkoutLogsValidator.removeExerciseIfLogExists(workoutLog, exerciseName);
             workoutLog.addExerciseLog(newExerciseLog);
         } catch (NumberFormatException e) {
             throw new Exceptions.InvalidInput(ManagerStrings.INVALID_REPS_SETS);
-        } catch (Exceptions.ActivityDoesNotExists e) {
-            throw new Exceptions.ActivityDoesNotExists(ManagerStrings.EXERCISE_NOT_IN_WORKOUT);
         }
     }
 
     public String getWorkoutLogString(String date, LinkedHashSet<Exercise> workoutLinkedHashSet)
-            throws Exceptions.ActivityDoesNotExists {
+            throws Exceptions.ActivityDoesNotExist {
         WorkoutLog retrievedWorkout = (WorkoutLog) retrieve(date);
         LinkedHashSet<ExerciseLog> exerciseLogs = retrievedWorkout.getExerciseLogs();
         LinkedHashSet<Exercise> tempSet = new LinkedHashSet<>(workoutLinkedHashSet);

@@ -29,11 +29,11 @@ public abstract class ActivityManager {
      * @throws Exceptions.InvalidInput        if no command action specified.
      * @throws Exceptions.ErrorAddingActivity If there's an error adding the activity.
      * @throws Exceptions.ActivityExistsException If the activity already exists.
-     * @throws Exceptions.ActivityDoesNotExists If the activity does not exist.
+     * @throws Exceptions.ActivityDoesNotExist If the activity does not exist.
      */
     public abstract String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
-            Exceptions.ActivityDoesNotExists;
+            Exceptions.ActivityDoesNotExist;
 
     /**
      * Adds an activity to the manager.
@@ -56,14 +56,14 @@ public abstract class ActivityManager {
      * Deletes an activity from the manager.
      *
      * @param activity The activity to delete.
-     * @throws Exceptions.ActivityDoesNotExists If the activity does not exist.
+     * @throws Exceptions.ActivityDoesNotExist If the activity does not exist.
      */
-    public void delete(Activity activity) throws Exceptions.ActivityDoesNotExists {
+    public void delete(Activity activity) throws Exceptions.ActivityDoesNotExist {
         boolean setReturn = activitySet.remove(activity);
 
         if (!setReturn) {
             String activityName = activity.getActivityName();
-            throw new Exceptions.ActivityDoesNotExists(
+            throw new Exceptions.ActivityDoesNotExist(
                     String.format(ManagerStrings.ACTIVITY_DELETE_EXCEPTION,
                             this.activityType, activityName)
             );
@@ -75,11 +75,11 @@ public abstract class ActivityManager {
      *
      * @param activityName The name of the activity to retrieve.
      * @return The retrieved activity.
-     * @throws Exceptions.ActivityDoesNotExists if the activity does not exist.
+     * @throws Exceptions.ActivityDoesNotExist if the activity does not exist.
      */
-    public Activity retrieve(String activityName) throws Exceptions.ActivityDoesNotExists {
+    public Activity retrieve(String activityName) throws Exceptions.ActivityDoesNotExist {
         if (activitySet.isEmpty()) {
-            throw new Exceptions.ActivityDoesNotExists(
+            throw new Exceptions.ActivityDoesNotExist(
                     String.format(ManagerStrings.ACTIVITY_EMPTY_LIST_EXCEPTION,
                             this.activityType)
             );
@@ -92,7 +92,7 @@ public abstract class ActivityManager {
         }
 
         // throw error as activity not found in the set
-        throw new Exceptions.ActivityDoesNotExists(
+        throw new Exceptions.ActivityDoesNotExist(
                 String.format(ManagerStrings.ACTIVITY_DOES_NOT_EXIST_EXCEPTION,
                         this.activityType, activityName)
         );
@@ -231,4 +231,7 @@ public abstract class ActivityManager {
         activitySet.add(activityToAdd);
     }
 
+    public void reset() {
+        activitySet.clear();
+    }
 }

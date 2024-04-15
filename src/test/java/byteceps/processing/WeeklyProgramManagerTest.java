@@ -82,7 +82,7 @@ class WeeklyProgramManagerTest {
     void execute_assignInvalidWorkout_throwsActivityDoesNotExist() {
         String assignWorkoutInput = "program /assign laze day /to thurs";
         parser.parseInput(assignWorkoutInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> weeklyProgramManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> weeklyProgramManager.execute(parser));
     }
 
     @Test
@@ -345,7 +345,7 @@ class WeeklyProgramManagerTest {
         parser.parseInput(assignWorkoutInput);
         String logInput = "program /log snooze /weight 500 /sets 1 /reps 5";
         parser.parseInput(logInput);
-        assertThrows(Exceptions.ActivityDoesNotExists.class, () -> weeklyProgramManager.execute(parser));
+        assertThrows(Exceptions.ActivityDoesNotExist.class, () -> weeklyProgramManager.execute(parser));
     }
 
     @Test

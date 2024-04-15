@@ -1,6 +1,5 @@
 package byteceps.processing;
 
-
 import byteceps.activities.Exercise;
 import byteceps.commands.Parser;
 import byteceps.errors.Exceptions;
@@ -12,8 +11,6 @@ import byteceps.validators.ExerciseValidator;
  * Manages operations related to exercises, such as adding, deleting, editing, listing, and searching exercises.
  */
 public class ExerciseManager extends ActivityManager {
-
-
     //@@author V4vern
     /**
      * Executes all commands that start with the keyword "exercise".
@@ -22,13 +19,13 @@ public class ExerciseManager extends ActivityManager {
      * @return Message to user after executing the command.
      * @throws Exceptions.InvalidInput if no command action specified
      * @throws Exceptions.ErrorAddingActivity If there is an error adding an activity.
-     * @throws Exceptions.ActivityDoesNotExists if user inputs name of an activity that does not exist.
+     * @throws Exceptions.ActivityDoesNotExist if user inputs name of an activity that does not exist.
      * @throws Exceptions.ActivityExistsException if user attempts to create an existing exercise.
      */
     @Override
     public String execute(Parser parser) throws Exceptions.InvalidInput,
             Exceptions.ErrorAddingActivity, Exceptions.ActivityExistsException,
-            Exceptions.ActivityDoesNotExists {
+            Exceptions.ActivityDoesNotExist {
 
         String command = ExerciseValidator.validateCommand(parser);
 
@@ -58,7 +55,7 @@ public class ExerciseManager extends ActivityManager {
         return messageToUser;
     }
     //@@author LWachtel1
-    private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String executeEditAction(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String oldExerciseName = parser.getActionParameter().toLowerCase();
         String newExerciseName = parser.getAdditionalArguments(CommandStrings.ARG_TO).toLowerCase();
 
@@ -79,7 +76,7 @@ public class ExerciseManager extends ActivityManager {
         return getListString();
     }
     //@@author V4vern
-    private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private String executeDeleteAction(Parser parser) throws Exceptions.ActivityDoesNotExist {
         Exercise retrievedExercise =  retrieveExercise(parser);
         delete(retrievedExercise);
         return String.format(ManagerStrings.EXERCISE_DELETED, retrievedExercise.getActivityName());
@@ -95,7 +92,7 @@ public class ExerciseManager extends ActivityManager {
 
 
     //@@author V4vern
-    private Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExists {
+    private Exercise retrieveExercise(Parser parser) throws Exceptions.ActivityDoesNotExist {
         String exerciseName = parser.getActionParameter().toLowerCase();
         return (Exercise) retrieve(exerciseName);
     }
@@ -111,5 +108,4 @@ public class ExerciseManager extends ActivityManager {
         String searchTerm = parser.getActionParameter();
         return getSearchResultsString(searchTerm);
     }
-
 }

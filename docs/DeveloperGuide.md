@@ -6,6 +6,7 @@
 
 1. [AB-3 Developer Guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
 2. [PlantUML for sequence diagrams](https://plantuml.com/)
+3. [JSON-java](https://github.com/stleary/JSON-java)
 
 ## Setting Up and Getting Started
 
@@ -23,28 +24,66 @@ to import the project into IDEA.
    * Run `ByteCeps.java` and try a few commands.
    * Run the tests using `./gradlew check` and ensure they all pass.
 
----
+## Table of Contents
+- [Developer Guide](#developer-guide)
+  - [Acknowledgements](#acknowledgements)
+  - [Setting Up and Getting Started](#setting-up-and-getting-started)
+  - [Table of Contents](#table-of-contents)
+  - [Design](#design)
+    - [Architecture](#architecture)
+  - [Classes: overview](#classes-overview)
+    - [`Activity` and child classes](#activity-and-child-classes)
+    - [`ActivityManager` and child classes](#activitymanager-and-child-classes)
+      - [The `ExerciseManager` class](#the-exercisemanager-class)
+      - [The `WorkoutManager` class](#the-workoutmanager-class)
+      - [The `WeeklyProgramManager` class](#the-weeklyprogrammanager-class)
+  - [Implementation](#implementation)
+    - [Exercise Management](#exercise-management)
+      - [\[Implemented\] Add, Edit, Delete, List, and Search Exercises](#implemented-add-edit-delete-list-and-search-exercises)
+    - [Workout Management](#workout-management)
+      - [\[Implemented\] Add, Edit, Delete, List, and Search Workout plan.](#implemented-add-edit-delete-list-and-search-workout-plan)
+      - [\[Implemented\] Assign and Unassign Workout plan.](#implemented-assign-and-unassign-workout-plan)
+      - [\[Implemented\] List all exercises in a workout plan.](#implemented-list-all-exercises-in-a-workout-plan)
+    - [Program management](#program-management)
+      - [\[Implemented\] Assign, List, Log workouts in Weekly program, and view today's workout plan.](#implemented-assign-list-log-workouts-in-weekly-program-and-view-todays-workout-plan)
+      - [Logging an exercise](#logging-an-exercise)
+      - [Assigning a workout to a program](#assigning-a-workout-to-a-program)
+      - [Viewing today's workout program](#viewing-todays-workout-program)
+      - [Clearing a day in the program](#clearing-a-day-in-the-program)
+    - [Help Menu](#help-menu)
+      - [Viewing an flag's help menu](#viewing-an-flags-help-menu)
+      - [Viewing a specific command format](#viewing-a-specific-command-format)
+    - [The `Storage` class](#the-storage-class)
+      - [Overview: Saving data to `data.json`](#overview-saving-data-to-datajson)
+      - [Overview: Loading data from `data.json`](#overview-loading-data-from-datajson)
+      - [Example: Loading data for a specific `ActivityManager` class](#example-loading-data-for-a-specific-activitymanager-class)
+    - [The `CascadingDeletionProcessor` class](#the-cascadingdeletionprocessor-class)
+      - [Removing a deleted exercise from a workout](#removing-a-deleted-exercise-from-a-workout)
+      - [Removing a deleted workout from the weekly program](#removing-a-deleted-workout-from-the-weekly-program)
+  - [Product scope](#product-scope)
+    - [Target user profile](#target-user-profile)
+    - [Value proposition](#value-proposition)
+  - [User Stories](#user-stories)
+  - [Non-Functional Requirements](#non-functional-requirements)
+  - [Glossary](#glossary)
+  - [Instructions for manual testing](#instructions-for-manual-testing)
+    - [Initial Launch](#initial-launch)
+    - [Exercise Management](#exercise-management-1)
+    - [Workout Management](#workout-management-1)
+    - [Program Management](#program-management-1)
+    - [Program Logging Management](#program-logging-management)
+    - [Miscellaneous](#miscellaneous)
+
+
 ## Design
 
 This section provides a high-level explanation of the design and implementation of ByteCeps, 
 supported by UML diagrams and short code snippets to illustrate the flow of data and interactions between the 
 components.
-
----
-
-### Architecture
-
-Given below is a quick overview of main components and how they interact with each other.
-
-
-
-
-
-## Design
 ### Architecture
 Given below is a quick overview of the main components of ByteCeps and how they interact with each other.
 
-![architectureDiagram.png](diagrams/architectureDiagram.png)
+![architectureDiagram.png](diagrams/architectureDiagram.svg)
 
 **Main components of the architecture**
 
@@ -72,17 +111,17 @@ The bulk of ByteCep's work is done by the following components:
 The `Activity` class serves as a parent class to `Exercise`, `ExerciseLog`, `Workout`, `WorkoutLog` and `Day` classes for the ease of usage of `ActivityManager` classes (see below).
 
 **Note:** The `Day` class acts as a container class for `Workout`, for use in `WeeklyProgramManager` 
-![ActivityClassDiagram](diagrams/ActivityClassDiagram.png)
+![ActivityClassDiagram](diagrams/ActivityClassDiagram.svg)
 
-### <code>ActivityManager</code> and child classes
-The <code>ActivityManager</code> and inheritors are responsible for managing an <code>ArrayList</code> of activities. The basic functions of an <code>ActivityManager</code> include:
-1. <code>add()</code>: Adding an activity to the <code>ArrayList</code>
-2. <code>delete()</code>: Deleting an activity from the <code>ArrayList</code>
-3. <code>retrieve()</code>: Retrieving an activity from the <code>ArrayList</code> by name
-4. <code>getListString()</code>: Get the string containing all the activities contained in the <code>ActivityManager</code>.
+### `ActivityManager` and child classes
+The `ActivityManager` and inheritors are responsible for managing an `ArrayList` of activities. The basic functions of an `ActivityManager` include:
+1. `add()`: Adding an activity to the `ArrayList`
+2. `delete()`: Deleting an activity from the `ArrayList`
+3. `retrieve()`: Retrieving an activity from the `ArrayList` by name
+4. `getListString()`: Get the string containing all the activities contained in the `ActivityManager`.
 5. `execute()`: Execute all commands related to the `ActivityManager` and return the required user input.
 
-![ActivityManagerClassDiagram](diagrams/ActivityManagerClassDiagram.png)
+![ActivityManagerClassDiagram](diagrams/ActivityManagerClassDiagram.svg)
 
 #### The `ExerciseManager` class
 `ExerciseManager` is responsible for tracking and manipulating all exercises added to `ByteCeps` by the user.
@@ -122,7 +161,7 @@ The `Parser` class determines the type of exercise operation and extracts any ne
 
 Here is the sequence diagram for the `exercise /add pushups` command to illustrate the five-step process:
 
-![AddExercise](diagrams/addExercise.png)
+![AddExercise](diagrams/addExercise.svg)
 
 ### Workout Management
 #### [Implemented] Add, Edit, Delete, List, and Search Workout plan.
@@ -152,7 +191,7 @@ The `Parser` class determines the type of workout operation and extracts any nec
 
 Here is the sequence diagram for the `workout /delete LegDay` command to illustrate the five-step process:
 
-![deleteWorkout](diagrams/deleteWorkout.png)
+![deleteWorkout](diagrams/deleteWorkout.svg)
 
 #### [Implemented] Assign and Unassign Workout plan.
 The ByteCeps application facilitates workout management, including the assignment and unassignment of exercises to workout plans. The process is outlined in the sequence diagram provided and follows a standard operational pattern as described below:
@@ -177,7 +216,7 @@ The `Parser` class determines the type of workout operation and extracts any nec
 
 Here is the sequence diagram for the `workout /assign Pushups /to LegDay` command to illustrate the five-step process:
 
-![assignExercise](diagrams/assignExercise.png)
+![assignExercise](diagrams/assignExercise.svg)
 
 #### [Implemented] List all exercises in a workout plan.
 
@@ -203,7 +242,7 @@ The `Parser` class determines the type of workout operation and extracts any nec
 
 Here is the sequence diagram for the `workout /info workoutplan` command to illustrate the five-step process:
 
-![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.png)
+![listExerciseInWorkoutPlan](diagrams/listExerciseInWorkoutPlan.svg)
 
 
 ### Program management
@@ -228,16 +267,49 @@ The following are the possible commands the `WeeklyProgramManager` object can ru
 - `program /today` for viewing today's workout.
 
 #### Logging an exercise
-Below is the sequence diagram of the command `program /log <EXERCISE_NAME> /weight
+The sequence diagram below gives the high-level overview of the command `program /log <EXERCISE_NAME> /weight
 <WEIGHT> /sets <NUMBER_OF_SETS> /reps <NUMBER_OF_REPS> /date <DATE> ` being run:
-![](./diagrams/addExerciseLog.png)
+
+![](./diagrams/addExerciseLog.svg)
 1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeLogAction()` method
-2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which its process has been described above under "**Logging of workouts**".
+2. This method then calls the `.addWorkoutLog()` function of the `WorkoutLogManager`, of which is elaborated below.
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
+
+To dive deeper into how the `WorkoutLogsManager` works, we must first understand the several layers that are required to be implemented in order for this feature to work.
+1. Exercises needs to be logged, including the weight(s) that the user has completed, as well as the number of sets and repetitions completed in the exercise.
+2. These exercises exist as a set (referred to as "exercise logs"), supposedly tied to a workout plan that the user has created in the application, and has a unique date that the user did their workout on.
+3. These workouts exist again as a set (referred to as "workout logs"), with their unique identifiers being the date that the user completed the workout. 
+
+The implementation thus is as follows:
+
+**Step 1 - Parsing & Validation**
+- When the `executeLogAction()` method is called, it must first extract the various parameters of the command. 
+- The workoutDate, exercise name, the weights, as well as the number of sets and repetitions completed.
+- The exercise is validated to check if it currently exists as a created exercise. 
+  - One consideration noted is for the logging of an exercise under a workout in the past (i.e. a historical workout), however, the user has swapped the exercise and no longer has it in his exercise list.
+  - However, we believe that in this case, even though the user no longer needs the exercise in the database, the user should still add in the exercise to log it.
+- If the user specifies a date (for the logging of historical workouts),  then the date is parsed and the workout name is retrieved for that day.
+  - If no date is specified, it is assumed to be the current date.
+
+**Step 2 - Adding a Workout Log**
+- The workout date and name is then passed to the `addWorkoutLog()` method of `WorkoutLogsManager`
+- A new instance of a `WorkoutLog` is created and added into the `LinkedHashSet` of the `WorkoutLogsManager`
+  - As this method might be called multiple times as a workout has multiple exercise logs, thus, the adding of the `WorkoutLog` silently fails
+  - This `WorkoutLog` contains a `LinkedHashSet` of a variable number of `ExerciseLog`.
+
+**Step 3 - Adding an Exercise Log**
+- The exercise information such as the workout date, exercise name, weight, sets and repetitions is then passed to the `addExerciseLog()` method of `WorkoutLogsManager`
+- The method then instantiates a new `ExerciseLog` with the information, retrieves the `WorkoutLog` based on the given date, and finally calls the `addExerciseLog` method of the `WorkoutLog` instance with the new `ExerciseLog` instance.
+
+**Step 4 - Feedback to User**
+- If no errors were encountered throughout the process, a success message is returned and printed through the `printMessage()` method
+
+Below shows the sequence diagram of the process, focusing on the flow after the `executeLogAction()` method is  called.
+![](./diagrams/workoutLog.svg)
 
 #### Assigning a workout to a program
 Below is the sequence diagram of the command `program /assign <workout> /to <day>` being run:
-![](./diagrams/assignWorkoutToProgram.png)
+![](./diagrams/assignWorkoutToProgram.svg)
 1. After input validation, the `execute()` method of `WeeklyProgramManager` calls the `executeAssignAction()` method.
 2. This method then retrieves the appropriate `Workout` object, and assigns it to be contained in the appropriate `Day` object.
 3. Finally, the `messageToUser` is returned to the `UserInterface`.
@@ -245,7 +317,7 @@ Below is the sequence diagram of the command `program /assign <workout> /to <day
 #### Viewing today's workout program
 Below is the sequence diagram of the command `program /today` being run.
 The validation of user input has been omitted for purposes of brevity.
-![](./diagrams/programToday.png)
+![](./diagrams/programToday.svg)
 1. Today's date is retrieved in the form of a `Date` object.
 2. This is used to retrieve the appropriate `Day` object.
 3. The `Workout` contained in the `Day` object is retrieved.
@@ -254,7 +326,7 @@ The validation of user input has been omitted for purposes of brevity.
 #### Clearing a day in the program
 This is the sequence diagram of the command `program /clear <day [optional]>` being run.
 The validation of user input has been omitted for purposes of brevity.
-![](./diagrams/clearProgram.png)
+![](./diagrams/clearProgram.svg)
 1. If no day has been assigned to the user, the `executeClearAction()` method clears all workouts in the `WeeklyProgramManager` object.
 2. Otherwise, the specified `Day` object is removed from `WeeklyProgramManager` object, and a new `Day` object with no workout assigned is constructed in its place.
 
@@ -293,9 +365,9 @@ If validation fails, an exception is thrown with an accompanying error message. 
 
 
 This is a sequence diagram of the command `help /program` provided to visually illustrate the described example above.
-![](./diagrams/helpMenuWholeMenu.png)
+![](./diagrams/helpMenuWholeMenu.svg)
 
-#### Viewing a specific command format 
+#### Viewing a specific command format
 How the command `help /exercise 1` is processed and executed will be described below to demonstrate how the 3 aforementioned classes interact to show a user command formats.
 
 **Step 1 - Input Processing:**
@@ -316,14 +388,14 @@ If validation fails, an exception is thrown with an accompanying error message. 
 - Validation Failure: If the initial validation fails, the user is shown the validation failure's error message, informing them of the invalid command format without proceeding further into the sequence.
 
 This is a sequence diagram of the command `help /exercise 1` provided to visually illustrate the described example above.
-![](./diagrams/helpMenuCommandFormat.png)
+![](./diagrams/helpMenuCommandFormat.svg)
 
 ### The `Storage` class
    A `Storage` object is responsible to reading and writing to `.json` files so that user data is saved between sessions.
 
 #### Overview: Saving data to `data.json`
 The `storage.save()` method is called with the `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
-![](./diagrams/saveStorage.png)
+![](./diagrams/saveStorage.svg)
 **NOTE**: plantUML does not allow for termination of lifelines after destroying an object (`:FileWriter`), but note that the lifeline should end after the red cross.
 1. An empty `JSONObject`, `jsonArchive`, is created.
 2. `ExerciseManager` and `WorkoutManager` objects have their list of `Activity`s converted into an `Array`, which is then `.put()` into `jsonArchive`.
@@ -334,7 +406,7 @@ The `storage.save()` method is called with the `ExerciseManager`, `WorkoutManage
 #### Overview: Loading data from `data.json`
 The `storage.load()` method is called with the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager` objects being passed in as input.
 These objects are to be updated in the method.
-![](./diagrams/loadStorage.png)
+![](./diagrams/loadStorage.svg)
 1. If there has been no `data.json` file detected, a new `File` is created and the empty `ExerciseManager`, `WorkoutManager`, `WeeklyProgramManager` and `WorkoutLogsManager`
  is returned without modification.
 2. Else, a new `JSONObject` called `jsonArchive`, loaded from `data.json` is created.
@@ -344,7 +416,7 @@ These objects are to be updated in the method.
 From the last sequence diagram, we see that each `ActivityManager` class is loaded from `jsonArchive` via its own method.
 For example, the `WorkoutManager` object is loaded from the `loadWorkouts()` method. The below sequence diagram shows how `loadWorkouts()` is run. 
 The loading of other `ActivityManager` objects is similar in nature.
-![](./diagrams/loadWorkouts.png)
+![](./diagrams/loadWorkouts.svg)
 1. The `jsonWorkoutArray` is first retrieved from `jsonArchive`.
 2. Then, the workout name of each `jsonWorkout` in `jsonWorkoutArray` is retrieved.
 3. These workout names are used to create new `Workout` objects contained in `WorkoutManager`.
@@ -359,13 +431,13 @@ Its only public method, `checkForCascadingDeletions()`, is run after executing a
 
 #### Removing a deleted exercise from a workout
 If the command entered by the user starts with `exercise /delete` and is executed successfully, the private method `removeDeletedExerciseFromWorkouts()` is run:
-![](./diagrams/deleteExerciseFromWorkouts.png)
+![](./diagrams/deleteExerciseFromWorkouts.svg)
 1. `removeDeletedExerciseFromWorkouts()` iterates through every `Workout` in `WorkoutManager`.
 2. If the deleted `exerciseName` matches that of an exercise in the `Workout`, the exercise is deleted from the workout too.
 
 #### Removing a deleted workout from the weekly program
 If the command entered by the user starts with `workout /delete` and is executed successfully, the private method `removeDeletedWorkoutsFromProgram()` is run:
-![](./diagrams/deleteWorkoutFromProgram.png)
+![](./diagrams/deleteWorkoutFromProgram.svg)
 1. A copy of all 7 `Days` in `WeeklyProgramManager` is stored as `oldWorkoutsInProgram`.
 2. `removeDeletedWorkoutsFromProgram()` iterates through every `Day` in `oldWorkoutsInProgram`.
 3. If the name of the `Workout` assigned to a particular `Day`  matches that of the deleted `Workout`, 
@@ -416,6 +488,7 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 | v2.0    | fitness professional | review specific exercise logs for a particular date            | analyze my workout details and progress on that specific day      |
 | v2.1    | fitness professional |  log multiple sets of an exercise, including different weights and reps for each set            |  have a comprehensive log of my exercise sessions to monitor variations in my performance and strength training progress     |
 | v2.1    | fitness professional |  access and review historical workout data with detailed breakdowns by exercise, set, weight, and repetition            |  analyze trends in my performance and identify areas for improvement or adjustment in my training regime     |
+| v2.1    | fitness enthusiast |  be able to overwrite an incorrect log entry for a workout            |  ensure my workout history is accurate and reflects what I actually performed     |
 
 ## Non-Functional Requirements
 
@@ -426,8 +499,10 @@ With ByteCeps, achieve your fitness objectives efficiently, effectively, and enj
 
 
 ## Glossary
-
-* *glossary item* - Definition
+* **Reps (Repetitions)** - Refers to the number of times an exercise is performed in one set. For example, doing ten pushups in a row counts as ten reps.
+* **Sets** - A group of consecutive repetitions. For example, if you do ten pushups and rest, then another ten pushups and rest again, you have completed two sets of ten reps each.
+* **Weight** - The amount of resistance used during an exercise, typically measured in pounds (lbs) or kilograms (kg). It is used to quantify the load lifted or moved in strength training and bodybuilding exercises.
+  
 
 ## Instructions for manual testing
 
@@ -441,6 +516,7 @@ Developers are expected to conduct more extensive tests.
 * ✅ Open a command terminal, cd into the folder where you copied the file, and run `java -jar byteceps.jar`.
 
 ### Exercise Management
+
 1. Adding an Exercise:
     - Test case 1:
         * Add a new exercise.
@@ -516,6 +592,7 @@ Developers are expected to conduct more extensive tests.
         * Expected Outcome: The system should indicate that there are no results for `decline pushups`, confirming that the deletion was processed correctly.
 
 ### Workout Management
+
 1. Adding a Workout Plan:
     - Test case 1:
         * Create a new workout plan.
@@ -636,6 +713,134 @@ Developers are expected to conduct more extensive tests.
         * View a workout plan with a case variation in name.
         * Command: `workout /info PUSH DAY`
         * Expected Outcome: The system should either display the details for `push day` confirming case insensitivity.
+          
+### Program Management
 
-       
-   
+1. Assigning Workout Plans to Days:
+    - Test case 1:
+        * Assign a workout plan to a specific day.
+        * Command: `program /assign Push Day /to Monday`
+        * Expected Outcome: The system should confirm that `Push Day` has been assigned to Monday.
+    - Test case 2:
+        * Attempt to assign multiple workout plans to the same day.
+        * Command: `program /assign Leg Day /to Monday`
+        * Expected Outcome: The system should display an error message indicating that a workout is already assigned to Monday, as only one workout can be assigned per day.
+    - Test case 3:
+        * Assign workout plans to non-standard day formats.
+        * Command: `program /assign Push Day /to Mon` 
+        * Expected Outcome: The system should recognize 'Mon' as Monday and successfully assign the workout plan, reflecting flexibility in day input.
+    - Test case 4:
+        * Assign empty workout plans to a specific day
+        * Command: `program /assign test /to Mon` 
+        * Expected Outcome: The system should indicate that there are no workout plan called `test`
+2. Viewing Today's Workout Plans:
+    - Test case 1:
+        * View today's workout plan when one is assigned
+        * Command: Assume today is Monday and `Push Day` is assigned to `Monday`, then execute `program /today`
+        * Expected Outcome: The system should display the exercises scheduled for `Push Day`.
+    - Test case 2:
+        * View today's workout when no workout is assigned
+        * Command: `program /today` 
+        * Expected Outcome: The system should display a message indicating no workout is assigned for today.
+3. Viewing Weekly's Workout Plans:
+    - Test case 1:
+        * View the weekly workout schedule
+        * Command:`program /list`
+        * Expected Outcome: The system should display the workout plan assigned to each day of the week, including any `Rest days` where no workouts are assigned.
+4. Removing Workout Plans from Days:
+    - Test case 1: 
+        * Remove a workout plan from a specific day
+        * Command:`program /clear Monday`
+        * Expected Outcome: The system should confirm that Monday's workout plan has been cleared, and subsequent checks for Monday should show no assigned workout.
+    - Test case 2: 
+        * Attempt to clear a day with no workout assigned
+        * Command:`program /clear Sunday` (assuming no workout is assigned to Sunday)
+        * Expected Outcome: The system should notify that there was no workout to clear for Sunday
+    - Test case 3: 
+        * Remove all workout plans in a week
+        * Command:`program /clear ` 
+        * Expected Outcome: The system should confirm that all workouts for that week has been cleared.
+          
+### Program Logging Management
+
+1. Adding Exercise Logs:
+    - Test case 1:
+        * Log a single set of an exercise.
+        * Command: `program /log benchpress /weight 125 /sets 1 /reps 5` (MUST create exercise & workout plan first & have a workout plan assigned for the day you are logging.)
+        * Expected Outcome: The system should confirm that the log entry for benchpress has been successfully created with the specified weight, sets, and reps.
+    - Test case 2:
+        * Log multiple sets with varying weights and reps.
+        * Command: `program /log benchpress /weight 100 110 120 /sets 3 /reps 5 4 3`
+        * Expected Outcome: The system should display an error message indicating that a workout is already assigned to Monday, as only one workout can be assigned per day.
+    - Test case 3:
+        * Attempt to log an exercise not created in the system.
+        * Command: `program /log nonexistent /weight 100 /sets 1 /reps 10` 
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist, ensuring only valid exercises can be logged.
+    - Test case 4:
+        * Log an exercise for a specific past date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-03-25` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the exercise has been logged for the specified date, showing flexibility in recording workouts on different dates
+    - Test case 5:
+        * Log an exercise for an invalid date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-2-31` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the date does not exists and returns an error telling the user of the invalid date entered.
+    - Test case 6:
+        * Attempt to log an exercise not created in the system.
+        * Command: `program /log nonexistent /weight 100 /sets 1 /reps 10` 
+        * Expected Outcome: The system should display an error message indicating that the exercise does not exist, ensuring only valid exercises can be logged.
+    - Test case 7:
+        * Log an exercise for a specific past date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-03-25` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the exercise has been logged for the specified date, showing flexibility in recording workouts on different dates
+   - Test case 8:
+        * Log an exercise for an invalid date
+        * Command: `program /log benchpress /weight 130 120 /sets 2 /reps 8 9 /date 2024-2-31` (There must be a workout assigned to the date first)
+        * Expected Outcome: The system should confirm that the date does not exists and returns an error telling the user of the invalid date entered.
+   - Test case 9:
+        * Log an exercise without specifying one or more required parameters
+        * Command: `program /log benchpress /weight 100 /sets 3`  (missing reps)
+        * Expected Outcome: The system should display an error message requiring all parameters (weight, sets, reps) to be specified.
+    - Test case 10:
+        * Attempt to log with unrealistic or invalid values
+        * Command: `program /log benchpress /weight -10 /sets 3 /reps 100` 
+        * Expected Outcome: The system should reject negative weights, ensuring realistic and valid data entry.
+
+ 2. Viewing Exercise Logs:
+    - Test case 1:
+        * View the dates with logged workouts
+        * Command: `program /history` 
+        * Expected Outcome: The system should list all the dates for which logs have been recorded, providing an overview of active workout days.
+    - Test case 2:
+        * View detailed logs for a specific date.
+        * Command: `program /history 2024-03-27`
+        * Expected Outcome: The system should display all exercises logged on that date along with their weights, sets, and reps, giving detailed insights into the workout for that day.
+
+### Miscellaneous
+
+1. Exiting BYTE-CEPS:
+   * Test case 1:
+     * During normal execution.
+     * Command: `bye` 
+     * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
+
+2. Viewing Help Messages:
+    - Test case 1:
+        * Incorrect Help Command Usage.
+        * Command: `help /exercis` 
+        * Expected Outcome: The system should display an error message indicating incorrect command usage
+    - Test case 2:
+        * Accessing Help Menu for Exercise.
+        * Command: `help /exercise`
+        * Expected Outcome: The system should display a list of exercise-related commands and prompt the user to enter a specific list number to get detailed command formats.
+   - Test case 3:
+        * Request Specific Exercise Command Format
+        * Command: `help /exercise 3`
+        * Expected Outcome: The system should display the command format for editing an exercise's name, as specified by list number 3.
+   - Test case 4:
+        * Invalid List Number for Help Command
+        * Command: `help /exercise 10`
+        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
+    - Test case 5:
+        * Accessing Help Without Specifying a Category
+        * Command: `help /`
+        * Expected Outcome: The system should display an error message indicating that the user must specify a valid command.
