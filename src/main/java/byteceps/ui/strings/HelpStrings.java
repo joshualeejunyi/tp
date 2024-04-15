@@ -5,7 +5,7 @@ public class HelpStrings {
     public static final String HELP_LIST_INDENT = "\t\t\t ";
     public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
 
-    public static final String HELP_MANAGER_GREETING =
+    public static final String HELP_GUIDANCE_MESSAGE =
             String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",
                     System.lineSeparator(), "help /COMMAND_TYPE_FLAG", System.lineSeparator(),
                     "Available command types (type exactly as shown):", System.lineSeparator(),

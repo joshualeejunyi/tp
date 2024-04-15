@@ -23,16 +23,16 @@ Validator --> HelpMenuManager : Invalid Input Exception thrown
 deactivate Validator
 
 alt Expected error message for 'help'
-    HelpMenuManager -> HelpMenuManager : getHelpGreetingString()
+    HelpMenuManager -> HelpMenuManager : getHelpGuidanceString()
     activate HelpMenuManager #FFBBBB
 
 
-    HelpMenuManager -> HelpStrings : retrieve HELP_MANAGER_GREETING
-    HelpMenuManager <-- HelpStrings : HELP_MANAGER_GREETING
-    HelpMenuManager --> HelpMenuManager : HELP_MANAGER_GREETING
+    HelpMenuManager -> HelpStrings : retrieve HELP_GUIDANCE_MESSAGE
+    HelpMenuManager <-- HelpStrings : HELP_GUIDANCE_MESSAGE
+    HelpMenuManager --> HelpMenuManager : HELP_GUIDANCE_MESSAGE
     deactivate HelpMenuManager #FFBBBB
 
-    User <-- HelpMenuManager : messageToUser = HELP_MANAGER_GREETING
+    User <-- HelpMenuManager : messageToUser = HELP_GUIDANCE_MESSAGE
     User -> UserInterface: printMessage(messageToUser)
     activate UserInterface
     UserInterface --> User:

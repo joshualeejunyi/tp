@@ -337,8 +337,8 @@ The validation of user input has been omitted for purposes of brevity.
 
 ### Help Menu
 To implement a help menu for the user, where they can view the formatting of any command corresponding to any specific BYTE-CEPS functionality, 3 classes work together:
-- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns help menus to be shown to the user or, if requested, a specific functionality's command format.
-- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all static Strings including numbered help menu items, command formats and help menu error messages.
+- [HelpMenuManager](../src/main/java/byteceps/processing/HelpMenuManager.java) : Returns a help menu access guidance message or help menus to be shown to the user or, if requested, a specific functionality's command format.
+- [HelpStrings](../src/main/java/byteceps/ui/strings/HelpStrings.java): Stores all static Strings including the help menu guidance message, numbered help menu items, command formats and help menu error messages.
 - [HelpValidator](../src/main/java/byteceps/validators/HelpValidator.java): Parses the input to HelpMenuManager's execute() method to ensure input validity before the rest of the method executes.
 
 #### Viewing help command guidance message
@@ -366,7 +366,7 @@ Here, validation will fail as `help` is not accompanied by any arguments. An exc
 
 **Step 4 - Command Execution**: The appropriate action is taken by the `HelpMenuManager` class.
 - Catch Validation Exception: The `HelpMenuManager` proceeds to catch this exception, and check the error message is as expected.
-- Expected Error Message Path: The `HelpMenuManager` calls getHelpGreetingString(), which returns the desired guidance message String. 
+- Expected Error Message Path: The `HelpMenuManager` calls getHelpGuidanceString(), which returns the desired guidance message String. 
 - Different Error Message Path: The `HelpMenuManager` rethrows the exception.
 
 **Step 5 - Result Display**
@@ -374,7 +374,7 @@ Here, validation will fail as `help` is not accompanied by any arguments. An exc
 - Failure Path: If the exception's message did not match that caused by the user command `help`, the user is shown the received error message, informing them of the invalid command format without proceeding further into the sequence.
 
 This is a sequence diagram of the command `help` provided to visually illustrate the described example above.
-
+![](./diagrams/helpGuidanceMessage.svg)
 
 #### Viewing an flag's help menu
 If the user enters the command `help /COMMAND_TYPE` where `COMMAND_TYPE` is one of the 3 possible flags:
