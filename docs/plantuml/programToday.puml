@@ -3,7 +3,7 @@ skinparam classAttributeIconSize 0
 skinparam style strictuml
 
 participant ByteCeps
-participant UserInterface
+participant ":UserInterface" as UserInterface
 participant ":WeeklyProgramManager" as WeeklyProgramManager
 participant "today:Day" as today
 

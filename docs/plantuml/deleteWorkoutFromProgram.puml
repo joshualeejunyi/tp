@@ -36,12 +36,12 @@ loop for every day in oldWorkoutsInProgram
         deactivate newWorkouts
 
         create "newDay:Day" as newDay
-        c->newDay: new Day(currentDayString);
+        c->newDay: new Day(currentDayString)
         activate newDay
         newDay --> c: newDay
         deactivate newDay
 
-        c->newDay: setAssignedWorkout(null);
+        c->newDay: setAssignedWorkout(null)
         activate newDay
         newDay --> c:
         deactivate newDay

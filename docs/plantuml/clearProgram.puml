@@ -3,7 +3,7 @@ skinparam classAttributeIconSize 0
 skinparam style strictuml
 
 participant ByteCeps
-participant UserInterface
+participant ":UserInterFace" as UserInterface
 participant ":WeeklyProgramManager"
 
     activate ByteCeps
@@ -12,11 +12,11 @@ participant ":WeeklyProgramManager"
     ":WeeklyProgramManager" -> ":WeeklyProgramManager" : executeClearAction(parser)
     activate ":WeeklyProgramManager"
     alt No specific day specified by user
-        ":WeeklyProgramManager" -> ":WeeklyProgramManager" : clearActivitySet();
+        ":WeeklyProgramManager" -> ":WeeklyProgramManager" : clearActivitySet()
         activate ":WeeklyProgramManager"
         ":WeeklyProgramManager" --> ":WeeklyProgramManager":
         deactivate ":WeeklyProgramManager"
-        ":WeeklyProgramManager" -> ":WeeklyProgramManager" : initializeDays();
+        ":WeeklyProgramManager" -> ":WeeklyProgramManager" : initializeDays()
         activate ":WeeklyProgramManager"
         ":WeeklyProgramManager" --> ":WeeklyProgramManager":
         deactivate ":WeeklyProgramManager"
