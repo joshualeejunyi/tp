@@ -74,9 +74,9 @@ All code contributed can be seen on the tP dashboard
 
 #### Contributions to DG: extracts
 `Activity` class diagram:\
-![](../diagrams/ActivityClassDiagram.svg)\
+<img src="../diagrams/ActivityClassDiagram.svg" alt="drawing" width="90%"/>
 `ActivityManager` class diagram:\
-<img src="../diagrams/ActivityManagerClassDiagram.svg" alt="drawing" width="350"/>
+<img src="../diagrams/ActivityManagerClassDiagram.svg" alt="drawing" width="90%"/>
 
 <div style="page-break-after: always;"></div>
 
@@ -88,9 +88,9 @@ All code contributed can be seen on the tP dashboard
 <div style="page-break-after: always;"></div>
 
 `program /clear ...` sequence diagram:\
-![](../diagrams/clearProgram.svg)\
+<img src="../diagrams/clearProgram.svg" alt="drawing" width="90%"/>
 `program /today` sequence diagram:\
-![](../diagrams/programToday.svg)\
+<img src="../diagrams/programToday.svg" alt="drawing" width="90%"/>
 
 <div style="page-break-after: always;"></div>
 
