@@ -74,7 +74,8 @@ public class ManagerStrings {
     public static final String NO_WORKOUT_ASSIGNED = "There does not seem to be a workout assigned to the date " +
             "%s (day: %s). Please assign one first!";
     public static final String NO_WORKOUT_ASSIGNED_TODAY = "There is no workout assigned today (%s)";
-    public static final String INVALID_DATE_ENTERED = "Invalid date entered";
+    public static final String INVALID_DATE_ENTERED = "Invalid date entered. " +
+            "The date must be in the format yyyy-mm-dd.";
     public static final String PROGRAMS_CLEARED = "All your workouts have been cleared from the week";
     public static final String WORKOUT_CLEARED = "Your workout on %s has been cleared";
     public static final String PROGRAM_LIST = "Your workouts for the week:";
@@ -87,7 +88,6 @@ public class ManagerStrings {
     public static final String WORKOUT_LOG = "Workout Log";
     public static final String LOG_INVALID_STATE = "RepsSetsManager is not meant to be executed";
     public static final String INVALID_REPS_SETS = "Invalid weight/reps/sets entered!";
-    public static final String EXERCISE_NOT_IN_WORKOUT = "The exercise is not in your workout for today!";
     public static final String LOG_ENTRY_EXERCISE_DOES_NOT_EXIST = "The exercise does not exist and " +
             "cannot be removed from log. Actually, you should not be seeing this message hmm...";
     public static final String LOG_LIST = "Listing Exercises on %s:%n";

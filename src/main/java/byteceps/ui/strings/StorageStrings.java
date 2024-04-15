@@ -22,7 +22,5 @@ public class StorageStrings {
     public static final String WORKOUT_DATE = "workoutDate";
     public static final String WORKOUT_NAME = "workoutName";
     public static final String EXERCISES = "exercises";
-    public static final String WORKOUT_DOES_NOT_EXIST = "The workout %s does not seem to exist";
-    public static final String EXERCISE_DOES_NOT_EXIST = "The exercise %s does not seem to exist";
 
 }
