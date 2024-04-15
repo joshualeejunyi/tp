@@ -4,7 +4,7 @@ package byteceps.ui.strings;
 public class HelpStrings {
     public static final String HELP_LIST_INDENT = "\t\t\t ";
     public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
-    
+
     public static final String HELP_MANAGER_GREETING =
             String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s", "To access the help menu for command guidance, please type:",
                     System.lineSeparator(), "help /COMMAND_TYPE_FLAG", System.lineSeparator(),
