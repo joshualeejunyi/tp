@@ -92,7 +92,6 @@ public class HelpMenuManager {
 
         for (String flagFunction : flagFunctions) {
             result.append(String.format(HelpStrings.HELP_LIST_ITEM, flagFunction, System.lineSeparator()));
-            //ui.printMessage() adds another lineSeparator so Help Menu will have extra blank line before SEPARATOR
         }
         result.delete(0, 4);
         return result.toString();
@@ -118,6 +117,8 @@ public class HelpMenuManager {
                 return getWorkoutParamFormats(paramIndex);
             case CommandStrings.COMMAND_PROGRAM:
                 return getProgramParamFormats(paramIndex);
+            case HelpStrings.VIEW_HELP_GREETING:
+                throw new Exceptions.InvalidInput(HelpStrings.INVALID_VIEW_FORMAT);
             default:
                 throw new Exceptions.InvalidInput(HelpStrings.INVALID_COMMAND_TYPE);
             }

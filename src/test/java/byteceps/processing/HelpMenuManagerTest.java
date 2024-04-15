@@ -39,20 +39,33 @@ public class HelpMenuManagerTest {
     }
 
     @Test
+    public void execute_flagIsViewOnly_success() {
+        String validViewInput = "help /view";
+        parser.parseInput(validViewInput);
+
+        setupStreams();
+        assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
+        String viewResponse = String.format("%s%s%s%s%s", UiStrings.BYTECEP_PROMPT, HelpStrings.HELP_MANAGER_GREETING,
+                System.lineSeparator(), UiStrings.SEPARATOR, System.lineSeparator());
+        assertEquals(viewResponse, outContent.toString());
+        restoreStreams();
+    }
+
+
+    @Test
     public void execute_viewFlagMenu_success() {
         String validInputFlagMenu = "help /exercise";
         parser.parseInput(validInputFlagMenu);
 
         setupStreams();
         assertDoesNotThrow(() -> ui.printMessage(helpMenuManager.execute(parser)));
-        String flagMenu = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT,
+        String flagMenu = String.format("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s", UiStrings.BYTECEP_PROMPT,
+                HelpStrings.EXERCISE_MESSAGE, System.lineSeparator(), HelpStrings.HELP_LIST_INDENT,
                 HelpStrings.EXERCISE_FLAG_FUNCTIONS[0], System.lineSeparator(), HelpStrings.HELP_LIST_INDENT,
                 HelpStrings.EXERCISE_FLAG_FUNCTIONS[1], System.lineSeparator(), HelpStrings.HELP_LIST_INDENT,
                 HelpStrings.EXERCISE_FLAG_FUNCTIONS[2], System.lineSeparator(), HelpStrings.HELP_LIST_INDENT,
                 HelpStrings.EXERCISE_FLAG_FUNCTIONS[3], System.lineSeparator(), System.lineSeparator(),
                 UiStrings.SEPARATOR, System.lineSeparator());
-        //generateAllActions adds 1 lineSeparator, ui.printMessage() adds 1 more hence 2 lineSeparators before SEPARATOR
-
         assertEquals(flagMenu, outContent.toString());
         restoreStreams();
     }
@@ -70,6 +83,16 @@ public class HelpMenuManagerTest {
                 System.lineSeparator());
         assertEquals(commandFormat, outContent.toString());
         restoreStreams();
+    }
+
+    @Test
+    public void execute_flagIsViewParam_failure() {
+        String viewFlagWithParam = "help /view 1";
+        parser.parseInput(viewFlagWithParam);
+
+        String erroneousViewResponse = HelpStrings.INVALID_VIEW_FORMAT;
+        assertEquals(erroneousViewResponse, assertThrowsExactly(Exceptions.InvalidInput.class,
+                () -> helpMenuManager.execute(parser)).getMessage());
     }
 
     @Test

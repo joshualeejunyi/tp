@@ -77,6 +77,7 @@ public class HelpStrings {
     };
 
     public static final String VIEW_HELP_GREETING = "view";
+    public static final String INVALID_VIEW_FORMAT = "Please enter 'help /view' without any parameters";
 
     public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
 
