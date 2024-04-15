@@ -43,7 +43,7 @@ The user interacts with the tool using commands entered via the CLI interface. W
     + Added to **_v4vern_**'s manual testing section regarding the help menu.
 
 ### Community (Contributions to the Team and Beyond):
-+ Review teammate PRs
++ Review my teammates' PRs
 + Reported an above-average number of bugs during the PE dry run, 8 bugs, for the team working on MediTracker.
   + See [proof of contributions here](https://github.com/LWachtel1/ped/tree/main/files).
 
