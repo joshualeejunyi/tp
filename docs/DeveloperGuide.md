@@ -819,6 +819,41 @@ Developers are expected to conduct more extensive tests.
         * Command: `program /history 2024-03-27`
         * Expected Outcome: The system should display all exercises logged on that date along with their weights, sets, and reps, giving detailed insights into the workout for that day.
 
+### Help Menu Access
+1. Viewing Help Messages:
+    - Test case 1:
+        * Incorrect Help Command Usage.
+        * Command: `help /exercis`
+        * Expected Outcome: The system should display an error message indicating incorrect command usage
+    - Test case 2:
+        * Accessing Help Menu for a Category.
+        * Command: `help /exercise`
+        * Expected Outcome: The system should display a list of exercise category-related commands and prompt the user to enter a specific list number to get detailed command formats.
+    - Test case 3:
+        * Request Specific Command Format from Category
+        * Command: `help /exercise 3`
+        * Expected Outcome: The system should display a specific command format, in this case, the format for editing an exercise's name, as specified by exercise category list number 3.
+    - Test case 4:
+        * Invalid List Number for Help Command (Out of Bounds)
+        * Command: `help /program 100`
+        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
+    - Test case 5:
+        * Invalid List Number for Help Command (Non-numerical)
+        * Command: `help /workout abc`
+        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
+    - Test case 6:
+        * Accessing Help Without Specifying a Category
+        * Command: `help /`
+        * Expected Outcome: The system should display an error message indicating that the user must specify a valid command.
+   - Test case 7:
+       * Accessing Help With Too Many Arguments i.e., too many `/`s
+       * Command: `help /exercise 1 /list`
+       * Expected Outcome: The system should display an error message indicating that additional (unneccesary) arguments have been provided.
+   - Test case 8:
+       * Accessing Help Menu Guidance Message
+       * Command: `help`
+       * Expected Outcome: The system should display a message explaining the commands for accessing each of the category-specific help menus.
+
 ### Miscellaneous
 
 1. Exiting BYTE-CEPS:
@@ -827,24 +862,4 @@ Developers are expected to conduct more extensive tests.
      * Command: `bye` 
      * Expected Outcome: BYTE-CEPS is exited and the files are safely saved.
 
-2. Viewing Help Messages:
-    - Test case 1:
-        * Incorrect Help Command Usage.
-        * Command: `help /exercis` 
-        * Expected Outcome: The system should display an error message indicating incorrect command usage
-    - Test case 2:
-        * Accessing Help Menu for Exercise.
-        * Command: `help /exercise`
-        * Expected Outcome: The system should display a list of exercise-related commands and prompt the user to enter a specific list number to get detailed command formats.
-   - Test case 3:
-        * Request Specific Exercise Command Format
-        * Command: `help /exercise 3`
-        * Expected Outcome: The system should display the command format for editing an exercise's name, as specified by list number 3.
-   - Test case 4:
-        * Invalid List Number for Help Command
-        * Command: `help /exercise 10`
-        * Expected Outcome: The system should notify the user that the list number is invalid or out of range and prompt them to select a valid number.
-    - Test case 5:
-        * Accessing Help Without Specifying a Category
-        * Command: `help /`
-        * Expected Outcome: The system should display an error message indicating that the user must specify a valid command.
+
