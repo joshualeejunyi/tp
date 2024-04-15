@@ -74,7 +74,7 @@ All code contributed can be seen on the tP dashboard
 
 #### Contributions to DG: extracts
 `Activity` class diagram:\
-<img src="../diagrams/ActivityClassDiagram.svg" alt="drawing" width="90%"/>
+<img src="../diagrams/ActivityClassDiagram.svg" alt="drawing" width="90%"/>\
 `ActivityManager` class diagram:\
 <img src="../diagrams/ActivityManagerClassDiagram.svg" alt="drawing" width="90%"/>
 
@@ -88,7 +88,7 @@ All code contributed can be seen on the tP dashboard
 <div style="page-break-after: always;"></div>
 
 `program /clear ...` sequence diagram:\
-<img src="../diagrams/clearProgram.svg" alt="drawing" width="90%"/>
+<img src="../diagrams/clearProgram.svg" alt="drawing" width="80%"/>\
 `program /today` sequence diagram:\
 <img src="../diagrams/programToday.svg" alt="drawing" width="90%"/>
 
