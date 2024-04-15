@@ -93,7 +93,8 @@ public class HelpMenuManager {
         for (String flagFunction : flagFunctions) {
             result.append(String.format(HelpStrings.HELP_LIST_ITEM, flagFunction, System.lineSeparator()));
         }
-        result.delete(0, 13); //remove the first 12 whitespace characters
+        //result.delete(0, 13); //remove the first 12 whitespace characters
+        result.delete(0, 4);
         return result.toString();
     }
 

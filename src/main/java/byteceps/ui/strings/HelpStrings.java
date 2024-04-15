@@ -2,7 +2,8 @@ package byteceps.ui.strings;
 
 //@@author LWachtel1
 public class HelpStrings {
-    public static final String HELP_LIST_INDENT = "             ";
+    //public static final String HELP_LIST_INDENT = "             ";
+    public static final String HELP_LIST_INDENT = "\t\t\t ";
 
 
     public static final String HELP_MANAGER_GREETING =
@@ -75,8 +76,12 @@ public class HelpStrings {
                 + "/reps <NUMBER_OF_REPS [integer]> /date <DATE [yyyy-mm-dd]>", "program /history",
         "program /history <DATE [yyyy-mm-dd]>"
     };
-    public static final String HELP_LIST_ITEM = "             %s%s";
+
     public static final String VIEW_HELP_GREETING = "view";
+
+    //public static final String HELP_LIST_ITEM = "             %s%s";
+    public static final String HELP_LIST_ITEM = "\t\t\t %s%s";
+
     public static final String EXERCISE_MESSAGE = "Please enter 'help /exercise LIST_NUMBER'. " +
             "LIST_NUMBER corresponds to the exercise command format you want to see";
     public static final String WORKOUT_MESSAGE ="Please enter 'help /workout LIST_NUMBER'. " +
