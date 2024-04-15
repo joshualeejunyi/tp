@@ -41,7 +41,7 @@ The user interacts with the tool using commands entered via the CLI interface. W
 ### Code Contributed 
 [LWachtel1 RepoSense](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=lwachtel1&breakdown=true)
 
-### Documentation:
+### Documentation
 + **Javadocs**: Added Javadocs to all non-trivial methods in the `HelpMenuManager` and `HelpValidator` classes, as well as adding class header comments for both classes.
 + **UG**:
     + Added all documentation for the help menu and related commands.
