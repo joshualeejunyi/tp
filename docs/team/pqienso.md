@@ -12,16 +12,12 @@ All code contributed can be seen on the tP dashboard
 
 ### Features implemented
 
-#### Parsing user input
-  - Created initial iteration of `Parser` class
+#### Parser and User Interface
+  - Created initial iteration of `Parser` and `UserInterface` classes
     - Created the `Parser` class that takes in user input and outputs the command actions
       arguments in the form of a `HashSet`.
-    - Created the corresponding JUnit tests.
-
-#### Created `UserInterface` class
-  - Created initial iteration of `UserInterface` class
     - Created the `UserInterface` class that is responsible for taking in user input and
-      printing to `System.out`.
+         printing to `System.out`.
     
 #### New feature: Weekly Program Management
   - Added the `program` functionality.
@@ -49,17 +45,13 @@ All code contributed can be seen on the tP dashboard
       method is only called in `ByteCeps`, which already handles these classes, to minimise coupling.
     
 #### Refactoring: Refactored `ActivityManager` classes to reduce coupling
-- Previously, `ActivityManager` classes had scattered calls to `UserInterface.printMessage()` in all of their methods.
-- This led to high coupling and low maintainability of code.
+- Previously, `ActivityManager` classes had scattered calls to `UserInterface.printMessage()` in all of their methods, causing high coupling and low maintainability of code.
 - Thus, the `ActivityManager`'s `execute()` classes were refactored such that they returned the `messageToUser` to `ByteCeps`,
   and only then is `UserInterface.printMessage()` is called.
 - This greatly reduced coupling, as `UserInterface` was now only associated with `ByteCeps` and `Storage` classes,
   as compared to previously where there were associations with all `ActivityManager` classes.
 
 #### Refactoring: Abstraction of user input validation
-  - Contributed to `Validator` classes
-    - Added validation methods in the `Validator` classes as part of refactoring efforts
-      by abstracting out user input validation from `ActivityManager` classes.
   - Refactored all `Validator` public methods, standardizing them to return `void` and only throw `Exceptions.InvalidInput` when validation fails.
     - This is to better adhere to SRP, since the `Validator` methods were previously returning processed inputs if the inputs were valid.
       This led to an overlap in responsibilities between the `ActivityManager` and `Validator` classes.
@@ -77,8 +69,7 @@ All code contributed can be seen on the tP dashboard
 
 #### Developer Guide contributions
   - Created class diagrams of all `Activity` classes and `ActivityManager` classes, along with their overview and explanation.
-  - Documented all implementation details for `WeeklyProgramManager` commands, like `program /assign ...`,
-    `program /clear ...` and `program /log...` commands.
+  - Documented all implementation details for `WeeklyProgramManager`.
   - Documented all implementation details for the `Storage` class.
   - Documented all implementation details for the `CascadingDeletionProcessor` class.
 
